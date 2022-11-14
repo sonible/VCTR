@@ -1,0 +1,12 @@
+
+build/
+cmake-build*/
+
+.idea/
+
+conan_debug/
+
+conan_release/
+.vscode/
+build-*/
+benchmark/results/

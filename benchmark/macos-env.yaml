@@ -1,0 +1,14 @@
+name: vctr_benchmark
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python
+  - numpy
+  - scipy
+  - matplotlib
+  - pip
+  - pip:
+    - xmltodict
+
+
