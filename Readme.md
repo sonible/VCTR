@@ -48,7 +48,7 @@ int main()
   auto squaredSum = vctr::square << (a + b);
 
   // We can pass it to an output stream
-  std::cout << "squaredSum = " << squaredSum << std::endl; // [6, 8, 10, 12]
+  std::cout << "squaredSum = " << squaredSum << std::endl; // [36, 64, 100, 144]
 }
 ```
 
