@@ -8,7 +8,7 @@ VCTR is a header-only library. The easiest way to use it is to add it as a git s
 
 ```bash
 # in project root
-git submodule add ../vctr.git ext/vctr
+git submodule add git@github.com:sonible/VCTR.git ext/vctr
 ```
 
 After doing so, you can simply add it to your project using the `add_subdirectory` command and link against the `sonible::vctr` target:
@@ -87,7 +87,15 @@ cmake --build build/ --target vctr_demo
 ./build/demo/vctr_demo
 ```
 
-### Dependencies
+### Dependencies and Requirements
+
+VCTR is using cutting-edge C++ library features and needs a very recent compiler to work properly.
+It is currently tested with the following compilers:
+- Clang 15+
+- GCC 12+ (Linux only)
+- Visual Studio 2022+
+- XCode 14+
+
 
 In order to achieve high performance, VCTR uses two platform specific vector operation libraries, these are:
 
