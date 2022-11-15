@@ -73,12 +73,12 @@ jobs:
           #   cxx: g++
           #   ipp: no_ipp
 
-          - runner: [self-hosted, macOS, X64]
+          - runner: macos-12
             cc: clang
             cxx: clang++
             ipp: no_ipp
 
-          - runner: [self-hosted, macOS, X64]
+          - runner: macos-12
             cc: /usr/local/opt/llvm/bin/clang
             cxx: /usr/local/opt/llvm/bin/clang++
             ipp: no_ipp
@@ -89,12 +89,12 @@ jobs:
           #   cxx: /usr/local/opt/gcc/bin/g++-12
           #   ipp: no_ipp
 
-          - runner: [self-hosted, macOS, X64]
+          - runner: macos-12
             cc: clang
             cxx: clang++
             ipp: ipp
 
-          - runner: [self-hosted, macOS, X64]
+          - runner: macos-12
             cc: /usr/local/opt/llvm/bin/clang
             cxx: /usr/local/opt/llvm/bin/clang++
             ipp: ipp
@@ -105,15 +105,17 @@ jobs:
           #   cxx: /usr/local/opt/gcc/bin/g++-12
           #   ipp: ipp
 
-          - runner: [self-hosted, macOS, ARM64]
-            cc: clang
-            cxx: clang++
-            ipp: no_ipp
+          #   Supported, Github does not provide ARM-based runners yet
+          # - runner: [self-hosted, macOS, ARM64]
+          #   cc: clang
+          #   cxx: clang++
+          #   ipp: no_ipp
 
-          - runner: [self-hosted, macOS, ARM64]
-            cc: /opt/homebrew/opt/llvm/bin/clang
-            cxx: /opt/homebrew/opt/llvm/bin/clang++
-            ipp: no_ipp
+          #   Supported, Github does not provide ARM-based runners yet
+          # - runner: [self-hosted, macOS, ARM64]
+          #   cc: /opt/homebrew/opt/llvm/bin/clang
+          #   cxx: /opt/homebrew/opt/llvm/bin/clang++
+          #   ipp: no_ipp
 
           #   Not supported yet
           # - runner: [self-hosted, macOS, ARM64]
