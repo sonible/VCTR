@@ -1,6 +1,8 @@
+find_package(Python3 COMPONENTS Interpreter)
 find_path (IPP_ROOT_DIR
         "include/ipp.h"
     HINTS
+        ${Python3_SITELIB}/../../..
         ${VCTR_IPP_ROOT}
         $ENV{IPPROOT}
         $ENV{HOME}/intel/ipp
