@@ -131,6 +131,11 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v3
 
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
       - name: (Linux) Install dependencies
         run: sudo apt-get install gcc-12 g++-12 ninja-build && wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 15 all && pip3 install conan
         if: runner.os == 'Linux'
