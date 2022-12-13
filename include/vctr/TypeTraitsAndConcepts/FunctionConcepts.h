@@ -51,4 +51,8 @@ concept voidConstForEachFunctionWithArgs = requires (T&& fn, const ElementType& 
 template <class T, class ElementType, class... Args>
 concept returningForEachFunctionWithArgs = requires (T&& fn, const ElementType& e, ElementType r, Args&&... args) { r = fn (e, args...); };
 
+/** Constrains a type to be a function that takes a const ElementType& argument and returns a bool */
+template <class T, class ElementType>
+concept elementPredicateFunction = requires (T&& fn, const ElementType& e, bool r) { r = fn (e); };
+
 } // namespace vctr::is

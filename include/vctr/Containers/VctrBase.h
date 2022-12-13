@@ -288,6 +288,22 @@ public:
     }
 
     //==============================================================================
+    // Finding elements and manipulating them
+    //==============================================================================
+    /** Returns the number of elements that are equal to valueToLookFor. */
+    size_t count (const ElementType& valueToLookFor)
+    {
+        return std::count (begin(), end(), valueToLookFor);
+    }
+
+    /** Returns the number of elements that satisfy predicate. */
+    template <is::elementPredicateFunction<ElementType> Fn>
+    size_t countIf (Fn&& predicate)
+    {
+        return std::count_if (begin(), end(), std::forward<Fn> (predicate));
+    }
+
+    //==============================================================================
     // SIMD Register Access
     //==============================================================================
 
