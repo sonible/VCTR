@@ -57,28 +57,64 @@ struct ExpressionChainBuilder
     template <is::anyVctr Src>
     constexpr auto operator<< (const Src& src) const
     {
-        return Expression<extentOf<Src>, const Src&> { src };
+        auto expression = Expression<extentOf<Src>, const Src&> { src };
+
+        if constexpr (is::reductionExpression<decltype (expression)>)
+        {
+            return ReductionExpression::reduce (expression);
+        }
+        else
+        {
+            return expression;
+        }
     }
 
     /** Returns an expression which holds a reference to the Vector passed in as source */
     template <is::anyVctr Src>
     constexpr auto operator<< (Src& src) const
     {
-        return Expression<extentOf<Src>, const Src&> { src };
+        auto expression = Expression<extentOf<Src>, const Src&> { src };
+
+        if constexpr (is::reductionExpression<decltype (expression)>)
+        {
+            return ReductionExpression::reduce (expression);
+        }
+        else
+        {
+            return expression;
+        }
     }
 
     /** Returns an expression which owns a the Vector passed in as source */
     template <is::anyVctr Src>
     constexpr auto operator<< (Src&& src) const
     {
-        return Expression<extentOf<Src>, Src> { std::move (src) };
+        auto expression = Expression<extentOf<Src>, Src> { std::move (src) };
+
+        if constexpr (is::reductionExpression<decltype (expression)>)
+        {
+            return ReductionExpression::reduce (expression);
+        }
+        else
+        {
+            return expression;
+        }
     }
 
     /** Returns an expression which owns another Expression passed in as source */
     template <is::expression SrcExpression>
     constexpr auto operator<< (SrcExpression&& e) const
     {
-        return Expression<extentOf<SrcExpression>, SrcExpression> (std::forward<SrcExpression> (e));
+        auto expression = Expression<extentOf<SrcExpression>, SrcExpression> (std::forward<SrcExpression> (e));
+
+        if constexpr (is::reductionExpression<decltype (expression)>)
+        {
+            return ReductionExpression::reduce (expression);
+        }
+        else
+        {
+            return expression;
+        }
     }
 
     /** Returns an ExpressionChainBuilder instance which is the combination of the builder instance passed in,

@@ -117,6 +117,7 @@
 #include "Containers/Vector.h"
 #include "Containers/Array.h"
 
+#include "Expressions/ReductionExpression.h"
 #include "Expressions/ExpressionChainBuilder.h"
 
 #include "Expressions/Filter/NoAcceleration.h"

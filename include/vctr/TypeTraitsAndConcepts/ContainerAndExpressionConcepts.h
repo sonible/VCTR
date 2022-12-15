@@ -66,59 +66,75 @@ struct IsExpressionChainBuilder<ExpressionChainBuilder<ExpressionType, Additiona
 namespace vctr::has
 {
 
-/** Constrains a type to have a member function getNeon (size_t) const */
+/** Constrains a type to have a member function getNeon (size_t) const. */
 template <class T>
 concept getNeon = requires (const T& t, size_t i) { t.getNeon (i); };
 
-/** Constrains a type to have a member function getAVX (size_t) const */
+/** Constrains a type to have a member function getAVX (size_t) const. */
 template <class T>
 concept getAVX = requires (const T& t, size_t i) { t.getAVX (i); };
 
-/** Constrains a type to have a member function getSSE (size_t) const */
+/** Constrains a type to have a member function getSSE (size_t) const. */
 template <class T>
 concept getSSE = requires (const T& t, size_t i) { t.getSSE (i); };
 
-/** Constrains a type to have a non const operator[] overload taking a size_t argument */
+/** Constrains a type to have a non const operator[] overload taking a size_t argument. */
 template <class T>
 concept indexOperator = requires (T& t) { t[size_t()]; };
 
-/** Constrains a type to have a const operator[] overload taking a size_t argument */
+/** Constrains a type to have a const operator[] overload taking a size_t argument. */
 template <class T>
 concept constIndexOperator = requires (const T& t) { t[size_t()]; };
 
-/** Constrains a type to have a member function evalNextVectorOpInExpressionChain (value_type*) const */
+/** Constrains a type to have a member function evalNextVectorOpInExpressionChain (value_type*) const. */
 template <class T, class DstType>
 concept evalNextVectorOpInExpressionChain = requires (const T& t, DstType* d) { t.evalNextVectorOpInExpressionChain (d); } && std::same_as<DstType, typename std::remove_cvref_t<T>::value_type>;
+
+/** Constrains a type to have a member function reduceVectorOp() const that returns a DstType value. */
+template <class T, class DstType>
+concept reduceVectorOp = requires (const T& t) { { t.reduceVectorOp() } -> std::same_as<DstType>; };
+
+/** Constrains a type to have a member function reduceNeonRegisterWise (NeonRegister<SrcDstType>&, size_t) const. */
+template <class T, class SrcDstType>
+concept reduceNeonRegisterWise = requires (const T& t, NeonRegister<SrcDstType>& sd, size_t s) { t.reduceNeonRegisterWise (sd, s); };
+
+/** Constrains a type to have a member function reduceAVXRegisterWise (AVXRegister<SrcDstType>&, size_t) const. */
+template <class T, class SrcDstType>
+concept reduceAVXRegisterWise = requires (const T& t, AVXRegister<SrcDstType>& sd, size_t s) { t.reduceAVXRegisterWise (sd, s); };
+
+/** Constrains a type to have a member function reduceSSERegisterWise (SSERegister<SrcDstType>&, size_t) const. */
+template <class T, class SrcDstType>
+concept reduceSSERegisterWise = requires (const T& t, SSERegister<SrcDstType>& sd, size_t s) { t.reduceSSERegisterWise (sd, s); };
 
 /** Constrains a type to have a member function data() const */
 template <class T>
 concept data = requires (const T& t) { t.data(); };
 
-/** Constrains a type to have a member function data() const returning a pointer convertible to const ElementType* */
+/** Constrains a type to have a member function data() const returning a pointer convertible to const ElementType*. */
 template <class T, class ElementType>
 concept dataWithElementType = requires (const T& t, const ElementType* s) { s = t.data(); };
 
-/** Constrains a type to have a member function size() const */
+/** Constrains a type to have a member function size() const. */
 template <class T>
 concept size = requires (const T& t, size_t i) { i = t.size(); };
 
-/** Constrains a type to both, a member function size() const and data() const */
+/** Constrains a type to both, a member function size() const and data() const. */
 template <class T>
 concept sizeAndData = size<T> && data<T>;
 
-/** Constrains a type to both, a member function size() const and data() const returning a pointer convertible to ElementType* */
+/** Constrains a type to both, a member function size() const and data() const returning a pointer convertible to ElementType*. */
 template <class T, class ElementType>
 concept sizeAndDataWithElementType = size<T> && dataWithElementType<T, ElementType>;
 
-/** Constrains a type to have a member function begin() or begin() const */
+/** Constrains a type to have a member function begin() or begin() const. */
 template <class T>
 concept begin = requires (T& t) { *t.begin(); } || requires (const T& t) { *t.begin(); };
 
-/** Constrains a type to have a member function end() or end() const */
+/** Constrains a type to have a member function end() or end() const. */
 template <class T>
 concept end = requires (T& t) { *t.end(); } || requires (const T& t) { *t.begin(); };
 
-/** Constrains a type to have a function resize (size_t) */
+/** Constrains a type to have a function resize (size_t). */
 template <class T>
 concept resize = requires (T& t, size_t n) { t.resize (n); };
 
@@ -136,7 +152,7 @@ namespace vctr::detail
 
         If IPP is available on macOS, we might have situations where both, IPP and Apple Accelerate
         can offer similar operations for a certain operation. In that case the flag marks if we want
-        to prefer the one or the other
+        to prefer the one or the other.
      */
 enum PlatformVectorOpPreference
 {
@@ -154,116 +170,123 @@ namespace vctr::is
 
 // clang-format off
 
-/** Constrains a type to be any derived instance of VctrBase */
+/** Constrains a type to be any derived instance of VctrBase. */
 template <class T>
 concept anyVctr = detail::AnyVctr<std::remove_cvref_t<T>>::value;
 
-/** Constrains a type to be an expression template */
+/** Constrains a type to be an expression template. */
 template <class T>
 concept expression = has::getStorageInfo<T> && has::size<T> && has::constIndexOperator<T> && has::isNotAliased<T> && ! anyVctr<T>;
 
-/** Constrains a type to be an expression chain builder */
+/** Constrains a type to be an expression chain builder. */
 template <class T>
 concept expressionChainBuilder = detail::IsExpressionChainBuilder<std::remove_cvref_t<T>>::value;
 
-/** Constrains a type to either be an expression template or any derived instance of VctrBase */
+/** Constrains a type to either be an expression template or any derived instance of VctrBase. */
 template <class T>
 concept anyVctrOrExpression = expression<std::remove_cvref_t<T>> || anyVctr<std::remove_cvref_t<T>>;
 
-/** Constrains a type to be any instance of std::array */
+/** Constrains a type to be any instance of std::array. */
 template <class T>
 concept stdArray = detail::IsStdArray<T>::value;
 
-/** Constrains a type to be any instance of std::span */
+/** Constrains a type to be any instance of std::span. */
 template <class T>
 concept stdSpan = detail::IsStdSpan<T>::value;
 
 //==============================================================================
-/** Constrains a type to be an expression template that defines evalNextVectorOpInExpressionChain for DstType */
+/** Constrains a type to be an expression template that defines evalNextVectorOpInExpressionChain for DstType. */
 template <class T, class DstType>
 concept expressionWithEvalVectorOp = expression<T> && has::evalNextVectorOpInExpressionChain<T, DstType>;
 
 //==============================================================================
-/** A combined concept to check if Apple Accelerate is a suitable option for a real valued floating point vector operation */
+/** A combined concept to check if Apple Accelerate is a suitable option for a real valued floating point vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForAccelerateRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::evalNextVectorOpInExpressionChain<Src, DstType> && floatNumber<DstType>;
 
-/** A combined concept to check if Apple Accelerate is a suitable option for a complex valued floating point vector operation */
+/** A combined concept to check if Apple Accelerate is a suitable option for a complex valued floating point vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForAccelerateComplexFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::evalNextVectorOpInExpressionChain<Src, DstType> && complexFloatNumber<DstType>;
 
-/** A combined concept to check if Apple Accelerate is a suitable option for a real or complex valued floating point vector operation */
+/** A combined concept to check if Apple Accelerate is a suitable option for a real or complex valued floating point vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForAccelerateRealOrComplexFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::evalNextVectorOpInExpressionChain<Src, DstType> && (floatNumber<DstType> || complexFloatNumber<DstType>);
 
-/** A combined concept to check if Apple Accelerate is a suitable option for a floating point vector operation that transforms a complex vector into a real one */
+/** A combined concept to check if Apple Accelerate is a suitable option for a floating point vector operation that transforms a complex vector into a real one. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForAccelerateComplexToRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && anyVctr<Src> && complexFloatNumber<typename Src::value_type> && floatNumber<DstType>;
 
-/** A combined concept to check if Apple Accelerate is a suitable option for a vector operation that transforms an integer vector into a floating point one */
+/** A combined concept to check if Apple Accelerate is a suitable option for a vector operation that transforms an integer vector into a floating point one. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForAccelerateRealIntToFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::evalNextVectorOpInExpressionChain<Src, typename std::remove_cvref_t<Src>::value_type> && floatNumber<DstType> && intNumber<typename std::remove_cvref_t<Src>::value_type>;
 
+/** A combined concept to check if Apple Accelerate is a suitable option for a floating point vector reduction operation. */
+template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
+concept suitableForAccelerateRealFloatVectorReductionOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::data<Src> && floatNumber<DstType>;
 //==============================================================================
-/** A combined concept to check if Intel IPP is a suitable option for a real valued floating point vector operation */
+/** A combined concept to check if Intel IPP is a suitable option for a real valued floating point vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForIppRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::evalNextVectorOpInExpressionChain<Src, DstType> && floatNumber<DstType>;
 
-/** A combined concept to check if Intel IPP is a suitable option for a real valued singed int32 vector operation */
+/** A combined concept to check if Intel IPP is a suitable option for a real valued singed int32 vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForIppRealSingedInt32VectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::evalNextVectorOpInExpressionChain<Src, DstType> && std::same_as<int32_t, DstType>;
 
-/** A combined concept to check if Intel IPP is a suitable option for a complex valued floating point vector operation */
+/** A combined concept to check if Intel IPP is a suitable option for a complex valued floating point vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForIppComplexFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::evalNextVectorOpInExpressionChain<Src, DstType> && complexFloatNumber<DstType>;
 
-/** A combined concept to check if Intel IPP is a suitable option for a real or complex valued floating point vector operation */
+/** A combined concept to check if Intel IPP is a suitable option for a real or complex valued floating point vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForIppRealOrComplexFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::evalNextVectorOpInExpressionChain<Src, DstType> && (floatNumber<DstType> || complexFloatNumber<DstType>);
 
-/** A combined concept to check if Intel IPP is a suitable option for a floating point vector operation that transforms a complex vector into a real one */
+/** A combined concept to check if Intel IPP is a suitable option for a floating point vector operation that transforms a complex vector into a real one. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForIppComplexToRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && anyVctr<Src> && complexFloatNumber<typename std::remove_cvref_t<Src>::value_type> && floatNumber<DstType>;
 
+/** A combined concept to check if Intel IPP is a suitable option for a floating point vector reduction operation. */
+template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
+concept suitableForIppRealFloatVectorReductionOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::data<Src> && floatNumber<DstType>;
+
 //==============================================================================
-/** Constrains two source types to be suitable for a an aliasing-free binary vector operation using platform vector ops */
+/** Constrains two source types to be suitable for a an aliasing-free binary vector operation using platform vector ops. */
 template <class SrcA, class SrcB, class DstType>
 concept suitableForBinaryVectorOp = (expressionWithEvalVectorOp < SrcA, DstType > && anyVctr < SrcB >) ||
                                     (anyVctr<SrcA> && expressionWithEvalVectorOp < SrcB, DstType >) ||
                                     (anyVctr<SrcA> && anyVctr<SrcB>);
 
 //==============================================================================
-/** A combined concept to check if Apple Accelerate is a suitable option for a real valued floating point binary vector operation */
+/** A combined concept to check if Apple Accelerate is a suitable option for a real valued floating point binary vector operation. */
 template <class SrcA, class SrcB, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForAccelerateRealFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && floatNumber<DstType>;
 
-/** A combined concept to check if Apple Accelerate is a suitable option for a complex valued floating point binary vector operation */
+/** A combined concept to check if Apple Accelerate is a suitable option for a complex valued floating point binary vector operation. */
 template <class SrcA, class SrcB, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForAccelerateComplexFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && complexFloatNumber<DstType>;
 
-/** A combined concept to check if Apple Accelerate is a suitable option for a real or complex valued floating point binary vector operation */
+/** A combined concept to check if Apple Accelerate is a suitable option for a real or complex valued floating point binary vector operation. */
 template <class SrcA, class SrcB, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForAccelerateRealOrComplexComplexFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && (floatNumber<DstType> || complexFloatNumber<DstType>);
 
 //==============================================================================
-/** A combined concept to check if Intel IPP is a suitable option for a real valued floating point binary vector operation */
+/** A combined concept to check if Intel IPP is a suitable option for a real valued floating point binary vector operation. */
 template <class SrcA, class SrcB, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForIppRealFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && floatNumber<DstType>;
 
-/** A combined concept to check if Intel IPP is a suitable option for a complex valued floating point binary vector operation */
+/** A combined concept to check if Intel IPP is a suitable option for a complex valued floating point binary vector operation. */
 template <class SrcA, class SrcB, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForIppComplexFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && complexFloatNumber<DstType>;
 
-/** A combined concept to check if Intel IPP is a suitable option for a real or complex valued floating point binary vector operation */
+/** A combined concept to check if Intel IPP is a suitable option for a real or complex valued floating point binary vector operation. */
 template <class SrcA, class SrcB, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForIppRealOrComplexComplexFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && (floatNumber<DstType> || complexFloatNumber<DstType>);
 
 //==============================================================================
-/** Constrains a type to supply a data and size function, an index operator and define a trivially copyable value_type */
+/** Constrains a type to supply a data and size function, an index operator and define a trivially copyable value_type. */
 template <class T>
 concept triviallyCopyableWithDataAndSize = has::sizeAndDataWithElementType<T, typename T::value_type> && has::constIndexOperator<T> && triviallyCopyable<typename T::value_type>;
 
-/** Constrains a type to supply begin and end functions and to not satisfy triviallyCopyableWithDataAndSize */
+/** Constrains a type to supply begin and end functions and to not satisfy triviallyCopyableWithDataAndSize. */
 template <class T>
 concept iteratorCopyable = has::begin<T> && has::end<T> && ! triviallyCopyableWithDataAndSize<T>;
 
@@ -302,6 +325,9 @@ concept suitableSingleElementInitializer = ! anyVctrOrExpression<T> && ! trivial
 template <class T>
 concept storageInfo = requires (const T& info, size_t a, bool b) { a = T::memberAlignment; b = info.dataIsSIMDAligned; b = info.hasSIMDExtendedStorage; };
 
+template <class T>
+concept reductionExpression = requires (const T& t, typename T::value_type v, size_t i) { v = T::reductionResultInitValue; t.reduceElementWise (v, i); };
+
 // clang-format on
 
 } // namespace vctr::is
@@ -309,7 +335,7 @@ concept storageInfo = requires (const T& info, size_t a, bool b) { a = T::member
 namespace vctr::are
 {
 
-/** Constrains a pack of types to be no expression templates */
+/** Constrains a pack of types to be no expression templates. */
 template <class... T>
 concept noExpressionTemplates = (! is::expression<T> && ...);
 
