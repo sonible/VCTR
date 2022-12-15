@@ -59,6 +59,8 @@ struct NeonRegister<float>
     static NeonRegister mul (NeonRegister a, NeonRegister b) { return { vmulq_f32 (a.value, b.value) }; }
     static NeonRegister add (NeonRegister a, NeonRegister b) { return { vaddq_f32 (a.value, b.value) }; }
     static NeonRegister sub (NeonRegister a, NeonRegister b) { return { vsubq_f32 (a.value, b.value) }; }
+    static NeonRegister max (NeonRegister a, NeonRegister b) { return { vmaxq_f32 (a.value, b.value) }; }
+    static NeonRegister min (NeonRegister a, NeonRegister b) { return { vminq_f32 (a.value, b.value) }; }
     // clang-format on
 };
 
@@ -90,6 +92,8 @@ struct NeonRegister<double>
     static NeonRegister mul (NeonRegister a, NeonRegister b) { return { vmulq_f64 (a.value, b.value) }; }
     static NeonRegister add (NeonRegister a, NeonRegister b) { return { vaddq_f64 (a.value, b.value) }; }
     static NeonRegister sub (NeonRegister a, NeonRegister b) { return { vsubq_f64 (a.value, b.value) }; }
+    static NeonRegister max (NeonRegister a, NeonRegister b) { return { vmaxq_f64 (a.value, b.value) }; }
+    static NeonRegister min (NeonRegister a, NeonRegister b) { return { vminq_f64 (a.value, b.value) }; }
     // clang-format on
 };
 
@@ -120,6 +124,8 @@ struct NeonRegister<int32_t>
     static NeonRegister mul (NeonRegister a, NeonRegister b) { return { vmulq_s32 (a.value, b.value) }; }
     static NeonRegister add (NeonRegister a, NeonRegister b) { return { vaddq_s32 (a.value, b.value) }; }
     static NeonRegister sub (NeonRegister a, NeonRegister b) { return { vsubq_s32 (a.value, b.value) }; }
+    static NeonRegister max (NeonRegister a, NeonRegister b) { return { vmaxq_s32 (a.value, b.value) }; }
+    static NeonRegister min (NeonRegister a, NeonRegister b) { return { vminq_s32 (a.value, b.value) }; }
     // clang-format on
 };
 
@@ -149,6 +155,8 @@ struct NeonRegister<uint32_t>
     static NeonRegister mul (NeonRegister a, NeonRegister b) { return { vmulq_u32 (a.value, b.value) }; }
     static NeonRegister add (NeonRegister a, NeonRegister b) { return { vaddq_u32 (a.value, b.value) }; }
     static NeonRegister sub (NeonRegister a, NeonRegister b) { return { vsubq_u32 (a.value, b.value) }; }
+    static NeonRegister max (NeonRegister a, NeonRegister b) { return { vmaxq_u32 (a.value, b.value) }; }
+    static NeonRegister min (NeonRegister a, NeonRegister b) { return { vminq_u32 (a.value, b.value) }; }
     // clang-format on
 };
 

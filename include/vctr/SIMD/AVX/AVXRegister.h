@@ -62,6 +62,8 @@ struct AVXRegister<float>
     VCTR_TARGET ("avx") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_ps (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_ps (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister div (AVXRegister a, AVXRegister b) { return { _mm256_div_ps (a.value, b.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_ps (a.value, b.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_ps (a.value, b.value) }; }
     // clang-format on
 };
 
@@ -96,6 +98,8 @@ struct AVXRegister<double>
     VCTR_TARGET ("avx") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_pd (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_pd (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister div (AVXRegister a, AVXRegister b) { return { _mm256_div_pd (a.value, b.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_pd (a.value, b.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_pd (a.value, b.value) }; }
     // clang-format on
 };
 
@@ -128,6 +132,8 @@ struct AVXRegister<int32_t>
     VCTR_TARGET ("avx2") static AVXRegister abs (AVXRegister x)                { return { _mm256_abs_epi32 (x.value) }; }
     VCTR_TARGET ("avx2") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_epi32 (a.value, b.value) }; }
     VCTR_TARGET ("avx2") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_epi32 (a.value, b.value) }; }
+    VCTR_TARGET ("avx2") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_epi32 (a.value, b.value) }; }
+    VCTR_TARGET ("avx2") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_epi32 (a.value, b.value) }; }
     // clang-format on
 };
 
@@ -159,6 +165,8 @@ struct AVXRegister<uint32_t>
     // Math
     VCTR_TARGET ("avx2") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_epi32 (a.value, b.value) }; }
     VCTR_TARGET ("avx2") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_epi32 (a.value, b.value) }; }
+    VCTR_TARGET ("avx2") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_epu32 (a.value, b.value) }; }
+    VCTR_TARGET ("avx2") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_epu32 (a.value, b.value) }; }
     // clang-format on
 };
 

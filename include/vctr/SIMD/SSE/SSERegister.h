@@ -61,6 +61,8 @@ struct SSERegister<float>
     VCTR_TARGET ("sse4.1") static SSERegister div (SSERegister a, SSERegister b) { return { _mm_div_ps (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_ps (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_ps (a.value, b.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_ps (a.value, b.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_ps (a.value, b.value) }; }
     // clang-format on
 };
 
@@ -94,6 +96,8 @@ struct SSERegister<double>
     VCTR_TARGET ("sse4.1") static SSERegister div (SSERegister a, SSERegister b) { return { _mm_div_pd (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_pd (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_pd (a.value, b.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_pd (a.value, b.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_pd (a.value, b.value) }; }
     // clang-format on
 };
 
@@ -125,6 +129,8 @@ struct SSERegister<int32_t>
     VCTR_TARGET ("sse4.1") static SSERegister abs (SSERegister x)                { return { _mm_abs_epi32 (x.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_epi32 (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_epi32 (a.value, b.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_epi32 (a.value, b.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_epi32 (a.value, b.value) }; }
     // clang-format on
 };
 
@@ -155,6 +161,8 @@ struct SSERegister<uint32_t>
     // Math
     VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_epi32 (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_epi32 (a.value, b.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_epu32 (a.value, b.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_epu32 (a.value, b.value) }; }
     // clang-format on
 };
 
