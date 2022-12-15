@@ -66,6 +66,12 @@ public:
     static void ln    (const float* src, float* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLn_32f (src, dst, len)); }
     static void log10 (const float* src, float* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLog10_32f_A24 (src, dst, len)); }
     static void exp   (const float* src, float* dst, int len) { assertIppNoErr (ippsExp_32f (src, dst, len)); }
+
+    static float max    (const float* src, int len) { float r; assertIppNoErr (ippsMax_32f (src, len, &r)); return r; }
+    static float maxAbs (const float* src, int len) { float r; assertIppNoErr (ippsMaxAbs_32f (src, len, &r)); return r; }
+    static float min    (const float* src, int len) { float r; assertIppNoErr (ippsMin_32f (src, len, &r)); return r; }
+    static float minAbs (const float* src, int len) { float r; assertIppNoErr (ippsMinAbs_32f (src, len, &r)); return r; }
+    static float sum    (const float* src, int len) { float r; assertIppNoErr (ippsSum_32f (src, len, &r, ippAlgHintNone)); return r; }
 };
 
 template <>
@@ -89,6 +95,12 @@ public:
     static void ln    (const double* src, double* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLn_64f (src, dst, len)); }
     static void log10 (const double* src, double* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLog10_64f_A53 (src, dst, len)); }
     static void exp   (const double* src, double* dst, int len) { assertIppNoErr (ippsExp_64f (src, dst, len)); }
+
+    static double max    (const double* src, int len) { double r; assertIppNoErr (ippsMax_64f (src, len, &r)); return r; }
+    static double maxAbs (const double* src, int len) { double r; assertIppNoErr (ippsMaxAbs_64f (src, len, &r)); return r; }
+    static double min    (const double* src, int len) { double r; assertIppNoErr (ippsMin_64f (src, len, &r)); return r; }
+    static double minAbs (const double* src, int len) { double r; assertIppNoErr (ippsMinAbs_64f (src, len, &r)); return r; }
+    static double sum    (const double* src, int len) { double r; assertIppNoErr (ippsSum_64f (src, len, &r)); return r; }
 };
 
 template <>
@@ -110,6 +122,8 @@ public:
     static void mul (const std::complex<float>* srcA, std::complex<float> srcB,        std::complex<float>* dst, int len) { assertIppNoErr (ippsMulC_32fc (fc (srcA), fc (srcB), fc (dst), len)); }
     static void div (const std::complex<float>* srcA, const std::complex<float>* srcB, std::complex<float>* dst, int len) { assertIppNoErr (ippsDiv_32fc (fc (srcB), fc (srcA), fc (dst), len)); }
     static void div (const std::complex<float>* srcA, std::complex<float> srcB,        std::complex<float>* dst, int len) { assertIppNoErr (ippsDivC_32fc (fc (srcA), fc (srcB), fc (dst), len)); }
+
+    static std::complex<float> sum (const std::complex<float>* src, int len) { std::complex<float> r; assertIppNoErr (ippsSum_32fc (fc (src), len, fc (&r), ippAlgHintNone)); return r; }
 };
 
 template <>
@@ -132,6 +146,7 @@ public:
     static void div (const std::complex<double>* srcA, const std::complex<double>* srcB, std::complex<double>* dst, int len) { assertIppNoErr (ippsDiv_64fc (fc (srcB), fc (srcA), fc (dst), len)); }
     static void div (const std::complex<double>* srcA, std::complex<double> srcB,        std::complex<double>* dst, int len) { assertIppNoErr (ippsDivC_64fc (fc (srcA), fc (srcB), fc (dst), len)); }
 
+    static std::complex<double> sum (const std::complex<double>* src, int len) { std::complex<double> r; assertIppNoErr (ippsSum_64fc (fc (src), len, fc (&r))); return r; }
 };
 
 template <>
