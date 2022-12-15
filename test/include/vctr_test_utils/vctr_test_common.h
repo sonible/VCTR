@@ -216,4 +216,5 @@ struct Neon
 #define VCTR_TEST_DEFINES_WITH_TRAILING_ZERO_IN_RANGE(start, end, testVectorSize) VCTR_TEST_DEFINES_BASE (testVectorSize, start, end, false, true)
 
 #include <vctr_test_utils/vctr_catch_matchers.h>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
 #include <catch2/catch_template_test_macros.hpp>
