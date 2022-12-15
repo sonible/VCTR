@@ -23,9 +23,21 @@
 namespace vctr
 {
 
+/** A collection of static functions used to evaluate reduction expressions.
+
+    You should usually not need to use this yourself, it's rather called internally
+    in an ExpressionChainBuilder instance when a reduction expression terminates an
+    expression chain.
+ */
 class ReductionExpression
 {
 public:
+    //==============================================================================
+
+    /** Returns the reduction result of the expression passed in.
+
+        The implementation tries to use accelerated evaluation options if available.
+     */
     template <is::reductionExpression Expression>
     VCTR_FORCEDINLINE static auto reduce (const Expression& e)
     {
@@ -72,6 +84,7 @@ public:
     }
 
 private:
+    //==============================================================================
     template <is::reductionExpression Expression>
     VCTR_TARGET ("avx2") static auto reduceAVX2 (const Expression& e)
     requires Config::archX64

@@ -25,7 +25,10 @@ private:
 };
 ```
 
-The expression has to take at least two template arguments:
+The only exception to the minimum requirements outlined above are reduction expressions which are discussed separately
+below.
+
+Every kind of expression has to take at least two template arguments:
 
 - The extent, which is denoted by the source of the expression
 - The source type(s). Unary expressions, this means expressions that have a single source, need to specify a single
@@ -185,3 +188,70 @@ constexpr bool isNotAliased (const void* dst) const
 As evaluating a binary expression with two expressions as sources can never work with our
 `evalNextVectorOpInExpressionChain` implementation strategy as it would need an intermediate buffer that we want to
 avoid at all costs, binary expressions should always be constrained by the `is::suitableForBinaryEvalVectorOp` concept.
+
+## Reduction expressions
+
+While the expressions discussed above are used to transform a source vector into a destination vector, reduction
+expressions reduce a source vector into a single reduction result value. Examples are e.g. a vector sum or finding
+the maximum value in a vector. They use the same class template signature and also define an `ExpressionChainBuilder`
+instance but their member functions look different. Futhermore, an expression chain terminated by a reduction expression
+is not evaluated lazily when assigned to a destination but are evaluated right away and returns the computed single 
+value.
+
+The most basic reduction expression template implementation must look like that:
+
+```C++
+template <size_t extent, class SrcType>
+class MyExpression : ExpressionTemplateBase
+{
+public:
+    using value_type = typename SrcType::value_type;
+    
+    using Expression = ExpressionTypes<value_type, SrcType>;
+
+    constexpr MyExpression (SrcType s) : src (std::move (s)) {}
+
+    constexpr size_t size() const { return src.size (); }
+
+    static constexpr value_type reductionResultInitValue = std::numeric_limits<value_type>::min();
+
+    VCTR_FORCEDINLINE void reduceElementWise (value_type& result, size_t i) const
+    {
+        result = someComputation (result, src[i]);
+    }
+private:
+    SrcType src;
+};
+```
+
+The calling code will create a variable which is initialised to `reductionResultInitValue` and then passed to 
+`reduceElementWise` which is called in a loop over all source elements.
+
+When platform specific vector operations should be used, the required signature is
+```c++
+value_type reduceVectorOp() const
+```
+
+This usually requires, that the source type supplies direct access to the `data()` pointer and is 
+likely not suitable when chained expressions are used, as there is no scratch buffer to write the
+previous expression results to. Better constrain your implementation according to that, using e.g.
+the `vctr::has::data` concept.
+
+When SIMD operations should be used, the required signature is
+```c++
+    VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister<value_type>& result, size_t i) const;
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const;
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const;
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void reduceSSERegisterWise (SSERegister<value_type>& result, size_t i) const;
+
+    template <size_t n>
+    VCTR_FORCEDINLINE static value_type finalizeSIMDReduction (const std::array<value_type, n>& subResults);
+```
+
+They basically work the same as the element-wise implementations but they evaluate a whole SIMD register
+at a time. Possible residual elements are then evaluated using a scalar loop in the calling code. This leads to a SIMD
+register and a single scalar value as sub-results, which are passed to `finalizeSIMDReduction` for a last final 
+reduction step.

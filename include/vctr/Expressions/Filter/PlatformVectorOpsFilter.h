@@ -31,6 +31,12 @@ public:
 
     VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (PlatformVectorOpsFilter)
 
+    auto* data() const
+    requires has::data<SrcType>
+    {
+        return src.data();
+    }
+
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
         return src[i];
