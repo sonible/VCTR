@@ -53,4 +53,13 @@ struct ExpressionTemplateBase;
 
 template <template <size_t, class...> class ExpressionType, class... ExtraParameters>
 struct ExpressionChainBuilder;
+
+template <class T>
+struct AVXRegister;
+
+template <class T>
+struct SSERegister;
+
+template <class T>
+struct NeonRegister;
 } // namespace vctr
