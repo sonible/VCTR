@@ -20,6 +20,15 @@
   ==============================================================================
 */
 
+namespace vctr::has
+{
+
+/** Constrains the type to define an operator += */
+template <class Lhs, class Rhs = Lhs>
+concept operatorPlusEquals = requires (Lhs l, Rhs r) { l += r; };
+
+}
+
 namespace vctr::detail
 {
 

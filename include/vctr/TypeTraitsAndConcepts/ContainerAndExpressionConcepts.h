@@ -248,6 +248,10 @@ concept suitableForIppComplexToRealFloatVectorOp = detail::isPreferredVectorOp<p
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForIppRealFloatVectorReductionOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::data<Src> && floatNumber<DstType>;
 
+/** A combined concept to check if Intel IPP is a suitable option for a real or complex floating point vector reduction operation. */
+template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
+concept suitableForIppRealOrComplexFloatVectorReductionOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::data<Src> && (floatNumber<DstType> || complexFloatNumber<DstType>);
+
 //==============================================================================
 /** Constrains two source types to be suitable for a an aliasing-free binary vector operation using platform vector ops. */
 template <class SrcA, class SrcB, class DstType>

@@ -42,4 +42,5 @@ target_sources (vctr_test PRIVATE
         TestCases/Expressions/Max.cpp
         TestCases/Expressions/Min.cpp
         TestCases/Expressions/Subtract.cpp
+        TestCases/Expressions/Sum.cpp
         TestCases/Expressions/Square.cpp)

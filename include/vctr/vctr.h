@@ -57,6 +57,7 @@
 #include <cstring>
 #include <ranges>
 #include <algorithm>
+#include <numeric>
 
 #ifdef jassert
 #define VCTR_ASSERT(e) jassert (e)
@@ -133,6 +134,7 @@
 #include "Expressions/Core/Divide.h"
 #include "Expressions/Core/Max.h"
 #include "Expressions/Core/Min.h"
+#include "Expressions/Core/Sum.h"
 
 #include "Expressions/Exp/Exp.h"
 #include "Expressions/Exp/Ln.h"
