@@ -209,7 +209,7 @@ public:
 
         The function returns void and might take the elements by reference to mutate them.
      */
-    template <is::voidForEachFunction<value_type> Fn>
+    template <is::functionWithSignatureOrImplicitlyConvertible<void (value_type&)> Fn>
     void forEach (Fn&& fn)
     {
         for (auto& e : *this)
@@ -220,7 +220,7 @@ public:
 
         The function returns void and must not mutate the elements.
      */
-    template <is::voidConstForEachFunction<value_type> Fn>
+    template <is::functionWithSignatureOrImplicitlyConvertible<void (const value_type&)> Fn>
     void forEach (Fn&& fn) const
     {
         for (const auto& e : *this)
@@ -231,7 +231,7 @@ public:
 
         The function returns a value_type which is assigned as new value to the element.
      */
-    template <is::returningForEachFunction<value_type> Fn>
+    template <is::functionWithSignatureOrImplicitlyConvertible<value_type (const value_type&)> Fn>
     void forEach (Fn&& fn)
     {
         for (auto& e : *this)
@@ -242,7 +242,7 @@ public:
 
         The function returns void and might take the elements by reference to mutate them.
      */
-    template <is::voidForEachFunctionWithArgs<value_type, size_t> Fn>
+    template <is::functionWithSignatureOrImplicitlyConvertible<void (value_type&, size_t)> Fn>
     void forEach (Fn&& fn)
     {
         const auto s = size();
@@ -254,7 +254,7 @@ public:
 
         The function returns void and must not mutate the elements.
      */
-    template <is::voidConstForEachFunctionWithArgs<value_type, size_t> Fn>
+    template <is::functionWithSignatureOrImplicitlyConvertible<void (const value_type&, size_t)> Fn>
     void forEach (Fn&& fn) const
     {
         const auto s = size();
@@ -266,7 +266,7 @@ public:
 
         The function returns a value_type which is assigned as new value to the element.
      */
-    template <is::returningForEachFunctionWithArgs<value_type, size_t> Fn>
+    template <is::functionWithSignatureOrImplicitlyConvertible<value_type (const value_type&, size_t)> Fn>
     void forEach (Fn&& fn)
     {
         const auto s = size();
@@ -278,7 +278,7 @@ public:
 
         The function returns void and might take the elements by reference to mutate them.
      */
-    template <class... Args, is::voidForEachFunctionWithArgs<value_type, Args...> Fn>
+    template <class... Args, is::functionWithSignatureOrImplicitlyConvertible<void (value_type&, Args&&...)> Fn>
     void forEach (Fn&& fn, Args&&... fnArgs)
     {
         for (auto& e : *this)
@@ -289,7 +289,7 @@ public:
 
         The function returns void and must not mutate the elements.
      */
-    template <class... Args, is::voidConstForEachFunctionWithArgs<value_type, Args...> Fn>
+    template <class... Args, is::functionWithSignatureOrImplicitlyConvertible<void (const value_type&, Args&&...)> Fn>
     void forEach (Fn&& fn, Args&&... fnArgs) const
     {
         for (const auto& e : *this)
@@ -300,7 +300,7 @@ public:
 
         The function returns void and might take the elements by reference to mutate them.
      */
-    template <class... Args, is::returningForEachFunctionWithArgs<value_type, Args...> Fn>
+    template <class... Args, is::functionWithSignatureOrImplicitlyConvertible<value_type (const value_type&, Args&&...)> Fn>
     void forEach (Fn&& fn, Args&&... fnArgs)
     {
         for (auto& e : *this)

@@ -20,36 +20,73 @@
   ==============================================================================
 */
 
+namespace vctr::detail
+{
+
+template <class, class>
+struct FunctionWithSignature : std::false_type
+{
+};
+
+template <class Fn, class Ret, class... Args>
+struct FunctionWithSignature<Fn, Ret (Args...)>
+{
+    static constexpr bool value = requires (Fn&& t, Ret (*fp) (Args...)) { fp = &t; };
+};
+
+template <class, class>
+struct FunctionWithSignatureOrImplicitlyConvertible : std::false_type
+{
+};
+
+template <class Fn, class Ret, class... Args>
+struct FunctionWithSignatureOrImplicitlyConvertible<Fn, Ret (Args...)>
+{
+    static constexpr bool value = requires (Fn&& t, Args&&... args) { { t (args...) } -> std::convertible_to<Ret>; };
+};
+
+} // namespace vctr::detail
+
 namespace vctr::is
 {
 
-/** Constrains a type to be a function with return type void that can take an argument by reference */
-template <class T, class ElementType>
-concept voidForEachFunction = requires (T&& fn, ElementType& e) { fn (e); } &&
-                              std::is_void_v<std::invoke_result_t<T, ElementType&>>;
+/** Constrains Fn to be a function with an exact function signature.
 
-/** Constrains a type to be a function with return type void that can take an argument by const reference */
-template <class T, class ElementType>
-concept voidConstForEachFunction = requires (T&& fn, const ElementType& e) { fn (e); } &&
-                                   std::is_void_v<std::invoke_result_t<T, ElementType&>>;
+    Example:
+    @code
+    template <is::functionWithSignature<bool (int)> Fn>
+    void foo (Fn&& fn)
+    @endcode
 
-/** Constrains a type to be a function with return type ElementType that can take an argument by const reference */
-template <class T, class ElementType>
-concept returningForEachFunction = requires (T&& fn, const ElementType& e, ElementType r) { r = fn (e); };
+    The example code above will only accept callable types that have the exact
+    signature specified. This means, e.g. these functions
+    @code
+    bool fn1 (const int&);
+    const bool& fn2 (int);
+    @endcode
+    would not satisfy the constraint in the example above.
+ */
+template <class Fn, class Signature>
+concept functionWithSignature = detail::FunctionWithSignature<Fn, Signature>::value;
 
-/** Same as voidForEachFunction but with the option to specify additional function arguments */
-template <class T, class ElementType, class... Args>
-concept voidForEachFunctionWithArgs = requires (T&& fn, ElementType& e, Args&&... args) { fn (e, args...); } &&
-                                      std::is_void_v<std::invoke_result_t<T, ElementType&, Args...>>;
+/** Constrains Fn to be a function with the specified function signature or some signature with
+    implicitly convertible alternatives to the specified arguments.
 
-/** Same as voidConstForEachFunction but with the option to specify additional function arguments */
-template <class T, class ElementType, class... Args>
-concept voidConstForEachFunctionWithArgs = requires (T&& fn, const ElementType& e, Args&&... args) { fn (e, args...); } &&
-                                           std::is_void_v<std::invoke_result_t<T, ElementType&, Args...>>;
+    Example:
+    @code
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const int&)> Fn>
+    void foo (Fn&& fn)
+    @endcode
 
-/** Same as returningForEachFunction but with the option to specify additional function arguments */
-template <class T, class ElementType, class... Args>
-concept returningForEachFunctionWithArgs = requires (T&& fn, const ElementType& e, ElementType r, Args&&... args) { r = fn (e, args...); };
+    The example code above will accept callable types like those
+    @code
+    bool fn1 (int);
+    bool fn2 (const int&);
+    const bool& fn3 (int);
+    @endcode
+ */
+template <class Fn, class Signature>
+concept functionWithSignatureOrImplicitlyConvertible = detail::FunctionWithSignatureOrImplicitlyConvertible<Fn, Signature>::value;
 
 /** Constrains a type to be a function that takes a const ElementType& argument and returns a bool */
 template <class T, class ElementType>
