@@ -132,6 +132,7 @@
 #include "Expressions/Core/Multiply.h"
 #include "Expressions/Core/Divide.h"
 #include "Expressions/Core/Max.h"
+#include "Expressions/Core/Min.h"
 
 #include "Expressions/Exp/Exp.h"
 #include "Expressions/Exp/Ln.h"
