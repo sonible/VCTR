@@ -131,6 +131,7 @@
 #include "Expressions/Core/Subtract.h"
 #include "Expressions/Core/Multiply.h"
 #include "Expressions/Core/Divide.h"
+#include "Expressions/Core/Max.h"
 
 #include "Expressions/Exp/Exp.h"
 #include "Expressions/Exp/Ln.h"

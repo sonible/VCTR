@@ -39,5 +39,6 @@ target_sources (vctr_test PRIVATE
         TestCases/Expressions/Log10.cpp
         TestCases/Expressions/Decibels.cpp
         TestCases/Expressions/Multiply.cpp
+        TestCases/Expressions/Max.cpp
         TestCases/Expressions/Subtract.cpp
         TestCases/Expressions/Square.cpp)
