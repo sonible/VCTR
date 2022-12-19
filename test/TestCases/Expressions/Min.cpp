@@ -31,6 +31,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Min", "[min]", (PlatformVectorOps, VCTR_NATIVE_SIMD
     const auto minU = vctr::min << filter << srcUnaligned;
     const auto minNeg = vctr::min << filter << srcOnlyNeg;
 
+    REQUIRE (min == srcA.min());
     REQUIRE (min == *std::min_element (srcA.begin(), srcA.end()));
     REQUIRE (minU == *std::min_element (srcUnaligned.begin(), srcUnaligned.end()));
     REQUIRE (minNeg == *std::min_element (srcOnlyNeg.begin(), srcOnlyNeg.end()));
@@ -43,6 +44,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Min", "[min]", (PlatformVectorOps, VCTR_NATIVE_SIMD
     vctr::Vector srcAbsU = vctr::abs << srcUnaligned;
     vctr::Vector srcAbsNeg = vctr::abs << srcOnlyNeg;
 
+    REQUIRE (minAbs == srcA.minAbs());
     REQUIRE (minAbs == *std::min_element (srcAbs.begin(), srcAbs.end()));
     REQUIRE (minAbsU == *std::min_element (srcAbsU.begin(), srcAbsU.end()));
     REQUIRE (minAbsNeg == *std::min_element (srcAbsNeg.begin(), srcAbsNeg.end()));

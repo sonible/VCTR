@@ -107,5 +107,39 @@ void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator-= (va
     assignExpressionTemplate (SubtractSingleFromVec<extent, decltype (self)> (self, c));
 }
 
+template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
+ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::min() const
+requires std::totally_ordered<ElementType>
+{
+    return vctr::min << *this;
+}
+
+template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
+ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::minAbs() const
+requires is::number<ElementType>
+{
+    return vctr::minAbs << *this;
+}
+
+template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
+ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::max() const
+requires std::totally_ordered<ElementType>
+{
+    return vctr::max << *this;
+}
+
+template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
+ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::maxAbs() const
+requires is::number<ElementType>
+{
+    return vctr::maxAbs << *this;
+}
+
+template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
+ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::sum() const
+requires has::operatorPlusEquals<ElementType>
+{
+    return vctr::sum << *this;
+}
 
 } // namespace vctr

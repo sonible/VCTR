@@ -29,6 +29,7 @@ class VctrBase : private Config,
                  private StorageInfoType
 {
 public:
+    //==============================================================================
     using value_type = std::remove_cv_t<ElementType>;
 
     /** Returns the extent of this instance, optionally shrank by a certain amount.
@@ -354,35 +355,54 @@ public:
     //==============================================================================
     // Math operators
     //==============================================================================
-    /** Multiplies this by a vector-like type or expression in place */
+    /** Multiplies this by a vector-like type or expression in place. */
     template <is::anyVctrOrExpression V>
     void operator*= (const V& v);
 
-    /** Multiplies this by a constant in place */
+    /** Multiplies this by a constant in place. */
     void operator*= (value_type c);
 
-    /** Divides this by a vector-like type or expression in place */
+    /** Divides this by a vector-like type or expression in place. */
     template <is::anyVctrOrExpression V>
     void operator/= (const V& v);
 
-    /** Divides this by a constant in place */
+    /** Divides this by a constant in place. */
     void operator/= (value_type c);
 
-    /** Adds a vector-like type or expression to this in place */
+    /** Adds a vector-like type or expression to this in place. */
     template <is::anyVctrOrExpression V>
     void operator+= (const V& v);
 
-    /** Adds a constant to this in place */
+    /** Adds a constant to this in place. */
     void operator+= (value_type c);
 
-    /** Subtracts a vector-like type or expression from this in place */
+    /** Subtracts a vector-like type or expression from this in place. */
     template <is::anyVctrOrExpression V>
     void operator-= (const V& v);
 
-    /** Subtracts a constant from this in place */
+    /** Subtracts a constant from this in place. */
     void operator-= (value_type c);
 
+    //==============================================================================
+    // Math reduction operations
+    //==============================================================================
+    /** Returns the minimal value of all elements. */
+    ElementType min() const requires std::totally_ordered<ElementType>;
+
+    /** Returns the minimal absolute value of all elements. */
+    ElementType minAbs() const requires is::number<ElementType>;
+
+    /** Returns the maximum value of all elements. */
+    ElementType max() const requires std::totally_ordered<ElementType>;
+
+    /** Returns the maximum absolute value of all elements. */
+    ElementType maxAbs() const requires is::number<ElementType>;
+
+    /** Returns the sum of all elements. */
+    ElementType sum() const requires has::operatorPlusEquals<ElementType>;
+
 protected:
+    //==============================================================================
     constexpr VctrBase()
         : StorageInfoType (storage)
     {}
@@ -399,20 +419,20 @@ protected:
     {}
 
     //==============================================================================
-    /** In case of a resizable storage, this will resize it to the desired size */
+    /** In case of a resizable storage, this will resize it to the desired size. */
     void resizeOrAssertSizeMatches (size_t desiredSize)
     requires has::resize<StorageType>
     {
         storage.resize (desiredSize);
     }
 
-    /** Asserts that the current size matches the desired size */
+    /** Asserts that the current size matches the desired size. */
     void resizeOrAssertSizeMatches (size_t desiredSize) const
     {
         VCTR_ASSERT (size() == desiredSize);
     }
 
-    /** A runtime assert that the template size argument is not greater than the runtime defined size */
+    /** A runtime assert that the template size argument is not greater than the runtime defined size. */
     template <size_t i>
     constexpr void assertIsInRange() const
     requires (extent == std::dynamic_extent)
@@ -420,7 +440,7 @@ protected:
         VCTR_ASSERT (i < size());
     }
 
-    /** A static assert that the template size argument is not greater than the compile time defined extent */
+    /** A static assert that the template size argument is not greater than the compile time defined extent. */
     template <size_t i>
     constexpr void assertIsInRange() const
     requires (extent != std::dynamic_extent)
@@ -428,7 +448,7 @@ protected:
         static_assert (i < extent);
     }
 
-    /** Throws std::out_of_range and triggers an assertion if i is greater than size() */
+    /** Throws std::out_of_range and triggers an assertion if i is greater than size(). */
     void throwIfOutOfRange (size_t i) const
     {
         if (i >= size())
@@ -623,6 +643,7 @@ protected:
                 storage[i] = e[i];
         }
     }
+
     //==============================================================================
     alignas (StorageInfoType::memberAlignment) StorageType storage;
 };

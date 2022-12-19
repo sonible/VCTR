@@ -29,6 +29,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Max", "[max]", (PlatformVectorOps, VCTR_NATIVE_SIMD
     const auto max = vctr::max << filter << srcA;
     const auto maxU = vctr::max << filter << srcUnaligned;
 
+    REQUIRE (max == srcA.max());
     REQUIRE (max == *std::max_element (srcA.begin(), srcA.end()));
     REQUIRE (maxU == *std::max_element (srcUnaligned.begin(), srcUnaligned.end()));
 
@@ -38,6 +39,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Max", "[max]", (PlatformVectorOps, VCTR_NATIVE_SIMD
     vctr::Vector srcAbs = vctr::abs << srcA;
     vctr::Vector srcAbsU = vctr::abs << srcUnaligned;
 
+    REQUIRE (maxAbs == srcA.maxAbs());
     REQUIRE (maxAbs == *std::max_element (srcAbs.begin(), srcAbs.end()));
     REQUIRE (maxAbsU == *std::max_element (srcAbsU.begin(), srcAbsU.end()));
 }

@@ -29,6 +29,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Sum", "[sum]", (PlatformVectorOps, VCTR_NATIVE_SIMD
     const auto sum = vctr::sum << filter << srcA;
     const auto sumU = vctr::sum << filter << srcUnaligned;
 
+    const auto sumMemFn = srcA.sum();
     const auto ref = std::reduce (srcA.begin(), srcA.end());
     const auto refU = std::reduce (srcUnaligned.begin(), srcUnaligned.end());
 
@@ -36,6 +37,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Sum", "[sum]", (PlatformVectorOps, VCTR_NATIVE_SIMD
 
     if constexpr (vctr::is::complexFloatNumber<ElementType>)
     {
+        REQUIRE_THAT (sum.real(), Catch::Matchers::WithinRel (sumMemFn.real(), eps));
+        REQUIRE_THAT (sum.imag(), Catch::Matchers::WithinRel (sumMemFn.imag(), eps));
         REQUIRE_THAT (sum.real(), Catch::Matchers::WithinRel (ref.real(), eps));
         REQUIRE_THAT (sum.imag(), Catch::Matchers::WithinRel (ref.imag(), eps));
         REQUIRE_THAT (sumU.real(), Catch::Matchers::WithinRel (refU.real(), eps));
@@ -43,11 +46,13 @@ TEMPLATE_PRODUCT_TEST_CASE ("Sum", "[sum]", (PlatformVectorOps, VCTR_NATIVE_SIMD
     }
     else if constexpr (vctr::is::floatNumber<ElementType>)
     {
+        REQUIRE_THAT (sum, Catch::Matchers::WithinRel (sumMemFn, eps));
         REQUIRE_THAT (sum, Catch::Matchers::WithinRel (ref, eps));
         REQUIRE_THAT (sumU, Catch::Matchers::WithinRel (refU, eps));
     }
     else
     {
+        REQUIRE (sum == sumMemFn);
         REQUIRE (sum == ref);
         REQUIRE (sumU == refU);
     }
