@@ -255,7 +255,7 @@ public:
             storage[i] = fn (storage[i], i);
     }
 
-    /** Calls a function on each element and passes the element index as second function argument.
+    /** Calls a function on each element and forwards fnArgs to the function after the value.
 
         The function returns void and might take the elements by reference to mutate them.
      */
@@ -266,7 +266,7 @@ public:
             fn (e, std::forward<Args> (fnArgs)...);
     }
 
-    /** Calls a function on each element and passes the element index as second function argument.
+    /** Calls a function on each element and forwards fnArgs to the function after the value.
 
         The function returns void and must not mutate the elements.
      */
@@ -277,7 +277,7 @@ public:
             fn (e, std::forward<Args> (fnArgs)...);
     }
 
-    /** Calls a function on each element and passes the element index as second function argument.
+    /** Calls a function on each element and forwards fnArgs to the function after the value.
 
         The function returns void and might take the elements by reference to mutate them.
      */
