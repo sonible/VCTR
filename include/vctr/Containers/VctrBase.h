@@ -69,10 +69,29 @@ public:
     /** Returns the number of elements. This overload is a static function, used in case the extent is static. */
     static constexpr size_t size() requires (extent != std::dynamic_extent) { return extent; }
 
-    auto begin()       { return storage.begin(); }
-    auto begin() const { return storage.begin(); }
-    auto end()         { return is::stdArray<StorageType> ? storage.begin() + extent : storage.end(); }
-    auto end()   const { return is::stdArray<StorageType> ? storage.begin() + extent : storage.end(); }
+    /** Returns an iterator to the begin of the storage */
+    constexpr auto begin()       { return storage.begin(); }
+
+    /** Returns a const iterator to the begin of the storage */
+    constexpr auto begin() const { return storage.begin(); }
+
+    /** Returns an iterator to the first element behind the storage */
+    constexpr auto end()         { return is::stdArray<StorageType> ? storage.begin() + extent : storage.end(); }
+
+    /** Returns a const iterator to the first element behind the storage */
+    constexpr auto end()   const { return is::stdArray<StorageType> ? storage.begin() + extent : storage.end(); }
+
+    /** Returns a reverse iterator to the last element in the storage */
+    constexpr auto rbegin()       { return std::reverse_iterator (end()); }
+
+    /** Returns a const reverse iterator to the last element in the storage */
+    constexpr auto rbegin() const { return std::reverse_iterator (end()); }
+
+    /** Returns a reverse iterator to the element before the first element in the storage */
+    constexpr auto rend()         { return std::reverse_iterator (begin()); }
+
+    /** Returns a const reverse iterator to the element before the first element in the storage */
+    constexpr auto rend()   const { return std::reverse_iterator (begin()); }
 
     // clang-format on
 

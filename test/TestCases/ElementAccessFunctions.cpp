@@ -73,3 +73,64 @@ TEMPLATE_TEST_CASE ("Element access functions", "[VctrBase][Element Access]", fl
     REQUIRE_THROWS_AS (v.at (100), std::out_of_range);
     REQUIRE_THROWS_AS (a.at (100), std::out_of_range);
 }
+
+TEMPLATE_TEST_CASE ("Iterators", "[VctrBase][Iterators]", float, int64_t, std::string)
+{
+    constexpr auto numElements = 5;
+
+    auto v = UnitTestValues<TestType>::template vector<numElements, 0>();
+    auto a = UnitTestValues<TestType>::template array<numElements, 0>();
+    auto s = vctr::Span (v);
+
+    const auto cv = UnitTestValues<TestType>::template vector<numElements, 0>();
+    const auto ca = UnitTestValues<TestType>::template array<numElements, 0>();
+    auto cs = vctr::Span (cv);
+
+    auto vIt = v.begin();
+    auto aIt = a.begin();
+    auto sIt = s.begin();
+    auto cvIt = cv.begin();
+    auto caIt = ca.begin();
+    auto csIt = cs.begin();
+
+    for (size_t i = 0; i < numElements; ++i, ++vIt, ++aIt, ++sIt, ++cvIt, ++caIt, ++csIt)
+    {
+        REQUIRE (*vIt == v[i]);
+        REQUIRE (*aIt == a[i]);
+        REQUIRE (*sIt == s[i]);
+        REQUIRE (*cvIt == cv[i]);
+        REQUIRE (*caIt == ca[i]);
+        REQUIRE (*csIt == cs[i]);
+    }
+
+    REQUIRE (vIt == v.end());
+    REQUIRE (aIt == a.end());
+    REQUIRE (sIt == s.end());
+    REQUIRE (cvIt == cv.end());
+    REQUIRE (caIt == ca.end());
+    REQUIRE (csIt == cs.end());
+
+    auto vRIt = v.rbegin();
+    auto aRIt = a.rbegin();
+    auto sRIt = s.rbegin();
+    auto cvRIt = cv.rbegin();
+    auto caRIt = ca.rbegin();
+    auto csRIt = cs.rbegin();
+
+    for (size_t i = numElements; i > 0; --i, ++vRIt, ++aRIt, ++sRIt, ++cvRIt, ++caRIt, ++csRIt)
+    {
+        REQUIRE (*vRIt == v[i - 1]);
+        REQUIRE (*aRIt == a[i - 1]);
+        REQUIRE (*sRIt == s[i - 1]);
+        REQUIRE (*cvRIt == cv[i - 1]);
+        REQUIRE (*caRIt == ca[i - 1]);
+        REQUIRE (*csRIt == cs[i - 1]);
+    }
+
+    REQUIRE (vRIt == v.rend());
+    REQUIRE (aRIt == a.rend());
+    REQUIRE (sRIt == s.rend());
+    REQUIRE (cvRIt == cv.rend());
+    REQUIRE (caRIt == ca.rend());
+    REQUIRE (csRIt == cs.rend());
+}
