@@ -310,15 +310,67 @@ public:
     //==============================================================================
     // Finding elements and manipulating them
     //==============================================================================
+    /** Returns an iterator to the first element that equals valueToLookFor or end() if none was found */
+    constexpr auto find (const ElementType& valueToLookFor)
+    {
+        return std::find (begin(), end(), valueToLookFor);
+    }
+
+    /** Returns a const iterator to the first element that equals valueToLookFor or end() if none was found */
+    constexpr auto find (const ElementType& valueToLookFor) const
+    {
+        return std::find (begin(), end(), valueToLookFor);
+    }
+
+    /** Returns a reverse iterator to the last element in this vector that equals p or rend() if none was found */
+    constexpr auto findReverse (const ElementType& valueToLookFor)
+    {
+        return std::find (rbegin(), rend(), valueToLookFor);
+    }
+
+    /** Returns a const reverse iterator to the last element in this vector that equals p or rend() if none was found */
+    constexpr auto findReverse (const ElementType& valueToLookFor) const
+    {
+        return std::find (rbegin(), rend(), valueToLookFor);
+    }
+
+    /** Returns an iterator to the first element in this vector for which pred returns true or end() if none was found */
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
+    constexpr auto findIf (Fn&& predicate)
+    {
+        return std::find_if (begin(), end(), std::forward<Fn> (predicate));
+    }
+
+    /** Returns a const iterator to the first element in this vector for which pred returns true or end() if none was found */
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
+    constexpr auto findIf (Fn&& predicate) const
+    {
+        return std::find_if (begin(), end(), std::forward<Fn> (predicate));
+    }
+
+    /** Returns a reverse iterator to the last element in this vector for which pred returns true or rend() if none was found */
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
+    constexpr auto findIfReverse (Fn&& predicate)
+    {
+        return std::find_if (rbegin(), rend(), std::forward<Fn> (predicate));
+    }
+
+    /** Returns a const reverse iterator to the last element in this vector for which pred returns true or rend() if none was found */
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
+    constexpr auto findIfReverse (Fn&& predicate) const
+    {
+        return std::find_if (rbegin(), rend(), std::forward<Fn> (predicate));
+    }
+
     /** Returns the number of elements that are equal to valueToLookFor. */
-    size_t count (const ElementType& valueToLookFor)
+    constexpr size_t count (const ElementType& valueToLookFor)
     {
         return std::count (begin(), end(), valueToLookFor);
     }
 
     /** Returns the number of elements that satisfy predicate. */
     template <is::elementPredicateFunction<ElementType> Fn>
-    size_t countIf (Fn&& predicate)
+    constexpr size_t countIf (Fn&& predicate)
     {
         return std::count_if (begin(), end(), std::forward<Fn> (predicate));
     }

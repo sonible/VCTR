@@ -22,7 +22,35 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEST_CASE ("count")
+TEST_CASE ("find, findIf, findReverse, findIfReverse", "[VctrBase][Finding and manipulating elements]")
+{
+    vctr::Array       a { 1, 2, 3, 4, 5, 4, 3, 2, 1, 0 };
+    const vctr::Array b { 1, 2, 3, 4, 5, 4, 3, 2, 1, 0 };
+
+    // Making sure that the right values are found
+    REQUIRE (*a.find (0) == 0);
+    REQUIRE (*a.findReverse (1) == 1);
+    REQUIRE (*b.find (2) == 2);
+    REQUIRE (*b.findReverse (5) == 5);
+
+    // Making sure that the right elements are found in case of duplicates
+    REQUIRE (std::distance (a.begin(), a.find (3)) == 2);
+    REQUIRE (std::distance (b.begin(), b.find (4)) == 3);
+    REQUIRE (std::distance (a.rbegin(), a.findReverse (3)) == 3);
+    REQUIRE (std::distance (b.rbegin(), b.findReverse (4)) == 4);
+
+    vctr::Vector<std::string>       c { "one", "two", "three", "four" };
+    const vctr::Vector<std::string> d { "one", "two", "three", "four" };
+
+    auto beginsWith_t = [] (const auto& s) { return s[0] == 't'; };
+
+    REQUIRE (*c.findIf (beginsWith_t) == "two");
+    REQUIRE (*d.findIf (beginsWith_t) == "two");
+    REQUIRE (*c.findIfReverse (beginsWith_t) == "three");
+    REQUIRE (*d.findIfReverse (beginsWith_t) == "three");
+}
+
+TEST_CASE ("count, countIf", "[VctrBase][Finding and manipulating elements]")
 {
     vctr::Array a { 1, 2, 3, 1, 2, 1, 1, 4 };
 
