@@ -32,6 +32,9 @@ public:
     //==============================================================================
     using value_type = std::remove_cv_t<ElementType>;
 
+    //==============================================================================
+    // Retrieving size related information.
+    //==============================================================================
     /** Returns the extent of this instance, optionally shrank by a certain amount.
 
         In case the instance specifies a dynamic extent, the return value will always be
@@ -42,38 +45,6 @@ public:
     {
         return extent == std::dynamic_extent ? std::dynamic_extent : (extent - amountToShrink);
     }
-
-    //==============================================================================
-    // clang-format off
-    /** Returns a reference to element i. Asserts in debug builds if i >= size() */
-    constexpr auto& operator[] (size_t i)       { VCTR_ASSERT (i < size()); return storage[i]; }
-
-    /** Returns a reference to element i. Asserts in debug builds if i >= size() */
-    constexpr auto& operator[] (size_t i) const { VCTR_ASSERT (i < size()); return storage[i]; }
-
-    /** Returns a reference to element i. Throws std::out_of_range if i >= size() */
-    constexpr auto& at (size_t i)       { throwIfOutOfRange (i); return storage[i]; }
-
-    /** Returns a reference to element i. Throws std::out_of_range if i >= size() */
-    constexpr auto& at (size_t i) const { throwIfOutOfRange (i); return storage[i]; }
-
-    /** Returns a reference to the first element. */
-    constexpr auto&& front() { return storage.front(); }
-
-    /** Returns a reference to the first element. */
-    constexpr auto&& front() const { return storage.front(); }
-
-    /** Returns a reference to the last element. */
-    constexpr auto&& back() { return storage[backIdx()]; }
-
-    /** Returns a reference to the last element. */
-    constexpr auto&& back() const { return storage[backIdx()]; }
-
-    /** Returns a raw pointer to the underlying storage */
-    auto* data()       { return storage.data(); }
-
-    /** Returns a raw pointer to the underlying storage */
-    auto* data() const { return storage.data(); }
 
     /** Returns the number of elements. This overload is a non-static function, used in case the extent is dynamic. */
     constexpr size_t size() const noexcept requires (extent == std::dynamic_extent) { return storage.size(); }
@@ -108,6 +79,39 @@ public:
      */
     static constexpr size_t backIdx() noexcept requires (extent != std::dynamic_extent) { return size() - 1; }
 
+    //==============================================================================
+    // Accessing elements.
+    //==============================================================================
+    /** Returns a reference to element i. Asserts in debug builds if i >= size() */
+    constexpr auto& operator[] (size_t i)       { VCTR_ASSERT (i < size()); return storage[i]; }
+
+    /** Returns a reference to element i. Asserts in debug builds if i >= size() */
+    constexpr auto& operator[] (size_t i) const { VCTR_ASSERT (i < size()); return storage[i]; }
+
+    /** Returns a reference to element i. Throws std::out_of_range if i >= size() */
+    constexpr auto& at (size_t i)       { throwIfOutOfRange (i); return storage[i]; }
+
+    /** Returns a reference to element i. Throws std::out_of_range if i >= size() */
+    constexpr auto& at (size_t i) const { throwIfOutOfRange (i); return storage[i]; }
+
+    /** Returns a reference to the first element. */
+    constexpr auto&& front() { return storage.front(); }
+
+    /** Returns a reference to the first element. */
+    constexpr auto&& front() const { return storage.front(); }
+
+    /** Returns a reference to the last element. */
+    constexpr auto&& back() { return storage[backIdx()]; }
+
+    /** Returns a reference to the last element. */
+    constexpr auto&& back() const { return storage[backIdx()]; }
+
+    /** Returns a raw pointer to the underlying storage */
+    auto* data()       { return storage.data(); }
+
+    /** Returns a raw pointer to the underlying storage */
+    auto* data() const { return storage.data(); }
+
     /** Returns an iterator to the begin of the storage */
     constexpr auto begin()       { return storage.begin(); }
 
@@ -132,8 +136,8 @@ public:
     /** Returns a const reverse iterator to the element before the first element in the storage */
     constexpr auto rend()   const { return std::reverse_iterator (begin()); }
 
-    // clang-format on
-
+    //==============================================================================
+    // Accessing sub spans.
     //==============================================================================
     /** Returns a Span that views a portion of this instance, starting at startIdx with a length of size() - startIdx.
 
@@ -222,6 +226,8 @@ public:
     }
 
     //==============================================================================
+    // Assign data.
+    //==============================================================================
     /** Copies the content from otherData to this instance.
 
         In case the storage of this instance is resizable, it will resize it if necessary. Otherwise, it will
@@ -242,7 +248,7 @@ public:
     }
 
     //==============================================================================
-    // For each functionality
+    // For each functionality.
     //==============================================================================
     /** Calls a function on each element.
 
@@ -347,7 +353,7 @@ public:
     }
 
     //==============================================================================
-    // Finding elements and manipulating them
+    // Finding elements and manipulating them.
     //==============================================================================
     /** Returns an iterator to the first element that equals valueToLookFor or end() if none was found */
     constexpr auto find (const ElementType& valueToLookFor)
@@ -415,9 +421,8 @@ public:
     }
 
     //==============================================================================
-    // SIMD Register Access
+    // SIMD Register Access.
     //==============================================================================
-
     NeonRegister<std::remove_const_t<ElementType>> getNeon (size_t i) const
     requires archARM && is::realNumber<ElementType>
     {
@@ -448,6 +453,11 @@ public:
     }
 
     //==============================================================================
+    // Expression chain related functions
+    //==============================================================================
+    /** Evaluates a certain expression in place on this vector, e.g. it assigns the
+        expression result back to the vector.
+     */
     template <is::expressionChainBuilder ExpressionChain>
     void evalInPlace (const ExpressionChain&)
     {
@@ -463,7 +473,7 @@ public:
     constexpr const StorageInfoType& getStorageInfo() const { return *this; }
 
     //==============================================================================
-    // Math operators
+    // Math operators.
     //==============================================================================
     /** Multiplies this by a vector-like type or expression in place. */
     template <is::anyVctrOrExpression V>
@@ -494,7 +504,7 @@ public:
     void operator-= (value_type c);
 
     //==============================================================================
-    // Math reduction operations
+    // Math reduction operations.
     //==============================================================================
     /** Returns the minimal value of all elements. */
     ElementType min() const requires std::totally_ordered<ElementType>;
