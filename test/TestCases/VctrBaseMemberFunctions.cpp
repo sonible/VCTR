@@ -247,3 +247,42 @@ TEST_CASE ("forEach", "[VctrBaseMemberFunctions]")
 
     REQUIRE (sum1 == sum2);
 }
+
+TEST_CASE ("empty", "[VctrBaseMemberFunctions]")
+{
+    auto a = UnitTestValues<int32_t>::template array<10, 2>();
+    auto ae = vctr::Array<int32_t, 0>();
+    vctr::Span spanFromA (a);
+    vctr::Span spanFromAe (ae);
+
+    REQUIRE_FALSE (a.empty());
+    REQUIRE_FALSE (spanFromA.empty());
+    REQUIRE (ae.empty());
+    REQUIRE (spanFromAe.empty());
+
+    auto v = UnitTestValues<int32_t>::template vector<10, 1>();
+
+    REQUIRE_FALSE (v.empty());
+    REQUIRE_FALSE (vctr::Span (v).empty());
+
+    v.clear();
+
+    REQUIRE (v.empty());
+    REQUIRE (vctr::Span (v).empty());
+}
+
+TEST_CASE ("sizeInBytes", "[VctrBaseMemberFunctions]")
+{
+    auto v = UnitTestValues<int32_t>::template vector<100, 1>();
+    auto a = UnitTestValues<int32_t>::template array<100, 2>();
+    vctr::Span spanFromV (v);
+    vctr::Span spanFromA (a);
+
+    constexpr auto sizeOfA = a.sizeInBytes();
+    constexpr auto sizeOfSpanFromA = spanFromA.sizeInBytes();
+
+    REQUIRE (v.sizeInBytes() == 400);
+    REQUIRE (spanFromV.sizeInBytes() == 400);
+    REQUIRE (sizeOfA == 400);
+    REQUIRE (sizeOfSpanFromA == std::span (a).size_bytes());
+}

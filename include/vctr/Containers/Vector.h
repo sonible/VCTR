@@ -174,16 +174,66 @@ public:
         return { Vctr::begin(), Vctr::end() };
     }
 
+    /** Changes the size of this vector, potentially allocating memory.
+
+        This is a standard interface function forwarded to std::vector::resize().
+     */
     constexpr void resize (size_t i) { Vctr::storage.resize (i); }
 
+    /** Pre-allocates memory for the given number of elements.
+
+        This is a standard interface function forwarded to std::vector::reserve().
+     */
     constexpr void reserve (size_t i) { Vctr::storage.reserve (i); }
 
-    constexpr void push_back (ElementType&& newElement) { Vctr::storage.push_back (std::move (newElement)); }
+    /** Adjusts the allocated memory to the actual number of elements.
 
-    constexpr void push_back (const ElementType& newElement) { Vctr::storage.push_back (newElement); }
+        This is a standard interface function forwarded to std::vector::shrink_to_fit().
+     */
+    constexpr void shrink_to_fit() { Vctr::storage.shrink_to_fit(); }
 
+    /** Adds an element to the end of the vector.
+
+        This is a standard interface function forwarded to std::vector::push_back()
+        but it adds a return value.
+
+        @returns a reference to the just added element.
+     */
+    constexpr ElementType& push_back (ElementType&& newElement) { Vctr::storage.push_back (std::move (newElement)); return Vctr::storage.back(); }
+
+    /** Adds an element to the end of the vector.
+
+        This is a standard interface function forwarded to std::vector::push_back()
+        but it adds a return value.
+
+        @returns a reference to the just added element.
+     */
+    constexpr ElementType& push_back (const ElementType& newElement) { Vctr::storage.push_back (newElement); return Vctr::storage.back(); }
+
+    /** Constructs an element in-place at the end of the vector
+
+        This is a standard interface function forwarded to std::vector::emplace_back().
+     */
     template <class... Args>
     constexpr void emplace_back (Args&&... args) { Vctr::storage.emplace_back (std::forward<Args> (args)...); }
+
+    /** Erase all elements from the vector.
+
+        This is a standard interface function forwarded to std::vector::clear().
+     */
+    constexpr void clear() noexcept { Vctr::storage.clear(); }
+
+    /** Returns the number of elements the vector can currently hold without re-allocation. */
+    constexpr size_t capacity() const noexcept { return Vctr::storage.capacity(); }
+
+    /** Returns the allocator associated with the vector.
+
+        This is a standard interface function forwarded to std::vector::get_allocator().
+     */
+    constexpr Allocator<ElementType> get_allocator() const noexcept { return Vctr::storage.get_allocator(); }
+
+    /** Returns the maximum number of elements the container is able to hold. */
+    constexpr size_t max_size() const noexcept { return Vctr::storage.max_size(); }
 };
 
 /** A handy shortcut for Vector<std::unique_ptr<OwnedElementType>>. */

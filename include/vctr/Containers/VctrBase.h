@@ -64,10 +64,37 @@ public:
     auto* data() const { return storage.data(); }
 
     /** Returns the number of elements. This overload is a non-static function, used in case the extent is dynamic. */
-    size_t size() const requires (extent == std::dynamic_extent) { return storage.size(); }
+    constexpr size_t size() const noexcept requires (extent == std::dynamic_extent) { return storage.size(); }
 
     /** Returns the number of elements. This overload is a static function, used in case the extent is static. */
-    static constexpr size_t size() requires (extent != std::dynamic_extent) { return extent; }
+    static constexpr size_t size() noexcept requires (extent != std::dynamic_extent) { return extent; }
+
+    /** Checks whether the container is empty. */
+    constexpr bool empty() const noexcept { return storage.empty(); }
+
+    /** Returns the container size in bytes.
+
+        This overload is a non-static function, used in case the extent is dynamic.
+     */
+    constexpr size_t sizeInBytes() const noexcept requires (extent == std::dynamic_extent) { return size() * sizeof (value_type); }
+
+    /** Returns the container size in bytes.
+
+        This overload is a static function, used in case the extent is static.
+     */
+    static constexpr size_t sizeInBytes() noexcept requires (extent != std::dynamic_extent) { return size() * sizeof (value_type); }
+
+    /** Returns the index referring to the last element in the vector.
+
+        This overload is a non-static function, used in case the extent is dynamic.
+     */
+    constexpr size_t backIdx() const noexcept requires (extent == std::dynamic_extent) { return size() - 1; }
+
+    /** Returns the index referring to the last element in the vector.
+
+        This overload is a static function, used in case the extent is static.
+     */
+    static constexpr size_t backIdx() noexcept requires (extent != std::dynamic_extent) { return size() - 1; }
 
     /** Returns an iterator to the begin of the storage */
     constexpr auto begin()       { return storage.begin(); }
