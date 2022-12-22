@@ -57,6 +57,18 @@ public:
     /** Returns a reference to element i. Throws std::out_of_range if i >= size() */
     constexpr auto& at (size_t i) const { throwIfOutOfRange (i); return storage[i]; }
 
+    /** Returns a reference to the first element. */
+    constexpr auto&& front() { return storage.front(); }
+
+    /** Returns a reference to the first element. */
+    constexpr auto&& front() const { return storage.front(); }
+
+    /** Returns a reference to the last element. */
+    constexpr auto&& back() { return storage[backIdx()]; }
+
+    /** Returns a reference to the last element. */
+    constexpr auto&& back() const { return storage[backIdx()]; }
+
     /** Returns a raw pointer to the underlying storage */
     auto* data()       { return storage.data(); }
 
