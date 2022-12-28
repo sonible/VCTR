@@ -463,7 +463,79 @@ public:
     }
 
     //==============================================================================
-    // SIMD Register Access.
+    // Shuffling and sorting elements
+    //==============================================================================
+    /** Reverses the order of all elements */
+    constexpr void reverse()
+    {
+        std::reverse (begin(), end());
+    }
+
+    /** Rotates the elements so that the element with the index newFirstElementIdx becomes the first
+        element and the element with the index newFirstElementIdx - 1 becomes the last element.
+     */
+    constexpr void rotate (size_t newFirstElementIdx)
+    {
+        VCTR_ASSERT (newFirstElementIdx < size());
+        std::rotate (begin(), begin() + newFirstElementIdx, end());
+    }
+
+    /** Shifts all elements to the left by n.
+
+        In other words: It shifts the elements so that the element with the index n becomes the first
+        element. If clearFreeSpaceAfterShiftedRegion is true, it clears all elements behind the shifted
+        region by setting the memory to 0, otherwise it leaves that region as it was. For maximum
+        efficiency, this works on a raw memory basis, so the elements have to be trivially copyable.
+     */
+    void shiftLeft (size_t n, bool clearFreeSpaceAfterShiftedRegion)
+    requires std::is_trivially_copyable_v<ElementType>
+    {
+        if (n == size())
+        {
+            if (clearFreeSpaceAfterShiftedRegion)
+                clear (data(), size());
+
+            return;
+        }
+
+        VCTR_ASSERT (n < size());
+
+        auto numElementsToMove = size() - n;
+        move (data() + n, data(), numElementsToMove);
+
+        if (clearFreeSpaceAfterShiftedRegion)
+            clear (data() + numElementsToMove, n);
+    }
+
+    /** Shifts all elements to the right by n.
+
+        In other words: It shifts the elements so that the previous first element now is the element with the
+        index n. If clearFreeSpaceBeforeShiftedRegion is true, it clears all elements before the shifted
+        region by setting the memory to 0, otherwise it leaves that region as it was. For maximum
+        efficiency, this works on a raw memory basis, so the elements have to be trivially copyable.
+     */
+    void shiftRight (size_t n, bool clearFreeSpaceBeforeShiftedRegion)
+    requires std::is_trivially_copyable_v<ElementType>
+    {
+        if (n == size())
+        {
+            if (clearFreeSpaceBeforeShiftedRegion)
+                clear (data(), size());
+
+            return;
+        }
+
+        VCTR_ASSERT (n < size());
+
+        const auto numElementsToMove = size() - n;
+        move (data(), data() + n, numElementsToMove);
+
+        if (clearFreeSpaceBeforeShiftedRegion)
+            clear (data(), n);
+    }
+
+    //==============================================================================
+    // SIMD Register Access
     //==============================================================================
     NeonRegister<std::remove_const_t<ElementType>> getNeon (size_t i) const
     requires archARM && is::realNumber<ElementType>
@@ -564,6 +636,20 @@ public:
     ElementType sum() const requires has::operatorPlusEquals<ElementType>;
 
 protected:
+    //==============================================================================
+    /** Sets numElements elements pointed to by ptr to zero */
+    static void clear (ElementType* ptr, size_t numElements)
+    {
+        std::memset (ptr, 0, numElements * sizeof (ElementType));
+    }
+
+    /** Moves numElements elements from src to dst */
+    static void move (const ElementType* src, ElementType* dst, size_t numElements)
+    requires std::is_trivially_copyable_v<ElementType>
+    {
+        std::memmove (dst, src, numElements * sizeof (ElementType));
+    }
+
     //==============================================================================
     constexpr VctrBase()
         : StorageInfoType (storage)
