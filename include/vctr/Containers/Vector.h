@@ -154,7 +154,7 @@ public:
     }
 
     /** Creates an Vector from an iterator and a sentinel by initialising the Vector with the content read from the iterator. */
-    template <is::suitableInputIteratorForElementType<ElementType> Iterator, std::sentinel_for<Iterator> Sentinel>
+    template <is::inputIteratorToConstructValuesOfType<ElementType> Iterator, std::sentinel_for<Iterator> Sentinel>
     constexpr Vector (Iterator first, Sentinel last) : Vctr (StdVectorType (first, last)) {}
 
     /** Creates a vector of the given size and initialises all elements by calling initializerFunction with the
