@@ -286,3 +286,69 @@ TEST_CASE ("sizeInBytes", "[VctrBaseMemberFunctions]")
     REQUIRE (sizeOfA == 400);
     REQUIRE (sizeOfSpanFromA == std::span (a).size_bytes());
 }
+
+TEST_CASE ("reverse, rotate", "[VctrBaseMemberFunctions]")
+{
+    auto loremIpsum = UnitTestValues<std::string>::template array<5, 1>();
+
+    loremIpsum.reverse();
+    REQUIRE (loremIpsum[0] == "amet");
+    REQUIRE (loremIpsum[1] == "sit");
+    REQUIRE (loremIpsum[2] == "dolor");
+    REQUIRE (loremIpsum[3] == "ipsum");
+    REQUIRE (loremIpsum[4] == "Lorem");
+
+    loremIpsum.rotate (2);
+    REQUIRE (loremIpsum[0] == "dolor");
+    REQUIRE (loremIpsum[1] == "ipsum");
+    REQUIRE (loremIpsum[2] == "Lorem");
+    REQUIRE (loremIpsum[3] == "amet");
+    REQUIRE (loremIpsum[4] == "sit");
+}
+
+TEST_CASE ("shift", "[VctrBaseMemberFunctions]")
+{
+    vctr::Array a { 0, 1, 2, 3, 4 };
+
+    SECTION ("shiftRight, don't clear")
+    {
+        a.shiftRight (2, false);
+        vctr::Array shifted { 0, 1, 0, 1, 2 };
+        REQUIRE_THAT (shifted, vctr::Equals (a));
+    }
+
+    SECTION ("shiftRight, clear")
+    {
+        a.shiftRight (2, true);
+        vctr::Array shifted { 0, 0, 0, 1, 2 };
+        REQUIRE_THAT (shifted, vctr::Equals (a));
+    }
+
+    SECTION ("shiftLeft, don't clear")
+    {
+        a.shiftLeft (3, false);
+        vctr::Array shifted { 3, 4, 2, 3, 4 };
+        REQUIRE_THAT (shifted, vctr::Equals (a));
+    }
+
+    SECTION ("shiftLeft, clear")
+    {
+        a.shiftLeft (3, true);
+        vctr::Array shifted { 3, 4, 0, 0, 0 };
+        REQUIRE_THAT (shifted, vctr::Equals (a));
+    }
+
+    SECTION ("shift by entire size, don't clear")
+    {
+        auto aCopy = a;
+        a.shiftRight (a.size(), false);
+        REQUIRE_THAT (aCopy, vctr::Equals (a));
+    }
+
+    SECTION ("shift by entire size, clear")
+    {
+        a.shiftRight (a.size(), true);
+        vctr::Array zeros { 0, 0, 0, 0, 0 };
+        REQUIRE_THAT (zeros, vctr::Equals (a));
+    }
+}
