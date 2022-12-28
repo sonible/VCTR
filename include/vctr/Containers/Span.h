@@ -35,7 +35,7 @@ consteval auto simdAlignedSpanStorageInfo() { return StaticStorageInfo<true, fal
 
 /** The view type.
 
-    Wraps a std::span and acts as a view to continuous data owned and stored somewhere else.
+    Wraps a std::span and acts as a view to contiguous data owned and stored somewhere else.
     All containers that offer a size and data interface are implicitly convertible into a Span.
     Note that unlike Vector and Array, Spans have a const ElementType in case they view non-mutable data. This means,
     e.g. a const Vector<Foo> will be converted into a Span<const Foo>.

@@ -128,7 +128,7 @@ public:
     }
 
     /** Creates an Array from an iterator and a sentinel by initialising the Array with the content read from the iterator. */
-    template <is::suitableInputIteratorForElementType<ElementType> Iterator, std::sentinel_for<Iterator> Sentinel>
+    template <is::inputIteratorToConstructValuesOfType<ElementType> Iterator, std::sentinel_for<Iterator> Sentinel>
     constexpr Array (Iterator first, [[maybe_unused]] Sentinel last)
     {
         for (size_t i = 0; i < extent; ++i, ++first)
