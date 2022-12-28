@@ -356,51 +356,55 @@ public:
     // Finding elements and manipulating them.
     //==============================================================================
     /** Returns an iterator to the first element that equals valueToLookFor or end() if none was found */
-    constexpr auto find (const ElementType& valueToLookFor)
+    template <std::equality_comparable_with<ElementType> T>
+    constexpr auto find (const T& valueToLookFor)
     {
         return std::find (begin(), end(), valueToLookFor);
     }
 
     /** Returns a const iterator to the first element that equals valueToLookFor or end() if none was found */
-    constexpr auto find (const ElementType& valueToLookFor) const
+    template <std::equality_comparable_with<ElementType> T>
+    constexpr auto find (const T& valueToLookFor) const
     {
         return std::find (begin(), end(), valueToLookFor);
     }
 
-    /** Returns a reverse iterator to the last element in this vector that equals p or rend() if none was found */
-    constexpr auto findReverse (const ElementType& valueToLookFor)
+    /** Returns a reverse iterator to the last element in this vector that equals valueToLookFor or rend() if none was found */
+    template <std::equality_comparable_with<ElementType> T>
+    constexpr auto findReverse (const T& valueToLookFor)
     {
         return std::find (rbegin(), rend(), valueToLookFor);
     }
 
-    /** Returns a const reverse iterator to the last element in this vector that equals p or rend() if none was found */
-    constexpr auto findReverse (const ElementType& valueToLookFor) const
+    /** Returns a const reverse iterator to the last element in this vector that equals valueToLookFor or rend() if none was found */
+    template <std::equality_comparable_with<ElementType> T>
+    constexpr auto findReverse (const T& valueToLookFor) const
     {
         return std::find (rbegin(), rend(), valueToLookFor);
     }
 
-    /** Returns an iterator to the first element in this vector for which pred returns true or end() if none was found */
+    /** Returns an iterator to the first element in this vector for which predicate returns true or end() if none was found */
     template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
     constexpr auto findIf (Fn&& predicate)
     {
         return std::find_if (begin(), end(), std::forward<Fn> (predicate));
     }
 
-    /** Returns a const iterator to the first element in this vector for which pred returns true or end() if none was found */
+    /** Returns a const iterator to the first element in this vector for which predicate returns true or end() if none was found */
     template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
     constexpr auto findIf (Fn&& predicate) const
     {
         return std::find_if (begin(), end(), std::forward<Fn> (predicate));
     }
 
-    /** Returns a reverse iterator to the last element in this vector for which pred returns true or rend() if none was found */
+    /** Returns a reverse iterator to the last element in this vector for which predicate returns true or rend() if none was found */
     template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
     constexpr auto findIfReverse (Fn&& predicate)
     {
         return std::find_if (rbegin(), rend(), std::forward<Fn> (predicate));
     }
 
-    /** Returns a const reverse iterator to the last element in this vector for which pred returns true or rend() if none was found */
+    /** Returns a const reverse iterator to the last element in this vector for which predicate returns true or rend() if none was found */
     template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
     constexpr auto findIfReverse (Fn&& predicate) const
     {
@@ -418,6 +422,44 @@ public:
     constexpr size_t countIf (Fn&& predicate) const
     {
         return std::count_if (begin(), end(), std::forward<Fn> (predicate));
+    }
+
+    /** Returns true if all elements satisfy the predicate or if the container is empty */
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
+    constexpr bool all (Fn&& predicate) const
+    {
+        return std::all_of (begin(), end(), std::forward<Fn> (predicate));
+    }
+
+    /** Returns true if one or more elements satisfy the predicate */
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
+    constexpr bool any (Fn&& predicate) const
+    {
+        return std::any_of (begin(), end(), std::forward<Fn> (predicate));
+    }
+
+    /** Returns true if all elements are equal to value or if the container is empty*/
+    template <std::equality_comparable_with<ElementType> T>
+    constexpr bool allElementsEqual (const T& value) const
+    {
+        return all ([&] (const auto& e) { return e == value; });
+    }
+
+    /** Returns true if all elements are equal to themselves */
+    constexpr bool allElementsEqual() const
+    requires std::equality_comparable<ElementType>
+    {
+        if (size() < 2)
+            return true;
+
+        return std::all_of (begin() + 1, end(), [&v = storage[0]] (const auto& e) { return v == e; });
+    }
+
+    /** Returns true if at least one element is equal to value */
+    template <std::equality_comparable_with<ElementType> T>
+    constexpr bool contains (const T& value) const
+    {
+        return find (value) != end();
     }
 
     //==============================================================================

@@ -22,7 +22,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEST_CASE ("find, findIf, findReverse, findIfReverse", "[VctrBase][Finding and manipulating elements]")
+TEST_CASE ("find, findIf, findReverse, findIfReverse, contains", "[VctrBase][Finding and manipulating elements]")
 {
     vctr::Array       a { 1, 2, 3, 4, 5, 4, 3, 2, 1, 0 };
     const vctr::Array b { 1, 2, 3, 4, 5, 4, 3, 2, 1, 0 };
@@ -32,6 +32,10 @@ TEST_CASE ("find, findIf, findReverse, findIfReverse", "[VctrBase][Finding and m
     REQUIRE (*a.findReverse (1) == 1);
     REQUIRE (*b.find (2) == 2);
     REQUIRE (*b.findReverse (5) == 5);
+
+    REQUIRE (a.contains (2));
+    REQUIRE (b.contains (0));
+    REQUIRE_FALSE (a.contains (-1));
 
     // Making sure that the right elements are found in case of duplicates
     REQUIRE (std::distance (a.begin(), a.find (3)) == 2);
@@ -70,4 +74,20 @@ TEST_CASE ("count, countIf", "[VctrBase][Finding and manipulating elements]")
     REQUIRE (b.countIf ([] (auto v) { return v < 3; }) == 6);
     REQUIRE (a.countIf ([] (auto v) { return v % 2 != 0; }) == 5);
     REQUIRE (b.countIf ([] (auto v) { return v % 2 != 0; }) == 5);
+}
+
+TEST_CASE ("all, any, allElementsEqual", "[VctrBase][Finding and manipulating elements]")
+{
+    const auto loremIpsum = UnitTestValues<std::string>::template array<10, 0>();
+
+    REQUIRE       (loremIpsum.any ([] (const std::string& s) { return s.starts_with ('s'); }));
+    REQUIRE_FALSE (loremIpsum.all ([] (const std::string& s) { return s.starts_with ('s'); }));
+    REQUIRE_FALSE (loremIpsum.allElementsEqual());
+
+    const vctr::Array sameValues = { -2, -2, -2, -2, -2 };
+
+    REQUIRE (sameValues.all ([] (const auto& v) { return v < 0; }));
+    REQUIRE (sameValues.allElementsEqual());
+    REQUIRE (sameValues.allElementsEqual (-2));
+    REQUIRE_FALSE (sameValues.allElementsEqual (3));
 }
