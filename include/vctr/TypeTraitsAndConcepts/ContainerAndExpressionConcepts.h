@@ -325,7 +325,11 @@ concept suitableInitializerFunctionForElementType = suitableInitializerFunction<
 
 /** Constrains the type to be an input iterator with a value type suitable to construct an ElementType. */
 template <class T, class ElementType>
-concept suitableInputIteratorForElementType = std::input_iterator<T> && std::constructible_from<ElementType, std::iter_value_t<T>>;
+concept inputIteratorToConstructValuesOfType = std::input_iterator<T> && std::constructible_from<ElementType, std::iter_value_t<T>>;
+
+/** Constrains the type to be a contiguous iterator with a value type same as ElementType. */
+template <class T, class ElementType>
+concept contiguousIteratorWithValueTypeSameAs = std::contiguous_iterator<T> && std::same_as<ElementType, std::iter_value_t<T>>;
 
 /** Constrains the type to be suitable for initializing a single element Vctr, that is, it is not of any other type
     for which special single argument constructors exist, so no ambiguity can arise.
