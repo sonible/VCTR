@@ -88,8 +88,4 @@ concept functionWithSignature = detail::FunctionWithSignature<Fn, Signature>::va
 template <class Fn, class Signature>
 concept functionWithSignatureOrImplicitlyConvertible = detail::FunctionWithSignatureOrImplicitlyConvertible<Fn, Signature>::value;
 
-/** Constrains a type to be a function that takes a const ElementType& argument and returns a bool */
-template <class T, class ElementType>
-concept elementPredicateFunction = requires (T&& fn, const ElementType& e, bool r) { r = fn (e); };
-
 } // namespace vctr::is
