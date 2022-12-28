@@ -408,14 +408,14 @@ public:
     }
 
     /** Returns the number of elements that are equal to valueToLookFor. */
-    constexpr size_t count (const ElementType& valueToLookFor)
+    constexpr size_t count (const ElementType& valueToLookFor) const
     {
         return std::count (begin(), end(), valueToLookFor);
     }
 
     /** Returns the number of elements that satisfy predicate. */
     template <is::elementPredicateFunction<ElementType> Fn>
-    constexpr size_t countIf (Fn&& predicate)
+    constexpr size_t countIf (Fn&& predicate) const
     {
         return std::count_if (begin(), end(), std::forward<Fn> (predicate));
     }

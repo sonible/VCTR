@@ -53,13 +53,21 @@ TEST_CASE ("find, findIf, findReverse, findIfReverse", "[VctrBase][Finding and m
 TEST_CASE ("count, countIf", "[VctrBase][Finding and manipulating elements]")
 {
     vctr::Array a { 1, 2, 3, 1, 2, 1, 1, 4 };
+    const vctr::Array b { 1, 2, 3, 1, 2, 1, 1, 4 };
 
     REQUIRE (a.count (1) == 4);
+    REQUIRE (b.count (1) == 4);
     REQUIRE (a.count (2) == 2);
+    REQUIRE (b.count (2) == 2);
     REQUIRE (a.count (3) == 1);
+    REQUIRE (b.count (3) == 1);
     REQUIRE (a.count (4) == 1);
+    REQUIRE (b.count (4) == 1);
     REQUIRE (a.count (5) == 0);
+    REQUIRE (b.count (5) == 0);
 
     REQUIRE (a.countIf ([] (auto v) { return v < 3; }) == 6);
+    REQUIRE (b.countIf ([] (auto v) { return v < 3; }) == 6);
     REQUIRE (a.countIf ([] (auto v) { return v % 2 != 0; }) == 5);
+    REQUIRE (b.countIf ([] (auto v) { return v % 2 != 0; }) == 5);
 }
