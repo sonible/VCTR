@@ -414,7 +414,7 @@ public:
     }
 
     /** Returns the number of elements that satisfy predicate. */
-    template <is::elementPredicateFunction<ElementType> Fn>
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
     constexpr size_t countIf (Fn&& predicate) const
     {
         return std::count_if (begin(), end(), std::forward<Fn> (predicate));
