@@ -38,6 +38,12 @@ struct IsStdUniquePtr : std::false_type {};
 
 template <class T, class D>
 struct IsStdUniquePtr<std::unique_ptr<T, D>> : std::true_type {};
+
+template <class T>
+struct IsStdTuple : std::false_type {};
+
+template <class... T>
+struct IsStdTuple<std::tuple<T...>> : std::true_type {};
 // clang-format on
 
 } // namespace vctr::detail
@@ -66,6 +72,10 @@ concept noPointer = ! std::is_pointer_v<std::remove_cvref_t<T>>;
 /** Constrains the type to be any instance of std::unique_ptr */
 template <class T>
 concept uniquePtr = detail::IsStdUniquePtr<T>::value;
+
+/** Constrains the type to be any instance of std::tuple */
+template <class T>
+concept stdTuple = detail::IsStdTuple<T>::value;
 
 /** Constrains the type to be a wrapper class that defines a static const value field */
 template <class T>
