@@ -80,9 +80,19 @@ concept stdTuple = detail::IsStdTuple<T>::value;
 template <class T, class... TupleTypes>
 concept stdTupleWithTypes = std::same_as<T, std::tuple<TupleTypes...>>;
 
-/** Constrains the type to be a wrapper class that defines a static const value field */
-template <class T>
-concept constantWrapper = requires (T, std::any a) { a = T::value; };
+/** Constrains the type to be a class that defines a static const value field.
+
+    Suitable classes are e.g. std::integral_constant and vctr::Constant.
+ */
+template <class C>
+concept constant = requires (std::any a) { a = C::value; };
+
+/** Constrains the type to be a class that defines a static const value field of a certain type.
+
+    Suitable classes are e.g. std::integral_constant and vctr::Constant.
+ */
+template <class C, class T>
+concept constantWithType = std::same_as<T, std::remove_cvref_t<decltype (C::value)>>;
 
 // clang-format on
 

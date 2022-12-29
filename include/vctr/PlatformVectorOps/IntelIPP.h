@@ -61,7 +61,8 @@ public:
     static void div (const float* srcA, float srcB,        float* dst, int len) { assertIppNoErr (ippsDivC_32f (srcA, srcB, dst, len)); }
     static void div (float srcA,        const float* srcB, float* dst, int len) { assertIppNoErr (ippsDivCRev_32f (srcB, srcA, dst, len)); }
 
-    static void threshold (const float* src, float thresh, float* dst, int len) { assertIppNoErr (ippsThreshold_32f (src, dst, len, thresh, ippCmpLess)); }
+    static void clampLow  (const float* src, float thresh, float* dst, int len) { assertIppNoErr (ippsThreshold_LT_32f (src, dst, len, thresh)); }
+    static void clampHigh (const float* src, float thresh, float* dst, int len) { assertIppNoErr (ippsThreshold_GT_32f (src, dst, len, thresh)); }
 
     static void ln    (const float* src, float* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLn_32f (src, dst, len)); }
     static void log10 (const float* src, float* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLog10_32f_A24 (src, dst, len)); }
@@ -90,7 +91,8 @@ public:
     static void div (const double* srcA, const double* srcB, double* dst, int len) { assertIppNoErr (ippsDiv_64f (srcB, srcA, dst, len)); }
     static void div (const double* srcA, double srcB,        double* dst, int len) { assertIppNoErr (ippsDivC_64f (srcA, srcB, dst, len)); }
 
-    static void threshold (const double* src, float thresh,  double* dst, int len) { assertIppNoErr (ippsThreshold_64f (src, dst, len, thresh, ippCmpLess)); }
+    static void clampLow  (const double* src, float thresh,  double* dst, int len) { assertIppNoErr (ippsThreshold_LT_64f (src, dst, len, thresh)); }
+    static void clampHigh (const double* src, float thresh,  double* dst, int len) { assertIppNoErr (ippsThreshold_GT_64f (src, dst, len, thresh)); }
 
     static void ln    (const double* src, double* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLn_64f (src, dst, len)); }
     static void log10 (const double* src, double* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLog10_64f_A53 (src, dst, len)); }
