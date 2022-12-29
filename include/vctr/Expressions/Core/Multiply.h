@@ -168,7 +168,7 @@ private:
 
 //==============================================================================
 /** Multiplies a vector like type by a single compile time constant value. */
-template <size_t extent, class SrcType, is::constantWrapper ConstantType>
+template <size_t extent, class SrcType, is::constant ConstantType>
 class MultiplyVecByConstant : ExpressionTemplateBase
 {
 public:
