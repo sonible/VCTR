@@ -26,7 +26,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEMPLATE_TEST_CASE ("Element access functions", "[VctrBase][Element Access]", float, int64_t, std::string)
+TEMPLATE_TEST_CASE ("Element access functions", "[VctrBase][Element Access]", bool, float, int64_t, std::string)
 {
     auto v = UnitTestValues<TestType>::template vector<100, 0>();
     auto a = UnitTestValues<TestType>::template array<100, 0>();

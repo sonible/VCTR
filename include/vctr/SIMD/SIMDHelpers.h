@@ -64,8 +64,15 @@ namespace vctr
     variable as static constexpr in order to make this struct as lightweight as possible in most cases.
 
  */
-template <has::sizeAndData StorageType>
+
+template <class StorageType>
 struct StorageInfo
+{
+    // The default implementation is empty and should never be used
+};
+
+template <has::sizeAndData StorageType>
+struct StorageInfo<StorageType>
 {
     StorageInfo (const StorageType& storage)
         : dataIsSIMDAligned (detail::isPtrAligned (storage.data())),
@@ -109,6 +116,18 @@ struct StorageInfo<std::array<ElementType, size>>
     static constexpr bool dataIsSIMDAligned = true;
 
     static constexpr bool hasSIMDExtendedStorage = (size * sizeof (ElementType)) % Config::maxSIMDRegisterSize == 0;
+};
+
+template <class Allocator>
+struct StorageInfo<detail::VectorBoolWorkaround<Allocator>>
+{
+    constexpr StorageInfo (const auto&) {}
+
+    static constexpr size_t memberAlignment = alignof (detail::VectorBoolWorkaround<Allocator>);
+
+    static constexpr bool dataIsSIMDAligned = false;
+
+    static constexpr bool hasSIMDExtendedStorage = false;
 };
 
 /** A storage info type especially used to pass compile time constant traits when viewing externally owned memory via a
