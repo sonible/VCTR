@@ -310,4 +310,13 @@ TEST_CASE ("insert", "[VectorMemberFunctions]")
         REQUIRE (t[0].empty());
         REQUIRE (t[1].empty());
     }
+
+    SECTION ("append")
+    {
+        const vctr::Vector toAppend { "five", "six", "seven" };
+        v.append (toAppend);
+
+        const vctr::Vector expected { "one", "two", "three", "four", "five", "six", "seven" };
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
 }
