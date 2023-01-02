@@ -38,6 +38,26 @@ template <is::number ElementType>
 struct DefaultVectorAllocator<ElementType> : AlignedAllocator<ElementType, Config::maxSIMDRegisterSize> {};
 // clang-format on
 
+namespace detail
+{
+
+template <class T, template <class> class Allocator>
+struct StdVector
+{
+    using Type = std::vector<T, Allocator<T>>;
+};
+
+template <template <class> class Allocator>
+struct StdVector<bool, Allocator>
+{
+    using Type = VectorBoolWorkaround<Allocator<std::byte>>;
+};
+
+template <class T, template <class> class Allocator>
+using StdVectorType = typename StdVector<T, Allocator>::Type;
+
+}
+
 /** The heap-allocated container type.
 
     Wraps a std::vector with a suitable Allocator. For arithmetic types, including
@@ -50,18 +70,24 @@ struct DefaultVectorAllocator<ElementType> : AlignedAllocator<ElementType, Confi
     Vector<float, std::allocator> v;
     @endcode
 
+    There is one special case with Vector<bool>: For this particular case we don't use
+    std::vector<bool> internally but a std::vector<std::byte> again wrapped in a thin
+    compatibility layer. This allows converting a Vector<bool> into a Span<bool> which creates
+    an overall better integration in the VCTR ecosystem but obviously makes it impossible to
+    directly reference the underlying std::vector<bool> like it is possible for other types.
+
     @tparam ElementType The type held by the Vector. May not be const.
     @tparam Allocator   The allocator as described above. You should not need to specify it in most cases.
  */
 template <is::nonConst ElementType, template <class> class Allocator = DefaultVectorAllocator>
-class Vector : public VctrBase<ElementType, std::vector<ElementType, Allocator<ElementType>>, std::dynamic_extent>
+class Vector : public VctrBase<ElementType, detail::StdVectorType<ElementType, Allocator>, std::dynamic_extent>
 {
 private:
-    using Vctr = VctrBase<ElementType, std::vector<ElementType, Allocator<ElementType>>, std::dynamic_extent>;
-    using StdVectorType = std::vector<ElementType, Allocator<ElementType>>;
+    using StdVectorType = detail::StdVectorType<ElementType, Allocator>;
+    using Vctr = VctrBase<ElementType, StdVectorType, std::dynamic_extent>;
 
     template <class OtherAllocator>
-    static constexpr bool isDifferentAllocatorTypeWithSameValueType = (! std::is_same_v<Allocator<ElementType>, OtherAllocator>) &&std::is_same_v<ElementType, typename OtherAllocator::value_type>;
+    static constexpr bool isDifferentAllocatorTypeWithSameValueType = (! std::is_same_v<Allocator<ElementType>, OtherAllocator>) && std::is_same_v<ElementType, typename OtherAllocator::value_type>;
 
 public:
     using value_type = typename Vctr::value_type;
@@ -171,7 +197,7 @@ public:
     requires isDifferentAllocatorTypeWithSameValueType<OtherAllocator>
     operator std::vector<ElementType, OtherAllocator>() const
     {
-        return { Vctr::begin(), Vctr::end() };
+        return std::vector<ElementType, OtherAllocator> (Vctr::begin(), Vctr::end());
     }
 
     /** Changes the size of this vector, potentially allocating memory.

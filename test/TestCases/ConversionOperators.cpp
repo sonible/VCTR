@@ -22,7 +22,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEMPLATE_TEST_CASE ("Assign VCTR to containers with other allocator", "[ConversionOperators][Allocators]", float, int64_t, std::string)
+TEMPLATE_TEST_CASE ("Assign VCTR to containers with other allocator", "[ConversionOperators][Allocators]", bool, float, int64_t, std::string)
 {
     const auto v = UnitTestValues<TestType>::template vector<10, 0>();
 

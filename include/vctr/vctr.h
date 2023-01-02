@@ -99,6 +99,8 @@
 #include "TypeTraitsAndConcepts/ContainerAndExpressionConcepts.h"
 #include "TypeTraitsAndConcepts/FunctionConcepts.h"
 
+#include "Containers/VectorBoolWorkaround.h"
+
 #include "SIMD/SIMDHelpers.h"
 #include "SIMD/SSE/SSERegister.h"
 #include "SIMD/AVX/AVXRegister.h"
