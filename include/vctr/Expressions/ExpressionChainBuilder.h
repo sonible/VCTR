@@ -99,6 +99,22 @@ struct Constant
     static constexpr auto value = constantValue;
 };
 
+/** A helper struct to indicate that a constant template should be considered disabled */
+struct DisabledConstant
+{
+    /** A stupid type that converts itself to std::numeric_limits<T>::max when assigned to any numeric type T */
+    struct Value
+    {
+        template <is::realNumber T>
+        constexpr operator T() const { return std::numeric_limits<T>::max(); }
+
+        template <is::realNumber T>
+        constexpr operator std::complex<T>() const { return { std::numeric_limits<T>::max(), std::numeric_limits<T>::max() }; }
+    };
+
+    static constexpr Value value {};
+};
+
 /** An expression chain builder is an object which supplies various operator<< overloads which build chains of
     Expression Templates by prepending the templated ExpressionType to the source.
 
