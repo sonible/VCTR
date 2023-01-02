@@ -345,6 +345,13 @@ public:
     // Adding elements to the Vector
     //==============================================================================
 
+    /** Appends a Span, Array or Vector to the end of this Vector, optionally by moving elements from the source */
+    template <is::anyVctr VctrToAppend>
+    void append (VctrToAppend&& vctrToAppend, bool moveValuesFromSrc = false)
+    {
+        insert (Vctr::end(), std::forward<VctrToAppend> (vctrToAppend), moveValuesFromSrc);
+    }
+
     /** Inserts value before the element referenced by pos and returns an iterator to the inserted value.
 
         pos must refer to an element in this Vector.
