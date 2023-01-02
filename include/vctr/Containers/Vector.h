@@ -109,11 +109,13 @@ public:
     constexpr Vector (std::initializer_list<ElementType> il) : Vctr (StdVectorType (il)) {}
 
     /** Creates a Vector by moving a pack of elements into it. */
-    template <is::suitableInitializerForElementType<ElementType>... T>
-    constexpr Vector (T&&... elements)
+    template <is::suitableInitializerForElementType<ElementType> First, std::same_as<First>... Other>
+    requires (sizeof... (Other) > 0)
+    constexpr Vector (First&& first, Other&&... other)
     {
-        reserve (sizeof...(elements));
-        (push_back (std::move (elements)), ...);
+        reserve (1 + sizeof...(other));
+        push_back (std::forward<First> (first));
+        (push_back (std::forward<Other> (other)), ...);
     }
 
     /** Creates a copy of the other Vector. */

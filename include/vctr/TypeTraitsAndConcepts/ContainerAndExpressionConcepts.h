@@ -305,11 +305,11 @@ concept triviallyCopyableWithDataAndSize = has::sizeAndDataWithElementType<T, ty
 template <class T>
 concept iteratorCopyable = has::begin<T> && has::end<T> && ! triviallyCopyableWithDataAndSize<T>;
 
-/** Constrains the type to be suitable for initializing a single element Vctr with a given ElementType, that is, it is
-    the same type as the ElementType with const and reference version of the ElementType being allowed.
+/** Constrains the type to be suitable for initializing a single element Vctr with a given ElementType, that is,
+    ElementType is constructible from T and T is no expression.
  */
 template <class T, class ElementType>
-concept suitableInitializerForElementType = std::same_as<ElementType, std::remove_cvref_t<T>> && ! expression<T>;
+concept suitableInitializerForElementType = std::constructible_from<ElementType, std::remove_cvref_t<T>> && ! expression<T>;
 
 /** Constrains the type to be a function suitable for initializing the nth element of a Vctr, that is,
     it returns an element for a given index passed as size_t argument.
