@@ -338,6 +338,176 @@ public:
     {
         erase (std::remove_if (Vctr::begin(), Vctr::end(), std::forward<Fn> (predicate)), Vctr::end());
     }
+
+    //==============================================================================
+    // Adding elements to the Vector
+    //==============================================================================
+
+    /** Inserts value before the element referenced by pos and returns an iterator to the inserted value.
+
+        pos must refer to an element in this Vector.
+
+        This is a standard interface function forwarded to std::vector::insert().
+     */
+    auto insert (ConstIterator pos, const ElementType& value)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        return Vctr::storage.insert (pos, value);
+    }
+
+    /** Inserts value at index idx and returns an iterator to the inserted value. */
+    auto insert (size_t idx, const ElementType& value)
+    {
+        VCTR_ASSERT (idx < Vctr::size());
+        return Vctr::storage.insert (Vctr::begin() + idx, value);
+    }
+
+    /** Inserts value before the element referenced by pos and returns an iterator to the inserted value.
+
+        pos must refer to an element in this Vector.
+
+        This is a standard interface function forwarded to std::vector::insert().
+     */
+    auto insert (ConstIterator pos, ElementType&& value)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        return Vctr::storage.insert (pos, std::move (value));
+    }
+
+    /** Inserts value at index idx and returns an iterator to the inserted value. */
+    auto insert (size_t idx, ElementType&& value)
+    {
+        VCTR_ASSERT (idx < Vctr::size());
+        return Vctr::storage.insert (Vctr::begin() + idx, std::move (value));
+    }
+
+    /** Inserts count copies of value before the element referenced by pos and returns an iterator to the
+        inserted values.
+
+        pos must refer to an element in this Vector.
+
+        This is a standard interface function forwarded to std::vector::insert().
+     */
+    auto insert (ConstIterator pos, size_t count, const ElementType& value)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        return Vctr::storage.insert (pos, count, value);
+    }
+
+    /** Inserts count copies of value at index idx and returns an iterator to the inserted values. */
+    auto insert (size_t idx, size_t count, const ElementType& value)
+    {
+        VCTR_ASSERT (idx < Vctr::size());
+        return Vctr::storage.insert (Vctr::begin() + idx, count, value);
+    }
+
+    /** Inserts a range of values before the element referenced by pos and returns an iterator to the
+        inserted values.
+
+        pos must refer to an element in this Vector, first and last must denote the begin and end of
+        the range to be inserted. The inserted range must not be part of this Vector.
+
+        This is a standard interface function forwarded to std::vector::insert().
+     */
+    template <is::inputIteratorToConstructValuesOfType<ElementType> InputIterator>
+    auto insert (ConstIterator pos, InputIterator first, InputIterator last)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+
+        if constexpr (is::contiguousIteratorWithValueTypeSameAs<ElementType, InputIterator>)
+        {
+            // The range between first and last must not be elements of this Vector
+            VCTR_ASSERT (! Vctr::contains (first));
+            VCTR_ASSERT (! Vctr::contains (last));
+        }
+
+        return Vctr::storage.insert (pos, first, last);
+    }
+
+    /** Inserts a range of values at index idx and returns an iterator to the inserted values.
+
+        First and last must denote the begin and end of the range to be inserted. The inserted range
+        must not be part of this Vector.
+     */
+    template <is::inputIteratorToConstructValuesOfType<ElementType> InputIterator>
+    auto insert (size_t idx, InputIterator first, InputIterator last)
+    {
+        VCTR_ASSERT (idx < Vctr::size());
+
+        if constexpr (is::contiguousIteratorWithValueTypeSameAs<ElementType, InputIterator>)
+        {
+            // The range between first and last must not be elements of this Vector
+            VCTR_ASSERT (! Vctr::contains (first));
+            VCTR_ASSERT (! Vctr::contains (last));
+        }
+
+        return Vctr::storage.insert (Vctr::begin() + idx, first, last);
+    }
+
+    /** Inserts a list of values before the element referenced by pos and returns an iterator to the
+        first inserted value.
+
+        pos must refer to an element in this Vector.
+
+        This is a standard interface function forwarded to std::vector::insert().
+     */
+    auto insert (ConstIterator pos, std::initializer_list<ElementType> initList)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        return Vctr::storage.insert (pos, initList);
+    }
+
+    /** Inserts a list of values at index idx and returns an iterator to the first inserted value. */
+    auto insert (size_t idx, std::initializer_list<ElementType> initList)
+    {
+        VCTR_ASSERT (idx < Vctr::size());
+        return Vctr::storage.insert (Vctr::begin() + idx, initList);
+    }
+
+    /** Inserts a VCTR container before the element referenced by pos and returns an iterator to the
+        first inserted value.
+
+        pos must refer to an element in this Vector.
+     */
+    template <is::anyVctr VctrToInsert>
+    auto insert (ConstIterator pos, VctrToInsert&& vctrToInsert, bool moveValuesFromSrc = false)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+
+        // If it is no view and no reference, the container passed in has no dependencies outside this scope,
+        // so we can safely move its elements in every case
+        if constexpr ((! is::view<VctrToInsert>) && (! std::is_reference_v<VctrToInsert>))
+            moveValuesFromSrc = true;
+
+        if (moveValuesFromSrc)
+            return Vctr::storage.insert (pos, std::make_move_iterator (vctrToInsert.begin()), std::make_move_iterator (vctrToInsert.end()));
+
+        return Vctr::storage.insert (pos, vctrToInsert.begin(), vctrToInsert.end());
+    }
+
+    /** Inserts a VCTR container at index idx and returns an iterator to the first inserted value. */
+    template <is::anyVctr VctrToInsert>
+    auto insert (size_t idx, VctrToInsert&& vctrToInsert, bool moveValuesFromSrc = false)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (idx < Vctr::size());
+
+        // If it is no view and no reference, the container passed in has no dependencies outside this scope,
+        // so we can safely move its elements in every case
+        if constexpr ((! is::view<VctrToInsert>) && (! std::is_reference_v<VctrToInsert>))
+            moveValuesFromSrc = true;
+
+        if (moveValuesFromSrc)
+            return Vctr::storage.insert (Vctr::begin() + idx, std::make_move_iterator (vctrToInsert.begin()), std::make_move_iterator (vctrToInsert.end()));
+
+        return Vctr::storage.insert (Vctr::begin() + idx, vctrToInsert.begin(), vctrToInsert.end());
+    }
 };
 
 /** A handy shortcut for Vector<std::unique_ptr<OwnedElementType>>. */
