@@ -68,4 +68,10 @@ public:
     }
 };
 
+template <class ElementType, size_t alignmentInBytesLHS, size_t alignmentInBytesRHS>
+constexpr bool operator== (const AlignedAllocator<ElementType, alignmentInBytesLHS>&, const AlignedAllocator<ElementType, alignmentInBytesRHS>&)
+{
+    return alignmentInBytesLHS == alignmentInBytesRHS;
+}
+
 } // namespace vctr

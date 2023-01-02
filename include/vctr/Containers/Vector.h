@@ -102,7 +102,7 @@ public:
     /** Creates an empty Vector with size = 0. */
     constexpr Vector() = default;
 
-    /** Creates an uninitialised vector of the desired size. */
+    /** Creates an uninitialised Vector of the desired size. */
     constexpr Vector (size_t size) : Vctr (StdVectorType (size)) {}
 
     /** Creates a Vector with all elements initialised to initialValue of the desired size. */
@@ -128,7 +128,7 @@ public:
     constexpr Vector (Vector&& other) : Vctr (std::move (other.storage)) {}
 
     /** This constructor will create a Vector instance of the same size as OtherContainer
-        and will copy its values into this vector.
+        and will copy its values into this Vector.
 
         OtherContainer has to satisfy triviallyCopyableWithDataAndSize, that is
         - Its elements are trivially copyable
@@ -143,7 +143,7 @@ public:
     }
 
     /** This constructor will create a Vector instance of the same size as OtherContainer
-        and will copy its values into this vector.
+        and will copy its values into this Vector.
 
         OtherContainer has to satisfy iteratorCopyable, that is
         - It supplies a begin() and end() member function returning iterators
@@ -162,7 +162,7 @@ public:
     template <is::inputIteratorToConstructValuesOfType<ElementType> Iterator, std::sentinel_for<Iterator> Sentinel>
     constexpr Vector (Iterator first, Sentinel last) : Vctr (StdVectorType (first, last)) {}
 
-    /** Creates a vector of the given size and initialises all elements by calling initializerFunction with the
+    /** Creates a Vector of the given size and initialises all elements by calling initializerFunction with the
         element's index.
 
         @tparam Fn must be a function that takes a size_t argument and returns a suitable element type.
@@ -175,7 +175,7 @@ public:
             push_back (initializerFunction (i));
     }
 
-    /** Creates a vector from an expression. */
+    /** Creates a Vector from an expression. */
     template <is::expression Expression>
     constexpr Vector (Expression&& e)
     {
@@ -183,9 +183,9 @@ public:
         Vctr::assignExpressionTemplate (std::forward<Expression> (e));
     }
 
-    /** Assigns the result of an expression to this vector.
+    /** Assigns the result of an expression to this Vector.
 
-        It may resize the vector if it does not match the expression size.
+        It may resize the Vector if it does not match the expression size.
      */
     template <is::expression E>
     constexpr void operator= (const E& expression)
@@ -195,10 +195,10 @@ public:
     }
 
     //==============================================================================
-    /** Conversion operator that allows us to assign this vector to a std::vector with different allocator
+    /** Conversion operator that allows us to assign this Vector to a std::vector with different allocator
         type.
 
-        Note that values will be copied here and that the destination vector might allocate memory.
+        Note that values will be copied here and that the destination Vector might allocate memory.
      */
     template <class OtherAllocator>
     requires isDifferentAllocatorTypeWithSameValueType<OtherAllocator>
@@ -207,7 +207,7 @@ public:
         return std::vector<ElementType, OtherAllocator> (Vctr::begin(), Vctr::end());
     }
 
-    /** Changes the size of this vector, potentially allocating memory.
+    /** Changes the size of this Vector, potentially allocating memory.
 
         This is a standard interface function forwarded to std::vector::resize().
      */
@@ -225,7 +225,7 @@ public:
      */
     constexpr void shrink_to_fit() { Vctr::storage.shrink_to_fit(); }
 
-    /** Adds an element to the end of the vector.
+    /** Adds an element to the end of the Vector.
 
         This is a standard interface function forwarded to std::vector::push_back()
         but it adds a return value.
@@ -234,7 +234,7 @@ public:
      */
     constexpr ElementType& push_back (ElementType&& newElement) { Vctr::storage.push_back (std::move (newElement)); return Vctr::storage.back(); }
 
-    /** Adds an element to the end of the vector.
+    /** Adds an element to the end of the Vector.
 
         This is a standard interface function forwarded to std::vector::push_back()
         but it adds a return value.
@@ -243,23 +243,29 @@ public:
      */
     constexpr ElementType& push_back (const ElementType& newElement) { Vctr::storage.push_back (newElement); return Vctr::storage.back(); }
 
-    /** Constructs an element in-place at the end of the vector
+    /** Constructs an element in-place at the end of the Vector
 
         This is a standard interface function forwarded to std::vector::emplace_back().
      */
     template <class... Args>
     constexpr void emplace_back (Args&&... args) { Vctr::storage.emplace_back (std::forward<Args> (args)...); }
 
-    /** Erase all elements from the vector.
+    /** Erase all elements from the Vector.
 
         This is a standard interface function forwarded to std::vector::clear().
      */
     constexpr void clear() noexcept { Vctr::storage.clear(); }
 
-    /** Returns the number of elements the vector can currently hold without re-allocation. */
+    /** Swaps the underlying memory with the other Vector.
+
+        This is a standard interface function forwarded to std::vector::swap().
+     */
+    constexpr void swap (Vector& other) noexcept { Vctr::storage.swap (other.storage); }
+
+    /** Returns the number of elements the Vector can currently hold without re-allocation. */
     constexpr size_t capacity() const noexcept { return Vctr::storage.capacity(); }
 
-    /** Returns the allocator associated with the vector.
+    /** Returns the allocator associated with the Vector.
 
         This is a standard interface function forwarded to std::vector::get_allocator().
      */
