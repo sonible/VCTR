@@ -320,3 +320,24 @@ TEST_CASE ("insert", "[VectorMemberFunctions]")
         REQUIRE_THAT (v, vctr::Equals (expected));
     }
 }
+
+TEST_CASE ("swap", "[VectorMemberFunctions]")
+{
+    std::initializer_list<int> a { 1, 2, 3, 4 };
+    std::initializer_list<int> b { 9, 8, 7, 6 };
+
+    vctr::Vector vecA = a;
+    vctr::Vector vecB = b;
+
+    auto it1 = vecA.begin();
+    auto it9 = vecB.begin();
+
+    vecA.swap (vecB);
+
+    // Iterators should still be valid after swapping
+    REQUIRE (vecB.begin() == it1);
+    REQUIRE (vecA.begin() == it9);
+
+    REQUIRE_THAT (a, vctr::Equals (vecB));
+    REQUIRE_THAT (b, vctr::Equals (vecA));
+}
