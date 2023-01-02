@@ -122,6 +122,32 @@ struct ExpressionTemplateBase : Config
     };
 };
 
+namespace detail
+{
+
+template <size_t i, class RuntimeArgs, is::expression Expression>
+void tryApplyingRuntimeArgsToThisExpression (const RuntimeArgs& args, Expression& e)
+{
+    if constexpr (RuntimeArgs::template hasValue<i>())
+    {
+        std::apply ([&] (const auto&... args)
+                    {
+                        static_assert (has::applyRuntimeArgs<Expression, decltype (args)...>,
+                                       "The expression does not implement a applyRuntimeArgs overload that matches the argument types passed.");
+                        e.applyRuntimeArgs (args...);
+                    }, args.template get<i>());
+    }
+}
+
+template <size_t i, class RuntimeArgs, is::anyVctrOrExpression Src>
+void tryApplyingRuntimeArgsToSrc (const RuntimeArgs& args, Src& src)
+{
+    if constexpr (has::iterateOverRuntimeArgChain<Src, i, RuntimeArgs>)
+        src.template iterateOverRuntimeArgChain<i> (args);
+}
+
+} // namespace detail
+
 } // namespace vctr
 
 /** A helper macro to avoid repetitive boilerplate code when implementing an expression template class.
@@ -143,5 +169,12 @@ constexpr const auto& getStorageInfo() const { return src.getStorageInfo(); }   
                                                                                            \
 constexpr size_t size () const { return src.size (); }                                     \
                                                                                            \
-constexpr bool isNotAliased (const void* other) const { return src.isNotAliased (other); }
+constexpr bool isNotAliased (const void* other) const { return src.isNotAliased (other); } \
+                                                                                           \
+template <size_t i, class RuntimeArgs>                                                     \
+void iterateOverRuntimeArgChain (const RuntimeArgs& rtArgs)                                \
+{                                                                                          \
+    tryApplyingRuntimeArgsToThisExpression<i> (rtArgs, *this);                             \
+    tryApplyingRuntimeArgsToSrc<i + 1> (rtArgs, src);                                      \
+}
 // clang-format on

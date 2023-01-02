@@ -25,13 +25,68 @@ namespace vctr
 
 namespace detail
 {
+/** Internal helper structure to pass runtime arguments to expressions in a chain
+    built from a concatenation of expression chain builder instances.
+
+    The expression chain builder primarily holds a template template for the
+    expression chain which will then be instantiated  into a final expression once
+    an actual source is appended to the chain. Until that point, we need a temporarily
+    data structure that holds these values in order to apply it to the expression
+    instance.
+ */
+template <is::stdTuple... ArgTuples>
+class RuntimeArgChain
+{
+public:
+    template <class... Args>
+    requires (! (is::stdTuple<Args> || ...))
+    constexpr RuntimeArgChain (Args... firstArgs)
+        : chain {{ std::tuple (std::move (firstArgs)...) }}
+    {}
+
+    constexpr RuntimeArgChain()
+    requires (sizeof... (ArgTuples) == 1)
+    : chain {{ std::tuple<>() }}
+    {}
+
+    static consteval size_t size() { return sizeof... (ArgTuples); }
+
+    template <is::stdTuple... ArgTuplesToPrepend>
+    constexpr RuntimeArgChain<ArgTuplesToPrepend..., ArgTuples...> prepend (RuntimeArgChain<ArgTuplesToPrepend...> chainToPrepend) const
+    {
+        return { std::tuple_cat (chainToPrepend.chain, chain) };
+    }
+
+    template <size_t idx>
+    static consteval bool hasValue()
+    {
+        return ! std::is_same_v<std::tuple<>, std::tuple_element_t<idx, decltype (chain)>>;
+    }
+
+    template <size_t idx>
+    constexpr auto& get() const
+    {
+        return std::get<idx> (chain);
+    }
+
+private:
+    template <is::stdTuple...> friend class RuntimeArgChain;
+
+    constexpr RuntimeArgChain (std::tuple<ArgTuples...>&& newChain)
+        : chain (std::move (newChain))
+    {}
+
+    std::tuple<ArgTuples...> chain;
+};
+
 template <class SrcChainer, template <size_t, class> class ExpressionToAdd>
 struct ExpressionChainingHelper
 {
     template <size_t extent, class SrcType>
     using NewExpressionChain = ExpressionToAdd<extent, typename SrcChainer::template Expression<extent, SrcType>>;
 
-    using NewExpressionChainBuilder = ExpressionChainBuilder<NewExpressionChain>;
+    template <class RuntimeArgs>
+    using NewExpressionChainBuilder = ExpressionChainBuilderWithRuntimeArgs<NewExpressionChain, RuntimeArgs>;
 };
 } // namespace detail
 
@@ -44,20 +99,36 @@ struct Constant
     static constexpr auto value = constantValue;
 };
 
-/** An ExpressionChainBuilder is an object which supplies various operator<< overloads which build chains of
+/** An expression chain builder is an object which supplies various operator<< overloads which build chains of
     Expression Templates by prepending the templated ExpressionType to the source.
+
+    Note that it is not the expression itself but rather contains all the information to instantiate the
+    expression when a data source is prepended to it. This base class allows to store argument values needed
+    by some expressions. Most expressions don't need that and can just instantiate a constexpr
+    ExpressionChainBuilder instance. Others should create an instance using makeExpressionChainBuilderWithRuntimeArgs.
+
+    @see ExpressionChainBuilder, makeExpressionChainBuilderWithRuntimeArgs
  */
-template <template <size_t, class...> class ExpressionType, class... ExtraParameters>
-struct ExpressionChainBuilder
+template <template <size_t, class...> class ExpressionType, class RuntimeArgs, class... AdditionalCompileTimeParameters>
+struct ExpressionChainBuilderWithRuntimeArgs
 {
     template <size_t extent, class SrcType>
-    using Expression = ExpressionType<extent, SrcType, ExtraParameters...>;
+    using Expression = ExpressionType<extent, SrcType, AdditionalCompileTimeParameters...>;
+
+    RuntimeArgs runtimeArgs;
+
+    constexpr ExpressionChainBuilderWithRuntimeArgs (RuntimeArgs&& rtArgs)
+        : runtimeArgs (std::move (rtArgs))
+    {}
+
+    constexpr ExpressionChainBuilderWithRuntimeArgs() {}
 
     /** Returns an expression which holds a reference to the Vector passed in as source */
     template <is::anyVctr Src>
     constexpr auto operator<< (const Src& src) const
     {
         auto expression = Expression<extentOf<Src>, const Src&> { src };
+        expression.template iterateOverRuntimeArgChain<0> (runtimeArgs);
 
         if constexpr (is::reductionExpression<decltype (expression)>)
         {
@@ -74,6 +145,7 @@ struct ExpressionChainBuilder
     constexpr auto operator<< (Src& src) const
     {
         auto expression = Expression<extentOf<Src>, const Src&> { src };
+        expression.template iterateOverRuntimeArgChain<0> (runtimeArgs);
 
         if constexpr (is::reductionExpression<decltype (expression)>)
         {
@@ -90,6 +162,7 @@ struct ExpressionChainBuilder
     constexpr auto operator<< (Src&& src) const
     {
         auto expression = Expression<extentOf<Src>, Src> { std::move (src) };
+        expression.template iterateOverRuntimeArgChain<0> (runtimeArgs);
 
         if constexpr (is::reductionExpression<decltype (expression)>)
         {
@@ -106,6 +179,7 @@ struct ExpressionChainBuilder
     constexpr auto operator<< (SrcExpression&& e) const
     {
         auto expression = Expression<extentOf<SrcExpression>, SrcExpression> (std::forward<SrcExpression> (e));
+        expression.template iterateOverRuntimeArgChain<0> (runtimeArgs);
 
         if constexpr (is::reductionExpression<decltype (expression)>)
         {
@@ -121,11 +195,46 @@ struct ExpressionChainBuilder
         prepended by the expression represented by this builder.
      */
     template <is::expressionChainBuilder SrcExpressionChainBuilder>
-    constexpr auto operator<< (SrcExpressionChainBuilder) const
+    constexpr auto operator<< (SrcExpressionChainBuilder srcExpressionChainBuilder) const
     {
+        auto newRuntimeArgChain = srcExpressionChainBuilder.runtimeArgs.prepend (runtimeArgs);
+
         using ChainingHelper = detail::ExpressionChainingHelper<SrcExpressionChainBuilder, Expression>;
 
-        return typename ChainingHelper::NewExpressionChainBuilder();
+        return typename ChainingHelper::template NewExpressionChainBuilder<decltype(newRuntimeArgChain)> (std::move (newRuntimeArgChain));
     }
 };
+
+/** Convenient typedef to create a simple expression chain builder instance for an expression template. */
+template <template <size_t, class...> class ExpressionType, class... AdditionalCompileTimeParameters>
+using ExpressionChainBuilder = ExpressionChainBuilderWithRuntimeArgs<ExpressionType, detail::RuntimeArgChain<std::tuple<>>, AdditionalCompileTimeParameters...>;
+
+/** Helper function to build factory functions for expressions that rely on runtime argument values.
+
+    These kinds of expressions don't expose a constexpr instance of the expression chain builder but
+    supply a factory function, which returns an expression chain builder instance which holds the
+    desired value to apply. Example:
+    Example:
+    @code
+
+    // The factory function that takes the desired runtime argument s.
+    template <class T>
+    constexpr auto clamp (T lowerBound, T upperBound)
+    {
+        return makeExpressionChainBuilderWithRuntimeArgs<Clamp> (lowerBound, upperBound);
+    }
+    @endcode
+
+    The expression chain created like that will later pass the two arguments to the
+    void applyRuntimeArgs member function of the expression in the same order as they
+    were passed to makeExpressionChainBuilderWithRuntimeArgs – so in case you want to
+    build an expression that takes runtime arguments, make sure to implement that function.
+ */
+template <template <size_t, class...> class ExpressionType, class... RuntimeArgs>
+requires (sizeof... (RuntimeArgs) > 0)
+auto makeExpressionChainBuilderWithRuntimeArgs (RuntimeArgs... runtimeArgs)
+{
+    return ExpressionChainBuilderWithRuntimeArgs<ExpressionType, detail::RuntimeArgChain<std::tuple<RuntimeArgs...>>> (detail::RuntimeArgChain<std::tuple<RuntimeArgs...>> (std::forward<RuntimeArgs> (std::move (runtimeArgs))...));
+}
+
 } // namespace vctr
