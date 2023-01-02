@@ -90,4 +90,8 @@ concept complexFloatNumber = complexNumber<T> && floatNumber<typename T::value_t
 template <class T>
 concept complexIntNumber = complexNumber<T> && intNumber<typename T::value_type>;
 
+/** Constrains a type to be of the type DisabledConstant */
+template <class T>
+concept disabledConstant = std::same_as<DisabledConstant, T>;
+
 } // namespace vctr::is

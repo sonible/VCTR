@@ -63,4 +63,6 @@ struct SSERegister;
 
 template <class T>
 struct NeonRegister;
+
+struct DisabledConstant;
 } // namespace vctr
