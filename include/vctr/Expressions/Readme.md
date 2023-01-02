@@ -1,7 +1,8 @@
 # How Expression templates work
 
 An expression template contains one or more possibilities to compute a certain (mathematical) expression.
-The most basic expression template implementation must look like that:
+The most basic expression template implementation for a unary expression – this means an expression which
+transforms exactly one source vector into one destination vector must look like that:
 
 ```C++
 template <size_t extent, class SrcType>
@@ -44,12 +45,72 @@ constexpr.
 ## Creating an `ExpressionChainBuilder` instance
 
 In order to use the `operator<<` chaining syntax, a unary expression has to be wrapped into an `ExpressionChainBuilder`
-instance. This helper class supplies overloads for `operator<<` that return the actual expression. An
-`ExpressionChainBuilder` instance has no members and should be `constexpr`. Simply declare it like this at the
+instance. An expression chain builder holds all information about how to build a chain of expressions without actually
+building one right away. It supplies overloads for `operator<<` that return different objects, based on what they are
+called on.
+- If the argument passed to it is another expression chain builder, it returns a new expression chain builder instance
+which now represents the chain of both expressions
+- If the argument passed to it is a source span or container and the last expression in the chain is no reduction 
+expression, it returns the actual expression template instance which wraps the source passed in. This expression can 
+then be assigned to another Vctr object in order to get evalutated.
+- If the argument passed to it is a source span or container and the last expression in the chain is a reduction
+  expression, it evaluates the reduction and returns the reduction result.
+
+Pure `ExpressionChainBuilder` instances have no members and should be `constexpr`. Simply declare it like this at the
 end of your implementation:
 
 ```C++
 constexpr ExpressionChainBuilder<MyExpression> myExpression;
+```
+
+Some expressions however need runtime values to work, for an example the `clamp` expression which needs to know the
+limit values. Since the actual expression instance does not yet exist while using the expression chain builder to set up
+an expression chain the generalised `ExpressionChainBuilderWithRuntimeArgs` class allows storing one or more runtime
+arguments applied to each expression once the expression chain is set up. Expressions that need runtime arguments don't
+expose a `constexpr ExpressionChainBuilder` instance but a free function that takes the arguments and returns an
+expression chain builder instance that stores the arguments. This is done with the 
+makeExpressionChainBuilderWithRuntimeArgs function:
+```C++
+template <class T>
+constexpr auto expressionWithArgs (T arg1, T arg2)
+{
+    return makeExpressionChainBuilderWithRuntimeArgs<ExpressionWithArgs> (arg1, arg2);
+}
+```
+
+When the expression instance is created, the chain builder has to apply the argument to the expression. Therefore,
+we need to add an `applyRuntimeArgs` member function to the expression template, which accepts the same number of 
+arguments as passed to the expression chain builder instance and applies them to the actual expression:
+```C++
+void applyRuntimeArgs (value_type arg1, value_type arg2)
+{
+   // apply the args to some member variables, some sanity checks...
+}
+```
+
+The values are passed by copy since one expression chain builder instance could create multiple expression instances,
+therefore the arguments should be cheap to copy if possible. Otherwise, there are no limits to the type and number of
+arguments.
+
+An alternative approach to pass values to an expression are compile time constants. To do so, you can add further
+`std::integral_constant` like template arguments to the expression:
+```C++
+template <size_t extent, class SrcType, class Const>
+class MyExpressionWithConstant : ExpressionTemplateBase
+{
+public:
+    using value_type = typename SrcType::value_type;
+    
+    static constexpr constValue = value_type (Const::value);
+    
+    //...
+}
+```
+
+The corresponding expression chain builder is a variable template then:
+```C++
+template <auto arg>
+constexpr ExpressionChainBuilder<MyExpressionWithConstant, Constant<arg>> myExpressionWithConstant;
 ```
 
 ## Binary expressions

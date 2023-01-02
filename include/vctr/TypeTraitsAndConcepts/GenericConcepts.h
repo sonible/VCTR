@@ -77,6 +77,9 @@ concept uniquePtr = detail::IsStdUniquePtr<T>::value;
 template <class T>
 concept stdTuple = detail::IsStdTuple<T>::value;
 
+template <class T, class... TupleTypes>
+concept stdTupleWithTypes = std::same_as<T, std::tuple<TupleTypes...>>;
+
 /** Constrains the type to be a wrapper class that defines a static const value field */
 template <class T>
 concept constantWrapper = requires (T, std::any a) { a = T::value; };

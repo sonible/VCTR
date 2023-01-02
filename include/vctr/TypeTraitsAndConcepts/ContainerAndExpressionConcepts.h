@@ -36,11 +36,8 @@ struct AnyVctr<Array<T, e, s>> : std::true_type {};
 template <class T, size_t n, class S>
 struct AnyVctr<Span<T, n, S>> : std::true_type {};
 
-template <class T>
-struct IsVctr : std::false_type {};
-
 template <class E, class S, size_t e, class I>
-struct IsVctr<VctrBase<E, S, e, I>> : std::true_type {};
+struct AnyVctr<VctrBase<E, S, e, I>> : std::true_type {};
 
 template <class T>
 struct IsStdArray : std::false_type {};
@@ -57,8 +54,8 @@ struct IsStdSpan<std::span<T, e>> : std::true_type {};
 template <class T>
 struct IsExpressionChainBuilder : std::false_type {};
 
-template <template <size_t, class...> class ExpressionType, class... AdditionalParameters>
-struct IsExpressionChainBuilder<ExpressionChainBuilder<ExpressionType, AdditionalParameters...>> : std::true_type {};
+template <template <size_t, class...> class ExpressionType, class RuntimeArgs, class... AdditionalParameters>
+struct IsExpressionChainBuilder<ExpressionChainBuilderWithRuntimeArgs<ExpressionType, RuntimeArgs, AdditionalParameters...>> : std::true_type {};
 // clang-format on
 
 } // namespace vctr::detail
@@ -89,6 +86,10 @@ concept constIndexOperator = requires (const T& t) { t[size_t()]; };
 /** Constrains a type to have a member function evalNextVectorOpInExpressionChain (value_type*) const. */
 template <class T, class DstType>
 concept evalNextVectorOpInExpressionChain = requires (const T& t, DstType* d) { t.evalNextVectorOpInExpressionChain (d); } && std::same_as<DstType, typename std::remove_cvref_t<T>::value_type>;
+
+/** Constrains a type to have a member function reduceElementWise() const that takes a ValueType& and size_t argument. */
+template <class T, class ValueType>
+concept reduceElementWise = requires (const T&t, ValueType& v) { t.reduceElementWise (v, size_t()); };
 
 /** Constrains a type to have a member function reduceVectorOp() const that returns a DstType value. */
 template <class T, class DstType>
@@ -138,11 +139,21 @@ concept end = requires (T& t) { *t.end(); } || requires (const T& t) { *t.begin(
 template <class T>
 concept resize = requires (T& t, size_t n) { t.resize (n); };
 
+/** Constrains a type to have a function getStorageInfo() const */
 template <class T>
 concept getStorageInfo = requires (const T& t) { t.getStorageInfo(); };
 
+/** Constrains a type to have a function isNotAliased (const void*) const */
 template <class T>
 concept isNotAliased = requires (const T& t, bool r, const void* o) { r = t.isNotAliased (o); };
+
+/** Constrains a type to have a function iterateOverRuntimeArgChain<size_t> (RuntimeArgs) */
+template <class T, size_t i, class RuntimeArgs>
+concept iterateOverRuntimeArgChain = requires (T& t, const RuntimeArgs& r) { t.template iterateOverRuntimeArgChain<i, RuntimeArgs> (r); };
+
+/** Constrains a type to have a function applyRuntimeArgs (const Args&...) */
+template <class T, class... Args>
+concept applyRuntimeArgs = requires (T& t, const Args&... args) { t.applyRuntimeArgs (args...); };
 
 } // namespace vctr::has
 
@@ -176,7 +187,7 @@ concept anyVctr = detail::AnyVctr<std::remove_cvref_t<T>>::value;
 
 /** Constrains a type to be an expression template. */
 template <class T>
-concept expression = has::getStorageInfo<T> && has::size<T> && has::constIndexOperator<T> && has::isNotAliased<T> && ! anyVctr<T>;
+concept expression = has::getStorageInfo<T> && has::size<T> && has::isNotAliased<T> && ! anyVctr<T>;
 
 /** Constrains a type to be an expression chain builder. */
 template <class T>
