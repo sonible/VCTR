@@ -58,7 +58,8 @@ using StdVectorType = typename StdVector<T, Allocator>::Type;
 
 }
 
-/** The heap-allocated container type.
+/** @ingroup Core
+    @brief The heap-allocated container type.
 
     Wraps a std::vector with a suitable Allocator. For arithmetic types, including
     std::complex, the default allocator will be a vctr::AlignedAllocator with an alignment

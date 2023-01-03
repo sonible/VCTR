@@ -95,6 +95,25 @@
 #include <gcem/gcem.hpp>
 #endif
 
+//==============================================================================
+// Doxygen group definitions
+//==============================================================================
+/**
+    @defgroup Core
+    The three central container and view classes of VCTR.
+
+    @defgroup Expressions
+    An overview of all expression chain builders. Expression chain builders are used
+    to build of chains of vector expressions using the << operator. Example:
+    @code
+    auto expression = vctr::ln << vctr::abs << (src - 3);
+    @endcode
+    Will create an expression that evaluates the natural logarithm of the absolute value
+    of the difference of the source vector src and the constant value 3. This expression
+    can then be assigned to an existing Vector, Array or Span of a matching extent or be
+    used to initialize a new Vector or Array.
+ */
+
 #include "TypeTraitsAndConcepts/NumericTypeConcepts.h"
 #include "TypeTraitsAndConcepts/ContainerAndExpressionConcepts.h"
 #include "TypeTraitsAndConcepts/FunctionConcepts.h"

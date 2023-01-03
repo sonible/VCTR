@@ -26,6 +26,7 @@
 #include "TypeTraitsAndConcepts/GenericConcepts.h"
 #include "TypeTraitsAndConcepts/NumericValueConcepts.h"
 
+/** The main namespace of the VCTR project */
 namespace vctr
 {
 
