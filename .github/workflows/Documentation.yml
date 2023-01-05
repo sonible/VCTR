@@ -1,0 +1,39 @@
+name: 📜Documentation
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [develop]
+
+env:
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  render_doxygen:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+
+      - name: Download Doxygen
+        run: gh release download --repo doxygen/doxygen Release_1_9_6 --pattern doxygen-1.9.6.linux.bin.tar.gz
+
+      - name: Extract Doxygen
+        run: tar -zxf doxygen-1.9.6.linux.bin.tar.gz doxygen-1.9.6/bin/doxygen
+
+      - name: Download Doxygen Awesome
+        run: gh release download --repo jothepro/doxygen-awesome-css v2.1.0 --archive=tar.gz
+
+      - name: Extract Doxygen
+        run: tar -zxf doxygen-awesome-css-2.1.0.tar.gz
+
+      - name: Run Doxygen
+        run: doxygen-1.9.6/bin/doxygen
+
+      - name: Save Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Documentation
+          path: doxygen
