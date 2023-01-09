@@ -24,7 +24,7 @@ namespace vctr::Expressions
 {
 
 //==============================================================================
-/** Multiplies two vector like types */
+/** Multiplies two vector like types. */
 template <size_t extent, class SrcAType, class SrcBType>
 class MultiplyVectors : ExpressionTemplateBase
 {
@@ -97,7 +97,7 @@ private:
 };
 
 //==============================================================================
-/** Multiplies a vector like type by a single value */
+/** Multiplies a vector like type by a single value. */
 template <size_t extent, class SrcType>
 class MultiplyVecBySingle : ExpressionTemplateBase
 {

@@ -24,7 +24,7 @@ namespace vctr::Expressions
 {
 
 //==============================================================================
-/** Subtracts two vector like types */
+/** Subtracts two vector like types. */
 template <size_t extent, class SrcAType, class SrcBType>
 class SubtractVectors : ExpressionTemplateBase
 {
@@ -119,7 +119,7 @@ private:
 };
 
 //==============================================================================
-/** Subtracts a vector like type from a single value*/
+/** Subtracts a vector like type from a single value. */
 template <size_t extent, class SrcType>
 class SubtractVecFromSingle : ExpressionTemplateBase
 {
@@ -204,7 +204,7 @@ private:
 };
 
 //==============================================================================
-/** Subtracts a single value from a vector like type */
+/** Subtracts a single value from a vector like type. */
 template <size_t extent, class SrcType>
 class SubtractSingleFromVec : ExpressionTemplateBase
 {
