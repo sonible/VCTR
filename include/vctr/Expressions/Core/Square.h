@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 template <size_t extent, class SrcType>
@@ -77,7 +77,15 @@ private:
     SrcType src;
 };
 
-/** Squares the source values */
-constexpr ExpressionChainBuilder<Square> square;
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
+/** Squares the source values.
+
+    @ingroup Expressions
+ */
+constexpr inline ExpressionChainBuilder<Expressions::Square> square;
 
 } // namespace vctr

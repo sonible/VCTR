@@ -589,28 +589,28 @@ public:
     //==============================================================================
     // Math operators.
     //==============================================================================
-    /** Multiplies this by a vector-like type or expression in place. */
+    /** Multiplies this by a vector or expression in place. */
     template <is::anyVctrOrExpression V>
     void operator*= (const V& v);
 
     /** Multiplies this by a constant in place. */
     void operator*= (value_type c);
 
-    /** Divides this by a vector-like type or expression in place. */
+    /** Divides this by a vector or expression in place. */
     template <is::anyVctrOrExpression V>
     void operator/= (const V& v);
 
     /** Divides this by a constant in place. */
     void operator/= (value_type c);
 
-    /** Adds a vector-like type or expression to this in place. */
+    /** Adds a vector or expression to this in place. */
     template <is::anyVctrOrExpression V>
     void operator+= (const V& v);
 
     /** Adds a constant to this in place. */
     void operator+= (value_type c);
 
-    /** Subtracts a vector-like type or expression from this in place. */
+    /** Subtracts a vector or expression from this in place. */
     template <is::anyVctrOrExpression V>
     void operator-= (const V& v);
 

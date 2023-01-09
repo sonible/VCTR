@@ -39,12 +39,13 @@ struct StorageExtent<T, e>
 };
 } // namespace detail
 
-/** @ingroup Core
-    @brief The stack-based container type.
+/** The stack-based container type.
 
     Wraps a std::array of at least the length extent. The size of the underlying std::array might be greater for
     certain types in order to facilitate SIMD loops, however, the size reported by size() and the value of
     extent always refer to the expected size.
+
+    @ingroup Core
  */
 template <class ElementType, size_t extent, size_t storageExtent = detail::StorageExtent<ElementType, extent>::extent>
 requires (extent != std::dynamic_extent && extent <= storageExtent)

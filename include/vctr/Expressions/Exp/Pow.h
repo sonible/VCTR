@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 template <size_t extent, class SrcType, is::constantWrapper ConstantType>
@@ -62,8 +62,16 @@ private:
     SrcType src;
 };
 
-/** Evaluates base raised to the power of the source vector */
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
+/** Evaluates base raised to the power of the source vector.
+
+    @ingroup Expressions
+ */
 template <auto base>
-constexpr ExpressionChainBuilder<PowConstantBase, Constant<base>> powConstantBase;
+constexpr inline ExpressionChainBuilder<Expressions::PowConstantBase, Constant<base>> powConstantBase;
 
 } // namespace vctr

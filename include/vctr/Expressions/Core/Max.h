@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 template <size_t extent, class SrcType>
@@ -38,7 +38,7 @@ public:
     {
         result = std::max (result, src[i]);
     }
-    
+
     VCTR_FORCEDINLINE value_type reduceVectorOp() const
     requires is::suitableForAccelerateRealFloatVectorReductionOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable>
     {
@@ -84,9 +84,6 @@ public:
 private:
     SrcType src;
 };
-
-/** Computes the maximum value of the source values */
-constexpr ExpressionChainBuilder<Max> max;
 
 template <size_t extent, class SrcType>
 requires is::number<ValueType<SrcType>>
@@ -179,6 +176,21 @@ private:
     SrcType src;
 };
 
-/** Computes the maximum value of the absolute value of the source values */
-constexpr ExpressionChainBuilder<MaxAbs> maxAbs;
-}
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
+/** Computes the maximum value of the source values.
+
+    @ingroup Expressions
+ */
+constexpr inline ExpressionChainBuilder<Expressions::Max> max;
+
+/** Computes the maximum value of the absolute value of the source values.
+
+    @ingroup Expressions
+ */
+constexpr inline ExpressionChainBuilder<Expressions::MaxAbs> maxAbs;
+
+} // namespace vctr

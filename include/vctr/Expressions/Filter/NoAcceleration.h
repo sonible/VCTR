@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 template <size_t extent, class SrcType>
@@ -40,9 +40,16 @@ private:
     SrcType src;
 };
 
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
 /** This filter expression ensures that only basic operator[] based evaluation of the previous
     expression is possible.
+
+    @ingroup Expressions
  */
- constexpr ExpressionChainBuilder<NoAccelerationFilter> dontUseAcceleration;
+constexpr inline ExpressionChainBuilder<Expressions::NoAccelerationFilter> dontUseAcceleration;
 
 }

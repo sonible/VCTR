@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 template <size_t extent, class SrcType>
@@ -53,12 +53,19 @@ private:
     SrcType src;
 };
 
-/** This filter expression ensures that only platform vector operation based accelerated evaluation of the previous
-    expression is possible.
+} // namespace vctr::Expressions
 
-    If evalNextVectorOpInExpressionChain is not available on the source, this will only forward the basic operator[]
-    based interface.
+namespace vctr
+{
+
+/** Filter expression to force platform vector operation based accelerated evaluation.
+
+    This filter expression ensures that only platform vector operation based accelerated evaluation of the previous
+    expression is possible. If evalNextVectorOpInExpressionChain is not available on the source, this will only forward
+    the basic operator[] based interface.
+
+    @ingroup Expressions
  */
-constexpr ExpressionChainBuilder<PlatformVectorOpsFilter> usePlatformVectorOps;
+constexpr ExpressionChainBuilder<Expressions::PlatformVectorOpsFilter> usePlatformVectorOps;
 
 } // namespace vctr

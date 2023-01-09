@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 template <size_t extent, class SrcType, is::constantWrapper ConstantType>
@@ -58,8 +58,16 @@ private:
     SrcType src;
 };
 
-/** Ensures that the vector are not lower than lowerLimit */
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
+/** Ensures that the vector are not lower than lowerLimit.
+
+    @ingroup Expressions
+ */
 template <auto lowerLimit>
-constexpr ExpressionChainBuilder<ClampLowByConstant, Constant<lowerLimit>> clampLowByConstant;
+constexpr inline ExpressionChainBuilder<Expressions::ClampLowByConstant, Constant<lowerLimit>> clampLowByConstant;
 
 } // namespace vctr

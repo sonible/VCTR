@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 template <size_t extent, class SrcType>
@@ -75,7 +75,15 @@ private:
     SrcType src;
 };
 
-/** Computes e (Euler's number, 2.7182818...) raised to the source vector elements power */
-constexpr ExpressionChainBuilder<Exp> exp;
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
+/** Computes e (Euler's number, 2.7182818...) raised to the source vector elements power.
+
+    @ingroup Expressions
+ */
+constexpr inline ExpressionChainBuilder<Expressions::Exp> exp;
 
 } // namespace vctr

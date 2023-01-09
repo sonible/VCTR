@@ -20,15 +20,18 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::detail
 {
-// clang-format off
-struct dBFS : Constant<20> {};
+template <is::constantWrapper C>
+struct InvertedConstant
+{
+    static constexpr double value = 1.0 / double (C::value);
+};
 
-struct dBVoltage : Constant<20> {};
+} // namespace vctr::detail
 
-struct dBPower : Constant<10> {};
-// clang-format on
+namespace vctr::Expressions
+{
 
 template <size_t extent, class SrcType, class DecibelConstant, class MinDb>
 using MagToDb = ClampLowByConstant<extent,
@@ -36,6 +39,36 @@ using MagToDb = ClampLowByConstant<extent,
                                                          Log10<extent, SrcType>,
                                                          DecibelConstant>,
                                    MinDb>;
+
+template <size_t extent, class SrcType, class DecibelConstant>
+using DBToMag = PowConstantBase<extent,
+                                MultiplyVecByConstant<extent,
+                                                      SrcType,
+                                                      detail::InvertedConstant<DecibelConstant>>,
+                                Constant<10>>;
+
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
+/** Decibel constant dbFS to be passed to dbToMag or magToDb.
+
+    @ingroup Expressions
+ */
+struct dBFS : Constant<20> {};
+
+/** Decibel constant dbVoltage to be passed to dbToMag or magToDb.
+
+    @ingroup Expressions
+ */
+struct dBVoltage : Constant<20> {};
+
+/** Decibel constant dbPower to be passed to dbToMag or magToDb.
+
+    @ingroup Expressions
+ */
+struct dBPower : Constant<10> {};
 
 /** Converts the source magnitude into a decibel representation.
 
@@ -46,24 +79,7 @@ using MagToDb = ClampLowByConstant<extent,
  * @tparam minDb: The lower threshold for the resulting dB value and thus the value for a magnitude of 0.
  */
 template <is::constantWrapper DecibelConstant, auto minDb = -100>
-constexpr ExpressionChainBuilder<MagToDb, DecibelConstant, Constant<minDb>> magToDb;
-
-namespace detail
-{
-template <is::constantWrapper C>
-struct InvertedConstant
-{
-    static constexpr double value = 1.0 / double (C::value);
-};
-
-} // namespace detail
-
-template <size_t extent, class SrcType, class DecibelConstant>
-using DBToMag = PowConstantBase<extent,
-                                MultiplyVecByConstant<extent,
-                                                      SrcType,
-                                                      detail::InvertedConstant<DecibelConstant>>,
-                                Constant<10>>;
+constexpr inline ExpressionChainBuilder<Expressions::MagToDb, DecibelConstant, Constant<minDb>> magToDb;
 
 /** Converts the source decibel values into their magnitude representation.
 
@@ -73,6 +89,6 @@ using DBToMag = PowConstantBase<extent,
    @tparam DecibelConstant: Either vctr::dBFS, vctr::dBVoltage or vctr::dBPower.
  */
 template <is::constantWrapper DecibelConstant>
-constexpr ExpressionChainBuilder<DBToMag, DecibelConstant> dbToMag;
+constexpr inline ExpressionChainBuilder<Expressions::DBToMag, DecibelConstant> dbToMag;
 
 } // namespace vctr

@@ -31,13 +31,14 @@ namespace vctr
 template <class ElementType>
 consteval auto simdAlignedSpanStorageInfo() { return StaticStorageInfo<true, false, alignof (std::span<ElementType>)>(); }
 
-/** @ingroup Core
-    @brief The view type.
+/** The view type.
 
     Wraps a std::span and acts as a view to continuous data owned and stored somewhere else.
     All containers that offer a size and data interface are implicitly convertible into a Span.
     Note that unlike Vector and Array, Spans have a const ElementType in case they view non-mutable data. This means,
     e.g. a const Vector<Foo> will be converted into a Span<const Foo>.
+
+    @ingroup Core
  */
 template <class ElementType, size_t extent = std::dynamic_extent, class StorageInfoType = StorageInfo<std::span<ElementType, extent>>>
 class Span : public VctrBase<ElementType, std::span<ElementType, extent>, extent, StorageInfoType>
