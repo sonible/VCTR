@@ -31,6 +31,8 @@ namespace vctr
 template <class ElementType>
 consteval auto simdAlignedSpanStorageInfo() { return StaticStorageInfo<true, false, alignof (std::span<ElementType>)>(); }
 
+// clang-format off
+
 /** The view type.
 
     Wraps a std::span and acts as a view to continuous data owned and stored somewhere else.
@@ -40,9 +42,10 @@ consteval auto simdAlignedSpanStorageInfo() { return StaticStorageInfo<true, fal
 
     @ingroup Core
  */
-template <class ElementType, size_t extent = std::dynamic_extent, class StorageInfoType = StorageInfo<std::span<ElementType, extent>>>
+template <class ElementType, size_t extent = std::dynamic_extent, class StorageInfoType = StorageInfo<std::span<ElementType, extent> > > // Extra whitespaces are needed for proper doxygen rendering
 class Span : public VctrBase<ElementType, std::span<ElementType, extent>, extent, StorageInfoType>
 {
+// clang-format on
 private:
     //==============================================================================
     using Vctr = VctrBase<ElementType, std::span<ElementType, extent>, extent, StorageInfoType>;
