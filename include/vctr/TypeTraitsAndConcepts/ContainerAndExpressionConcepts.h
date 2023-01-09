@@ -43,6 +43,12 @@ template <class E, class S, size_t e, class I>
 struct IsVctr<VctrBase<E, S, e, I>> : std::true_type {};
 
 template <class T>
+struct IsSpan : std::false_type {};
+
+template <class T, size_t n, class S>
+struct IsSpan<Span<T, n, S>> : std::true_type {};
+
+template <class T>
 struct IsStdArray : std::false_type {};
 
 template <class T, size_t e>
@@ -194,6 +200,10 @@ concept stdArray = detail::IsStdArray<T>::value;
 template <class T>
 concept stdSpan = detail::IsStdSpan<T>::value;
 
+/** Constrains a type to be a view rather than an owning container. True for vctr::Span and std::span */
+template <class T>
+concept view = detail::IsSpan<T>::value || detail::IsStdSpan<T>::value;
+
 //==============================================================================
 /** Constrains a type to be an expression template that defines evalNextVectorOpInExpressionChain for DstType. */
 template <class T, class DstType>
@@ -294,11 +304,11 @@ concept triviallyCopyableWithDataAndSize = has::sizeAndDataWithElementType<T, ty
 template <class T>
 concept iteratorCopyable = has::begin<T> && has::end<T> && ! triviallyCopyableWithDataAndSize<T>;
 
-/** Constrains the type to be suitable for initializing a single element Vctr with a given ElementType, that is, it is
-    the same type as the ElementType with const and reference version of the ElementType being allowed.
+/** Constrains the type to be suitable for initializing a single element Vctr with a given ElementType, that is,
+    ElementType is constructible from T and T is no expression.
  */
 template <class T, class ElementType>
-concept suitableInitializerForElementType = std::same_as<ElementType, std::remove_cvref_t<T>> && ! expression<T>;
+concept suitableInitializerForElementType = std::constructible_from<ElementType, std::remove_cvref_t<T>> && ! expression<T>;
 
 /** Constrains the type to be a function suitable for initializing the nth element of a Vctr, that is,
     it returns an element for a given index passed as size_t argument.
@@ -314,7 +324,11 @@ concept suitableInitializerFunctionForElementType = suitableInitializerFunction<
 
 /** Constrains the type to be an input iterator with a value type suitable to construct an ElementType. */
 template <class T, class ElementType>
-concept suitableInputIteratorForElementType = std::input_iterator<T> && std::constructible_from<ElementType, std::iter_value_t<T>>;
+concept inputIteratorToConstructValuesOfType = std::input_iterator<T> && std::constructible_from<ElementType, std::iter_value_t<T>>;
+
+/** Constrains the type to be a contiguous iterator with a value type same as ElementType. */
+template <class T, class ElementType>
+concept contiguousIteratorWithValueTypeSameAs = std::contiguous_iterator<T> && std::same_as<ElementType, std::iter_value_t<T>>;
 
 /** Constrains the type to be suitable for initializing a single element Vctr, that is, it is not of any other type
     for which special single argument constructors exist, so no ambiguity can arise.

@@ -91,7 +91,10 @@ private:
     template <class OtherAllocator>
     static constexpr bool isDifferentAllocatorTypeWithSameValueType = (! std::is_same_v<Allocator<ElementType>, OtherAllocator>) && std::is_same_v<ElementType, typename OtherAllocator::value_type>;
 
+    using ConstIterator = typename StdVectorType::const_iterator;
+
 public:
+    //==============================================================================
     using value_type = typename Vctr::value_type;
 
     //==============================================================================
@@ -99,7 +102,7 @@ public:
     /** Creates an empty Vector with size = 0. */
     constexpr Vector() = default;
 
-    /** Creates an uninitialised vector of the desired size. */
+    /** Creates an uninitialised Vector of the desired size. */
     constexpr Vector (size_t size) : Vctr (StdVectorType (size)) {}
 
     /** Creates a Vector with all elements initialised to initialValue of the desired size. */
@@ -109,11 +112,13 @@ public:
     constexpr Vector (std::initializer_list<ElementType> il) : Vctr (StdVectorType (il)) {}
 
     /** Creates a Vector by moving a pack of elements into it. */
-    template <is::suitableInitializerForElementType<ElementType>... T>
-    constexpr Vector (T&&... elements)
+    template <is::suitableInitializerForElementType<ElementType> First, std::same_as<First>... Other>
+    requires (sizeof... (Other) > 0)
+    constexpr Vector (First&& first, Other&&... other)
     {
-        reserve (sizeof...(elements));
-        (push_back (std::move (elements)), ...);
+        reserve (1 + sizeof...(other));
+        push_back (std::forward<First> (first));
+        (push_back (std::forward<Other> (other)), ...);
     }
 
     /** Creates a copy of the other Vector. */
@@ -123,7 +128,7 @@ public:
     constexpr Vector (Vector&& other) : Vctr (std::move (other.storage)) {}
 
     /** This constructor will create a Vector instance of the same size as OtherContainer
-        and will copy its values into this vector.
+        and will copy its values into this Vector.
 
         OtherContainer has to satisfy triviallyCopyableWithDataAndSize, that is
         - Its elements are trivially copyable
@@ -138,7 +143,7 @@ public:
     }
 
     /** This constructor will create a Vector instance of the same size as OtherContainer
-        and will copy its values into this vector.
+        and will copy its values into this Vector.
 
         OtherContainer has to satisfy iteratorCopyable, that is
         - It supplies a begin() and end() member function returning iterators
@@ -154,10 +159,10 @@ public:
     }
 
     /** Creates an Vector from an iterator and a sentinel by initialising the Vector with the content read from the iterator. */
-    template <is::suitableInputIteratorForElementType<ElementType> Iterator, std::sentinel_for<Iterator> Sentinel>
+    template <is::inputIteratorToConstructValuesOfType<ElementType> Iterator, std::sentinel_for<Iterator> Sentinel>
     constexpr Vector (Iterator first, Sentinel last) : Vctr (StdVectorType (first, last)) {}
 
-    /** Creates a vector of the given size and initialises all elements by calling initializerFunction with the
+    /** Creates a Vector of the given size and initialises all elements by calling initializerFunction with the
         element's index.
 
         @tparam Fn must be a function that takes a size_t argument and returns a suitable element type.
@@ -170,7 +175,7 @@ public:
             push_back (initializerFunction (i));
     }
 
-    /** Creates a vector from an expression. */
+    /** Creates a Vector from an expression. */
     template <is::expression Expression>
     constexpr Vector (Expression&& e)
     {
@@ -178,9 +183,9 @@ public:
         Vctr::assignExpressionTemplate (std::forward<Expression> (e));
     }
 
-    /** Assigns the result of an expression to this vector.
+    /** Assigns the result of an expression to this Vector.
 
-        It may resize the vector if it does not match the expression size.
+        It may resize the Vector if it does not match the expression size.
      */
     template <is::expression E>
     constexpr void operator= (const E& expression)
@@ -190,10 +195,10 @@ public:
     }
 
     //==============================================================================
-    /** Conversion operator that allows us to assign this vector to a std::vector with different allocator
+    /** Conversion operator that allows us to assign this Vector to a std::vector with different allocator
         type.
 
-        Note that values will be copied here and that the destination vector might allocate memory.
+        Note that values will be copied here and that the destination Vector might allocate memory.
      */
     template <class OtherAllocator>
     requires isDifferentAllocatorTypeWithSameValueType<OtherAllocator>
@@ -202,7 +207,7 @@ public:
         return std::vector<ElementType, OtherAllocator> (Vctr::begin(), Vctr::end());
     }
 
-    /** Changes the size of this vector, potentially allocating memory.
+    /** Changes the size of this Vector, potentially allocating memory.
 
         This is a standard interface function forwarded to std::vector::resize().
      */
@@ -220,7 +225,7 @@ public:
      */
     constexpr void shrink_to_fit() { Vctr::storage.shrink_to_fit(); }
 
-    /** Adds an element to the end of the vector.
+    /** Adds an element to the end of the Vector.
 
         This is a standard interface function forwarded to std::vector::push_back()
         but it adds a return value.
@@ -229,7 +234,7 @@ public:
      */
     constexpr ElementType& push_back (ElementType&& newElement) { Vctr::storage.push_back (std::move (newElement)); return Vctr::storage.back(); }
 
-    /** Adds an element to the end of the vector.
+    /** Adds an element to the end of the Vector.
 
         This is a standard interface function forwarded to std::vector::push_back()
         but it adds a return value.
@@ -238,23 +243,29 @@ public:
      */
     constexpr ElementType& push_back (const ElementType& newElement) { Vctr::storage.push_back (newElement); return Vctr::storage.back(); }
 
-    /** Constructs an element in-place at the end of the vector
+    /** Constructs an element in-place at the end of the Vector
 
         This is a standard interface function forwarded to std::vector::emplace_back().
      */
     template <class... Args>
     constexpr void emplace_back (Args&&... args) { Vctr::storage.emplace_back (std::forward<Args> (args)...); }
 
-    /** Erase all elements from the vector.
+    /** Erase all elements from the Vector.
 
         This is a standard interface function forwarded to std::vector::clear().
      */
     constexpr void clear() noexcept { Vctr::storage.clear(); }
 
-    /** Returns the number of elements the vector can currently hold without re-allocation. */
+    /** Swaps the underlying memory with the other Vector.
+
+        This is a standard interface function forwarded to std::vector::swap().
+     */
+    constexpr void swap (Vector& other) noexcept { Vctr::storage.swap (other.storage); }
+
+    /** Returns the number of elements the Vector can currently hold without re-allocation. */
     constexpr size_t capacity() const noexcept { return Vctr::storage.capacity(); }
 
-    /** Returns the allocator associated with the vector.
+    /** Returns the allocator associated with the Vector.
 
         This is a standard interface function forwarded to std::vector::get_allocator().
      */
@@ -262,6 +273,254 @@ public:
 
     /** Returns the maximum number of elements the container is able to hold. */
     constexpr size_t max_size() const noexcept { return Vctr::storage.max_size(); }
+
+    //==============================================================================
+    // Erasing elements from the Vector
+    //==============================================================================
+    /** Erases the element referenced by elementToErase and returns the iterator to the element behind it.
+
+        This is a standard interface function forwarded to std::vector::erase().
+     */
+    constexpr auto erase (ConstIterator elementToErase)
+    {
+        // Undefined behaviour if elementToErase does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (elementToErase));
+        return Vctr::storage.erase (elementToErase);
+    }
+
+    /** Erases the element at index idx and returns the iterator to the element behind it. */
+    constexpr auto erase (size_t idx)
+    {
+        return Vctr::storage.erase (Vctr::storage.begin() + idx);
+    }
+
+    /** Erases the range of elements referenced by it and returns the iterator to the element behind it.
+
+        First is expected to be contained in the range while last is expected to be the first element
+        after that range.
+
+        This is a standard interface function forwarded to std::vector::erase().
+     */
+    constexpr auto erase (ConstIterator first, ConstIterator last)
+    {
+        // Undefined behaviour if the range between first and last does not refer to a range in this Vector
+        VCTR_ASSERT (Vctr::contains (first));
+        VCTR_ASSERT (Vctr::contains (last) || last == Vctr::end());
+
+        return Vctr::storage.erase (first, last);
+    }
+
+    /** Erases numElements elements starting from index startIdx and returns the iterator to the element behind it. */
+    constexpr auto erase (size_t startIdx, size_t numElements)
+    {
+        auto it = Vctr::storage.begin() + startIdx;
+        return Vctr::storage.erase (it, it + numElements);
+    }
+
+    /** Erases the first occurrence of value from this Vector and adjusts its size. */
+    template <std::equality_comparable_with<ElementType> T>
+    constexpr auto eraseFirstOccurrenceOf (const T& value)
+    {
+        return erase (Vctr::find (value));
+    }
+
+    /** Erases the first occurrence for which predicate is true from this Vector and adjusts its size. */
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
+    constexpr auto eraseFirstIf (Fn&& predicate)
+    {
+        return erase (Vctr::findIf (std::forward<Fn> (predicate)));
+    }
+
+    /** Removes all occurrences of value from this Vector and adjusts its size. */
+    template <std::equality_comparable_with<ElementType> T>
+    constexpr void eraseAllOccurrencesOf (const T& value)
+    {
+        erase (std::remove (Vctr::begin(), Vctr::end(), value), Vctr::end());
+    }
+
+    /** Removes all elements inside this Vector for which predicate is true and adjusts its size. */
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
+    constexpr void eraseAllIf (Fn&& predicate)
+    {
+        erase (std::remove_if (Vctr::begin(), Vctr::end(), std::forward<Fn> (predicate)), Vctr::end());
+    }
+
+    //==============================================================================
+    // Adding elements to the Vector
+    //==============================================================================
+
+    /** Appends a Span, Array or Vector to the end of this Vector, optionally by moving elements from the source */
+    template <is::anyVctr VctrToAppend>
+    void append (VctrToAppend&& vctrToAppend, bool moveValuesFromSrc = false)
+    {
+        insert (Vctr::end(), std::forward<VctrToAppend> (vctrToAppend), moveValuesFromSrc);
+    }
+
+    /** Inserts value before the element referenced by pos and returns an iterator to the inserted value.
+
+        pos must refer to an element in this Vector.
+
+        This is a standard interface function forwarded to std::vector::insert().
+     */
+    auto insert (ConstIterator pos, const ElementType& value)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        return Vctr::storage.insert (pos, value);
+    }
+
+    /** Inserts value at index idx and returns an iterator to the inserted value. */
+    auto insert (size_t idx, const ElementType& value)
+    {
+        VCTR_ASSERT (idx < Vctr::size());
+        return Vctr::storage.insert (Vctr::begin() + idx, value);
+    }
+
+    /** Inserts value before the element referenced by pos and returns an iterator to the inserted value.
+
+        pos must refer to an element in this Vector.
+
+        This is a standard interface function forwarded to std::vector::insert().
+     */
+    auto insert (ConstIterator pos, ElementType&& value)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        return Vctr::storage.insert (pos, std::move (value));
+    }
+
+    /** Inserts value at index idx and returns an iterator to the inserted value. */
+    auto insert (size_t idx, ElementType&& value)
+    {
+        VCTR_ASSERT (idx < Vctr::size());
+        return Vctr::storage.insert (Vctr::begin() + idx, std::move (value));
+    }
+
+    /** Inserts count copies of value before the element referenced by pos and returns an iterator to the
+        inserted values.
+
+        pos must refer to an element in this Vector.
+
+        This is a standard interface function forwarded to std::vector::insert().
+     */
+    auto insert (ConstIterator pos, size_t count, const ElementType& value)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        return Vctr::storage.insert (pos, count, value);
+    }
+
+    /** Inserts count copies of value at index idx and returns an iterator to the inserted values. */
+    auto insert (size_t idx, size_t count, const ElementType& value)
+    {
+        VCTR_ASSERT (idx < Vctr::size());
+        return Vctr::storage.insert (Vctr::begin() + idx, count, value);
+    }
+
+    /** Inserts a range of values before the element referenced by pos and returns an iterator to the
+        inserted values.
+
+        pos must refer to an element in this Vector, first and last must denote the begin and end of
+        the range to be inserted. The inserted range must not be part of this Vector.
+
+        This is a standard interface function forwarded to std::vector::insert().
+     */
+    template <is::inputIteratorToConstructValuesOfType<ElementType> InputIterator>
+    auto insert (ConstIterator pos, InputIterator first, InputIterator last)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+
+        if constexpr (is::contiguousIteratorWithValueTypeSameAs<ElementType, InputIterator>)
+        {
+            // The range between first and last must not be elements of this Vector
+            VCTR_ASSERT (! Vctr::contains (first));
+            VCTR_ASSERT (! Vctr::contains (last));
+        }
+
+        return Vctr::storage.insert (pos, first, last);
+    }
+
+    /** Inserts a range of values at index idx and returns an iterator to the inserted values.
+
+        First and last must denote the begin and end of the range to be inserted. The inserted range
+        must not be part of this Vector.
+     */
+    template <is::inputIteratorToConstructValuesOfType<ElementType> InputIterator>
+    auto insert (size_t idx, InputIterator first, InputIterator last)
+    {
+        VCTR_ASSERT (idx < Vctr::size());
+
+        if constexpr (is::contiguousIteratorWithValueTypeSameAs<ElementType, InputIterator>)
+        {
+            // The range between first and last must not be elements of this Vector
+            VCTR_ASSERT (! Vctr::contains (first));
+            VCTR_ASSERT (! Vctr::contains (last));
+        }
+
+        return Vctr::storage.insert (Vctr::begin() + idx, first, last);
+    }
+
+    /** Inserts a list of values before the element referenced by pos and returns an iterator to the
+        first inserted value.
+
+        pos must refer to an element in this Vector.
+
+        This is a standard interface function forwarded to std::vector::insert().
+     */
+    auto insert (ConstIterator pos, std::initializer_list<ElementType> initList)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        return Vctr::storage.insert (pos, initList);
+    }
+
+    /** Inserts a list of values at index idx and returns an iterator to the first inserted value. */
+    auto insert (size_t idx, std::initializer_list<ElementType> initList)
+    {
+        VCTR_ASSERT (idx < Vctr::size());
+        return Vctr::storage.insert (Vctr::begin() + idx, initList);
+    }
+
+    /** Inserts a VCTR container before the element referenced by pos and returns an iterator to the
+        first inserted value.
+
+        pos must refer to an element in this Vector.
+     */
+    template <is::anyVctr VctrToInsert>
+    auto insert (ConstIterator pos, VctrToInsert&& vctrToInsert, bool moveValuesFromSrc = false)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+
+        // If it is no view and no reference, the container passed in has no dependencies outside this scope,
+        // so we can safely move its elements in every case
+        if constexpr ((! is::view<VctrToInsert>) && (! std::is_reference_v<VctrToInsert>))
+            moveValuesFromSrc = true;
+
+        if (moveValuesFromSrc)
+            return Vctr::storage.insert (pos, std::make_move_iterator (vctrToInsert.begin()), std::make_move_iterator (vctrToInsert.end()));
+
+        return Vctr::storage.insert (pos, vctrToInsert.begin(), vctrToInsert.end());
+    }
+
+    /** Inserts a VCTR container at index idx and returns an iterator to the first inserted value. */
+    template <is::anyVctr VctrToInsert>
+    auto insert (size_t idx, VctrToInsert&& vctrToInsert, bool moveValuesFromSrc = false)
+    {
+        // Undefined behaviour if pos does not refer to an element in this Vector
+        VCTR_ASSERT (idx < Vctr::size());
+
+        // If it is no view and no reference, the container passed in has no dependencies outside this scope,
+        // so we can safely move its elements in every case
+        if constexpr ((! is::view<VctrToInsert>) && (! std::is_reference_v<VctrToInsert>))
+            moveValuesFromSrc = true;
+
+        if (moveValuesFromSrc)
+            return Vctr::storage.insert (Vctr::begin() + idx, std::make_move_iterator (vctrToInsert.begin()), std::make_move_iterator (vctrToInsert.end()));
+
+        return Vctr::storage.insert (Vctr::begin() + idx, vctrToInsert.begin(), vctrToInsert.end());
+    }
 };
 
 /** A handy shortcut for Vector<std::unique_ptr<OwnedElementType>>. */

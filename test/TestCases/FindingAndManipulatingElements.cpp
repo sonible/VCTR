@@ -37,6 +37,13 @@ TEST_CASE ("find, findIf, findReverse, findIfReverse, contains", "[VctrBase][Fin
     REQUIRE (b.contains (0));
     REQUIRE_FALSE (a.contains (-1));
 
+    auto aIt = a.begin();
+    REQUIRE (a.contains (aIt));
+    ++aIt;
+    REQUIRE (a.contains (aIt));
+    aIt = a.end();
+    REQUIRE_FALSE (a.contains (aIt));
+
     // Making sure that the right elements are found in case of duplicates
     REQUIRE (std::distance (a.begin(), a.find (3)) == 2);
     REQUIRE (std::distance (b.begin(), b.find (4)) == 3);

@@ -462,6 +462,20 @@ public:
         return find (value) != end();
     }
 
+    /** Returns true if the iterator refers to an element inside this container or span.
+
+        It will return false in case it equals end().
+     */
+    template <is::contiguousIteratorWithValueTypeSameAs<ElementType> It>
+    bool contains (It it) const
+    {
+        const auto* address = std::to_address (it);
+        const auto* first = std::to_address (begin());
+        const auto* last = std::to_address (end() - 1);
+
+        return address >= first && address <= last;
+    }
+
     //==============================================================================
     // Shuffling and sorting elements
     //==============================================================================
