@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 //==============================================================================
@@ -118,17 +118,6 @@ private:
     const CombinedStorageInfo<SrcAStorageInfoType, SrcBStorageInfoType> storageInfo;
 };
 
-template <class SrcAType, class SrcBType>
-requires (is::anyVctrOrExpression<std::remove_cvref_t<SrcAType>> &&
-          is::anyVctrOrExpression<std::remove_cvref_t<SrcBType>>)
-constexpr auto operator- (SrcAType&& a, SrcBType&& b)
-{
-    assertCommonSize (a, b);
-    constexpr auto extent = getCommonExtent<SrcAType, SrcBType>();
-
-    return SubtractVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
-}
-
 //==============================================================================
 /** Subtracts a vector like type from a single value*/
 template <size_t extent, class SrcType>
@@ -214,14 +203,6 @@ private:
     const typename Expression::NeonSrc asNeon;
 };
 
-/** Returns an expression that subtracts a given vector-like source from a single value */
-template <class Src>
-requires is::anyVctrOrExpression<Src>
-constexpr auto operator- (typename std::remove_cvref_t<Src>::value_type single, Src&& vec)
-{
-    return SubtractVecFromSingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
-}
-
 //==============================================================================
 /** Subtracts a single value from a vector like type */
 template <size_t extent, class SrcType>
@@ -306,12 +287,46 @@ private:
     const typename Expression::NeonSrc asNeon;
 };
 
-/** Returns an expression that subtracts a given vector-like source to a given single value */
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
+/** Returns an expression that subtracts vector or expression b from vector or expression a.
+
+    @ingroup Expressions
+ */
+template <class SrcAType, class SrcBType>
+requires (is::anyVctrOrExpression<std::remove_cvref_t<SrcAType>> &&
+          is::anyVctrOrExpression<std::remove_cvref_t<SrcBType>>)
+constexpr auto operator- (SrcAType&& a, SrcBType&& b)
+{
+    assertCommonSize (a, b);
+    constexpr auto extent = getCommonExtent<SrcAType, SrcBType>();
+
+    return Expressions::SubtractVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
+}
+
+/** Returns an expression that subtracts a vector or expression source from a single value.
+
+    @ingroup Expressions
+ */
+template <class Src>
+requires is::anyVctrOrExpression<Src>
+constexpr auto operator- (typename std::remove_cvref_t<Src>::value_type single, Src&& vec)
+{
+    return Expressions::SubtractVecFromSingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
+}
+
+/** Returns an expression that subtracts a single value from a vector or expression.
+
+    @ingroup Expressions
+ */
 template <class Src>
 requires is::anyVctrOrExpression<Src>
 constexpr auto operator- (Src&& vec, typename std::remove_cvref_t<Src>::value_type single)
 {
-    return SubtractSingleFromVec<extentOf<Src>, Src> (std::forward<Src> (vec), single);
+    return Expressions::SubtractSingleFromVec<extentOf<Src>, Src> (std::forward<Src> (vec), single);
 }
 
 } // namespace vctr

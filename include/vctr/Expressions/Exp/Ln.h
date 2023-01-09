@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 template <size_t extent, class SrcType>
@@ -75,7 +75,15 @@ private:
     SrcType src;
 };
 
-/** Computes the natural logarithm of the source values */
-constexpr ExpressionChainBuilder<Ln> ln;
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
+/** Computes the natural logarithm of the source values.
+
+    @ingroup Expressions
+ */
+constexpr inline ExpressionChainBuilder<Expressions::Ln> ln;
 
 } // namespace vctr

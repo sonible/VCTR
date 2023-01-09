@@ -58,8 +58,7 @@ using StdVectorType = typename StdVector<T, Allocator>::Type;
 
 }
 
-/** @ingroup Core
-    @brief The heap-allocated container type.
+/** The heap-allocated container type.
 
     Wraps a std::vector with a suitable Allocator. For arithmetic types, including
     std::complex, the default allocator will be a vctr::AlignedAllocator with an alignment
@@ -79,6 +78,8 @@ using StdVectorType = typename StdVector<T, Allocator>::Type;
 
     @tparam ElementType The type held by the Vector. May not be const.
     @tparam Allocator   The allocator as described above. You should not need to specify it in most cases.
+
+    @ingroup Core
  */
 template <is::nonConst ElementType, template <class> class Allocator = DefaultVectorAllocator>
 class Vector : public VctrBase<ElementType, detail::StdVectorType<ElementType, Allocator>, std::dynamic_extent>

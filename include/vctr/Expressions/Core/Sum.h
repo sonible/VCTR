@@ -20,12 +20,8 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::detail
 {
-
-namespace detail
-{
-
 template <class ValueType>
 struct SumInit
 {
@@ -39,6 +35,9 @@ struct SumInit<StringType>
     static constexpr const char* value = "";
 };
 }
+
+namespace vctr::Expressions
+{
 
 template <size_t extent, class SrcType>
 requires has::operatorPlusEquals<ValueType<SrcType>>
@@ -102,7 +101,15 @@ private:
     SrcType src;
 };
 
-/** Computes the sum of the source values */
-constexpr ExpressionChainBuilder<Sum> sum;
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
+/** Computes the sum of the source values.
+
+    @ingroup Expressions
+ */
+constexpr inline ExpressionChainBuilder<Expressions::Sum> sum;
 
 } // namespace vctr

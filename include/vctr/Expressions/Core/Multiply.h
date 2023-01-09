@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 //==============================================================================
@@ -96,17 +96,6 @@ private:
     const CombinedStorageInfo<SrcAStorageInfoType, SrcBStorageInfoType> storageInfo;
 };
 
-template <class SrcAType, class SrcBType>
-requires (is::anyVctrOrExpression<std::remove_cvref_t<SrcAType>> &&
-          is::anyVctrOrExpression<std::remove_cvref_t<SrcBType>>)
-constexpr auto operator* (SrcAType&& a, SrcBType&& b)
-{
-    assertCommonSize (a, b);
-    constexpr auto extent = getCommonExtent<SrcAType, SrcBType>();
-
-    return MultiplyVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
-}
-
 //==============================================================================
 /** Multiplies a vector like type by a single value */
 template <size_t extent, class SrcType>
@@ -176,22 +165,6 @@ private:
     const typename Expression::SSESrc asSSE;
     const typename Expression::NeonSrc asNeon;
 };
-
-/** Returns an expression that adds a given single value to a given vector-like source */
-template <class Src>
-requires is::anyVctrOrExpression<Src>
-constexpr auto operator* (typename std::remove_cvref_t<Src>::value_type single, Src&& vec)
-{
-    return MultiplyVecBySingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
-}
-
-/** Returns an expression that adds a given vector-like source to a given single value */
-template <class Src>
-requires is::anyVctrOrExpression<Src>
-constexpr auto operator* (Src&& vec, typename std::remove_cvref_t<Src>::value_type single)
-{
-    return MultiplyVecBySingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
-}
 
 //==============================================================================
 /** Multiplies a vector like type by a single compile time constant value. */
@@ -263,7 +236,53 @@ private:
     const typename Expression::NeonSrc asNeon;
 };
 
-/** Multiplies the source by a compile time constant */
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
+/** Returns an expression that multiplies vector or expression a with vector or expression b.
+
+    @ingroup Expressions
+ */
+template <class SrcAType, class SrcBType>
+requires (is::anyVctrOrExpression<std::remove_cvref_t<SrcAType>> &&
+          is::anyVctrOrExpression<std::remove_cvref_t<SrcBType>>)
+constexpr auto operator* (SrcAType&& a, SrcBType&& b)
+{
+    assertCommonSize (a, b);
+    constexpr auto extent = getCommonExtent<SrcAType, SrcBType>();
+
+    return Expressions::MultiplyVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
+}
+
+/** Returns an expression that multiplies a single value with a vector or expression source.
+
+    @ingroup Expressions
+ */
+template <class Src>
+requires is::anyVctrOrExpression<Src>
+constexpr auto operator* (typename std::remove_cvref_t<Src>::value_type single, Src&& vec)
+{
+    return Expressions::MultiplyVecBySingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
+}
+
+/** Returns an expression that multiplies a vector or expression source with a single value.
+
+    @ingroup Expressions
+ */
+template <class Src>
+requires is::anyVctrOrExpression<Src>
+constexpr auto operator* (Src&& vec, typename std::remove_cvref_t<Src>::value_type single)
+{
+    return Expressions::MultiplyVecBySingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
+}
+
+
+/** Returns an expression that multiplies a vector or expression source with a compile time constant.
+
+    @ingroup Expressions
+ */
 template <auto constantValue>
-constexpr ExpressionChainBuilder<MultiplyVecByConstant, Constant<constantValue>> multiplyByConstant;
+constexpr ExpressionChainBuilder<Expressions::MultiplyVecByConstant, Constant<constantValue>> multiplyByConstant;
 } // namespace vctr

@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 template <size_t extent, class SrcType>
@@ -123,10 +123,16 @@ private:
     SrcType src;
 };
 
+} // namespace vctr::Expressions
+
+namespace vctr
+{
 /** Computes the absolute value of the source values.
 
     Complex source values are transformed into real values. Unsigned integers remain unaltered.
+
+    @ingroup Expressions
  */
-constexpr ExpressionChainBuilder<Abs> abs;
+constexpr inline ExpressionChainBuilder<Expressions::Abs> abs;
 
 } // namespace vctr

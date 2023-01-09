@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 //==============================================================================
@@ -110,15 +110,6 @@ private:
     const CombinedStorageInfo<SrcAStorageInfoType, SrcBStorageInfoType> storageInfo;
 };
 
-template <is::anyVctrOrExpression SrcAType, is::anyVctrOrExpression SrcBType>
-constexpr auto operator+ (SrcAType&& a, SrcBType&& b)
-{
-    assertCommonSize (a, b);
-    constexpr auto extent = getCommonExtent<SrcAType, SrcBType>();
-
-    return AddVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
-}
-
 //==============================================================================
 /** Adds a single value to a vector like type */
 template <size_t extent, class SrcType>
@@ -195,18 +186,42 @@ private:
     const typename Expression::NeonSrc asNeon;
 };
 
-/** Returns an expression that adds a given single value to a given vector-like source */
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
+/** Returns an expression that adds two vector or expression sources.
+
+    @ingroup Expressions
+ */
+template <is::anyVctrOrExpression SrcAType, is::anyVctrOrExpression SrcBType>
+constexpr auto operator+ (SrcAType&& a, SrcBType&& b)
+{
+    assertCommonSize (a, b);
+    constexpr auto extent = getCommonExtent<SrcAType, SrcBType>();
+
+    return Expressions::AddVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
+}
+
+/** Returns an expression that adds a single value to a vector or expression source.
+
+    @ingroup Expressions
+ */
 template <is::anyVctrOrExpression Src>
 constexpr auto operator+ (typename std::remove_cvref_t<Src>::value_type single, Src&& vec)
 {
-    return AddSingleToVec<extentOf<Src>, Src> (single, std::forward<Src> (vec));
+    return Expressions::AddSingleToVec<extentOf<Src>, Src> (single, std::forward<Src> (vec));
 }
 
-/** Returns an expression that adds a given vector-like source to a given single value */
+/** Returns an expression that adds a vector or expression source to a single value.
+
+    @ingroup Expressions
+ */
 template <is::anyVctrOrExpression Src>
 constexpr auto operator+ (Src&& vec, typename std::remove_cvref_t<Src>::value_type single)
 {
-    return AddSingleToVec<extentOf<Src>, Src> (single, std::forward<Src> (vec));
+    return Expressions::AddSingleToVec<extentOf<Src>, Src> (single, std::forward<Src> (vec));
 }
 
 } // namespace vctr

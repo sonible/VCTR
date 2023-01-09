@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 template <size_t extent, class SrcType>
@@ -38,7 +38,7 @@ public:
     {
         result = std::min (result, src[i]);
     }
-    
+
     VCTR_FORCEDINLINE value_type reduceVectorOp() const
     requires is::suitableForAccelerateRealFloatVectorReductionOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable>
     {
@@ -84,9 +84,6 @@ public:
 private:
     SrcType src;
 };
-
-/** Computes the minimum value of the source values */
-constexpr ExpressionChainBuilder<Min> min;
 
 template <size_t extent, class SrcType>
 requires is::number<ValueType<SrcType>>
@@ -179,6 +176,20 @@ private:
     SrcType src;
 };
 
-/** Computes the minimum value of the absolute value of the source values */
-constexpr ExpressionChainBuilder<MinAbs> minAbs;
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
+/** Computes the minimum value of the source values.
+
+    @ingroup Expressions
+ */
+constexpr ExpressionChainBuilder<Expressions::Min> min;
+
+/** Computes the minimum value of the absolute value of the source values.
+
+    @ingroup Expressions
+ */
+constexpr ExpressionChainBuilder<Expressions::MinAbs> minAbs;
 }

@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr
+namespace vctr::Expressions
 {
 
 template <size_t extent, class SrcType>
@@ -46,12 +46,6 @@ public:
 private:
     SrcType src;
 };
-
-/** This filter expression ensures that only SSE based accelerated evaluation of the previous expression is possible.
-
-    If getSSE is not available on the source, this will only forward the basic operator[] based interface.
- */
-constexpr ExpressionChainBuilder<SSEFilter> useSSE;
 
 template <size_t extent, class SrcType>
 class AVXFilter : public ExpressionTemplateBase
@@ -83,12 +77,6 @@ private:
     SrcType src;
 };
 
-/** This filter expression ensures that only AVX based accelerated evaluation of the previous expression is possible.
-
-    If getAVX is not available on the source, this will only forward the basic operator[] based interface.
- */
-constexpr ExpressionChainBuilder<AVXFilter> useAVX;
-
 template <size_t extent, class SrcType>
 class NeonFilter : public ExpressionTemplateBase
 {
@@ -113,17 +101,40 @@ private:
     SrcType src;
 };
 
+} // namespace vctr::Expressions
+
+namespace vctr
+{
+
+/** This filter expression ensures that only SSE based accelerated evaluation of the previous expression is possible.
+
+    If getSSE is not available on the source, this will only forward the basic operator[] based interface.
+
+    @ingroup Expressions
+ */
+constexpr inline ExpressionChainBuilder<Expressions::SSEFilter> useSSE;
+
+/** This filter expression ensures that only AVX based accelerated evaluation of the previous expression is possible.
+
+    If getAVX is not available on the source, this will only forward the basic operator[] based interface.
+
+    @ingroup Expressions
+ */
+constexpr inline ExpressionChainBuilder<Expressions::AVXFilter> useAVX;
+
 /** This filter expression ensures that only Neon based accelerated evaluation of the previous expression is possible.
 
     If getNeon is not available on the source, this will only forward the basic operator[] based interface.
+
+    @ingroup Expressions
  */
-constexpr ExpressionChainBuilder<NeonFilter> useNeon;
+constexpr inline ExpressionChainBuilder<Expressions::NeonFilter> useNeon;
 
 #if VCTR_ARM
-constexpr ExpressionChainBuilder<NeonFilter> useNeonOrAVX;
-constexpr ExpressionChainBuilder<NeonFilter> useNeonOrSSE;
+constexpr inline ExpressionChainBuilder<Expressions::NeonFilter> useNeonOrAVX;
+constexpr inline ExpressionChainBuilder<Expressions::NeonFilter> useNeonOrSSE;
 #else
-constexpr ExpressionChainBuilder<AVXFilter> useNeonOrAVX;
-constexpr ExpressionChainBuilder<SSEFilter> useNeonOrSSE;
+constexpr inline ExpressionChainBuilder<Expressions::AVXFilter> useNeonOrAVX;
+constexpr inline ExpressionChainBuilder<Expressions::SSEFilter> useNeonOrSSE;
 #endif
 } // namespace vctr
