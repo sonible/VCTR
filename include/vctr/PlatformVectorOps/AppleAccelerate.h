@@ -60,7 +60,8 @@ public:
     static void div  (const float* srcA, float srcB,             float* dst, size_t len) { vDSP_vsdiv (srcA, 1, &srcB, dst, 1, len); }
     static void smsa (const float* srcA, float srcB, float srcC, float* dst, size_t len) { vDSP_vsmsa (srcA, 1, &srcB, &srcC, dst, 1, len); }
 
-    static void threshold (const float* src, float thresh, float* dst, size_t len) { vDSP_vthr (src, 1, &thresh, dst, 1, len); }
+    static void clampLow (const float* src, float thresh,     float* dst, size_t len) { vDSP_vthr (src, 1, &thresh, dst, 1, len); }
+    static void clamp    (const float* src, float l, float h, float* dst, size_t len) { vDSP_vclip (src, 1, &l, &h, dst, 1, len); }
 
     static void intToFloat (const int32_t* src,  float* dst, size_t len) { vDSP_vflt32 (src, 1, dst, 1, len); }
     static void intToFloat (const uint32_t* src, float* dst, size_t len) { vDSP_vfltu32 (src, 1, dst, 1, len); }
@@ -102,7 +103,8 @@ public:
     static void smsa (const double* srcA, double srcB, double srcC, double* dst, size_t len) { vDSP_vsmsaD (srcA, 1, &srcB, &srcC, dst, 1, len); }
     // clang-format on
 
-    static void threshold (const double* src, double thresh, double* dst, size_t len) { vDSP_vthrD (src, 1, &thresh, dst, 1, len); }
+    static void clampLow (const double* src, double thresh,      double* dst, size_t len) { vDSP_vthrD (src, 1, &thresh, dst, 1, len); }
+    static void clamp    (const double* src, double l, double h, double* dst, size_t len) { vDSP_vclipD (src, 1, &l, &h, dst, 1, len); }
 
     static void intToFloat (const int32_t* src, double* dst, size_t len)
     {

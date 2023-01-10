@@ -23,7 +23,7 @@
 namespace vctr::Expressions
 {
 
-template <size_t extent, class SrcType, is::constantWrapper ConstantType>
+template <size_t extent, class SrcType, is::constant ConstantType>
 class PowConstantBase : ExpressionTemplateBase
 {
 public:

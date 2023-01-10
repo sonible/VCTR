@@ -147,7 +147,7 @@
 #include "Expressions/Filter/PlatformVectorOpsFilter.h"
 
 #include "Expressions/Core/Abs.h"
-#include "Expressions/Core/ClampLow.h"
+#include "Expressions/Core/Clamp.h"
 #include "Expressions/Core/Square.h"
 #include "Expressions/Core/Add.h"
 #include "Expressions/Core/Subtract.h"

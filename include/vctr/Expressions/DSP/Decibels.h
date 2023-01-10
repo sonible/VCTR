@@ -22,7 +22,7 @@
 
 namespace vctr::detail
 {
-template <is::constantWrapper C>
+template <is::constant C>
 struct InvertedConstant
 {
     static constexpr double value = 1.0 / double (C::value);
@@ -34,11 +34,12 @@ namespace vctr::Expressions
 {
 
 template <size_t extent, class SrcType, class DecibelConstant, class MinDb>
-using MagToDb = ClampLowByConstant<extent,
-                                   MultiplyVecByConstant<extent,
-                                                         Log10<extent, SrcType>,
-                                                         DecibelConstant>,
-                                   MinDb>;
+using MagToDb = ClampByConstant<extent,
+                                MultiplyVecByConstant<extent,
+                                                      Log10<extent, SrcType>,
+                                                      DecibelConstant>,
+                                MinDb,
+                                DisabledConstant>;
 
 template <size_t extent, class SrcType, class DecibelConstant>
 using DBToMag = PowConstantBase<extent,
@@ -76,9 +77,11 @@ struct dBPower : Constant<10> {};
     (the typical value when dealing with digital audio amplitudes) or 10 for dBPower.
 
    @tparam DecibelConstant: Either vctr::dBFS, vctr::dBVoltage or vctr::dBPower.
- * @tparam minDb: The lower threshold for the resulting dB value and thus the value for a magnitude of 0.
+   @tparam minDb: The lower threshold for the resulting dB value and thus the value for a magnitude of 0.
+
+   @ingroup Expressions
  */
-template <is::constantWrapper DecibelConstant, auto minDb = -100>
+template <is::constant DecibelConstant, auto minDb = -100>
 constexpr inline ExpressionChainBuilder<Expressions::MagToDb, DecibelConstant, Constant<minDb>> magToDb;
 
 /** Converts the source decibel values into their magnitude representation.
@@ -87,8 +90,10 @@ constexpr inline ExpressionChainBuilder<Expressions::MagToDb, DecibelConstant, C
     (the typical value when dealing with digital audio amplitudes) or 10 for dBPower.
 
    @tparam DecibelConstant: Either vctr::dBFS, vctr::dBVoltage or vctr::dBPower.
+
+   @ingroup Expressions
  */
-template <is::constantWrapper DecibelConstant>
+template <is::constant DecibelConstant>
 constexpr inline ExpressionChainBuilder<Expressions::DBToMag, DecibelConstant> dbToMag;
 
 } // namespace vctr

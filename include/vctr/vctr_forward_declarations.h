@@ -52,8 +52,8 @@ class Span;
 
 struct ExpressionTemplateBase;
 
-template <template <size_t, class...> class ExpressionType, class... ExtraParameters>
-struct ExpressionChainBuilder;
+template <template <size_t, class...> class ExpressionType, class RuntimeArgs, class... AdditionalCompileTimeParameters>
+struct ExpressionChainBuilderWithRuntimeArgs;
 
 template <class T>
 struct AVXRegister;
@@ -63,4 +63,6 @@ struct SSERegister;
 
 template <class T>
 struct NeonRegister;
+
+struct DisabledConstant;
 } // namespace vctr

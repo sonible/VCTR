@@ -38,6 +38,12 @@ struct IsStdUniquePtr : std::false_type {};
 
 template <class T, class D>
 struct IsStdUniquePtr<std::unique_ptr<T, D>> : std::true_type {};
+
+template <class T>
+struct IsStdTuple : std::false_type {};
+
+template <class... T>
+struct IsStdTuple<std::tuple<T...>> : std::true_type {};
 // clang-format on
 
 } // namespace vctr::detail
@@ -67,9 +73,26 @@ concept noPointer = ! std::is_pointer_v<std::remove_cvref_t<T>>;
 template <class T>
 concept uniquePtr = detail::IsStdUniquePtr<T>::value;
 
-/** Constrains the type to be a wrapper class that defines a static const value field */
+/** Constrains the type to be any instance of std::tuple */
 template <class T>
-concept constantWrapper = requires (T, std::any a) { a = T::value; };
+concept stdTuple = detail::IsStdTuple<T>::value;
+
+template <class T, class... TupleTypes>
+concept stdTupleWithTypes = std::same_as<T, std::tuple<TupleTypes...>>;
+
+/** Constrains the type to be a class that defines a static const value field.
+
+    Suitable classes are e.g. std::integral_constant and vctr::Constant.
+ */
+template <class C>
+concept constant = requires (std::any a) { a = C::value; };
+
+/** Constrains the type to be a class that defines a static const value field of a certain type.
+
+    Suitable classes are e.g. std::integral_constant and vctr::Constant.
+ */
+template <class C, class T>
+concept constantWithType = std::same_as<T, std::remove_cvref_t<decltype (C::value)>>;
 
 // clang-format on
 
