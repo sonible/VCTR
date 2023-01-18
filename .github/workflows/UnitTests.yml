@@ -145,7 +145,7 @@ jobs:
         if: runner.os == 'macOS'
 
       - name: (Windows) Install dependencies
-        run: choco install llvm --version 15.0.4 -y && choco install ninja -y && pip3 install conan
+        run: choco install ninja -y && pip3 install conan
         if: runner.os == 'Windows'
 
       - name: (Windows) Configure dev environment variables
