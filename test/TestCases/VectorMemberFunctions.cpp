@@ -22,6 +22,10 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
+#include <catch2/matchers/catch_matchers_string.hpp>
+
+#include <list>
+
 TEST_CASE ("capacity, shrink_to_fit, reserve, clear", "[VectorMemberFunctions]")
 {
     auto v = UnitTestValues<int32_t>::template vector<100, 0>();
@@ -137,5 +141,173 @@ TEST_CASE ("erase", "[VectorMemberFunctions]")
         const vctr::Vector expected { 0, 2, 4, 2, 4 };
 
         REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+}
+
+TEST_CASE ("insert", "[VectorMemberFunctions]")
+{
+    vctr::Vector<std::string> v { "one", "two", "three", "four" };
+
+    SECTION ("insert before iterator")
+    {
+        auto it1 = v.insert (v.begin() + 1, std::string ("move me"));
+        REQUIRE_THAT (*it1, Catch::Matchers::Equals ("move me"));
+        REQUIRE (std::distance (v.begin(), it1) == 1);
+
+        auto it2 = v.insert (v.begin() + 3, "copy me");
+        REQUIRE_THAT (*it2, Catch::Matchers::Equals ("copy me"));
+        REQUIRE (std::distance (v.begin(), it2) == 3);
+
+        auto it3 = v.insert (v.begin() + 5, 2, "two times");
+        REQUIRE_THAT (*it3, Catch::Matchers::Equals ("two times"));
+        REQUIRE (std::distance (v.begin(), it3) == 5);
+
+        const vctr::Vector expected { "one", "move me", "two", "copy me", "three", "two times", "two times", "four" };
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("insert at index")
+    {
+        auto it1 = v.insert (1, std::string ("move me"));
+        REQUIRE_THAT (*it1, Catch::Matchers::Equals ("move me"));
+        REQUIRE (std::distance (v.begin(), it1) == 1);
+
+        auto it2 = v.insert (3, "copy me");
+        REQUIRE_THAT (*it2, Catch::Matchers::Equals ("copy me"));
+        REQUIRE (std::distance (v.begin(), it2) == 3);
+
+        auto it3 = v.insert (5, 2, "two times");
+        REQUIRE_THAT (*it3, Catch::Matchers::Equals ("two times"));
+        REQUIRE (std::distance (v.begin(), it3) == 5);
+
+        const vctr::Vector expected { "one", "move me", "two", "copy me", "three", "two times", "two times", "four" };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("insert range before iterator")
+    {
+        // Deliberately take a container with non-contiguous iterators and a different value type
+        std::list<std::string_view> strings { "Foo", "Bar", "Baz" };
+
+        auto it = v.insert (v.begin() + 2, strings.begin(), strings.end());
+        REQUIRE_THAT (*it, Catch::Matchers::Equals ("Foo"));
+        REQUIRE (std::distance (v.begin(), it) == 2);
+
+        const vctr::Vector expected { "one", "two", "Foo", "Bar", "Baz", "three", "four" };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("insert range at position")
+    {
+        // Deliberately take a container with non-contiguous iterators and a different value type
+        std::list<std::string_view> strings { "Foo", "Bar", "Baz" };
+
+        auto it = v.insert (2, strings.begin(), strings.end());
+        REQUIRE_THAT (*it, Catch::Matchers::Equals ("Foo"));
+        REQUIRE (std::distance (v.begin(), it) == 2);
+
+        const vctr::Vector expected { "one", "two", "Foo", "Bar", "Baz", "three", "four" };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("insert initializer list before iterator")
+    {
+        std::initializer_list<std::string> strings { "Foo", "Bar", "Baz" };
+
+        auto it1 = v.insert (v.begin() + 2, strings);
+        REQUIRE_THAT (*it1, Catch::Matchers::Equals ("Foo"));
+        REQUIRE (std::distance (v.begin(), it1) == 2);
+
+        auto it2 = v.insert (v.begin() + 4, { "in", "place" });
+        REQUIRE_THAT (*it2, Catch::Matchers::Equals ("in"));
+        REQUIRE (std::distance (v.begin(), it2) == 4);
+
+        const vctr::Vector expected { "one", "two", "Foo", "Bar", "in", "place", "Baz", "three", "four" };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("insert initializer list at position")
+    {
+        std::initializer_list<std::string> strings { "Foo", "Bar", "Baz" };
+
+        auto it1 = v.insert (2, strings);
+        REQUIRE_THAT (*it1, Catch::Matchers::Equals ("Foo"));
+        REQUIRE (std::distance (v.begin(), it1) == 2);
+
+        auto it2 = v.insert (4, { "in", "place" });
+        REQUIRE_THAT (*it2, Catch::Matchers::Equals ("in"));
+        REQUIRE (std::distance (v.begin(), it2) == 4);
+
+        const vctr::Vector expected { "one", "two", "Foo", "Bar", "in", "place", "Baz", "three", "four" };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("insert Span and Array before iterator")
+    {
+        std::string s[] { "Copy 1", "Copy 2"};
+        vctr::Span stringsToCopy (s, 2);
+
+        std::string t[] { "Move Span 1", "Move Span 2"};
+        vctr::Span stringsToMove (t, 2);
+
+        vctr::Array<std::string, 2> strings { "From Array 1", "From Array 2" };
+
+        auto it1 = v.insert (v.begin() + 2, stringsToCopy);
+        REQUIRE_THAT (*it1, Catch::Matchers::Equals ("Copy 1"));
+        REQUIRE (std::distance (v.begin(), it1) == 2);
+
+        auto it2 = v.insert (v.begin() + 3, stringsToMove, true);
+        REQUIRE_THAT (*it2, Catch::Matchers::Equals ("Move Span 1"));
+        REQUIRE (std::distance (v.begin(), it2) == 3);
+
+        auto it3 = v.insert (v.begin() + 4, std::move (strings));
+        REQUIRE_THAT (*it3, Catch::Matchers::Equals ("From Array 1"));
+        REQUIRE (std::distance (v.begin(), it3) == 4);
+
+        const vctr::Vector expected { "one", "two", "Copy 1", "Move Span 1", "From Array 1", "From Array 2", "Move Span 2", "Copy 2", "three", "four" };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+
+        REQUIRE_FALSE (s[0].empty());
+        REQUIRE_FALSE (s[1].empty());
+        REQUIRE (t[0].empty());
+        REQUIRE (t[1].empty());
+    }
+
+    SECTION ("insert Span and Array at position")
+    {
+        std::string s[] { "Copy 1", "Copy 2"};
+        vctr::Span stringsToCopy (s, 2);
+
+        std::string t[] { "Move Span 1", "Move Span 2"};
+        vctr::Span stringsToMove (t, 2);
+
+        vctr::Array<std::string, 2> strings { "From Array 1", "From Array 2" };
+
+        auto it1 = v.insert (2, stringsToCopy);
+        REQUIRE_THAT (*it1, Catch::Matchers::Equals ("Copy 1"));
+        REQUIRE (std::distance (v.begin(), it1) == 2);
+
+        auto it2 = v.insert (3, stringsToMove, true);
+        REQUIRE_THAT (*it2, Catch::Matchers::Equals ("Move Span 1"));
+        REQUIRE (std::distance (v.begin(), it2) == 3);
+
+        auto it3 = v.insert (4, std::move (strings));
+        REQUIRE_THAT (*it3, Catch::Matchers::Equals ("From Array 1"));
+        REQUIRE (std::distance (v.begin(), it3) == 4);
+
+        const vctr::Vector expected { "one", "two", "Copy 1", "Move Span 1", "From Array 1", "From Array 2", "Move Span 2", "Copy 2", "three", "four" };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+
+        REQUIRE_FALSE (s[0].empty());
+        REQUIRE_FALSE (s[1].empty());
+        REQUIRE (t[0].empty());
+        REQUIRE (t[1].empty());
     }
 }
