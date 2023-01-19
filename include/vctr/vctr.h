@@ -92,7 +92,12 @@
 #endif
 
 #if VCTR_USE_GCEM
-#include <gcem/gcem.hpp>
+#include <gcem.hpp>
+
+#if ((GCEM_VERSION_MAJOR < 1) || (GCEM_VERSION_MAJOR == 1 && GCEM_VERSION_MINOR < 16))
+#error "VCTR needs gcem version 1.16.0 or greater"
+#endif
+
 #endif
 
 //==============================================================================
