@@ -91,7 +91,10 @@ private:
     template <class OtherAllocator>
     static constexpr bool isDifferentAllocatorTypeWithSameValueType = (! std::is_same_v<Allocator<ElementType>, OtherAllocator>) && std::is_same_v<ElementType, typename OtherAllocator::value_type>;
 
+    using ConstIterator = typename StdVectorType::const_iterator;
+
 public:
+    //==============================================================================
     using value_type = typename Vctr::value_type;
 
     //==============================================================================
@@ -264,6 +267,79 @@ public:
 
     /** Returns the maximum number of elements the container is able to hold. */
     constexpr size_t max_size() const noexcept { return Vctr::storage.max_size(); }
+
+    //==============================================================================
+    // Erasing elements from the Vector
+    //==============================================================================
+    /** Erases the element referenced by elementToErase and returns the iterator to the element behind it.
+
+        This is a standard interface function forwarded to std::vector::erase().
+     */
+    constexpr auto erase (ConstIterator elementToErase)
+    {
+        // Undefined behaviour if elementToErase does not refer to an element in this Vector
+        VCTR_ASSERT (Vctr::contains (elementToErase));
+        return Vctr::storage.erase (elementToErase);
+    }
+
+    /** Erases the element at index idx and returns the iterator to the element behind it. */
+    constexpr auto erase (size_t idx)
+    {
+        return erase (Vctr::storage.begin() + idx);
+    }
+
+    /** Erases the range of elements referenced by it and returns the iterator to the element behind it.
+
+        First is expected to be contained in the range while last is expected to be the first element
+        after that range.
+
+        This is a standard interface function forwarded to std::vector::erase().
+     */
+    constexpr auto erase (ConstIterator first, ConstIterator last)
+    {
+        // Undefined behaviour if the range between first and last does not refer to a range in this Vector
+        VCTR_ASSERT (Vctr::contains (first));
+        VCTR_ASSERT (Vctr::contains (last) || last == Vctr::end());
+
+        return Vctr::storage.erase (first, last);
+    }
+
+    /** Erases numElements elements starting from index startIdx and returns the iterator to the element behind it. */
+    constexpr auto erase (size_t startIdx, size_t numElements)
+    {
+        auto it = Vctr::storage.begin() + startIdx;
+        return erase (it, it + numElements);
+    }
+
+    /** Erases the first occurrence of value from this Vector and adjusts its size. */
+    template <std::equality_comparable_with<ElementType> T>
+    constexpr auto eraseFirstOccurrenceOf (const T& value)
+    {
+        auto it = Vctr::find (value);
+        return it != Vctr::end() ? erase (it) : it;
+    }
+
+    /** Erases the first occurrence for which predicate is true from this Vector and adjusts its size. */
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
+    constexpr auto eraseFirstOccurrenceIf (Fn&& predicate)
+    {
+        auto it = Vctr::findIf (std::forward<Fn> (predicate));
+        return it != Vctr::end() ? erase (it) : it;
+    }
+
+    /** Removes all occurrences of value from this Vector and adjusts its size. */
+    template <std::equality_comparable_with<ElementType> T>
+    constexpr void eraseAllOccurrencesOf (const T& value)
+    {
+        erase (std::remove (Vctr::begin(), Vctr::end(), value), Vctr::end());
+    }
+
+    /** Removes all elements inside this Vector for which predicate is true and adjusts its size. */
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
+    constexpr void eraseAllOccurrencesIf (Fn&& predicate)
+    {
+        erase (std::remove_if (Vctr::begin(), Vctr::end(), std::forward<Fn> (predicate)), Vctr::end());
+    }
 };
 
 /** A handy shortcut for Vector<std::unique_ptr<OwnedElementType>>. */

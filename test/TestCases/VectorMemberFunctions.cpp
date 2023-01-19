@@ -51,3 +51,91 @@ TEST_CASE ("capacity, shrink_to_fit, reserve, clear", "[VectorMemberFunctions]")
     REQUIRE (v.capacity() >= 0);
     */
 }
+
+TEST_CASE ("erase", "[VectorMemberFunctions]")
+{
+    vctr::Vector v { 0, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5 };
+
+    auto isOdd = [] (auto v) { return v % 2 == 1; };
+
+    SECTION ("erase single element using an iterator")
+    {
+        auto ninth = v.begin() + 8;
+        auto it = v.erase (ninth);
+        REQUIRE (*it == 4);
+
+        const vctr::Vector expected { 0, 1, 2, 3, 4, 5, 1, 2, 4, 5 };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("erase single element using an index")
+    {
+        auto it = v.erase (6);
+        REQUIRE (*it == 2);
+
+        const vctr::Vector expected { 0, 1, 2, 3, 4, 5, 2, 3, 4, 5 };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("erase a range of elements using iterators")
+    {
+        auto first = v.begin() + 3;
+        auto last = v.begin() + 5;
+        auto it = v.erase (first, last);
+        REQUIRE (*it == 5);
+
+        const vctr::Vector expected { 0, 1, 2, 5, 1, 2, 3, 4, 5 };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("erase a range of elements using index and size")
+    {
+        auto it = v.erase (6, 4);
+        REQUIRE (*it == 5);
+
+        const vctr::Vector expected { 0, 1, 2, 3, 4, 5, 5 };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("erase first occurrence of a value")
+    {
+        auto it = v.eraseFirstOccurrenceOf (2);
+        REQUIRE (*it == 3);
+
+        const vctr::Vector expected { 0, 1, 3, 4, 5, 1, 2, 3, 4, 5 };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("erase first predicate match")
+    {
+        auto it = v.eraseFirstOccurrenceIf (isOdd);
+        REQUIRE (*it == 2);
+
+        const vctr::Vector expected { 0, 2, 3, 4, 5, 1, 2, 3, 4, 5 };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("erase all occurrences of a value")
+    {
+        v.eraseAllOccurrencesOf (4);
+
+        const vctr::Vector expected { 0, 1, 2, 3, 5, 1, 2, 3, 5 };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("erase all predicate matches")
+    {
+        v.eraseAllOccurrencesIf (isOdd);
+
+        const vctr::Vector expected { 0, 2, 4, 2, 4 };
+
+        REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+}
