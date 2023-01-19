@@ -108,12 +108,12 @@
 #endif
 #endif
 
-/** Define this to 1 in case gcem (https://github.com/kthohr/gcem) is available.
+/** Define this to 1 in case gcem (https://github.com/kthohr/gcem) is available. The minimum required version is gcem 1.16.0.
 
-    If not defined, it will decide whether to use IPP or not depending on the result of __has_include (<gcem/gcem.hpp>)
+    If not defined, it will decide whether to use IPP or not depending on the result of __has_include (<gcem.hpp>)
  */
 #ifndef VCTR_USE_GCEM
-#if __has_include(<gcem/gcem.hpp>)
+#if __has_include(<gcem.hpp>)
 #define VCTR_USE_GCEM 1
 #else
 #define VCTR_USE_GCEM 0
