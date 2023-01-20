@@ -689,7 +689,7 @@ protected:
     }
 
     /** Asserts that the current size matches the desired size. */
-    void resizeOrAssertSizeMatches (size_t desiredSize) const
+    void resizeOrAssertSizeMatches ([[maybe_unused]] size_t desiredSize) const
     {
         VCTR_ASSERT (size() == desiredSize);
     }
