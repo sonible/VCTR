@@ -219,7 +219,7 @@ consteval size_t getCommonExtent()
     this will be a compile-time static_assert, otherwise it will perform a runtime assert comparing the sizes.
  */
 template <class A, class B>
-constexpr void assertCommonSize (const A& a, const B& b)
+constexpr void assertCommonSize ([[maybe_unused]] const A& a, [[maybe_unused]] const B& b)
 {
     if constexpr (extentOf<A> == std::dynamic_extent || extentOf<B> == std::dynamic_extent)
     {
