@@ -605,31 +605,31 @@ public:
     //==============================================================================
     /** Multiplies this by a vector or expression in place. */
     template <is::anyVctrOrExpression V>
-    void operator*= (const V& v);
+    constexpr void operator*= (const V& v);
 
     /** Multiplies this by a constant in place. */
-    void operator*= (value_type c);
+    constexpr void operator*= (value_type c);
 
     /** Divides this by a vector or expression in place. */
     template <is::anyVctrOrExpression V>
-    void operator/= (const V& v);
+    constexpr void operator/= (const V& v);
 
     /** Divides this by a constant in place. */
-    void operator/= (value_type c);
+    constexpr void operator/= (value_type c);
 
     /** Adds a vector or expression to this in place. */
     template <is::anyVctrOrExpression V>
-    void operator+= (const V& v);
+    constexpr void operator+= (const V& v);
 
     /** Adds a constant to this in place. */
-    void operator+= (value_type c);
+    constexpr void operator+= (value_type c);
 
     /** Subtracts a vector or expression from this in place. */
     template <is::anyVctrOrExpression V>
-    void operator-= (const V& v);
+    constexpr void operator-= (const V& v);
 
     /** Subtracts a constant from this in place. */
-    void operator-= (value_type c);
+    constexpr void operator-= (value_type c);
 
     //==============================================================================
     // Math reduction operations.
