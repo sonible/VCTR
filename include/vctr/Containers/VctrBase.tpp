@@ -49,14 +49,14 @@ requires is::stdSpan<StorageType>
 //==============================================================================
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
 template <is::anyVctrOrExpression V>
-void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator*= (const V& v)
+constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator*= (const V& v)
 {
     const auto& self = *this;
     assignExpressionTemplate (Expressions::MultiplyVectors<extent, decltype (self), const V&> (self, v));
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
-void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator*= (value_type c)
+constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator*= (value_type c)
 {
     const auto& self = *this;
     assignExpressionTemplate (Expressions::MultiplyVecBySingle<extent, decltype (self)> (c, self));
@@ -64,14 +64,14 @@ void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator*= (va
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
 template <is::anyVctrOrExpression V>
-void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator/= (const V& v)
+constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator/= (const V& v)
 {
     const auto& self = *this;
     assignExpressionTemplate (Expressions::DivideVectors<extent, decltype (self), const V&> (self, v));
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
-void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator/= (value_type c)
+constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator/= (value_type c)
 {
     const auto& self = *this;
     assignExpressionTemplate (Expressions::DivideVecBySingle<extent, decltype (self)> (self, c));
@@ -79,14 +79,14 @@ void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator/= (va
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
 template <is::anyVctrOrExpression V>
-void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator+= (const V& v)
+constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator+= (const V& v)
 {
     const auto& self = *this;
     assignExpressionTemplate (Expressions::AddVectors<extent, decltype (self), const V&> (self, v));
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
-void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator+= (value_type c)
+constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator+= (value_type c)
 {
     const auto& self = *this;
     assignExpressionTemplate (Expressions::AddSingleToVec<extent, decltype (self)> (c, self));
@@ -94,14 +94,14 @@ void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator+= (va
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
 template <is::anyVctrOrExpression V>
-void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator-= (const V& v)
+constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator-= (const V& v)
 {
     const auto& self = *this;
     assignExpressionTemplate (Expressions::SubtractVectors<extent, decltype (self), const V&> (self, v));
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
-void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator-= (value_type c)
+constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator-= (value_type c)
 {
     const auto& self = *this;
     assignExpressionTemplate (Expressions::SubtractSingleFromVec<extent, decltype (self)> (self, c));
