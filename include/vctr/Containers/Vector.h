@@ -56,7 +56,7 @@ struct StdVector<bool, Allocator>
 template <class T, template <class> class Allocator>
 using StdVectorType = typename StdVector<T, Allocator>::Type;
 
-}
+} // namespace detail
 
 /** The heap-allocated container type.
 
@@ -89,7 +89,7 @@ private:
     using Vctr = VctrBase<ElementType, StdVectorType, std::dynamic_extent>;
 
     template <class OtherAllocator>
-    static constexpr bool isDifferentAllocatorTypeWithSameValueType = (! std::is_same_v<Allocator<ElementType>, OtherAllocator>) && std::is_same_v<ElementType, typename OtherAllocator::value_type>;
+    static constexpr bool isDifferentAllocatorTypeWithSameValueType = (! std::is_same_v<Allocator<ElementType>, OtherAllocator>) &&std::is_same_v<ElementType, typename OtherAllocator::value_type>;
 
     using ConstIterator = typename StdVectorType::const_iterator;
 
@@ -113,7 +113,7 @@ public:
 
     /** Creates a Vector by moving a pack of elements into it. */
     template <is::suitableInitializerForElementType<ElementType> First, std::same_as<First>... Other>
-    requires (sizeof... (Other) > 0)
+    requires (sizeof...(Other) > 0)
     constexpr Vector (First&& first, Other&&... other)
     {
         reserve (1 + sizeof...(other));
@@ -207,6 +207,8 @@ public:
         return std::vector<ElementType, OtherAllocator> (Vctr::begin(), Vctr::end());
     }
 
+    // clang-format off
+
     /** Changes the size of this Vector, potentially allocating memory.
 
         This is a standard interface function forwarded to std::vector::resize().
@@ -224,6 +226,28 @@ public:
         This is a standard interface function forwarded to std::vector::shrink_to_fit().
      */
     constexpr void shrink_to_fit() { Vctr::storage.shrink_to_fit(); }
+
+    /** Fills the vector with the given value. */
+    constexpr void fill (const value_type& value) {  std::fill (Vctr::begin(), Vctr::end(), value); }
+
+    /** Resizes this vector to newSize and fills it with the given value.
+
+        @see resize, fill.
+     */
+    constexpr void init (size_t newSize, const value_type& value) { resize (newSize); fill (value);  }
+
+    /** Resizes this vector to newSize and fills it via the given initializerFunction.
+
+        @see resize, fill.
+    */
+    template <is::suitableInitializerFunctionForElementType<ElementType> Fn>
+    constexpr void init (size_t newSize, Fn&& initializerFunction)
+    {
+        resize (newSize);
+        for (size_t i = 0; i < newSize; ++i)
+            Vctr::at (i) = initializerFunction (i);
+    }
+
 
     /** Adds an element to the end of the Vector.
 
@@ -273,6 +297,8 @@ public:
 
     /** Returns the maximum number of elements the container is able to hold. */
     constexpr size_t max_size() const noexcept { return Vctr::storage.max_size(); }
+
+    // clang-format on
 
     //==============================================================================
     // Erasing elements from the Vector
@@ -486,7 +512,7 @@ public:
 
         // If it is no view and no reference, the container passed in has no dependencies outside this scope,
         // so we can safely move its elements in every case
-        if constexpr ((! is::view<VctrToInsert>) && (! std::is_reference_v<VctrToInsert>))
+        if constexpr ((! is::view<VctrToInsert>) &&(! std::is_reference_v<VctrToInsert>) )
             moveValuesFromSrc = true;
 
         if (moveValuesFromSrc)
