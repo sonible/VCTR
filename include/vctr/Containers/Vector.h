@@ -227,14 +227,11 @@ public:
      */
     constexpr void shrink_to_fit() { Vctr::storage.shrink_to_fit(); }
 
-    /** Fills the vector with the given value. */
-    constexpr void fill (const value_type& value) {  std::fill (Vctr::begin(), Vctr::end(), value); }
-
     /** Resizes this vector to newSize and fills it with the given value.
 
         @see resize, fill.
      */
-    constexpr void init (size_t newSize, const value_type& value) { resize (newSize); fill (value);  }
+    constexpr void init (size_t newSize, const value_type& value) { resize (newSize); Vctr::fill (value);  }
 
     /** Resizes this vector to newSize and fills it via the given initializerFunction.
 
