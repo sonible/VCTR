@@ -352,3 +352,37 @@ TEST_CASE ("shift", "[VctrBaseMemberFunctions]")
         REQUIRE_THAT (zeros, vctr::Equals (a));
     }
 }
+
+TEST_CASE ("fill", "[VctrBaseMemberFunctions]")
+{
+    constexpr int fillValue = 5;
+
+    vctr::Array a { 0, 1, 2, 3, 4 };
+    a.fill (fillValue);
+    REQUIRE (a.allElementsEqual (fillValue));
+
+    vctr::Vector b { 0, 1, 2, 3, 4 };
+    b.fill (fillValue);
+    REQUIRE (b.allElementsEqual (fillValue));
+}
+
+TEST_CASE ("init", "[VctrBaseMemberFunctions]")
+{
+    constexpr int fillValue = 13;
+
+    SECTION ("Reduce size")
+    {
+        vctr::Vector a { 0, 1, 2, 3, 4 };
+        a.init (3, fillValue);
+        REQUIRE (a.size() == 3);
+        REQUIRE (a.allElementsEqual (fillValue));
+    }
+
+    SECTION ("Increase size")
+    {
+        vctr::Vector a { 0, 1, 2, 3, 4 };
+        a.init (30, fillValue);
+        REQUIRE (a.size() == 30);
+        REQUIRE (a.allElementsEqual (fillValue));
+    }
+}

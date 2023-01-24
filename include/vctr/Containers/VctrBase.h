@@ -247,6 +247,9 @@ public:
         std::copy_n (otherData, otherSize, begin());
     }
 
+    /** Fills the container with the given value. */
+    constexpr void fill (const value_type& value) {  std::fill (begin(), end(), value); }
+
     //==============================================================================
     // For each functionality.
     //==============================================================================
