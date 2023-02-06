@@ -76,8 +76,11 @@ public:
     }
 
     template <size_t n>
-    VCTR_FORCEDINLINE static value_type finalizeSIMDReduction (const std::array<value_type, n>& minima)
+    VCTR_FORCEDINLINE static value_type finalizeReduction (const std::array<value_type, n>& minima)
     {
+        if constexpr (n == 1)
+            return minima[0];
+
         return *std::min_element (minima.begin(), minima.end());
     }
 
@@ -167,8 +170,11 @@ public:
     }
 
     template <size_t n>
-    VCTR_FORCEDINLINE static value_type finalizeSIMDReduction (const std::array<value_type, n>& minima)
+    VCTR_FORCEDINLINE static value_type finalizeReduction (const std::array<value_type, n>& minima)
     {
+        if constexpr (n == 1)
+            return minima[0];
+
         return *std::min_element (minima.begin(), minima.end());
     }
 
