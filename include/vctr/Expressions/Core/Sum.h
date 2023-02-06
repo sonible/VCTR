@@ -92,8 +92,11 @@ public:
     }
 
     template <size_t n>
-    VCTR_FORCEDINLINE static value_type finalizeSIMDReduction (const std::array<value_type, n>& sums)
+    VCTR_FORCEDINLINE static value_type finalizeReduction (const std::array<value_type, n>& sums)
     {
+        if constexpr (n == 1)
+            return sums[0];
+
         return std::reduce (sums.begin(), sums.end());
     }
 

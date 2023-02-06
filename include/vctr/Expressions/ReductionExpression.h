@@ -76,11 +76,11 @@ public:
                 return reduceSSE (e);
         }
 
-        ValueType<Expression> v = Expression::reductionResultInitValue;
+        std::array<ValueType<Expression>, 1> v = { Expression::reductionResultInitValue };
         for (size_t i = 0; i < s; ++i)
-            e.reduceElementWise (v, i);
+            e.reduceElementWise (v[0], i);
 
-        return v;
+        return e.finalizeReduction (v);
     }
 
 private:
@@ -109,7 +109,7 @@ private:
         for (; i < n; ++i)
             e.reduceElementWise (results.back(), i);
 
-        return Expression::finalizeSIMDReduction (results);
+        return e.finalizeReduction (results);
     }
 
     template <is::reductionExpression Expression>
@@ -136,7 +136,7 @@ private:
         for (; i < n; ++i)
             e.reduceElementWise (results.back(), i);
 
-        return Expression::finalizeSIMDReduction (results);
+        return e.finalizeReduction (results);
     }
 
     template <is::reductionExpression Expression>
@@ -163,7 +163,7 @@ private:
         for (; i < n; ++i)
             e.reduceElementWise (results.back(), i);
 
-        return Expression::finalizeSIMDReduction (results);
+        return e.finalizeReduction (results);
     }
 
     template <is::reductionExpression Expression>
@@ -190,7 +190,7 @@ private:
         for (; i < n; ++i)
             e.reduceElementWise (results.back(), i);
 
-        return Expression::finalizeSIMDReduction (results);
+        return e.finalizeReduction (results);
     }
 };
 

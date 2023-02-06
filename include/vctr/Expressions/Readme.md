@@ -280,13 +280,22 @@ public:
     {
         result = someComputation (result, src[i]);
     }
+    
+    template <size_t n>
+    VCTR_FORCEDINLINE static value_type finalizeReduction (const std::array<value_type, n>& subResults)
+    {
+        return finalComputationOnSubResults (subResults);
+    }
 private:
     SrcType src;
 };
 ```
 
-The calling code will create a variable which is initialised to `reductionResultInitValue` and then passed to 
-`reduceElementWise` which is called in a loop over all source elements.
+The calling code will create a `std::array<value_type, 1>` variable which is initialised to `reductionResultInitValue`.
+The single array value is then passed to `reduceElementWise` which is called in a loop over all source elements. After
+all elements have been processed, the array is passed to `finalizeReduction` which is expected to perform final
+computations. While in this case the array will only hold a single element, it can hold multiple sub results in other
+scenarios discussed below.
 
 When platform specific vector operations should be used, the required signature is
 ```c++
@@ -307,12 +316,9 @@ When SIMD operations should be used, the required signature is
     VCTR_FORCEDINLINE VCTR_TARGET ("avx2") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const;
 
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void reduceSSERegisterWise (SSERegister<value_type>& result, size_t i) const;
-
-    template <size_t n>
-    VCTR_FORCEDINLINE static value_type finalizeSIMDReduction (const std::array<value_type, n>& subResults);
 ```
 
 They basically work the same as the element-wise implementations but they evaluate a whole SIMD register
 at a time. Possible residual elements are then evaluated using a scalar loop in the calling code. This leads to a SIMD
-register and a single scalar value as sub-results, which are passed to `finalizeSIMDReduction` for a last final 
+register and a single scalar value as sub-results, which are passed to `finalizeReduction` for a last final 
 reduction step.
