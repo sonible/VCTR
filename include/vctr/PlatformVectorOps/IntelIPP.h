@@ -73,6 +73,8 @@ public:
     static float min    (const float* src, int len) { float r; assertIppNoErr (ippsMin_32f (src, len, &r)); return r; }
     static float minAbs (const float* src, int len) { float r; assertIppNoErr (ippsMinAbs_32f (src, len, &r)); return r; }
     static float sum    (const float* src, int len) { float r; assertIppNoErr (ippsSum_32f (src, len, &r, ippAlgHintNone)); return r; }
+    static float mean   (const float* src, int len) { float r; assertIppNoErr (ippsMean_32f (src, len, &r, ippAlgHintNone)); return r;}
+    static float l2Norm (const float* src, int len) { float r; assertIppNoErr (ippsNorm_L2_32f (src, len, &r)); return r; }
 };
 
 template <>
@@ -103,6 +105,8 @@ public:
     static double min    (const double* src, int len) { double r; assertIppNoErr (ippsMin_64f (src, len, &r)); return r; }
     static double minAbs (const double* src, int len) { double r; assertIppNoErr (ippsMinAbs_64f (src, len, &r)); return r; }
     static double sum    (const double* src, int len) { double r; assertIppNoErr (ippsSum_64f (src, len, &r)); return r; }
+    static double mean   (const double* src, int len) { double r; assertIppNoErr (ippsMean_64f (src, len, &r)); return r;}
+    static double l2Norm (const double* src, int len) { double r; assertIppNoErr (ippsNorm_L2_64f (src, len, &r)); return r;}
 };
 
 template <>
@@ -125,7 +129,8 @@ public:
     static void div (const std::complex<float>* srcA, const std::complex<float>* srcB, std::complex<float>* dst, int len) { assertIppNoErr (ippsDiv_32fc (fc (srcB), fc (srcA), fc (dst), len)); }
     static void div (const std::complex<float>* srcA, std::complex<float> srcB,        std::complex<float>* dst, int len) { assertIppNoErr (ippsDivC_32fc (fc (srcA), fc (srcB), fc (dst), len)); }
 
-    static std::complex<float> sum (const std::complex<float>* src, int len) { std::complex<float> r; assertIppNoErr (ippsSum_32fc (fc (src), len, fc (&r), ippAlgHintNone)); return r; }
+    static std::complex<float> sum  (const std::complex<float>* src, int len) { std::complex<float> r; assertIppNoErr (ippsSum_32fc (fc (src), len, fc (&r), ippAlgHintNone)); return r; }
+    static std::complex<float> mean (const std::complex<float>* src, int len) { std::complex<float> r; assertIppNoErr (ippsMean_32fc (fc (src), len, fc (&r), ippAlgHintNone)); return r;}
 };
 
 template <>
@@ -148,7 +153,8 @@ public:
     static void div (const std::complex<double>* srcA, const std::complex<double>* srcB, std::complex<double>* dst, int len) { assertIppNoErr (ippsDiv_64fc (fc (srcB), fc (srcA), fc (dst), len)); }
     static void div (const std::complex<double>* srcA, std::complex<double> srcB,        std::complex<double>* dst, int len) { assertIppNoErr (ippsDivC_64fc (fc (srcA), fc (srcB), fc (dst), len)); }
 
-    static std::complex<double> sum (const std::complex<double>* src, int len) { std::complex<double> r; assertIppNoErr (ippsSum_64fc (fc (src), len, fc (&r))); return r; }
+    static std::complex<double> sum  (const std::complex<double>* src, int len) { std::complex<double> r; assertIppNoErr (ippsSum_64fc (fc (src), len, fc (&r))); return r; }
+    static std::complex<double> mean (const std::complex<double>* src, int len) { std::complex<double> r; assertIppNoErr (ippsMean_64fc (fc (src), len, fc (&r))); return r;}
 };
 
 template <>

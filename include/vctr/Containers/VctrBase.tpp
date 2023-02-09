@@ -136,6 +136,27 @@ requires is::number<ElementType>
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
+ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::mean() const
+requires is::number<ElementType>
+{
+    return vctr::mean << *this;
+}
+
+template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
+ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::meanSquare() const
+requires is::number<ElementType>
+{
+    return vctr::meanSquare << *this;
+}
+
+template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
+ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::rms() const
+requires is::number<ElementType>
+{
+    return vctr::rms << *this;
+}
+
+template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
 ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::sum() const
 requires has::operatorPlusEquals<ElementType>
 {

@@ -42,6 +42,7 @@ target_sources (vctr_test PRIVATE
         TestCases/Expressions/Decibels.cpp
         TestCases/Expressions/Multiply.cpp
         TestCases/Expressions/Max.cpp
+        TestCases/Expressions/Mean.cpp
         TestCases/Expressions/Min.cpp
         TestCases/Expressions/Subtract.cpp
         TestCases/Expressions/Sum.cpp

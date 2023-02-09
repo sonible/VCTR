@@ -160,6 +160,7 @@
 #include "Expressions/Core/Divide.h"
 #include "Expressions/Core/Max.h"
 #include "Expressions/Core/Min.h"
+#include "Expressions/Core/Mean.h"
 #include "Expressions/Core/Sum.h"
 
 #include "Expressions/Exp/Exp.h"

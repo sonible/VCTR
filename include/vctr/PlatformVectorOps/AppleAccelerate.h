@@ -66,9 +66,12 @@ public:
     static void intToFloat (const int32_t* src,  float* dst, size_t len) { vDSP_vflt32 (src, 1, dst, 1, len); }
     static void intToFloat (const uint32_t* src, float* dst, size_t len) { vDSP_vfltu32 (src, 1, dst, 1, len); }
 
-    static float max (const float* src, size_t len) { float r; vDSP_maxv (src, 1, &r, len); return r; }
-    static float min (const float* src, size_t len) { float r; vDSP_minv (src, 1, &r, len); return r; }
-    static float sum (const float* src, size_t len) { float r; vDSP_sve (src, 1, &r, len); return r; }
+    static float max        (const float* src, size_t len) { float r; vDSP_maxv (src, 1, &r, len); return r; }
+    static float min        (const float* src, size_t len) { float r; vDSP_minv (src, 1, &r, len); return r; }
+    static float sum        (const float* src, size_t len) { float r; vDSP_sve (src, 1, &r, len); return r; }
+    static float mean       (const float* src, size_t len) { float r; vDSP_meanv (src, 1, &r, len); return r; }
+    static float meanSquare (const float* src, size_t len) { float r; vDSP_measqv (src, 1, &r, len); return r; }
+    static float rms        (const float* src, size_t len) { float r; vDSP_rmsqv (src, 1, &r, len); return r; }
     // clang-format on
 };
 
@@ -118,9 +121,12 @@ public:
         vDSP_vfltu32D (src, 1, dst, 1, len);
     }
 
-    static double max (const double* src, size_t len) { double r; vDSP_maxvD (src, 1, &r, len); return r; }
-    static double min (const double* src, size_t len) { double r; vDSP_minvD (src, 1, &r, len); return r; }
-    static double sum (const double* src, size_t len) { double r; vDSP_sveD (src, 1, &r, len); return r; }
+    static double max        (const double* src, size_t len) { double r; vDSP_maxvD (src, 1, &r, len); return r; }
+    static double min        (const double* src, size_t len) { double r; vDSP_minvD (src, 1, &r, len); return r; }
+    static double sum        (const double* src, size_t len) { double r; vDSP_sveD (src, 1, &r, len); return r; }
+    static double mean       (const double* src, size_t len) { double r; vDSP_meanvD (src, 1, &r, len); return r; }
+    static double meanSquare (const double* src, size_t len) { double r; vDSP_measqvD (src, 1, &r, len); return r; }
+    static double rms        (const double* src, size_t len) { double r; vDSP_rmsqvD (src, 1, &r, len); return r; }
 };
 
 template <>
