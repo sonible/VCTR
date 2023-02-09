@@ -649,6 +649,15 @@ public:
     /** Returns the maximum absolute value of all elements. */
     ElementType maxAbs() const requires is::number<ElementType>;
 
+    /** Returns the mean value across all elements. */
+    ElementType mean() const requires is::number<ElementType>;
+
+    /** Returns the mean value across all squared elements. */
+    ElementType meanSquare() const requires is::number<ElementType>;
+
+    /** Returns the square root of the mean value across all squared elements. */
+    ElementType rms() const requires is::number<ElementType>;
+
     /** Returns the sum of all elements. */
     ElementType sum() const requires has::operatorPlusEquals<ElementType>;
 
