@@ -60,6 +60,6 @@ find_library (IPPVM
 
 add_library (ipp INTERFACE)
 target_include_directories (ipp INTERFACE ${IPP_ROOT_DIR}/include)
-target_link_libraries (ipp INTERFACE ${IPPCORE} ${IPPS} ${IPPVM})
+target_link_libraries (ipp INTERFACE ${IPPS} ${IPPVM} ${IPPCORE})
 target_compile_definitions (ipp INTERFACE VCTR_USE_IPP=1)
 message (STATUS "Linking against IPP")
