@@ -30,7 +30,7 @@
 
 // We chain a division by 10 and an exp operation in the test to not feed the exp operation with too big values.
 // This function recreates that for the matcher
-template <class T>
+template <vctr::is::realNumber T>
 auto div10exp (T x) { return std::exp (x / T (10)); }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Exp", "[exp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t))

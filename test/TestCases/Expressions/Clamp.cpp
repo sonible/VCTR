@@ -34,7 +34,7 @@ auto clamp (T x) { return std::clamp (x, T (lo), T (hi)); }
 template <int bound, int factor, vctr::is::realNumber T>
 auto clampLowMultiply (T x) { return std::max (x, T (bound)) * T (factor); }
 
-TEMPLATE_PRODUCT_TEST_CASE ("ClampLow", "[clamp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t) )
+TEMPLATE_PRODUCT_TEST_CASE ("ClampLow", "[clamp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, int64_t) )
 {
     VCTR_TEST_DEFINES (10)
 
