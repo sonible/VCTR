@@ -42,7 +42,7 @@ struct UnitTestValues
             a[i] = r[i];
 
             if (removeZeros && a[i] == T (0))
-                a[i] += T (1);
+                a[i] = T (1);
         }
 
         if (forceZero)
