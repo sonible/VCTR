@@ -183,6 +183,14 @@ public:
         Vctr::assignExpressionTemplate (std::forward<Expression> (e));
     }
 
+    /** Copies the data of the source container to this Vector. This Vector will be resized to fit if needed. */
+    template <has::sizeAndDataWithElementType<ElementType> Container>
+    constexpr Vector& operator= (const Container& containerToCopyDataFrom)
+    {
+        Vctr::copyFrom (containerToCopyDataFrom.data(), containerToCopyDataFrom.size());
+        return *this;
+    }
+
     /** Assigns the result of an expression to this Vector.
 
         It may resize the Vector if it does not match the expression size.

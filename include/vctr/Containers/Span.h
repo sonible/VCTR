@@ -103,6 +103,14 @@ public:
         VCTR_ASSERT (extent == containerToView.size() || extent == std::dynamic_extent);
     }
 
+    /** Copies the data of the source container to the memory this span refers to. */
+    template <has::sizeAndDataWithElementType<ElementType> Container>
+    constexpr Span& operator= (const Container& containerToCopyDataFrom)
+    {
+        Vctr::copyFrom (containerToCopyDataFrom.data(), containerToCopyDataFrom.size());
+        return *this;
+    }
+
     /** Assigns the result of an expression to this vector.
 
         The Span has to match the size of the expression.
@@ -110,8 +118,7 @@ public:
     template <is::expression E>
     constexpr void operator= (const E& expression)
     {
-        if (! std::is_constant_evaluated())
-            VCTR_ASSERT (expression.size() == Vctr::size());
+        VCTR_ASSERT (expression.size() == Vctr::size());
 
         Vctr::assignExpressionTemplate (expression);
     }

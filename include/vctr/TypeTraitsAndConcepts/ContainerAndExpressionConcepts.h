@@ -119,7 +119,7 @@ concept data = requires (const T& t) { t.data(); };
 
 /** Constrains a type to have a member function data() const returning a pointer convertible to const ElementType*. */
 template <class T, class ElementType>
-concept dataWithElementType = requires (const T& t, const ElementType* s) { s = t.data(); };
+concept dataWithElementType = requires (const T& t) { { t.data() } -> std::convertible_to<const ElementType*>; };
 
 /** Constrains a type to have a member function size() const. */
 template <class T>
