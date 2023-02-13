@@ -41,8 +41,12 @@ constexpr size_t nextMultipleOf (size_t numElements)
 }
 
 template <uintptr_t requiredAlignment = Config::maxSIMDRegisterSize>
-inline bool isPtrAligned (const void* ptr)
+inline constexpr bool isPtrAligned (const void* ptr)
 {
+    // SIMD alignment is not meaningful in case of constant evaluation
+    if (std::is_constant_evaluated())
+        return false;
+
     return reinterpret_cast<std::uintptr_t> (ptr) % requiredAlignment == 0;
 }
 } // namespace vctr::detail
@@ -74,16 +78,24 @@ struct StorageInfo
 template <has::sizeAndData StorageType>
 struct StorageInfo<StorageType>
 {
-    StorageInfo (const StorageType& storage)
-        : dataIsSIMDAligned (detail::isPtrAligned (storage.data())),
-          hasSIMDExtendedStorage ((storage.size() * sizeof (typename StorageType::value_type)) % Config::maxSIMDRegisterSize == 0)
+    constexpr StorageInfo()
+        : dataIsSIMDAligned (false),
+          hasSIMDExtendedStorage (false)
     {}
 
     template <is::storageInfo OtherStorageInfoType>
-    StorageInfo (const OtherStorageInfoType& other)
+    constexpr StorageInfo (const OtherStorageInfoType& other)
         : dataIsSIMDAligned (other.dataIsSIMDAligned),
           hasSIMDExtendedStorage (other.hasSIMDExtendedStorage)
     {}
+
+    template <class T>
+    constexpr StorageInfo init (const T* ptr, size_t s)
+    {
+        dataIsSIMDAligned = detail::isPtrAligned (ptr);
+        hasSIMDExtendedStorage = (s * sizeof (T)) % Config::maxSIMDRegisterSize == 0;
+        return *this;
+    }
 
     static constexpr size_t memberAlignment = alignof (StorageType);
 
@@ -95,7 +107,7 @@ struct StorageInfo<StorageType>
 template <class ElementType, size_t alignmentInBytes>
 struct StorageInfo<std::vector<ElementType, AlignedAllocator<ElementType, alignmentInBytes>>>
 {
-    constexpr StorageInfo (const auto&) {}
+    constexpr StorageInfo init (const void*, size_t) { return *this; }
 
     static constexpr size_t memberAlignment = alignof (std::vector<ElementType, AlignedAllocator<ElementType, alignmentInBytes>>);
 
@@ -108,7 +120,7 @@ struct StorageInfo<std::vector<ElementType, AlignedAllocator<ElementType, alignm
 template <class ElementType, size_t size>
 struct StorageInfo<std::array<ElementType, size>>
 {
-    constexpr StorageInfo (const auto&) {}
+    constexpr StorageInfo init (const void*, size_t) { return *this; }
 
     static constexpr size_t memberAlignment = Config::maxSIMDRegisterSize;
 
@@ -121,7 +133,7 @@ struct StorageInfo<std::array<ElementType, size>>
 template <class Allocator>
 struct StorageInfo<detail::VectorBoolWorkaround<Allocator>>
 {
-    constexpr StorageInfo (const auto&) {}
+    constexpr StorageInfo init (const void*, size_t) { return *this; }
 
     static constexpr size_t memberAlignment = alignof (detail::VectorBoolWorkaround<Allocator>);
 
@@ -136,9 +148,6 @@ struct StorageInfo<detail::VectorBoolWorkaround<Allocator>>
 template <bool isDataSIMDAligned, bool isStorageSIMDExtended, size_t customMemberAlignment>
 struct StaticStorageInfo
 {
-    constexpr StaticStorageInfo() = default;
-    constexpr StaticStorageInfo (const StaticStorageInfo&) {}
-
     static constexpr bool dataIsSIMDAligned = isDataSIMDAligned;
     static constexpr bool hasSIMDExtendedStorage = isStorageSIMDExtended;
     static constexpr size_t memberAlignment = customMemberAlignment;

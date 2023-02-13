@@ -119,7 +119,7 @@ public:
 private:
     //==============================================================================
     template <has::sizeAndData Container>
-    static auto makeStorageInfo (const Container& container)
+    static constexpr auto makeStorageInfo (const Container& container)
     {
         if constexpr (is::anyVctr<Container>)
         {
@@ -127,7 +127,7 @@ private:
         }
         else
         {
-            return StorageInfo<Container> (container);
+            return StorageInfo<Container>().init (container.data(), container.size());
         }
     }
 };
