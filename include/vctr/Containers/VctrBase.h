@@ -107,10 +107,10 @@ public:
     constexpr auto&& back() const { return storage[backIdx()]; }
 
     /** Returns a raw pointer to the underlying storage */
-    auto* data()       { return storage.data(); }
+    constexpr auto* data()       { return storage.data(); }
 
     /** Returns a raw pointer to the underlying storage */
-    auto* data() const { return storage.data(); }
+    constexpr auto* data() const { return storage.data(); }
 
     /** Returns an iterator to the begin of the storage */
     constexpr auto begin()       { return storage.begin(); }
@@ -678,13 +678,15 @@ protected:
 
     //==============================================================================
     constexpr VctrBase()
-        : StorageInfoType (storage)
-    {}
-
+    {
+        StorageInfoType::init (storage.data(), storage.size());
+    }
+protected:
     constexpr VctrBase (StorageType&& s)
-        : StorageInfoType (s),
-          storage (std::move (s))
-    {}
+        : storage (std::move (s))
+    {
+        StorageInfoType::init (storage.data(), storage.size());
+    }
 
     template <is::storageInfo OtherStorageInfoType>
     constexpr VctrBase (StorageType&& s, const OtherStorageInfoType& otherInfo)
