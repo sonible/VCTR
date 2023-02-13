@@ -233,17 +233,20 @@ public:
         In case the storage of this instance is resizable, it will resize it if necessary. Otherwise, it will
         simply assert that the size matches.
      */
-    void copyFrom (const ElementType* otherData, size_t otherSize)
-    requires is::triviallyCopyable<ElementType> && is::nonConst<ElementType>
+    constexpr void copyFrom (const ElementType* otherData, size_t otherSize)
+    requires is::nonConst<ElementType>
     {
         resizeOrAssertSizeMatches (otherSize);
-        std::memcpy (data(), otherData, sizeof (ElementType) * otherSize);
-    }
 
-    void copyFrom (const ElementType* otherData, size_t otherSize)
-    requires (! is::triviallyCopyable<ElementType>) && is::nonConst<ElementType>
-    {
-        resizeOrAssertSizeMatches (otherSize);
+        if constexpr (is::triviallyCopyable<ElementType>)
+        {
+            if (! std::is_constant_evaluated())
+            {
+                std::memcpy (data(), otherData, sizeof (ElementType) * otherSize);
+                return;
+            }
+        }
+
         std::copy_n (otherData, otherSize, begin());
     }
 
@@ -681,7 +684,7 @@ protected:
     {
         StorageInfoType::init (storage.data(), storage.size());
     }
-protected:
+
     constexpr VctrBase (StorageType&& s)
         : storage (std::move (s))
     {
@@ -696,14 +699,14 @@ protected:
 
     //==============================================================================
     /** In case of a resizable storage, this will resize it to the desired size. */
-    void resizeOrAssertSizeMatches (size_t desiredSize)
+    constexpr void resizeOrAssertSizeMatches (size_t desiredSize)
     requires has::resize<StorageType>
     {
         storage.resize (desiredSize);
     }
 
     /** Asserts that the current size matches the desired size. */
-    void resizeOrAssertSizeMatches ([[maybe_unused]] size_t desiredSize) const
+    constexpr void resizeOrAssertSizeMatches ([[maybe_unused]] size_t desiredSize) const
     {
         VCTR_ASSERT (size() == desiredSize);
     }

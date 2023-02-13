@@ -166,6 +166,14 @@ public:
         Vctr::assignExpressionTemplate (std::forward<Expression> (e));
     }
 
+    /** Copies the data of the source container to this Array. */
+    template <has::sizeAndDataWithElementType<ElementType> Container>
+    constexpr Array& operator= (const Container& containerToCopyDataFrom)
+    {
+        Vctr::copyFrom (containerToCopyDataFrom.data(), containerToCopyDataFrom.size());
+        return *this;
+    }
+
     /** Assigns the result of an expression to this vector.
 
         The Array has to match the size of the expression.
