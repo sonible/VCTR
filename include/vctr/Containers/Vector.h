@@ -98,7 +98,8 @@ public:
     using value_type = typename Vctr::value_type;
 
     //==============================================================================
-
+    // Constructors
+    //==============================================================================
     /** Creates an empty Vector with size = 0. */
     constexpr Vector() = default;
 
@@ -183,6 +184,9 @@ public:
         Vctr::assignExpressionTemplate (std::forward<Expression> (e));
     }
 
+    //==============================================================================
+    // Operators
+    //==============================================================================
     /** Copies the data of the source container to this Vector. This Vector will be resized to fit if needed. */
     template <has::sizeAndDataWithElementType<ElementType> Container>
     constexpr Vector& operator= (const Container& containerToCopyDataFrom)
@@ -215,8 +219,9 @@ public:
         return std::vector<ElementType, OtherAllocator> (Vctr::begin(), Vctr::end());
     }
 
-    // clang-format off
-
+    //==============================================================================
+    // Resizing, initialization, and clearing
+    //==============================================================================
     /** Changes the size of this Vector, potentially allocating memory.
 
         This is a standard interface function forwarded to std::vector::resize().
@@ -239,7 +244,11 @@ public:
 
         @see resize, fill.
      */
-    constexpr void init (size_t newSize, const value_type& value) { resize (newSize); Vctr::fill (value);  }
+    constexpr void init (size_t newSize, const value_type& value)
+    {
+        resize (newSize);
+        Vctr::fill (value);
+    }
 
     /** Resizes this vector to newSize and fills it via the given initializerFunction.
 
@@ -253,57 +262,29 @@ public:
             Vctr::at (i) = initializerFunction (i);
     }
 
-
-    /** Adds an element to the end of the Vector.
-
-        This is a standard interface function forwarded to std::vector::push_back()
-        but it adds a return value.
-
-        @returns a reference to the just added element.
-     */
-    constexpr ElementType& push_back (ElementType&& newElement) { Vctr::storage.push_back (std::move (newElement)); return Vctr::storage.back(); }
-
-    /** Adds an element to the end of the Vector.
-
-        This is a standard interface function forwarded to std::vector::push_back()
-        but it adds a return value.
-
-        @returns a reference to the just added element.
-     */
-    constexpr ElementType& push_back (const ElementType& newElement) { Vctr::storage.push_back (newElement); return Vctr::storage.back(); }
-
-    /** Constructs an element in-place at the end of the Vector
-
-        This is a standard interface function forwarded to std::vector::emplace_back().
-     */
-    template <class... Args>
-    constexpr void emplace_back (Args&&... args) { Vctr::storage.emplace_back (std::forward<Args> (args)...); }
-
     /** Erase all elements from the Vector.
 
         This is a standard interface function forwarded to std::vector::clear().
      */
     constexpr void clear() noexcept { Vctr::storage.clear(); }
 
-    /** Swaps the underlying memory with the other Vector.
-
-        This is a standard interface function forwarded to std::vector::swap().
-     */
-    constexpr void swap (Vector& other) noexcept { Vctr::storage.swap (other.storage); }
-
-    /** Returns the number of elements the Vector can currently hold without re-allocation. */
-    constexpr size_t capacity() const noexcept { return Vctr::storage.capacity(); }
-
+    //==============================================================================
+    // Allocator
+    //==============================================================================
     /** Returns the allocator associated with the Vector.
 
         This is a standard interface function forwarded to std::vector::get_allocator().
      */
     constexpr Allocator<ElementType> get_allocator() const noexcept { return Vctr::storage.get_allocator(); }
 
+    //==============================================================================
+    // Size and capacity
+    //==============================================================================
+    /** Returns the number of elements the Vector can currently hold without re-allocation. */
+    constexpr size_t capacity() const noexcept { return Vctr::storage.capacity(); }
+
     /** Returns the maximum number of elements the container is able to hold. */
     constexpr size_t max_size() const noexcept { return Vctr::storage.max_size(); }
-
-    // clang-format on
 
     //==============================================================================
     // Erasing elements from the Vector
@@ -381,6 +362,44 @@ public:
     //==============================================================================
     // Adding elements to the Vector
     //==============================================================================
+    /** Adds an element to the end of the Vector.
+
+        This is a standard interface function forwarded to std::vector::push_back()
+        but it adds a return value.
+
+        @returns a reference to the just added element.
+     */
+    constexpr ElementType& push_back (ElementType&& newElement)
+    {
+        Vctr::storage.push_back (std::move (newElement));
+        return Vctr::storage.back();
+    }
+
+    /** Adds an element to the end of the Vector.
+
+        This is a standard interface function forwarded to std::vector::push_back()
+        but it adds a return value.
+
+        @returns a reference to the just added element.
+     */
+    constexpr ElementType& push_back (const ElementType& newElement)
+    {
+        Vctr::storage.push_back (newElement);
+        return Vctr::storage.back();
+    }
+
+    /** Constructs an element in-place at the end of the Vector
+
+        This is a standard interface function forwarded to std::vector::emplace_back().
+     */
+    template <class... Args>
+    constexpr void emplace_back (Args&&... args) { Vctr::storage.emplace_back (std::forward<Args> (args)...); }
+
+    /** Swaps the underlying memory with the other Vector.
+
+        This is a standard interface function forwarded to std::vector::swap().
+     */
+    constexpr void swap (Vector& other) noexcept { Vctr::storage.swap (other.storage); }
 
     /** Appends a Span, Array or Vector to the end of this Vector, optionally by moving elements from the source */
     template <is::anyVctr VctrToAppend>
@@ -403,10 +422,7 @@ public:
     }
 
     /** Inserts value at index idx and returns an iterator to the inserted value. */
-    auto insert (size_t idx, const ElementType& value)
-    {
-        return insert (Vctr::begin() + idx, value);
-    }
+    auto insert (size_t idx, const ElementType& value) { return insert (Vctr::begin() + idx, value); }
 
     /** Inserts value before the element referenced by pos and returns an iterator to the inserted value.
 
@@ -422,10 +438,7 @@ public:
     }
 
     /** Inserts value at index idx and returns an iterator to the inserted value. */
-    auto insert (size_t idx, ElementType&& value)
-    {
-        return insert (Vctr::begin() + idx, std::move (value));
-    }
+    auto insert (size_t idx, ElementType&& value) { return insert (Vctr::begin() + idx, std::move (value)); }
 
     /** Inserts numCopies copies of value before the element referenced by pos and returns an iterator
         to the inserted values.
@@ -442,10 +455,7 @@ public:
     }
 
     /** Inserts numCopies copies of value at index idx and returns an iterator to the inserted values. */
-    auto insert (size_t idx, size_t numCopies, const ElementType& value)
-    {
-        return insert (Vctr::begin() + idx, numCopies, value);
-    }
+    auto insert (size_t idx, size_t numCopies, const ElementType& value) { return insert (Vctr::begin() + idx, numCopies, value); }
 
     /** Inserts a range of values before the element referenced by pos and returns an iterator to the
         inserted values.
@@ -497,10 +507,7 @@ public:
     }
 
     /** Inserts a list of values at index idx and returns an iterator to the first inserted value. */
-    auto insert (size_t idx, std::initializer_list<ElementType> initList)
-    {
-        return insert (Vctr::begin() + idx, std::move (initList));
-    }
+    auto insert (size_t idx, std::initializer_list<ElementType> initList) { return insert (Vctr::begin() + idx, std::move (initList)); }
 
     /** Inserts a VCTR container before the element referenced by pos and returns an iterator to the
         first inserted value.
