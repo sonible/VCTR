@@ -137,15 +137,15 @@ jobs:
           python-version: '3.11'
 
       - name: (Linux) Install dependencies
-        run: sudo apt-get install gcc-12 g++-12 ninja-build && wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 15 all && pip3 install conan
+        run: sudo apt-get install gcc-12 g++-12 ninja-build && wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 15 all && pip3 install conan==1.59.0
         if: runner.os == 'Linux'
 
       - name: (macOS) Install dependencies
-        run: brew install conan ninja llvm@15 gcc@12 z3
+        run: brew install conan ninja llvm@15 gcc@12 z3  # conan@1.59.0 was not found, therefore no version specification
         if: runner.os == 'macOS'
 
       - name: (Windows) Install dependencies
-        run: choco install ninja -y && pip3 install conan
+        run: choco install ninja -y && pip3 install conan==1.59.0
         if: runner.os == 'Windows'
 
       - name: (Windows) Configure dev environment variables
