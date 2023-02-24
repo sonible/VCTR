@@ -482,6 +482,38 @@ public:
         return address >= first && address <= last;
     }
 
+    /** Returns the index of the first element that compares true to value or std::nullopt if none is found. */
+    template <std::equality_comparable_with<ElementType> T>
+    std::optional<size_t> indexOf (const T& value) const
+    {
+        auto it = find (value);
+        return it == end() ? std::nullopt : std::optional<size_t> (std::distance (begin(), it));
+    }
+
+    /** Returns the index of the last element that compares true to value or std::nullopt if none is found. */
+    template <std::equality_comparable_with<ElementType> T>
+    std::optional<size_t> indexOfReverse (const T& value) const
+    {
+        auto it = findReverse (value);
+        return it == rend() ? std::nullopt : std::optional<size_t> (std::distance (it, rend()) - 1);
+    }
+
+    /** Returns the index of the first element that satisfies the predicate or std::nullopt if none is found. */
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
+    std::optional<size_t> indexIf (Fn&& predicate) const
+    {
+        auto it = findIf (predicate);
+        return it == end() ? std::nullopt : std::optional<size_t> (std::distance (begin(), it));
+    }
+
+    /** Returns the index of the last element that satisfies the predicate or std::nullopt if none is found. */
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
+    std::optional<size_t> indexIfReverse (Fn&& predicate) const
+    {
+        auto it = findIfReverse (predicate);
+        return it == rend() ? std::nullopt : std::optional<size_t> (std::distance (it, rend()) - 1);
+    }
+
     //==============================================================================
     // Shuffling and sorting elements
     //==============================================================================
