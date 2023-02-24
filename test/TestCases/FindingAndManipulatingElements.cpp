@@ -22,7 +22,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEST_CASE ("find, findIf, findReverse, findIfReverse, contains", "[VctrBase][Finding and manipulating elements]")
+TEST_CASE ("find, findIf, findReverse, findIfReverse, contains, indexOf, indexIf", "[VctrBase][Finding and manipulating elements]")
 {
     vctr::Array       a { 1, 2, 3, 4, 5, 4, 3, 2, 1, 0 };
     const vctr::Array b { 1, 2, 3, 4, 5, 4, 3, 2, 1, 0 };
@@ -47,18 +47,39 @@ TEST_CASE ("find, findIf, findReverse, findIfReverse, contains", "[VctrBase][Fin
     // Making sure that the right elements are found in case of duplicates
     REQUIRE (std::distance (a.begin(), a.find (3)) == 2);
     REQUIRE (std::distance (b.begin(), b.find (4)) == 3);
+    REQUIRE (a.indexOf (3).value() == 2);
+    REQUIRE (b.indexOf (4).value() == 3);
+    REQUIRE (a.indexOf (6) == std::nullopt);
+    REQUIRE (b.indexOf (6) == std::nullopt);
     REQUIRE (std::distance (a.rbegin(), a.findReverse (3)) == 3);
     REQUIRE (std::distance (b.rbegin(), b.findReverse (4)) == 4);
+    REQUIRE (a.indexOfReverse (3).value() == 6);
+    REQUIRE (b.indexOfReverse (4).value() == 5);
+    REQUIRE (a.indexOfReverse (6) == std::nullopt);
+    REQUIRE (b.indexOfReverse (6) == std::nullopt);
 
     vctr::Vector<std::string>       c { "one", "two", "three", "four" };
     const vctr::Vector<std::string> d { "one", "two", "three", "four" };
 
     auto beginsWith_t = [] (const auto& s) { return s[0] == 't'; };
+    auto beginsWith_a = [] (const auto& s) { return s[0] == 'a'; };
 
     REQUIRE (*c.findIf (beginsWith_t) == "two");
     REQUIRE (*d.findIf (beginsWith_t) == "two");
+    REQUIRE (c.findIf (beginsWith_a) == c.end());
+    REQUIRE (d.findIf (beginsWith_a) == d.end());
+    REQUIRE (c.indexIf (beginsWith_t).value() == 1);
+    REQUIRE (d.indexIf (beginsWith_t).value() == 1);
+    REQUIRE (c.indexIf (beginsWith_a) == std::nullopt);
+    REQUIRE (d.indexIf (beginsWith_a) == std::nullopt);
     REQUIRE (*c.findIfReverse (beginsWith_t) == "three");
     REQUIRE (*d.findIfReverse (beginsWith_t) == "three");
+    REQUIRE (c.findIfReverse (beginsWith_a) == c.rend());
+    REQUIRE (d.findIfReverse (beginsWith_a) == d.rend());
+    REQUIRE (c.indexIfReverse (beginsWith_t).value() == 2);
+    REQUIRE (d.indexIfReverse (beginsWith_t).value() == 2);
+    REQUIRE (c.indexIfReverse (beginsWith_a) == std::nullopt);
+    REQUIRE (d.indexIfReverse (beginsWith_a) == std::nullopt);
 }
 
 TEST_CASE ("count, countIf", "[VctrBase][Finding and manipulating elements]")

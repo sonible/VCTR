@@ -58,6 +58,7 @@
 #include <ranges>
 #include <algorithm>
 #include <numeric>
+#include <optional>
 
 #ifdef jassert
 #define VCTR_ASSERT(e) jassert (e)
