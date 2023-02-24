@@ -155,7 +155,7 @@ public:
     requires is::suitableForAccelerateRealFloatVectorOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable>
     {
         auto fac = value_type (-1);
-        Expression::Accelerate::smsa (src.evalNextVectorOpInExpressionChain (dst), fac, single, dst, size());
+        Expression::Accelerate::multiplyAdd (src.evalNextVectorOpInExpressionChain (dst), fac, single, dst, size());
         return dst;
     }
 

@@ -58,7 +58,10 @@ public:
     static void mul  (const float* srcA, float srcB,             float* dst, size_t len) { vDSP_vsmul (srcA, 1, &srcB, dst, 1, len); }
     static void div  (const float* srcA, const float* srcB,      float* dst, size_t len) { vDSP_vdiv (srcB, 1, srcA, 1, dst, 1, len); }
     static void div  (const float* srcA, float srcB,             float* dst, size_t len) { vDSP_vsdiv (srcA, 1, &srcB, dst, 1, len); }
-    static void smsa (const float* srcA, float srcB, float srcC, float* dst, size_t len) { vDSP_vsmsa (srcA, 1, &srcB, &srcC, dst, 1, len); }
+
+    static void multiplyAdd (const float* srcA, float srcB, float srcC, float* dst, size_t len)              { vDSP_vsmsa (srcA, 1, &srcB, &srcC, dst, 1, len); }
+    static void multiplyAdd (const float* srcA, const float* srcB, const float* srcC, float* dst, size_t len) { vDSP_vma (srcA, 1, srcB, 1, srcC, 1, dst, 1, len); }
+    static void multiplyAdd (const float* srcA, float srcB,        const float* srcC, float* dst, size_t len) { vDSP_vsma (srcA, 1, &srcB, srcC, 1, dst, 1, len); }
 
     static void clampLow (const float* src, float thresh,     float* dst, size_t len) { vDSP_vthr (src, 1, &thresh, dst, 1, len); }
     static void clamp    (const float* src, float l, float h, float* dst, size_t len) { vDSP_vclip (src, 1, &l, &h, dst, 1, len); }
@@ -103,7 +106,10 @@ public:
     static void mul (const double* srcA,  double srcB,              double* dst, size_t len) { vDSP_vsmulD (srcA, 1, &srcB, dst, 1, len); }
     static void div (const double* srcA,  const double* srcB,       double* dst, size_t len) { vDSP_vdivD (srcB, 1, srcA, 1, dst, 1, len); }
     static void div (const double* srcA,  double srcB,              double* dst, size_t len) { vDSP_vsdivD (srcA, 1, &srcB, dst, 1, len); }
-    static void smsa (const double* srcA, double srcB, double srcC, double* dst, size_t len) { vDSP_vsmsaD (srcA, 1, &srcB, &srcC, dst, 1, len); }
+
+    static void multiplyAdd (const double* srcA, double srcB, double srcC, double* dst, size_t len) { vDSP_vsmsaD (srcA, 1, &srcB, &srcC, dst, 1, len); }
+    static void multiplyAdd (const double* srcA, const double* srcB, const double* srcC, double* dst, size_t len) { vDSP_vmaD (srcA, 1, srcB, 1, srcC, 1, dst, 1, len); }
+    static void multiplyAdd (const double* srcA, double srcB,        const double* srcC, double* dst, size_t len) { vDSP_vsmaD (srcA, 1, &srcB, srcC, 1, dst, 1, len); }
     // clang-format on
 
     static void clampLow (const double* src, double thresh,      double* dst, size_t len) { vDSP_vthrD (src, 1, &thresh, dst, 1, len); }
