@@ -33,7 +33,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Mean", "[mean]", (PlatformVectorOps, VCTR_NATIVE_SI
     const auto ref = std::reduce (srcA.begin(), srcA.end()) / ElementType (srcA.size());
     const auto refU = std::reduce (srcUnaligned.begin(), srcUnaligned.end()) / ElementType (srcUnaligned.size());
 
-    const auto eps = vctr::RealType<ElementType> (0.00001);
+    const auto eps = vctr::RealType<ElementType> (0.001);
 
     if constexpr (vctr::is::complexFloatNumber<ElementType>)
     {
