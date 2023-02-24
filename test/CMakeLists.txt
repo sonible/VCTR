@@ -46,4 +46,5 @@ target_sources (vctr_test PRIVATE
         TestCases/Expressions/Min.cpp
         TestCases/Expressions/Subtract.cpp
         TestCases/Expressions/Sum.cpp
-        TestCases/Expressions/Square.cpp)
+        TestCases/Expressions/Square.cpp
+        TestCases/Generators/Linspace.cpp)
