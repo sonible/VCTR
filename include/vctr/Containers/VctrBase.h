@@ -35,6 +35,9 @@ public:
     //==============================================================================
     // Retrieving size related information.
     //==============================================================================
+
+    // clang-format off
+
     /** Returns the extent of this instance, optionally shrank by a certain amount.
 
         In case the instance specifies a dynamic extent, the return value will always be
@@ -94,6 +97,8 @@ public:
     /** Returns a reference to element i. Throws std::out_of_range if i >= size() */
     constexpr auto& at (size_t i) const { throwIfOutOfRange (i); return storage[i]; }
 
+    // clang-format on
+
     /** Returns a reference to the first element. */
     constexpr auto&& front() { return storage.front(); }
 
@@ -107,34 +112,34 @@ public:
     constexpr auto&& back() const { return storage[backIdx()]; }
 
     /** Returns a raw pointer to the underlying storage */
-    constexpr auto* data()       { return storage.data(); }
+    constexpr auto* data() { return storage.data(); }
 
     /** Returns a raw pointer to the underlying storage */
     constexpr auto* data() const { return storage.data(); }
 
     /** Returns an iterator to the begin of the storage */
-    constexpr auto begin()       { return storage.begin(); }
+    constexpr auto begin() { return storage.begin(); }
 
     /** Returns a const iterator to the begin of the storage */
     constexpr auto begin() const { return storage.begin(); }
 
     /** Returns an iterator to the first element behind the storage */
-    constexpr auto end()         { return is::stdArray<StorageType> ? storage.begin() + extent : storage.end(); }
+    constexpr auto end() { return is::stdArray<StorageType> ? storage.begin() + extent : storage.end(); }
 
     /** Returns a const iterator to the first element behind the storage */
-    constexpr auto end()   const { return is::stdArray<StorageType> ? storage.begin() + extent : storage.end(); }
+    constexpr auto end() const { return is::stdArray<StorageType> ? storage.begin() + extent : storage.end(); }
 
     /** Returns a reverse iterator to the last element in the storage */
-    constexpr auto rbegin()       { return std::reverse_iterator (end()); }
+    constexpr auto rbegin() { return std::reverse_iterator (end()); }
 
     /** Returns a const reverse iterator to the last element in the storage */
     constexpr auto rbegin() const { return std::reverse_iterator (end()); }
 
     /** Returns a reverse iterator to the element before the first element in the storage */
-    constexpr auto rend()         { return std::reverse_iterator (begin()); }
+    constexpr auto rend() { return std::reverse_iterator (begin()); }
 
     /** Returns a const reverse iterator to the element before the first element in the storage */
-    constexpr auto rend()   const { return std::reverse_iterator (begin()); }
+    constexpr auto rend() const { return std::reverse_iterator (begin()); }
 
     //==============================================================================
     // Accessing sub spans.
@@ -251,7 +256,44 @@ public:
     }
 
     /** Fills the container with the given value. */
-    constexpr void fill (const value_type& value) {  std::fill (begin(), end(), value); }
+    constexpr void fill (const value_type& value) { std::fill (begin(), end(), value); }
+
+    //==============================================================================
+    // Generators
+    //==============================================================================
+    /** Fills the vector with evenly spaced numbers between start and stop.
+
+        Properties:
+        - The length of the vector will not be changed and must be > 0.
+        - If start and stop are identical, the container will be filled with that value.
+        - Ranges can have a negative increment, i.e., start > stop is explicitly allowed.
+
+        @param start      First value of the interval; always included.
+        @param stop       Last value of the interval; only included if includeEnd is true.
+        @param includeEnd If this is true, both start and stop are included; otherwise
+                          only start is included.
+     */
+    void fillLinspace (ElementType start, ElementType stop, bool includeEnd = true)
+    requires is::realNumber<ElementType>
+    {
+        const auto num = size();
+
+        VCTR_ASSERT (num > 0);
+        VCTR_ASSERT (! includeEnd || num != 1); // a num-one range cannot include the end
+
+        const auto increment = (stop - start) / double (num - size_t (includeEnd));
+
+        const auto isIntegerIncrement = increment - std::floor (increment) == ElementType (0);
+        VCTR_ASSERT (std::is_floating_point_v<ElementType> || isIntegerIncrement);
+
+        auto value = double (start);
+
+        for (int i = 0; i < num; ++i)
+        {
+            storage[i] = ElementType (value);
+            value += increment;
+        };
+    }
 
     //==============================================================================
     // For each functionality.
@@ -672,6 +714,7 @@ public:
     //==============================================================================
     // Math reduction operations.
     //==============================================================================
+    // clang-format off
     /** Returns the minimal value of all elements. */
     ElementType min() const requires std::totally_ordered<ElementType>;
 
@@ -695,6 +738,7 @@ public:
 
     /** Returns the sum of all elements. */
     ElementType sum() const requires has::operatorPlusEquals<ElementType>;
+    // clang-format on
 
 protected:
     //==============================================================================

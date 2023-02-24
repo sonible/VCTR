@@ -172,6 +172,8 @@
 
 #include "Expressions/DSP/Decibels.h"
 
+#include "Generators/Linspace.h"
+
 #include "Miscellaneous/StdOstreamOperator.h"
 
 //==============================================================================
