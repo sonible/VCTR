@@ -388,6 +388,19 @@ public:
         return Vctr::storage.back();
     }
 
+    /** Removes the last element in the vector, effectively reducing the container size by one.
+
+        In addition to std::vector::pop_back, this implementation also return the popped element.
+        Calling pop_back on an empty vector causes undefined behaviour.
+     */
+    constexpr ElementType pop_back()
+    {
+        VCTR_ASSERT (! Vctr::empty());
+        auto x = std::move (Vctr::storage.back());
+        Vctr::storage.pop_back();
+        return x;
+    }
+
     /** Constructs an element in-place at the end of the Vector
 
         This is a standard interface function forwarded to std::vector::emplace_back().
