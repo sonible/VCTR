@@ -114,7 +114,7 @@ public:
 
     /** Creates a Vector by moving a pack of elements into it. */
     template <is::suitableInitializerForElementType<ElementType> First, std::same_as<First>... Other>
-    requires (sizeof...(Other) > 0)
+    requires (sizeof...(Other) > 0) && (! std::convertible_to<First, size_t>)
     constexpr Vector (First&& first, Other&&... other)
     {
         reserve (1 + sizeof...(other));
