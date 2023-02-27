@@ -40,7 +40,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Subtraction", "[subtract]", (PlatformVectorOps, VCT
     REQUIRE_THAT (vecMinusVec, vctr::EqualsTransformedBy<subtraction> (srcA, srcB));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Subtraction in place", "[subtract]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>, std::complex<int32_t>, std::complex<int64_t>) )
+TEMPLATE_PRODUCT_TEST_CASE ("Subtraction in place", "[subtract]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES (10)
 

@@ -213,25 +213,25 @@ private:
     }                                                                                                                \
                                                                                                                      \
     template <T (*fn) (const std::complex<T>&), is::anyVctr ReferenceVec>                                            \
-    requires std::same_as<std::complex<T>,                                                                           \
-                          std::remove_const_t<typename ReferenceVec::value_type>> auto                               \
-        EqualsTransformedBy (const ReferenceVec& vec)                                                                \
+    requires std::floating_point<T> &&                                                                               \
+             std::same_as<std::complex<T>, std::remove_const_t<typename ReferenceVec::value_type>>                   \
+    auto EqualsTransformedBy (const ReferenceVec& vec)                                                               \
     {                                                                                                                \
         return detail::UnaryEqualsTransformedMatcher<T, const std::complex<T>&, ReferenceVec, fn> (vec);             \
     }                                                                                                                \
                                                                                                                      \
     template <T (*fn) (std::complex<T>), is::anyVctr ReferenceVec>                                                   \
-    requires std::same_as<std::complex<T>,                                                                           \
-                          std::remove_const_t<typename ReferenceVec::value_type>> auto                               \
-        EqualsTransformedBy (const ReferenceVec& vec)                                                                \
+    requires std::floating_point<T> &&                                                                               \
+             std::same_as<std::complex<T>, std::remove_const_t<typename ReferenceVec::value_type>>                   \
+    auto EqualsTransformedBy (const ReferenceVec& vec)                                                               \
     {                                                                                                                \
         return detail::UnaryEqualsTransformedMatcher<T, std::complex<T>, ReferenceVec, fn> (vec);                    \
     }                                                                                                                \
                                                                                                                      \
     template <std::complex<T> (*fn) (std::complex<T>), is::anyVctr ReferenceVec>                                     \
-    requires std::same_as<std::complex<T>,                                                                           \
-                          std::remove_const_t<typename ReferenceVec::value_type>> auto                               \
-        EqualsTransformedBy (const ReferenceVec& vec)                                                                \
+    requires std::floating_point<T> &&                                                                               \
+             std::same_as<std::complex<T>, std::remove_const_t<typename ReferenceVec::value_type>>                   \
+    auto EqualsTransformedBy (const ReferenceVec& vec)                                                               \
     {                                                                                                                \
         return detail::UnaryEqualsTransformedMatcher<std::complex<T>, std::complex<T>, ReferenceVec, fn> (vec);      \
     }                                                                                                                \
@@ -256,26 +256,27 @@ private:
     {                                                                                                                \
         return detail::BinaryScalarEqualsTransformedMatcher<T, ReferenceVec, fn> (scalar, vec);                      \
     }                                                                                                                \
+                                                                                                                     \
     template <std::complex<T> (*fn) (std::complex<T>, std::complex<T>), is::anyVctr ReferenceVec>                    \
-    requires std::same_as<std::complex<T>,                                                                           \
-                          std::remove_const_t<typename ReferenceVec::value_type>> auto                               \
-        EqualsTransformedBy (const ReferenceVec& vecA, const ReferenceVec& vecB)                                     \
+    requires std::floating_point<T> &&                                                                               \
+             std::same_as<std::complex<T>, std::remove_const_t<typename ReferenceVec::value_type>>                   \
+    auto EqualsTransformedBy (const ReferenceVec& vecA, const ReferenceVec& vecB)                                    \
     {                                                                                                                \
         return detail::BinaryEqualsTransformedMatcher<std::complex<T>, ReferenceVec, ReferenceVec, fn> (vecA, vecB); \
     }                                                                                                                \
                                                                                                                      \
     template <std::complex<T> (*fn) (std::complex<T>, std::complex<T>), is::anyVctr ReferenceVec>                    \
-    requires std::same_as<std::complex<T>,                                                                           \
-                          std::remove_const_t<typename ReferenceVec::value_type>> auto                               \
-        EqualsTransformedBy (const ReferenceVec& vec, std::complex<T> scalar)                                        \
+    requires std::floating_point<T> &&                                                                               \
+             std::same_as<std::complex<T>, std::remove_const_t<typename ReferenceVec::value_type>>                   \
+    auto EqualsTransformedBy (const ReferenceVec& vec, std::complex<T> scalar)                                       \
     {                                                                                                                \
         return detail::BinaryScalarEqualsTransformedMatcher<std::complex<T>, ReferenceVec, fn> (vec, scalar);        \
     }                                                                                                                \
                                                                                                                      \
     template <std::complex<T> (*fn) (std::complex<T>, std::complex<T>), is::anyVctr ReferenceVec>                    \
-    requires std::same_as<std::complex<T>,                                                                           \
-                          std::remove_const_t<typename ReferenceVec::value_type>> auto                               \
-        EqualsTransformedBy (std::complex<T> scalar, const ReferenceVec& vec)                                        \
+    requires std::floating_point<T> &&                                                                               \
+             std::same_as<std::complex<T>, std::remove_const_t<typename ReferenceVec::value_type>>                   \
+    auto EqualsTransformedBy (std::complex<T> scalar, const ReferenceVec& vec)                                       \
     {                                                                                                                \
         return detail::BinaryScalarEqualsTransformedMatcher<std::complex<T>, ReferenceVec, fn> (scalar, vec);        \
     }

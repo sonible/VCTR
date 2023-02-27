@@ -22,7 +22,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEMPLATE_PRODUCT_TEST_CASE ("Abs", "[abs]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, int64_t, std::complex<float>, std::complex<double>, std::complex<int32_t>, std::complex<int64_t>) )
+TEMPLATE_PRODUCT_TEST_CASE ("Abs", "[abs]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, int64_t, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES (10)
 
