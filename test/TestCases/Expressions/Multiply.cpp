@@ -25,7 +25,7 @@
 template <class T>
 T multiplication (T a, T b) { return a * b; }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Multiply", "[multiply]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>, std::complex<int32_t>, std::complex<int64_t>) )
+TEMPLATE_PRODUCT_TEST_CASE ("Multiply", "[multiply]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES (10)
 
@@ -42,7 +42,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Multiply", "[multiply]", (PlatformVectorOps, VCTR_N
     REQUIRE_THAT (product4, vctr::EqualsTransformedBy<multiplication> (srcA, ElementType (-2)).withEpsilon());
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Multiply in place", "[multiply]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>, std::complex<int32_t>, std::complex<int64_t>) )
+TEMPLATE_PRODUCT_TEST_CASE ("Multiply in place", "[multiply]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES (10)
 

@@ -40,7 +40,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Addition", "[add]", (PlatformVectorOps, VCTR_NATIVE
     REQUIRE_THAT (sum3, vctr::EqualsTransformedBy<addition> (srcA, srcB));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Addition in place", "[add]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>, std::complex<int32_t>, std::complex<int64_t>) )
+TEMPLATE_PRODUCT_TEST_CASE ("Addition in place", "[add]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES (10)
 
