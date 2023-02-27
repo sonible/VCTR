@@ -144,6 +144,17 @@ TEST_CASE ("erase", "[VectorMemberFunctions]")
     }
 }
 
+TEST_CASE ("pop_back", "[VectorMemberFunctions]")
+{
+    vctr::Vector<std::string> v { "one", "two", "three", "four" };
+
+    auto last = v.pop_back();
+
+    REQUIRE_THAT (last, Catch::Matchers::Equals ("four"));
+    REQUIRE (v.size() == 3);
+    REQUIRE_THAT (v, vctr::Equals ({ "one", "two", "three" }));
+}
+
 TEST_CASE ("insert", "[VectorMemberFunctions]")
 {
     vctr::Vector<std::string> v { "one", "two", "three", "four" };
