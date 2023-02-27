@@ -233,6 +233,26 @@ public:
     //==============================================================================
     // Assign data.
     //==============================================================================
+
+    /** Assigns elements from the initializer list to this instance.
+
+       In case it is a resizable Vector, it will be resized to match the size of the list, otherwise
+       the list size must match the destination size.
+     */
+    constexpr void assign (std::initializer_list<ElementType> elements)
+    {
+        if constexpr (has::resize<StorageType>)
+        {
+            storage.resize (elements.size());
+        }
+        else
+        {
+            VCTR_ASSERT (elements.size() == size());
+        }
+
+        std::copy (elements.begin(), elements.end(), begin());
+    }
+
     /** Copies the content from otherData to this instance.
 
         In case the storage of this instance is resizable, it will resize it if necessary. Otherwise, it will
