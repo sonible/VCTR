@@ -353,6 +353,22 @@ TEST_CASE ("shift", "[VctrBaseMemberFunctions]")
     }
 }
 
+TEST_CASE ("assign", "[VctrBaseMemberFunctions]")
+{
+    vctr::Vector<int> v (3, 42);
+    REQUIRE (v.size() == 3);
+
+    // Assigning values resizes a Vector and copies the values to the container
+    v.assign ({ -2, -1, 0, 1, 2 });
+    REQUIRE (v.size() == 5);
+    REQUIRE_THAT (v, vctr::Equals ({ -2, -1, 0, 1, 2 }));
+
+    // Assign an initializer list to a span viewing the vector should alter the viewed Vector
+    vctr::Span s = v;
+    s.assign ({ 100, 101, 102, 103, 104 });
+    REQUIRE_THAT (v, vctr::Equals ({ 100, 101, 102, 103, 104 }));
+}
+
 TEST_CASE ("fill", "[VctrBaseMemberFunctions]")
 {
     constexpr int fillValue = 5;
