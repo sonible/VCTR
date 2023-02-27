@@ -26,31 +26,44 @@ namespace vctr
 // clang-format off
 /** The default allocator choice for non-arithmetic types is a simple std::allocator. */
 template <class ElementType>
-struct DefaultVectorAllocator : std::allocator<ElementType>
+struct DefaultVectorAllocator
 {
-  typedef ElementType value_type;
-  DefaultVectorAllocator() noexcept {}
-  template <class U> DefaultVectorAllocator (const DefaultVectorAllocator<U>&) noexcept {}
+    using DefaultVectorAllocatorType = std::allocator<ElementType>;
 };
 
 /** The default allocator choice for arithmetic types is an AlignedAllocator. */
 template <is::number ElementType>
-struct DefaultVectorAllocator<ElementType> : AlignedAllocator<ElementType, Config::maxSIMDRegisterSize> {};
+struct DefaultVectorAllocator<ElementType>
+{
+    using DefaultVectorAllocatorType = AlignedAllocator<ElementType, Config::maxSIMDRegisterSize>;
+};
 // clang-format on
 
 namespace detail
 {
 
+template <class Allocator>
+struct UnderlyingAllocatorExtractor
+{
+    using Type = Allocator;
+};
+
+template <class ElementType>
+struct UnderlyingAllocatorExtractor<DefaultVectorAllocator<ElementType>>
+{
+    using Type = typename DefaultVectorAllocator<ElementType>::DefaultVectorAllocatorType;
+};
+
 template <class T, template <class> class Allocator>
 struct StdVector
 {
-    using Type = std::vector<T, Allocator<T>>;
+    using Type = std::vector<T, typename UnderlyingAllocatorExtractor<Allocator<T>>::Type>;
 };
 
 template <template <class> class Allocator>
 struct StdVector<bool, Allocator>
 {
-    using Type = VectorBoolWorkaround<Allocator<std::byte>>;
+    using Type = VectorBoolWorkaround<typename UnderlyingAllocatorExtractor<Allocator<std::byte>>::Type>;
 };
 
 template <class T, template <class> class Allocator>
