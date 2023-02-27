@@ -31,10 +31,10 @@ public:
     using value_type = ElementType;
     using size_type = std::size_t;
 
-    AlignedAllocator() = default;
+    AlignedAllocator() noexcept = default;
 
     template <class OtherElementType>
-    AlignedAllocator (const AlignedAllocator<OtherElementType, alignmentInBytes>&) {}
+    AlignedAllocator (const AlignedAllocator<OtherElementType, alignmentInBytes>&) noexcept {}
 
     [[nodiscard]] ElementType* allocate (size_t nElementsToAllocate)
     {
@@ -66,6 +66,12 @@ public:
         free (allocatedPointer);
 #endif
     }
+
+    template <class T>
+    struct rebind
+    {
+        using other = AlignedAllocator<T, alignmentInBytes>;
+    };
 };
 
 template <class ElementType, size_t alignmentInBytesLHS, size_t alignmentInBytesRHS>
