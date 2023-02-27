@@ -64,9 +64,13 @@ struct Equals : Catch::Matchers::MatcherGenericBase
     }
 
 private:
-    const ReferenceVec& reference;
+    ReferenceVec reference;
 
     double margin = 0.0;
     double epsilon = 0.0;
 };
+
+template <class T>
+Equals (std::initializer_list<T>) -> Equals<Vector<T>>;
+
 } // namespace vctr
