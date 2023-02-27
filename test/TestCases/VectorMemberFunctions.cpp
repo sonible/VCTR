@@ -144,6 +144,20 @@ TEST_CASE ("erase", "[VectorMemberFunctions]")
     }
 }
 
+TEST_CASE ("push_back", "[VectorMemberFunctions]")
+{
+    vctr::Vector<std::string> v;
+
+    const std::string byCopy = "By copy";
+    std::string byMove = "By move";
+
+    v.push_back ("In place string literal");
+    v.push_back (byCopy);
+    v.push_back (std::move (byMove));
+
+    REQUIRE_THAT (v, vctr::Equals ({ "In place string literal", "By copy", "By move" }));
+}
+
 TEST_CASE ("pop_back", "[VectorMemberFunctions]")
 {
     vctr::Vector<std::string> v { "one", "two", "three", "four" };
@@ -153,6 +167,17 @@ TEST_CASE ("pop_back", "[VectorMemberFunctions]")
     REQUIRE_THAT (last, Catch::Matchers::Equals ("four"));
     REQUIRE (v.size() == 3);
     REQUIRE_THAT (v, vctr::Equals ({ "one", "two", "three" }));
+}
+
+TEST_CASE ("emplace_back", "[VectorMemberFunctions]")
+{
+    vctr::Vector<std::pair<std::string, int>> v;
+
+    v.emplace_back ("The answer", 42);
+
+    REQUIRE (v.size() == 1);
+    REQUIRE_THAT (v[0].first, Catch::Matchers::Equals ("The answer"));
+    REQUIRE (v[0].second == 42);
 }
 
 TEST_CASE ("insert", "[VectorMemberFunctions]")
