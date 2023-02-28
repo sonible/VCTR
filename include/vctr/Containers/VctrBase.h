@@ -717,7 +717,25 @@ public:
     /** Divides this by a constant in place. */
     constexpr void operator/= (value_type c);
 
-    /** Adds a vector or expression to this in place. */
+    /** Adds a vector or expression to this in place.
+
+        In the special case where a multiplication expression is assigned for which none of the operands
+        are expressions themselves, this will try to use accelerated multiply accumulate operations to
+        evaluate the expression.
+
+        Example:
+        @code
+        vctr::Array<float, 10> a, b, c;
+
+        // This code tries to use an accelerated multiply accumulate operation as it can access the values of a and b right away
+        c += a * b;
+        c += a * 42.0f;
+
+        // Cannot directly evaluate the accelerated operation as vctr::square (b) would have to be evaluated and stored to
+        // some temporary memory location first.
+        c += a * vctr::square (b);
+        @endcode
+     */
     template <is::anyVctrOrExpression V>
     constexpr void operator+= (const V& v);
 

@@ -54,4 +54,37 @@ TEMPLATE_PRODUCT_TEST_CASE ("Addition in place", "[add]", (PlatformVectorOps, VC
 
     REQUIRE_THAT (sum1, vctr::EqualsTransformedBy<addition> (srcA, srcB).withEpsilon());
     REQUIRE_THAT (sum2, vctr::EqualsTransformedBy<addition> (srcA, c).withEpsilon());
+
+    // Operator += implements special accelerated handling for the case of multiply-accumulate operations
+    auto mac1 = srcA;
+    auto mac2 = srcA;
+    //auto mac3 = srcA;
+
+    mac1 += srcB * srcC;
+    mac2 += srcB * c;
+    // Todo: This causes build errors on some platforms. https://github.com/sonible/VCTR/issues/70
+    //mac3 += vctr::multiplyByConstant<42> << srcB;
+
+    const auto eps = vctr::RealType<ElementType> (0.00001);
+
+    for (size_t i = 0; i < 10; ++i)
+    {
+        if constexpr (vctr::is::complexFloatNumber<ElementType>)
+        {
+            REQUIRE_THAT (mac1[i].real(), Catch::Matchers::WithinRel ((srcA[i] + srcB[i] * srcC[i]).real(), eps));
+            REQUIRE_THAT (mac1[i].imag(), Catch::Matchers::WithinRel ((srcA[i] + srcB[i] * srcC[i]).imag(), eps));
+            REQUIRE_THAT (mac2[i].real(), Catch::Matchers::WithinRel ((srcA[i] + srcB[i] * c).real(), eps));
+            REQUIRE_THAT (mac2[i].imag(), Catch::Matchers::WithinRel ((srcA[i] + srcB[i] * c).imag(), eps));
+        }
+        else if constexpr (vctr::is::floatNumber<ElementType>)
+        {
+            REQUIRE_THAT (mac1[i], Catch::Matchers::WithinRel (srcA[i] + srcB[i] * srcC[i], eps));
+            REQUIRE_THAT (mac2[i], Catch::Matchers::WithinRel (srcA[i] + srcB[i] * c, eps));
+        }
+        else
+        {
+            REQUIRE (mac1[i] == srcA[i] + srcB[i] * srcC[i]);
+            REQUIRE (mac2[i] == srcA[i] + srcB[i] * c);
+        }
+    }
 }

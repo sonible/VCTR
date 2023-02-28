@@ -81,6 +81,14 @@ template <class ElementType, class StorageType, size_t extent, class StorageInfo
 template <is::anyVctrOrExpression V>
 constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator+= (const V& v)
 {
+    // Special case: If V is a multiplication expression which has no chained expressions as sources,
+    // it might implement a special accelerated multiply accumulate function.
+    if constexpr (detail::IsMultiplicationExpression<V>::value && requires { v.evalVectorOpMultiplyAccumulate (data()); })
+    {
+        v.evalVectorOpMultiplyAccumulate (data());
+        return;
+    }
+
     const auto& self = *this;
     assignExpressionTemplate (Expressions::AddVectors<extent, decltype (self), const V&> (self, v));
 }
