@@ -303,7 +303,7 @@ public:
 
         const auto increment = (stop - start) / double (num - size_t (includeEnd));
 
-        const auto isIntegerIncrement = increment - std::floor (increment) == ElementType (0);
+        [[maybe_unused]] const auto isIntegerIncrement = increment - std::floor (increment) == ElementType (0);
         VCTR_ASSERT (std::is_floating_point_v<ElementType> || isIntegerIncrement);
 
         auto value = double (start);
