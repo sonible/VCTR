@@ -22,6 +22,7 @@ add_executable (vctr_test EXCLUDE_FROM_ALL vctr_test.cpp)
 target_link_libraries (vctr_test PRIVATE vctr vctr_test_utils Catch2::Catch2 gcem::gcem)
 
 target_sources (vctr_test PRIVATE
+        TestCases/TestUtils.cpp
         TestCases/ArrayConstructors.cpp
         TestCases/ConversionOperators.cpp
         TestCases/ElementAccessFunctions.cpp
