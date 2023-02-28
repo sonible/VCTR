@@ -96,7 +96,7 @@
 // User supplied defines
 //==============================================================================
 
-/** Define this to 1 in case IPP is available for x64 builds. Define it to 0 if you don't want to use IPP.
+/** Define this to 1 in case Intel IPP is available for x64 builds. Define it to 0 if you don't want to use IPP.
 
     If not defined, it will decide whether to use IPP or not depending on the result of __has_include (<ipp.h>)
  */
@@ -110,13 +110,25 @@
 
 /** Define this to 1 in case gcem (https://github.com/kthohr/gcem) is available. The minimum required version is gcem 1.16.0.
 
-    If not defined, it will decide whether to use IPP or not depending on the result of __has_include (<gcem.hpp>)
+    If not defined, it will decide whether to use gcem or not depending on the result of __has_include (<gcem.hpp>)
  */
 #ifndef VCTR_USE_GCEM
 #if __has_include(<gcem.hpp>)
 #define VCTR_USE_GCEM 1
 #else
 #define VCTR_USE_GCEM 0
+#endif
+#endif
+
+/** Define this to 1 in case the JUCE (https://github.com/juce-framework/JUCE) dsp module is available.
+
+    If not defined, it will decide whether to use juce dsp or not depending on the JUCE_MODULE_AVAILABLE_juce_dsp macro
+ */
+#ifndef VCTR_USE_JUCE_DSP
+#if JUCE_MODULE_AVAILABLE_juce_dsp
+#define VCTR_USE_JUCE_DSP 1
+#else
+#define VCTR_USE_JUCE_DSP 0
 #endif
 #endif
 
@@ -148,7 +160,6 @@ private:
     {
         CPUFeatureFinder()
         {
-            //int cpuInfo[4] = {-1};
             std::array<int, 4> cpui;
             std::vector<std::array<int, 4>> data, extdata;
 

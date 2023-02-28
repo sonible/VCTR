@@ -176,6 +176,11 @@
 
 #include "Miscellaneous/StdOstreamOperator.h"
 
+#if VCTR_USE_JUCE_DSP
+#include <juce_dsp/juce_dsp.h>
+#include "Miscellaneous/JUCEHelpers.h"
+#endif
+
 //==============================================================================
 // tpp files go here
 //==============================================================================
