@@ -78,6 +78,19 @@ public:
         return dst;
     }
 
+
+    VCTR_FORCEDINLINE void evalVectorOpMultiplyAccumulate (value_type* dst) const
+    requires is::suitableForAccelerateRealFloatBinaryVectorOp<SrcAType, SrcBType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable> && is::anyVctr<SrcAType> && is::anyVctr<SrcBType>
+    {
+        Expression::Accelerate::multiplyAdd (srcA.data(), srcB.data(), dst, dst, size());
+    }
+
+    VCTR_FORCEDINLINE void evalVectorOpMultiplyAccumulate (value_type* dst) const
+    requires is::suitableForIppRealOrComplexComplexFloatBinaryVectorOp<SrcAType, SrcBType, value_type, detail::preferIfIppAndAccelerateAreAvailable> && is::anyVctr<SrcAType> && is::anyVctr<SrcBType>
+    {
+        Expression::IPP::multiplyAccumulate (srcA.data(), srcB.data(), dst, sizeToInt (size()));
+    }
+
     //==============================================================================
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
@@ -138,8 +151,20 @@ public:
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
     requires is::suitableForIppRealOrComplexFloatVectorOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
     {
-        Expression::IPP::mul (src.evalNextVectorOpInExpressionChain (dst), single, dst, size());
+        Expression::IPP::mul (src.evalNextVectorOpInExpressionChain (dst), single, dst, sizeToInt (size()));
         return dst;
+    }
+
+    VCTR_FORCEDINLINE void evalVectorOpMultiplyAccumulate (value_type* dst) const
+    requires is::suitableForAccelerateRealFloatVectorOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable> && is::anyVctr<SrcType>
+    {
+        Expression::Accelerate::multiplyAdd (src.data(), single, dst, dst, size());
+    }
+
+    VCTR_FORCEDINLINE void evalVectorOpMultiplyAccumulate (value_type* dst) const
+    requires is::suitableForIppRealFloatVectorOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable> && is::anyVctr<SrcType>
+    {
+        Expression::IPP::multiplyAccumulate (src.data(), single, dst, sizeToInt (size()));
     }
 
     //==============================================================================
@@ -213,6 +238,18 @@ public:
         return dst;
     }
 
+    VCTR_FORCEDINLINE void evalVectorOpMultiplyAccumulate (value_type* dst) const
+    requires is::suitableForAccelerateRealFloatVectorOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable> && is::anyVctr<SrcType>
+    {
+        Expression::Accelerate::multiplyAdd (src.data(), constant, dst, dst, size());
+    }
+
+    VCTR_FORCEDINLINE void evalVectorOpMultiplyAccumulate (value_type* dst) const
+    requires is::suitableForIppRealFloatVectorOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable> && is::anyVctr<SrcType>
+    {
+        Expression::IPP::multiplyAccumulate (src.data(), constant, dst, sizeToInt (size()));
+    }
+
     //==============================================================================
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
@@ -237,6 +274,18 @@ private:
 };
 
 } // namespace vctr::Expressions
+
+namespace vctr::detail
+{
+template <class T>
+struct IsMultiplicationExpression : std::false_type {};
+
+template <size_t e, class A, class B>
+struct IsMultiplicationExpression<Expressions::MultiplyVectors<e, A, B>> : std::true_type {};
+
+template <size_t e, class A>
+struct IsMultiplicationExpression<Expressions::MultiplyVecBySingle<e, A>> : std::true_type {};
+} // namespace vctr::detail
 
 namespace vctr
 {
