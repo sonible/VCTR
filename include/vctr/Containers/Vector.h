@@ -200,11 +200,40 @@ public:
     //==============================================================================
     // Operators
     //==============================================================================
-    /** Copies the data of the source container to this Vector. This Vector will be resized to fit if needed. */
+    /** Copies or moves the data of the source container to this Vector. This Vector will be resized to fit if needed. */
     template <has::sizeAndDataWithElementType<ElementType> Container>
-    constexpr Vector& operator= (const Container& containerToCopyDataFrom)
+    constexpr Vector& operator= (Container&& containerToCopyDataFrom)
     {
-        Vctr::copyFrom (containerToCopyDataFrom.data(), containerToCopyDataFrom.size());
+        if constexpr (has::begin<Container> &&
+                      has::end<Container> &&
+                      (! is::view<Container>) &&
+                      (! std::is_reference_v<Container>))
+        {
+            if constexpr (std::same_as<Container, Vector>)
+            {
+                Vctr::storage = std::move (containerToCopyDataFrom.storage);
+            }
+            else if constexpr (std::same_as<Container, StdVectorType>)
+            {
+                Vctr::storage = std::move (containerToCopyDataFrom);
+            }
+            else
+            {
+                Vctr::storage.assign (std::make_move_iterator (containerToCopyDataFrom.begin()), std::make_move_iterator (containerToCopyDataFrom.end()));
+            }
+        }
+        else
+        {
+            Vctr::copyFrom (containerToCopyDataFrom.data(), containerToCopyDataFrom.size());
+        }
+
+        return *this;
+    }
+
+    /** Assigns elements from the intializer list to this Vector. This Vector will be resized to fit if needed. */
+    constexpr Vector& operator= (std::initializer_list<ElementType> elementsToAssign)
+    {
+        Vctr::storage.assign (std::move (elementsToAssign));
         return *this;
     }
 
