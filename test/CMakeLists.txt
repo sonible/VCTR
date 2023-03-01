@@ -28,6 +28,7 @@ target_sources (vctr_test PRIVATE
         TestCases/ElementAccessFunctions.cpp
         TestCases/FindingAndManipulatingElements.cpp
         TestCases/SpanConstructors.cpp
+        TestCases/SpanMemberFunctions.cpp
         TestCases/VctrBaseMemberFunctions.cpp
         TestCases/VectorMemberFunctions.cpp
         TestCases/VectorConstructors.cpp
