@@ -293,7 +293,7 @@ public:
         @param includeEnd If this is true, both start and stop are included; otherwise
                           only start is included.
      */
-    void fillLinspace (ElementType start, ElementType stop, bool includeEnd = true)
+    constexpr void fillLinspace (ElementType start, ElementType stop, bool includeEnd = true)
     requires is::realNumber<ElementType>
     {
         const auto num = size();
@@ -303,7 +303,11 @@ public:
 
         const auto increment = (stop - start) / double (num - size_t (includeEnd));
 
+#if VCTR_USE_GCEM
+        [[maybe_unused]] const auto isIntegerIncrement = increment - gcem::floor (increment) == ElementType (0);
+#else
         [[maybe_unused]] const auto isIntegerIncrement = increment - std::floor (increment) == ElementType (0);
+#endif
         VCTR_ASSERT (std::is_floating_point_v<ElementType> || isIntegerIncrement);
 
         auto value = double (start);

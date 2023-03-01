@@ -49,7 +49,7 @@ struct Linspace
 
     /** Like makeVector, but returns an Array. */
     template <is::realNumber ElementType, size_t num>
-    static Array<ElementType, num> makeArray (ElementType start, ElementType stop, bool includeEnd = true)
+    static constexpr Array<ElementType, num> makeArray (ElementType start, ElementType stop, bool includeEnd = true)
     {
         Array<ElementType, num> dst;
         dst.fillLinspace (start, stop, includeEnd);

@@ -65,7 +65,7 @@ TEMPLATE_TEST_CASE ("Linspace (simple tests)", "[VCTR][Generators][Linspace]", i
         constexpr auto includeEnd = true;
 
         auto vector = vctr::generators::Linspace::makeVector<TestType> (start, stop, num, includeEnd);
-        auto array = vctr::generators::Linspace::makeArray<TestType, num> (start, stop, includeEnd);
+        constexpr auto array = vctr::generators::Linspace::makeArray<TestType, num> (start, stop, includeEnd); // make sure makeArray can be constexpr evaluated
 
         REQUIRE (vector.size() == array.size());
 
