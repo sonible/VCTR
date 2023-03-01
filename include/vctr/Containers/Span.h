@@ -103,11 +103,30 @@ public:
         VCTR_ASSERT (extent == containerToView.size() || extent == std::dynamic_extent);
     }
 
-    /** Copies the data of the source container to the memory this span refers to. */
+    //==============================================================================
+    // Operators
+    //==============================================================================
+    /** Copies or moves the data of the source container to this Span. You have to ensure that the source size matches. */
     template <has::sizeAndDataWithElementType<ElementType> Container>
-    constexpr Span& operator= (const Container& containerToCopyDataFrom)
+    constexpr Span& operator= (Container&& containerToCopyDataFrom)
     {
-        Vctr::copyFrom (containerToCopyDataFrom.data(), containerToCopyDataFrom.size());
+        if constexpr (Vctr::template shouldMoveFromOtherContainer<Container>)
+        {
+            VCTR_ASSERT (containerToCopyDataFrom.size() == Vctr::size());
+            std::copy (std::make_move_iterator (containerToCopyDataFrom.begin()), std::make_move_iterator (containerToCopyDataFrom.end()), Vctr::storage.begin());
+        }
+        else
+        {
+            Vctr::copyFrom (containerToCopyDataFrom.data(), containerToCopyDataFrom.size());
+        }
+
+        return *this;
+    }
+
+    /** Assigns elements from the initializer list to this Span. You have to ensure that the source size matches. */
+    constexpr Span& operator= (std::initializer_list<ElementType> elementsToAssign)
+    {
+        Vctr::assign (std::move (elementsToAssign));
         return *this;
     }
 
