@@ -22,9 +22,43 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-#include <catch2/matchers/catch_matchers_string.hpp>
-
 #include <list>
+
+TEST_CASE ("Assignment operator", "[VectorMemberFunctions]")
+{
+    vctr::Vector<int> ints;
+
+    // Assignment from an initializer list
+    ints = { 1, 2, 3, 4 };
+    REQUIRE_THAT (ints, vctr::Equals ({ 1, 2, 3, 4 }));
+
+    // Assignment from a different container type
+    std::array a { 5, 6, 7, 8, 9 };
+    ints = a;
+    REQUIRE_THAT (ints, vctr::Equals ({ 5, 6, 7, 8, 9 }));
+
+    // Assignment from another Vector
+    vctr::Vector v = { 10, 11, 12 };
+    ints = v;
+    REQUIRE_THAT (ints, vctr::Equals ({ 10, 11, 12 }));
+
+    // Move-assignment from another Vector
+    vctr::Vector v2 = { 13, 14, 15, 16 };
+    ints = std::move (v2);
+    REQUIRE_THAT (ints, vctr::Equals ({ 13, 14, 15, 16 }));
+
+    vctr::Vector<std::string> strings;
+
+    // Move-assignment from a different container type
+    std::array<std::string, 3> ma = { "foo", "bar", "baz" };
+    strings = std::move (ma);
+    REQUIRE_THAT (strings, vctr::Equals ({ "foo", "bar", "baz" }));
+
+    // Move-assignment from the underlying container type
+    std::vector<std::string> mv = { "I", "love", "sonible", "!" };
+    strings = std::move (mv);
+    REQUIRE_THAT (strings, vctr::Equals ({ "I", "love", "sonible", "!" }));
+}
 
 TEST_CASE ("capacity, shrink_to_fit, reserve, clear", "[VectorMemberFunctions]")
 {
