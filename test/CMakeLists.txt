@@ -23,6 +23,7 @@ target_link_libraries (vctr_test PRIVATE vctr vctr_test_utils Catch2::Catch2 gce
 
 target_sources (vctr_test PRIVATE
         TestCases/ArrayConstructors.cpp
+        TestCases/ArrayMemberFunctions.cpp
         TestCases/ConversionOperators.cpp
         TestCases/ElementAccessFunctions.cpp
         TestCases/FindingAndManipulatingElements.cpp
