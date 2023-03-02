@@ -20,6 +20,14 @@
   ==============================================================================
 */
 
+// clang-format off
+// Disable MSVC warning C4324 "structure was padded due to alignment specifier"
+#if VCTR_MSVC
+__pragma (warning (push))
+__pragma (warning (disable : 4324))
+#endif
+// clang-format on
+
 namespace vctr
 {
 
@@ -1046,3 +1054,7 @@ protected:
 };
 
 } // namespace vctr
+
+#if VCTR_MSVC
+__pragma (warning (pop))
+#endif
