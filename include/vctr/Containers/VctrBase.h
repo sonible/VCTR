@@ -627,7 +627,7 @@ public:
         VCTR_ASSERT (n < size());
 
         auto numElementsToMove = size() - n;
-        move (data() + n, data(), numElementsToMove);
+        memMove (data() + n, data(), numElementsToMove);
 
         if (clearFreeSpaceAfterShiftedRegion)
             clear (data() + numElementsToMove, n);
@@ -654,7 +654,7 @@ public:
         VCTR_ASSERT (n < size());
 
         const auto numElementsToMove = size() - n;
-        move (data(), data() + n, numElementsToMove);
+        memMove (data(), data() + n, numElementsToMove);
 
         if (clearFreeSpaceBeforeShiftedRegion)
             clear (data(), n);
@@ -792,20 +792,6 @@ public:
 
 protected:
     //==============================================================================
-    /** Sets numElements elements pointed to by ptr to zero */
-    static void clear (ElementType* ptr, size_t numElements)
-    {
-        std::memset (ptr, 0, numElements * sizeof (ElementType));
-    }
-
-    /** Moves numElements elements from src to dst */
-    static void move (const ElementType* src, ElementType* dst, size_t numElements)
-    requires std::is_trivially_copyable_v<ElementType>
-    {
-        std::memmove (dst, src, numElements * sizeof (ElementType));
-    }
-
-    //==============================================================================
     constexpr VctrBase()
     {
         StorageInfoType::init (storage.data(), storage.size());
@@ -864,20 +850,6 @@ protected:
     }
 
     //==============================================================================
-    // clang-format off
-    template <size_t spanExtent>
-    constexpr auto constCorrectSpan (ElementType* data, size_t spanSize);
-
-    template <size_t spanExtent>
-    constexpr auto constCorrectSpan (const ElementType* data, size_t spanSize) const
-    requires (! is::stdSpan<StorageType>);
-
-    template <size_t spanExtent>
-    constexpr auto constCorrectSpan (ElementType* data, size_t spanSize) const
-    requires is::stdSpan<StorageType>;
-    // clang-format on
-
-    //==============================================================================
     template <is::expression Expression>
     VCTR_FORCEDINLINE constexpr void assignExpressionTemplate (const Expression& e)
     {
@@ -934,6 +906,19 @@ protected:
             storage[i] = e[i];
     }
 
+    /** Used in assignment operators to figure out if we should attempt to move values from another container rather than copying. */
+    template <class OtherContainer>
+    static constexpr bool shouldMoveFromOtherContainer = has::begin<OtherContainer> &&
+                                                         has::end<OtherContainer> &&
+                                                         (! is::view<OtherContainer>) &&
+                                                         (! std::is_reference_v<OtherContainer>) &&
+                                                         (! std::is_trivially_copyable_v<ElementType>);
+
+    //==============================================================================
+    alignas (StorageInfoType::memberAlignment) StorageType storage;
+
+private:
+    //==============================================================================
     template <class Expression>
     void assignExpressionTemplateNeon (const Expression& e)
     requires archARM
@@ -1050,7 +1035,30 @@ protected:
     }
 
     //==============================================================================
-    alignas (StorageInfoType::memberAlignment) StorageType storage;
+    template <size_t spanExtent>
+    constexpr auto constCorrectSpan (ElementType* data, size_t spanSize);
+
+    template <size_t spanExtent>
+    constexpr auto constCorrectSpan (const ElementType* data, size_t spanSize) const
+    requires (! is::stdSpan<StorageType>);
+
+    template <size_t spanExtent>
+    constexpr auto constCorrectSpan (ElementType* data, size_t spanSize) const
+    requires is::stdSpan<StorageType>;
+
+    //==============================================================================
+    /** Sets numElements elements pointed to by ptr to zero. */
+    static void clear (ElementType* ptr, size_t numElements)
+    {
+        std::memset (ptr, 0, numElements * sizeof (ElementType));
+    }
+
+    /** Moves numElements elements from src to dst using std::memmove. */
+    static void memMove (const ElementType* src, ElementType* dst, size_t numElements)
+    requires std::is_trivially_copyable_v<ElementType>
+    {
+        std::memmove (dst, src, numElements * sizeof (ElementType));
+    }
 };
 
 } // namespace vctr
