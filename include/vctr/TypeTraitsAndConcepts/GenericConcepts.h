@@ -88,7 +88,7 @@ concept stdTupleWithTypes = std::same_as<T, std::tuple<TupleTypes...>>;
     Suitable classes are e.g. std::integral_constant and vctr::Constant.
  */
 template <class C>
-concept constant = requires (std::any a) { a = C::value; };
+concept constant = requires (const void* ptr) { ptr = &C::value; };
 
 /** Constrains the type to be a class that defines a static const value field of a certain type.
 
