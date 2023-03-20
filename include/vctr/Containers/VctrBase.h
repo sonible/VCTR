@@ -794,13 +794,15 @@ protected:
     //==============================================================================
     constexpr VctrBase()
     {
-        StorageInfoType::init (storage.data(), storage.size());
+        if constexpr (has::init<StorageInfoType>)
+            StorageInfoType::init (storage.data(), storage.size());
     }
 
     constexpr VctrBase (StorageType&& s)
         : storage (std::move (s))
     {
-        StorageInfoType::init (storage.data(), storage.size());
+        if constexpr (has::init<StorageInfoType>)
+            StorageInfoType::init (storage.data(), storage.size());
     }
 
     template <is::storageInfo OtherStorageInfoType>

@@ -27,6 +27,9 @@ namespace vctr::has
 template <class Lhs, class Rhs = Lhs>
 concept operatorPlusEquals = requires (Lhs l, Rhs r) { l += r; };
 
+template <class T>
+concept init = requires (T& t, void* ptr, size_t s) { t.init (ptr, s); };
+
 }
 
 namespace vctr::detail
