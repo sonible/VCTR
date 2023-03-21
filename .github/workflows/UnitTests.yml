@@ -141,7 +141,7 @@ jobs:
         if: runner.os == 'Linux'
 
       - name: (macOS) Install dependencies
-        run: brew install conan ninja llvm@15 gcc@12 z3  # conan@1.59.0 was not found, therefore no version specification
+        run: brew install ninja llvm@15 gcc@12 z3  && pip3 install conan==1.59.0
         if: runner.os == 'macOS'
 
       - name: (Windows) Install dependencies
