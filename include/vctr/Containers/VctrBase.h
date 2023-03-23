@@ -120,10 +120,22 @@ public:
     constexpr auto&& back() const { return storage[backIdx()]; }
 
     /** Returns a raw pointer to the underlying storage */
-    constexpr auto* data() { return storage.data(); }
+    VCTR_FORCEDINLINE constexpr auto* data()
+    {
+        if constexpr (requires { typename RequireConstexpr<StorageInfoType::dataIsSIMDAligned>; } && StorageInfoType::dataIsSIMDAligned)
+            return assumeAlignedToMaxSIMDRegisterSize (storage.data());
+
+        return storage.data();
+    }
 
     /** Returns a raw pointer to the underlying storage */
-    constexpr auto* data() const { return storage.data(); }
+    VCTR_FORCEDINLINE constexpr auto* data() const
+    {
+        if constexpr (requires { typename RequireConstexpr<StorageInfoType::dataIsSIMDAligned>; } && StorageInfoType::dataIsSIMDAligned)
+            return assumeAlignedToMaxSIMDRegisterSize (storage.data());
+
+        return storage.data();
+    }
 
     /** Returns an iterator to the begin of the storage */
     constexpr auto begin() { return storage.begin(); }
@@ -1060,6 +1072,19 @@ private:
     requires std::is_trivially_copyable_v<ElementType>
     {
         std::memmove (dst, src, numElements * sizeof (ElementType));
+    }
+
+    /** Returns ptr marked as aligned to maxSIMDRegisterSize using compiler specific extensions if available. */
+    template <class T>
+    VCTR_FORCEDINLINE constexpr static T* assumeAlignedToMaxSIMDRegisterSize (T* ptr)
+    {
+        #if __cpp_lib_assume_aligned
+            return std::assume_aligned<maxSIMDRegisterSize> (ptr);
+        #elif VCTR_CLANG
+            return static_cast<T*> (__builtin_assume_aligned (ptr, maxSIMDRegisterSize));
+        #else
+            return ptr;
+        #endif
     }
 };
 
