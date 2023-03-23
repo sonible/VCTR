@@ -235,4 +235,21 @@ constexpr void assertCommonSize ([[maybe_unused]] const A& a, [[maybe_unused]] c
         static_assert (extentOf<A> == extentOf<B>);
     }
 }
+
+/** A helper struct intended to check if a value is a constexpr.
+
+    This is most useful to check if a member variable is compile time
+    constant or the return value of a member function is compile time constant.
+    Example:
+    @code
+    if constexpr (requires { typename RequireConstexpr<T::member>; })
+    {
+        constexpr auto m = T::member;
+        // Treat it as a compile time constant
+    }
+    @endcode
+ */
+template <auto v>
+struct RequireConstexpr {};
+
 } // namespace vctr
