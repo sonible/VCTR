@@ -196,6 +196,20 @@ public:
         auto d = sp (dst);
         vDSP_zvdiv (&sb, 2, &sa, 2, &d, 2, len);
     }
+
+    static void conj (const std::complex<float>* src, std::complex<float>* dst, size_t len)
+    {
+        auto s = sp (src);
+        auto d = sp (dst);
+        vDSP_zvconj (&s, 2, &d, 2, len);
+    }
+
+    //==============================================================================
+    // BLAS functions
+    //==============================================================================
+
+    static void copyReal (const std::complex<float>* src, float* dst, int len) { cblas_scopy (len, reinterpret_cast<const float*> (src), 2, dst, 1); }
+    static void copyImag (const std::complex<float>* src, float* dst, int len) { cblas_scopy (len, reinterpret_cast<const float*> (src) + 1, 2, dst, 1); }
 };
 
 template <>
@@ -259,6 +273,20 @@ public:
         auto d = sp (dst);
         vDSP_zvdivD (&sb, 2, &sa, 2, &d, 2, len);
     }
+
+    static void conj (const std::complex<double>* src, std::complex<double>* dst, size_t len)
+    {
+        auto s = sp (src);
+        auto d = sp (dst);
+        vDSP_zvconjD (&s, 2, &d, 2, len);
+    }
+
+    //==============================================================================
+    // BLAS functions
+    //==============================================================================
+
+    static void copyReal (const std::complex<double>* src, double* dst, int len) { cblas_dcopy (len, reinterpret_cast<const double*> (src), 2, dst, 1); }
+    static void copyImag (const std::complex<double>* src, double* dst, int len) { cblas_dcopy (len, reinterpret_cast<const double*> (src) + 1, 2, dst, 1); }
 };
 
 #endif
