@@ -36,6 +36,7 @@ target_sources (vctr_test PRIVATE
         TestCases/Expressions/Abs.cpp
         TestCases/Expressions/Add.cpp
         TestCases/Expressions/Clamp.cpp
+        TestCases/Expressions/Conjugate.cpp
         TestCases/Expressions/Divide.cpp
         TestCases/Expressions/Exp.cpp
         TestCases/Expressions/Ln.cpp
