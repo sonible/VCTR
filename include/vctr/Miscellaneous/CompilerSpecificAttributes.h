@@ -20,6 +20,8 @@
   ==============================================================================
 */
 
+#define VCTR_TO_STRING(s) #s
+
 #if VCTR_MSVC
 #define VCTR_TARGET(arch)
 #else
@@ -36,4 +38,21 @@
 #else
 #define VCTR_FORCEDINLINE inline __attribute__ ((always_inline))
 #endif
+#endif
+
+
+#if (VCTR_GCC || VCTR_CLANG)
+
+#define VCTR_JOIN_DIAGNOSTICS_STRINGS(x,y) VCTR_TO_STRING (x ## y)
+#define VCTR_DIAGNOSTIC_PRAGMA(compiler, x) _Pragma (VCTR_TO_STRING (compiler diagnostic x))
+
+#define VCTR_START_IGNORE_WARNING_CLANG_GCC(warning)  \
+    VCTR_DIAGNOSTIC_PRAGMA (VCTR_COMPILER_NAME, push) \
+    VCTR_DIAGNOSTIC_PRAGMA (VCTR_COMPILER_NAME, ignored VCTR_JOIN_DIAGNOSTICS_STRINGS (-W, warning))
+#define VCTR_END_IGNORE_WARNING_CLANG_GCC \
+    VCTR_DIAGNOSTIC_PRAGMA (VCTR_COMPILER_NAME, pop)
+
+#else
+#define VCTR_START_IGNORE_WARNING_CLANG_GCC(warning)
+#define VCTR_END_IGNORE_WARNING_CLANG_GCC
 #endif
