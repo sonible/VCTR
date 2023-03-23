@@ -137,6 +137,8 @@ public:
 
     static void multiplyAccumulate (const std::complex<float>* srcA, const std::complex<float>* srcB, std::complex<float>* srcDst, int len) { assertIppNoErr (ippsAddProduct_32fc (fc (srcA), fc (srcB), fc (srcDst), len)); }
 
+    static void conj (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsConj_32fc (fc (src), fc (dst), len)); }
+
     static std::complex<float> sum  (const std::complex<float>* src, int len) { std::complex<float> r; assertIppNoErr (ippsSum_32fc (fc (src), len, fc (&r), ippAlgHintNone)); return r; }
     static std::complex<float> mean (const std::complex<float>* src, int len) { std::complex<float> r; assertIppNoErr (ippsMean_32fc (fc (src), len, fc (&r), ippAlgHintNone)); return r;}
 };
@@ -162,6 +164,8 @@ public:
     static void div (const std::complex<double>* srcA, std::complex<double> srcB,        std::complex<double>* dst, int len) { assertIppNoErr (ippsDivC_64fc (fc (srcA), fc (srcB), fc (dst), len)); }
 
     static void multiplyAccumulate (const std::complex<double>* srcA, const std::complex<double>* srcB, std::complex<double>* srcDst, int len) { assertIppNoErr (ippsAddProduct_64fc (fc (srcA), fc (srcB), fc (srcDst), len)); }
+
+    static void conj (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsConj_64fc (fc (src), fc (dst), len)); }
 
     static std::complex<double> sum  (const std::complex<double>* src, int len) { std::complex<double> r; assertIppNoErr (ippsSum_64fc (fc (src), len, fc (&r))); return r; }
     static std::complex<double> mean (const std::complex<double>* src, int len) { std::complex<double> r; assertIppNoErr (ippsMean_64fc (fc (src), len, fc (&r))); return r;}
