@@ -65,10 +65,13 @@
 //==============================================================================
 #if defined(__clang__)
 #define VCTR_CLANG 1
+#define VCTR_COMPILER_NAME clang
 #elif defined(__GNUC__)
 #define VCTR_GCC 1
+#define VCTR_COMPILER_NAME GCC
 #elif defined(_MSC_VER)
 #define VCTR_MSVC 1
+#define VCTR_COMPILER_NAME MSVC
 #endif
 
 #ifndef VCTR_CLANG
