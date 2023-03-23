@@ -163,6 +163,7 @@
 #include "Expressions/Core/Mean.h"
 #include "Expressions/Core/Sum.h"
 
+#include "Expressions/Complex/Conjugate.h"
 #include "Expressions/Complex/Imag.h"
 #include "Expressions/Complex/Real.h"
 
