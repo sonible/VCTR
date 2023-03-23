@@ -45,6 +45,11 @@ TEST_CASE ("Assignment operator", "[ArrayMemberFunctions]")
     ints = std::move (a2);
     REQUIRE_THAT (ints, vctr::Equals ({ 10, 11, 12 }));
 
+    vctr::Array a3 = { 13, 14, 15 };
+    const auto& a3ref = a3;
+    ints = a3ref;
+    REQUIRE_THAT (ints, vctr::Equals ({ 13, 14, 15 }));
+
     vctr::Array<std::string, 3> strings;
 
     // Move-assignment from the underlying container type
