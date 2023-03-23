@@ -230,6 +230,14 @@ public:
         return *this;
     }
 
+    /** Copy assignment operator. */
+    constexpr Vector& operator= (const Vector& other)
+    {
+        // Forwards to the generic operator above. This is needed since the compiler does not recognize
+        // the generic implementation as a copy assignment operator.
+        return *this = other.storage;
+    }
+
     /** Assigns elements from the intializer list to this Vector. This Vector will be resized to fit if needed. */
     constexpr Vector& operator= (std::initializer_list<ElementType> elementsToAssign)
     {

@@ -47,6 +47,12 @@ TEST_CASE ("Assignment operator", "[VectorMemberFunctions]")
     ints = std::move (v2);
     REQUIRE_THAT (ints, vctr::Equals ({ 13, 14, 15, 16 }));
 
+    // Assignment from a const reference
+    vctr::Vector v3 = { 17, 18 };
+    const auto& v3ref = v3;
+    ints = v3ref;
+    REQUIRE_THAT (ints, vctr::Equals ({ 17, 18 }));
+
     vctr::Vector<std::string> strings;
 
     // Move-assignment from a different container type
