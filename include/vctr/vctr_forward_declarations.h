@@ -53,6 +53,9 @@ template <class ElementType, size_t extent, size_t storageExtent>
 requires (extent != std::dynamic_extent && extent <= storageExtent)
 class Array;
 
+template <is::nonConst T, size_t e, template <class> class A>
+class HeapArray;
+
 template <class ElementType, size_t extent, class StorageInfoType>
 class Span;
 

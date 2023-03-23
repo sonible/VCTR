@@ -33,6 +33,9 @@ struct AnyVctr<Vector<T, A>> : std::true_type {};
 template <class T, size_t e, size_t s>
 struct AnyVctr<Array<T, e, s>> : std::true_type {};
 
+template <class T, size_t e, template <class> class A>
+struct AnyVctr<HeapArray<T, e, A>> : std::true_type {};
+
 template <class T, size_t n, class S>
 struct AnyVctr<Span<T, n, S>> : std::true_type {};
 

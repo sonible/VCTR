@@ -182,8 +182,8 @@ struct Neon
 #define VCTR_TEST_DEFINES_BASE(testVectorSize, start, end, avoidZeros, forceZero)                                             \
     using ElementType = typename TestType::ElementType;                                                                       \
     const auto& filter = TestType::filter;                                                                                    \
-    constexpr auto srcA = UnitTestValues<ElementType>::template array<testVectorSize, 0, start, end> (avoidZeros, forceZero); \
-    constexpr auto srcB = UnitTestValues<ElementType>::template array<testVectorSize, 1, start, end> (avoidZeros, forceZero); \
+    const auto srcA = vctr::HeapArray<ElementType, testVectorSize> (UnitTestValues<ElementType>::template array<testVectorSize, 0, start, end> (avoidZeros, forceZero)); \
+    const auto srcB = vctr::HeapArray<ElementType, testVectorSize> (UnitTestValues<ElementType>::template array<testVectorSize, 1, start, end> (avoidZeros, forceZero)); \
     const auto srcC = UnitTestValues<ElementType>::template vector<testVectorSize, 2, start, end> (avoidZeros, forceZero);    \
     const auto srcD = UnitTestValues<ElementType>::template vector<testVectorSize, 3, start, end> (avoidZeros, forceZero);    \
     const vctr::Span srcUnaligned = srcD.template subSpan<1>();

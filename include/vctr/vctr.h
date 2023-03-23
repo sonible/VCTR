@@ -145,6 +145,7 @@
 #include "Miscellaneous/AlignedAllocator.h"
 #include "Containers/Vector.h"
 #include "Containers/Array.h"
+#include "Containers/HeapArray.h"
 
 #include "Expressions/ReductionExpression.h"
 #include "Expressions/ExpressionChainBuilder.h"

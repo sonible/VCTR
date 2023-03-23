@@ -107,6 +107,12 @@ struct Extent<Array<T, extent, s>>
     static constexpr size_t value = extent;
 };
 
+template <class T, size_t extent, template <class> class A>
+struct Extent<HeapArray<T, extent, A>>
+{
+    static constexpr size_t value = extent;
+};
+
 template <class T, size_t extent, class S>
 struct Extent<Span<T, extent, S>>
 {
