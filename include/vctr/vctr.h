@@ -163,6 +163,9 @@
 #include "Expressions/Core/Mean.h"
 #include "Expressions/Core/Sum.h"
 
+#include "Expressions/Complex/Imag.h"
+#include "Expressions/Complex/Real.h"
+
 #include "Expressions/Exp/Exp.h"
 #include "Expressions/Exp/Ln.h"
 #include "Expressions/Exp/Log2.h"
