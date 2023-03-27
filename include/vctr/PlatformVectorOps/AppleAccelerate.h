@@ -204,6 +204,18 @@ public:
         vDSP_zvconj (&s, 2, &d, 2, len);
     }
 
+    static void angle (const std::complex<float>* src, float* dst, size_t len)
+    {
+        auto s = sp (src);
+        vDSP_zvphas (&s, 2, dst, 1, len);
+    }
+
+    static void powerSpectrum (const std::complex<float>* src, float* dst, size_t len)
+    {
+        auto s = sp (src);
+        vDSP_zvmags (&s, 2, dst, 1, len);
+    }
+
     //==============================================================================
     // BLAS functions
     //==============================================================================
@@ -279,6 +291,18 @@ public:
         auto s = sp (src);
         auto d = sp (dst);
         vDSP_zvconjD (&s, 2, &d, 2, len);
+    }
+
+    static void angle (const std::complex<double>* src, double* dst, size_t len)
+    {
+        auto s = sp (src);
+        vDSP_zvphasD (&s, 2, dst, 1, len);
+    }
+
+    static void powerSpectrum (const std::complex<double>* src, double* dst, size_t len)
+    {
+        auto s = sp (src);
+        vDSP_zvmagsD (&s, 2, dst, 1, len);
     }
 
     //==============================================================================
