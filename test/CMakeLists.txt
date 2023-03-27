@@ -35,6 +35,7 @@ target_sources (vctr_test PRIVATE
 
         TestCases/Expressions/Abs.cpp
         TestCases/Expressions/Add.cpp
+        TestCases/Expressions/Angle.cpp
         TestCases/Expressions/Clamp.cpp
         TestCases/Expressions/Conjugate.cpp
         TestCases/Expressions/Divide.cpp
@@ -47,6 +48,7 @@ target_sources (vctr_test PRIVATE
         TestCases/Expressions/Max.cpp
         TestCases/Expressions/Mean.cpp
         TestCases/Expressions/Min.cpp
+        TestCases/Expressions/PowerSpectrum.cpp
         TestCases/Expressions/RealImag.cpp
         TestCases/Expressions/Subtract.cpp
         TestCases/Expressions/Sum.cpp
