@@ -37,7 +37,7 @@ template <size_t value>
 requires (is::powerOfTwoInt<value>)
 constexpr size_t nextMultipleOf (size_t numElements)
 {
-    return (numElements + value - 1) & -value;
+    return size_t ((int64_t (numElements) + int64_t (value) - 1) & -int64_t (value));
 }
 
 template <uintptr_t requiredAlignment = Config::maxSIMDRegisterSize>
