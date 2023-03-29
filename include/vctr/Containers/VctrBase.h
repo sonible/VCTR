@@ -776,7 +776,6 @@ public:
     //==============================================================================
     // Math reduction operations.
     //==============================================================================
-    // clang-format off
     /** Returns the minimal value of all elements. */
     ElementType min() const requires std::totally_ordered<ElementType>;
 
@@ -800,7 +799,21 @@ public:
 
     /** Returns the sum of all elements. */
     ElementType sum() const requires has::operatorPlusEquals<ElementType>;
-    // clang-format on
+
+    //==============================================================================
+    // Math sanity checks.
+    //==============================================================================
+    /** Returns true if all elements are finite. */
+    constexpr bool allElementsAreFinite() requires std::floating_point<ElementType>;
+
+    /** Returns true if all elements are finite. */
+    constexpr bool allElementsAreFinite() requires is::complexFloatNumber<ElementType>;
+
+    /** Returns true if any element is NaN. */
+    constexpr bool anyElementIsNaN() requires std::floating_point<ElementType>;
+
+    /** Returns true if any real or imaginary part of an element is NaN. */
+    constexpr bool anyElementIsNaN() requires is::complexFloatNumber<ElementType>;
 
 protected:
     //==============================================================================
