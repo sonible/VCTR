@@ -402,3 +402,33 @@ TEST_CASE ("init", "[VctrBaseMemberFunctions]")
         REQUIRE (a.allElementsEqual (fillValue));
     }
 }
+
+TEMPLATE_TEST_CASE ("allElementsAreFinite", "[VctrBaseMemberFunctions]", float, double)
+{
+    vctr::Vector<TestType> real { 1.0f, -1.0f };
+    REQUIRE (real.allElementsAreFinite());
+
+    real.push_back (std::numeric_limits<TestType>::infinity());
+    REQUIRE_FALSE (real.allElementsAreFinite());
+
+    vctr::Vector<std::complex<TestType>> cplx { { 0.001f, 1e20f }, { -0.001f, -1e20f } };
+    REQUIRE (cplx.allElementsAreFinite());
+
+    cplx.push_back ({ - std::numeric_limits<TestType>::infinity(), std::numeric_limits<TestType>::infinity()});
+    REQUIRE_FALSE (cplx.allElementsAreFinite());
+}
+
+TEMPLATE_TEST_CASE ("anyElementIsNaN", "[VctrBaseMemberFunctions]", float, double)
+{
+    vctr::Vector<TestType> real { 1.0f, -1.0f };
+    REQUIRE_FALSE (real.anyElementIsNaN());
+
+    real.push_back (std::numeric_limits<TestType>::quiet_NaN());
+    REQUIRE (real.anyElementIsNaN());
+
+    vctr::Vector<std::complex<TestType>> cplx { { 0.001f, 1e20f }, { -0.001f, -1e20f } };
+    REQUIRE_FALSE (cplx.anyElementIsNaN());
+
+    cplx.push_back ({ 0.0f, std::numeric_limits<TestType>::quiet_NaN()});
+    REQUIRE (cplx.anyElementIsNaN());
+}

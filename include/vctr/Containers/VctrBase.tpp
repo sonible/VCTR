@@ -171,4 +171,32 @@ requires has::operatorPlusEquals<ElementType>
     return vctr::sum << *this;
 }
 
+template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
+constexpr bool VctrBase<ElementType, StorageType, extent, StorageInfoType>::allElementsAreFinite()
+requires std::floating_point<ElementType>
+{
+    return all ([] (value_type val) { return std::isfinite (val); });
+}
+
+template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
+constexpr bool VctrBase<ElementType, StorageType, extent, StorageInfoType>::allElementsAreFinite()
+requires is::complexFloatNumber<ElementType>
+{
+    return all ([] (auto val) { return std::isfinite (val.real()) && std::isfinite (val.imag()); });
+}
+
+template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
+constexpr bool VctrBase<ElementType, StorageType, extent, StorageInfoType>::anyElementIsNaN()
+requires std::floating_point<ElementType>
+{
+    return any ([] (value_type val) { return std::isnan (val); });
+}
+
+template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
+constexpr bool VctrBase<ElementType, StorageType, extent, StorageInfoType>::anyElementIsNaN()
+requires is::complexFloatNumber<ElementType>
+{
+    return any ([] (auto val) { return std::isnan (val.real()) || std::isnan (val.imag()); });
+}
+
 } // namespace vctr
