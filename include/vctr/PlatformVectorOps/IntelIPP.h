@@ -67,9 +67,11 @@ public:
     static void clampLow  (const float* src, float thresh, float* dst, int len) { assertIppNoErr (ippsThreshold_LT_32f (src, dst, len, thresh)); }
     static void clampHigh (const float* src, float thresh, float* dst, int len) { assertIppNoErr (ippsThreshold_GT_32f (src, dst, len, thresh)); }
 
-    static void ln    (const float* src, float* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLn_32f (src, dst, len)); }
-    static void log10 (const float* src, float* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLog10_32f_A24 (src, dst, len)); }
-    static void exp   (const float* src, float* dst, int len) { assertIppNoErr (ippsExp_32f (src, dst, len)); }
+    static void ln    (const float* src,                    float* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLn_32f (src, dst, len)); }
+    static void log10 (const float* src,                    float* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLog10_32f_A24 (src, dst, len)); }
+    static void exp   (const float* src,                    float* dst, int len) { assertIppNoErr (ippsExp_32f (src, dst, len)); }
+    static void pow   (const float* base, const float* exp, float* dst, int len) { assertIppNoErr (ippsPow_32f_A24 (base, exp, dst, len)); }
+    static void pow   (const float* base, float exp,        float* dst, int len) { assertIppNoErr (ippsPowx_32f_A24 (base, exp, dst, len)); }
 
     static float max    (const float* src, int len) { float r; assertIppNoErr (ippsMax_32f (src, len, &r)); return r; }
     static float maxAbs (const float* src, int len) { float r; assertIppNoErr (ippsMaxAbs_32f (src, len, &r)); return r; }
@@ -102,9 +104,11 @@ public:
     static void clampLow  (const double* src, float thresh,  double* dst, int len) { assertIppNoErr (ippsThreshold_LT_64f (src, dst, len, thresh)); }
     static void clampHigh (const double* src, float thresh,  double* dst, int len) { assertIppNoErr (ippsThreshold_GT_64f (src, dst, len, thresh)); }
 
-    static void ln    (const double* src, double* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLn_64f (src, dst, len)); }
-    static void log10 (const double* src, double* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLog10_64f_A53 (src, dst, len)); }
-    static void exp   (const double* src, double* dst, int len) { assertIppNoErr (ippsExp_64f (src, dst, len)); }
+    static void ln    (const double* src,                     double* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLn_64f (src, dst, len)); }
+    static void log10 (const double* src,                     double* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLog10_64f_A53 (src, dst, len)); }
+    static void exp   (const double* src,                     double* dst, int len) { assertIppNoErr (ippsExp_64f (src, dst, len)); }
+    static void pow   (const double* base, const double* exp, double* dst, int len) { assertIppNoErr (ippsPow_64f_A53 (base, exp, dst, len)); }
+    static void pow   (const double* base, double exp,        double* dst, int len) { assertIppNoErr (ippsPowx_64f_A53 (base, exp, dst, len)); }
 
     static double max    (const double* src, int len) { double r; assertIppNoErr (ippsMax_64f (src, len, &r)); return r; }
     static double maxAbs (const double* src, int len) { double r; assertIppNoErr (ippsMaxAbs_64f (src, len, &r)); return r; }
@@ -137,9 +141,11 @@ public:
 
     static void multiplyAccumulate (const std::complex<float>* srcA, const std::complex<float>* srcB, std::complex<float>* srcDst, int len) { assertIppNoErr (ippsAddProduct_32fc (fc (srcA), fc (srcB), fc (srcDst), len)); }
 
-    static void conj          (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsConj_32fc (fc (src), fc (dst), len)); }
-    static void angle         (const std::complex<float>* src, float* dst, int len)               { assertIppNoErr (ippsPhase_32fc (fc (src), dst, len)); }
-    static void powerSpectrum (const std::complex<float>* src, float* dst, int len)               { assertIppNoErr (ippsPowerSpectr_32fc (fc (src), dst, len)); }
+    static void angle         (const std::complex<float>* src,                                  float* dst,               int len) { assertIppNoErr (ippsPhase_32fc (fc (src), dst, len)); }
+    static void powerSpectrum (const std::complex<float>* src,                                  float* dst,               int len) { assertIppNoErr (ippsPowerSpectr_32fc (fc (src), dst, len)); }
+    static void conj          (const std::complex<float>* src,                                  std::complex<float>* dst, int len) { assertIppNoErr (ippsConj_32fc (fc (src), fc (dst), len)); }
+    static void pow           (const std::complex<float>* base, const std::complex<float>* exp, std::complex<float>* dst, int len) { assertIppNoErr (ippsPow_32fc_A24 (fc (base), fc (exp), fc (dst), len)); }
+    static void pow           (const std::complex<float>* base, std::complex<float> exp,        std::complex<float>* dst, int len) { assertIppNoErr (ippsPowx_32fc_A24 (fc (base), fc (exp), fc (dst), len)); }
 
     static std::complex<float> sum  (const std::complex<float>* src, int len) { std::complex<float> r; assertIppNoErr (ippsSum_32fc (fc (src), len, fc (&r), ippAlgHintNone)); return r; }
     static std::complex<float> mean (const std::complex<float>* src, int len) { std::complex<float> r; assertIppNoErr (ippsMean_32fc (fc (src), len, fc (&r), ippAlgHintNone)); return r;}
@@ -167,9 +173,11 @@ public:
 
     static void multiplyAccumulate (const std::complex<double>* srcA, const std::complex<double>* srcB, std::complex<double>* srcDst, int len) { assertIppNoErr (ippsAddProduct_64fc (fc (srcA), fc (srcB), fc (srcDst), len)); }
 
-    static void conj          (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsConj_64fc (fc (src), fc (dst), len)); }
-    static void angle         (const std::complex<double>* src, double* dst, int len)               { assertIppNoErr (ippsPhase_64fc (fc (src), dst, len)); }
-    static void powerSpectrum (const std::complex<double>* src, double* dst, int len)               { assertIppNoErr (ippsPowerSpectr_64fc (fc (src), dst, len)); }
+    static void angle         (const std::complex<double>* src,                                   double* dst,               int len) { assertIppNoErr (ippsPhase_64fc (fc (src), dst, len)); }
+    static void powerSpectrum (const std::complex<double>* src,                                   double* dst,               int len) { assertIppNoErr (ippsPowerSpectr_64fc (fc (src), dst, len)); }
+    static void conj          (const std::complex<double>* src,                                   std::complex<double>* dst, int len) { assertIppNoErr (ippsConj_64fc (fc (src), fc (dst), len)); }
+    static void pow           (const std::complex<double>* base, const std::complex<double>* exp, std::complex<double>* dst, int len) { assertIppNoErr (ippsPow_64fc_A53 (fc (base), fc (exp), fc (dst), len)); }
+    static void pow           (const std::complex<double>* base, std::complex<double> exp,        std::complex<double>* dst, int len) { assertIppNoErr (ippsPowx_64fc_A53 (fc (base), fc (exp), fc (dst), len)); }
 
     static std::complex<double> sum  (const std::complex<double>* src, int len) { std::complex<double> r; assertIppNoErr (ippsSum_64fc (fc (src), len, fc (&r))); return r; }
     static std::complex<double> mean (const std::complex<double>* src, int len) { std::complex<double> r; assertIppNoErr (ippsMean_64fc (fc (src), len, fc (&r))); return r;}
