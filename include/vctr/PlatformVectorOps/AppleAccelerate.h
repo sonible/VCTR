@@ -38,12 +38,13 @@ public:
     // vForce functions
     //==============================================================================
     // clang-format off
-    static void abs   (const float* src, float* dst, int len) { vvfabsf (dst, src, &len); }
-    static void ln    (const float* src, float* dst, int len) { vvlogf (dst, src, &len); }
-    static void log10 (const float* src, float* dst, int len) { vvlog10f (dst, src, &len); }
-    static void log2  (const float* src, float* dst, int len) { vvlog2f (dst, src, &len); }
-    static void exp   (const float* src, float* dst, int len) { vvexpf (dst, src, &len); }
-    static void exp2  (const float* src, float* dst, int len) { vvexp2f (dst, src, &len); }
+    static void abs   (const float* src,                    float* dst, int len) { vvfabsf (dst, src, &len); }
+    static void ln    (const float* src,                    float* dst, int len) { vvlogf (dst, src, &len); }
+    static void log10 (const float* src,                    float* dst, int len) { vvlog10f (dst, src, &len); }
+    static void log2  (const float* src,                    float* dst, int len) { vvlog2f (dst, src, &len); }
+    static void exp   (const float* src,                    float* dst, int len) { vvexpf (dst, src, &len); }
+    static void exp2  (const float* src,                    float* dst, int len) { vvexp2f (dst, src, &len); }
+    static void pow   (const float* base, const float* exp, float* dst, int len) { vvpowf (dst, exp, base, &len); }
     // clang-format on
 
     //==============================================================================
@@ -86,12 +87,14 @@ public:
     // vForce functions
     //==============================================================================
     // clang-format off
-    static void abs   (const double* src, double* dst, int len) { vvfabs (dst, src, &len); }
-    static void ln    (const double* src, double* dst, int len) { vvlog (dst, src, &len); }
-    static void log10 (const double* src, double* dst, int len) { vvlog10 (dst, src, &len); }
-    static void log2  (const double* src, double* dst, int len) { vvlog2 (dst, src, &len); }
-    static void exp   (const double* src, double* dst, int len) { vvexp (dst, src, &len); }
-    static void exp2  (const double* src, double* dst, int len) { vvexp2 (dst, src, &len); }
+    static void abs   (const double* src,                     double* dst, int len) { vvfabs (dst, src, &len); }
+    static void ln    (const double* src,                     double* dst, int len) { vvlog (dst, src, &len); }
+    static void log10 (const double* src,                     double* dst, int len) { vvlog10 (dst, src, &len); }
+    static void log2  (const double* src,                     double* dst, int len) { vvlog2 (dst, src, &len); }
+    static void exp   (const double* src,                     double* dst, int len) { vvexp (dst, src, &len); }
+    static void exp2  (const double* src,                     double* dst, int len) { vvexp2 (dst, src, &len); }
+    static void pow   (const double* base, const double* exp, double* dst, int len) { vvpow (dst, exp, base, &len); }
+
     // clang-format on
 
     //==============================================================================
