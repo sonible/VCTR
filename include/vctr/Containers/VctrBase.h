@@ -1091,13 +1091,16 @@ private:
     template <class T>
     VCTR_FORCEDINLINE constexpr static T* assumeAlignedToMaxSIMDRegisterSize (T* ptr)
     {
-        #if __cpp_lib_assume_aligned
-            return std::assume_aligned<maxSIMDRegisterSize> (ptr);
-        #elif VCTR_CLANG
-            return static_cast<T*> (__builtin_assume_aligned (ptr, maxSIMDRegisterSize));
-        #else
+        if (std::is_constant_evaluated())
             return ptr;
-        #endif
+
+    #if __cpp_lib_assume_aligned
+        return std::assume_aligned<maxSIMDRegisterSize> (ptr);
+    #elif VCTR_CLANG
+        return static_cast<T*> (__builtin_assume_aligned (ptr, maxSIMDRegisterSize));
+    #else
+        return ptr;
+    #endif
     }
 };
 
