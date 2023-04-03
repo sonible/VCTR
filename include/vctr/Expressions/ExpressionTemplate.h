@@ -150,7 +150,7 @@ void tryApplyingRuntimeArgsToSrc (const RuntimeArgs& args, Src& src)
 
 } // namespace vctr
 
-/** A helper macro to avoid repetitive boilerplate code when implementing an expression template class.
+/** A helper macro to avoid repetitive boilerplate code when implementing a unary expression template class.
 
     It expects that the expression class has a suitable value_type defined before this, that the second
     class template type name is SrcType and that there is a private member SrcType src.
@@ -177,4 +177,89 @@ void iterateOverRuntimeArgChain (const RuntimeArgs& rtArgs)                     
     tryApplyingRuntimeArgsToThisExpression<i> (rtArgs, *this);                             \
     tryApplyingRuntimeArgsToSrc<i + 1> (rtArgs, src);                                      \
 }
+
+/** A helper macro to avoid repetitive boilerplate code when implementing a binary expression template class
+    that defines an expression between two vector-like sources.
+
+    It expects that the expression class has a suitable value_type defined before this, that the second
+    class template type name is SrcAType and the third class template type name is SrcBType.
+
+    It defines the member srcAName of type SrcAType, srcBName of type SrcB and storageInfo of type
+    CombinedStorageInfo<SrcAStorageInfoType, SrcBStorageInfoType>, an Expression type, a constructor,
+    a getStorageInfo(), a size() and an isNotAliased (const void*)
+    member function according to the expression template conventions.
+ */
+#define VCTR_COMMON_BINARY_VEC_VEC_EXPRESSION_MEMBERS(ExpressionName, srcAName, srcBName)                                      \
+private:                                                                                                                       \
+    using Expression = ExpressionTypes<value_type, SrcAType, SrcBType>;                                                        \
+    using SrcAStorageInfoType = std::invoke_result_t<decltype (&std::remove_cvref_t<SrcAType>::getStorageInfo), SrcAType>;     \
+    using SrcBStorageInfoType = std::invoke_result_t<decltype (&std::remove_cvref_t<SrcBType>::getStorageInfo), SrcBType>;     \
+                                                                                                                               \
+    SrcAType srcAName;                                                                                                         \
+    SrcBType srcBName;                                                                                                         \
+    const CombinedStorageInfo<std::remove_cvref_t<SrcAStorageInfoType>, std::remove_cvref_t<SrcBStorageInfoType>> storageInfo; \
+                                                                                                                               \
+public:                                                                                                                        \
+    template <class SrcA, class SrcB>                                                                                          \
+    constexpr ExpressionName (SrcA&& a, SrcB&& b)                                                                              \
+      : srcAName (std::forward<SrcA> (a)),                                                                                     \
+        srcBName (std::forward<SrcB> (b)),                                                                                     \
+        storageInfo (srcAName.getStorageInfo(), srcBName.getStorageInfo())                                                     \
+    {}                                                                                                                         \
+                                                                                                                               \
+    constexpr const auto& getStorageInfo() const { return storageInfo; }                                                       \
+                                                                                                                               \
+    constexpr size_t size() const { return srcAName.size(); }                                                                  \
+                                                                                                                               \
+    constexpr bool isNotAliased (const void* dst) const                                                                        \
+    {                                                                                                                          \
+        if constexpr (is::expression<SrcAType> && is::anyVctr<SrcBType>)                                                       \
+        {                                                                                                                      \
+            return dst != srcBName.data();                                                                                     \
+        }                                                                                                                      \
+                                                                                                                               \
+        if constexpr (is::anyVctr<SrcAType> && is::expression<SrcBType>)                                                       \
+        {                                                                                                                      \
+            return dst != srcAName.data();                                                                                     \
+        }                                                                                                                      \
+                                                                                                                               \
+        return true;                                                                                                           \
+    }
+
+/** A helper macro to avoid repetitive boilerplate code when implementing a binary expression template class
+    that defines an expression between a single value and a vector
+
+    It expects that the expression class has a suitable value_type defined before this and that the second
+    class template type name is SrcType.
+
+    It defines the member srcName of type SrcType, singleName of type Expression::CommonSrcElement::Type
+    an Expression type, a constructor, a getStorageInfo(), a size() and an isNotAliased (const void*)
+    member function according to the expression template conventions.
+
+    Note that this macro contains a private and public sections and ends with the public access specifier.
+    Therefore all code following this macro will be in the public section if not explicitly specified
+    differently.
+ */
+#define VCTR_COMMON_BINARY_SINGLE_VEC_EXPRESSION_MEMBERS(ExpressionName, srcVecName, srcSingleName)   \
+private:                                                                                              \
+    using Expression = ExpressionTypes<value_type, SrcType>;                                          \
+                                                                                                      \
+    SrcType srcVecName;                                                                               \
+    typename Expression::CommonSrcElement::Type srcSingleName;                                        \
+    const typename Expression::SSESrc srcSingleName##AsSSE;                                           \
+    const typename Expression::NeonSrc srcSingleName##AsNeon;                                         \
+public:                                                                                               \
+                                                                                                      \
+    template <class Src>                                                                              \
+    constexpr ExpressionName (typename Expression::CommonSrcElement::Type a, Src&& b)                 \
+        : srcVecName (std::forward<Src> (b)),                                                         \
+          srcSingleName (a),                                                                          \
+          srcSingleName##AsSSE (Expression::SSESrc::broadcast (a)),                                   \
+          srcSingleName##AsNeon (Expression::NeonSrc::broadcast (a))                                  \
+    {}                                                                                                \
+                                                                                                      \
+    constexpr const auto& getStorageInfo() const { return srcVecName.getStorageInfo(); }              \
+                                                                                                      \
+    constexpr size_t size() const { return srcVecName.size(); }                                       \
+    constexpr bool isNotAliased (const void* other) const { return srcVecName.isNotAliased (other); }
 // clang-format on

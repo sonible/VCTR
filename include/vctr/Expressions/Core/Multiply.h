@@ -29,39 +29,13 @@ template <size_t extent, class SrcAType, class SrcBType>
 class MultiplyVectors : ExpressionTemplateBase
 {
 public:
-    using value_type = std::common_type_t<typename std::remove_cvref_t<SrcAType>::value_type, typename std::remove_cvref_t<SrcBType>::value_type>;
+    using value_type = std::common_type_t<ValueType<SrcAType>, ValueType<SrcBType>>;
 
-    using Expression = ExpressionTypes<value_type, SrcAType, SrcBType>;
-
-    template <class SrcA, class SrcB>
-    constexpr MultiplyVectors (SrcA&& a, SrcB&& b)
-        : srcA (std::forward<SrcA> (a)),
-          srcB (std::forward<SrcB> (b)),
-          storageInfo (srcA.getStorageInfo(), srcB.getStorageInfo())
-    {}
-
-    constexpr const auto& getStorageInfo() const { return storageInfo; }
-
-    constexpr size_t size() const { return srcA.size(); }
+    VCTR_COMMON_BINARY_VEC_VEC_EXPRESSION_MEMBERS (MultiplyVectors, srcA, srcB)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
         return srcA[i] * srcB[i];
-    }
-
-    constexpr bool isNotAliased (const void* dst) const
-    {
-        if constexpr (is::expression<SrcAType> && is::anyVctr<SrcBType>)
-        {
-            return dst != srcB.data();
-        }
-
-        if constexpr (is::anyVctr<SrcAType> && is::expression<SrcBType>)
-        {
-            return dst != srcA.data();
-        }
-
-        return true;
     }
 
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
@@ -98,15 +72,6 @@ public:
     {
         return Expression::AVX::mul (srcA.getAVX (i), srcB.getAVX (i));
     }
-
-private:
-    SrcAType srcA;
-    SrcBType srcB;
-
-    using SrcAStorageInfoType = std::remove_cvref_t<std::invoke_result_t<decltype (&std::remove_cvref_t<SrcAType>::getStorageInfo), SrcAType>>;
-    using SrcBStorageInfoType = std::remove_cvref_t<std::invoke_result_t<decltype (&std::remove_cvref_t<SrcBType>::getStorageInfo), SrcBType>>;
-
-    const CombinedStorageInfo<SrcAStorageInfoType, SrcBStorageInfoType> storageInfo;
 };
 
 //==============================================================================
@@ -117,28 +82,11 @@ class MultiplyVecBySingle : ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    using Expression = ExpressionTypes<value_type, SrcType>;
-
-    template <class Src>
-    constexpr MultiplyVecBySingle (typename Expression::CommonSrcElement::Type a, Src&& b)
-        : src (std::forward<Src> (b)),
-          single (a),
-          asSSE (Expression::SSESrc::broadcast (a)),
-          asNeon (Expression::NeonSrc::broadcast (a))
-    {}
-
-    constexpr const auto& getStorageInfo() const { return src.getStorageInfo(); }
-
-    constexpr size_t size() const { return src.size(); }
+    VCTR_COMMON_BINARY_SINGLE_VEC_EXPRESSION_MEMBERS (MultiplyVecBySingle, src, single)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
         return single * src[i];
-    }
-
-    constexpr bool isNotAliased (const void* other) const
-    {
-        return src.isNotAliased (other);
     }
 
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
@@ -172,7 +120,7 @@ public:
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isFloatingPoint)
     {
-        return Expression::AVX::mul (Expression::AVX::fromSSE (asSSE, asSSE), src.getAVX (i));
+        return Expression::AVX::mul (Expression::AVX::fromSSE (singleAsSSE, singleAsSSE), src.getAVX (i));
     }
 
     //==============================================================================
@@ -180,15 +128,8 @@ public:
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isFloatingPoint)
     {
-        return Expression::SSE::mul (asSSE, src.getSSE (i));
+        return Expression::SSE::mul (singleAsSSE, src.getSSE (i));
     }
-
-private:
-    SrcType src;
-
-    const typename Expression::CommonSrcElement::Type single;
-    const typename Expression::SSESrc asSSE;
-    const typename Expression::NeonSrc asNeon;
 };
 
 //==============================================================================
