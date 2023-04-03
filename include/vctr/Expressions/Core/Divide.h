@@ -29,39 +29,13 @@ template <size_t extent, class SrcAType, class SrcBType>
 class DivideVectors : ExpressionTemplateBase
 {
 public:
-    using value_type = std::common_type_t<typename std::remove_cvref_t<SrcAType>::value_type, typename std::remove_cvref_t<SrcBType>::value_type>;
+    using value_type = std::common_type_t<ValueType<SrcAType>, ValueType<SrcBType>>;
 
-    using Expression = ExpressionTypes<value_type, SrcAType, SrcBType>;
-
-    template <class SrcA, class SrcB>
-    constexpr DivideVectors (SrcA&& a, SrcB&& b)
-        : srcA (std::forward<SrcA> (a)),
-          srcB (std::forward<SrcB> (b)),
-          storageInfo (srcA.getStorageInfo(), srcB.getStorageInfo())
-    {}
-
-    constexpr const auto& getStorageInfo() const { return storageInfo; }
-
-    constexpr size_t size() const { return srcA.size(); }
+    VCTR_COMMON_BINARY_VEC_VEC_EXPRESSION_MEMBERS (DivideVectors, srcA, srcB)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
         return srcA[i] / srcB[i];
-    }
-
-    constexpr bool isNotAliased (const void* dst) const
-    {
-        if constexpr (is::expression<SrcAType> && is::anyVctr<SrcBType>)
-        {
-            return dst != srcB.data();
-        }
-
-        if constexpr (is::anyVctr<SrcAType> && is::expression<SrcBType>)
-        {
-            return dst != srcA.data();
-        }
-
-        return true;
     }
 
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
@@ -93,15 +67,6 @@ public:
     {
         return Expression::SSE::div (srcA.getSSE (i), srcB.getSSE (i));
     }
-
-private:
-    SrcAType srcA;
-    SrcBType srcB;
-
-    using SrcAStorageInfoType = std::remove_cvref_t<std::invoke_result_t<decltype (&std::remove_cvref_t<SrcAType>::getStorageInfo), SrcAType>>;
-    using SrcBStorageInfoType = std::remove_cvref_t<std::invoke_result_t<decltype (&std::remove_cvref_t<SrcBType>::getStorageInfo), SrcBType>>;
-
-    const CombinedStorageInfo<SrcAStorageInfoType, SrcBStorageInfoType> storageInfo;
 };
 
 //==============================================================================
@@ -112,29 +77,11 @@ class DivideSingleByVec : ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    using Expression = ExpressionTypes<value_type, SrcType>;
-
-    template <class Src>
-    constexpr DivideSingleByVec (typename Expression::CommonSrcElement::Type a, Src&& b)
-        : src (std::forward<Src> (b)),
-          single (a),
-          asSSE (Expression::SSE::broadcast (a)),
-          asNeon (Expression::Neon::broadcast (a))
-    {
-    }
-
-    constexpr const auto& getStorageInfo() const { return src.getStorageInfo(); }
-
-    constexpr size_t size() const { return src.size(); }
+    VCTR_COMMON_BINARY_SINGLE_VEC_EXPRESSION_MEMBERS (DivideSingleByVec, src, single)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
         return single / src[i];
-    }
-
-    constexpr bool isNotAliased (const void* other) const
-    {
-        return src.isNotAliased (other);
     }
 
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
@@ -149,7 +96,7 @@ public:
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isFloatingPoint)
     {
-        return Expression::AVX::div (Expression::AVX::fromSSE (asSSE, asSSE), src.getAVX (i));
+        return Expression::AVX::div (Expression::AVX::fromSSE (singleAsSSE, singleAsSSE), src.getAVX (i));
     }
 
     //==============================================================================
@@ -157,15 +104,8 @@ public:
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isFloatingPoint)
     {
-        return Expression::SSE::div (asSSE, src.getSSE (i));
+        return Expression::SSE::div (singleAsSSE, src.getSSE (i));
     }
-
-private:
-    SrcType src;
-
-    const typename Expression::CommonSrcElement::Type single;
-    const typename Expression::SSESrc asSSE;
-    const typename Expression::NeonSrc asNeon;
 };
 
 //==============================================================================
@@ -176,29 +116,11 @@ class DivideVecBySingle : ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    using Expression = ExpressionTypes<value_type, SrcType>;
-
-    template <class Src>
-    constexpr DivideVecBySingle (Src&& b, typename Expression::CommonSrcElement::Type a)
-        : src (std::forward<Src> (b)),
-          single (a),
-          asSSE (Expression::SSE::broadcast (a)),
-          asNeon (Expression::Neon::broadcast (a))
-    {
-    }
-
-    constexpr const auto& getStorageInfo() const { return src.getStorageInfo(); }
-
-    constexpr size_t size() const { return src.size(); }
+    VCTR_COMMON_BINARY_SINGLE_VEC_EXPRESSION_MEMBERS (DivideVecBySingle, src, single)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
         return src[i] / single;
-    }
-
-    constexpr bool isNotAliased (const void* other) const
-    {
-        return src.isNotAliased (other);
     }
 
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
@@ -220,7 +142,7 @@ public:
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isFloatingPoint)
     {
-        return Expression::AVX::div (src.getAVX (i), Expression::AVX::fromSSE (asSSE, asSSE));
+        return Expression::AVX::div (src.getAVX (i), Expression::AVX::fromSSE (singleAsSSE, singleAsSSE));
     }
 
     //==============================================================================
@@ -228,15 +150,8 @@ public:
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isFloatingPoint)
     {
-        return Expression::SSE::div (src.getSSE (i), asSSE);
+        return Expression::SSE::div (src.getSSE (i), singleAsSSE);
     }
-
-private:
-    SrcType src;
-
-    const typename Expression::CommonSrcElement::Type single;
-    const typename Expression::SSESrc asSSE;
-    const typename Expression::NeonSrc asNeon;
 };
 
 } // namespace vctr::Expressions
@@ -278,7 +193,7 @@ template <class Src>
 requires is::anyVctrOrExpression<Src>
 constexpr auto operator/ (Src&& vec, typename std::remove_cvref_t<Src>::value_type single)
 {
-    return Expressions::DivideVecBySingle<extentOf<Src>, Src> (std::forward<Src> (vec), single);
+    return Expressions::DivideVecBySingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
 }
 
 } // namespace vctr

@@ -74,7 +74,7 @@ template <class ElementType, class StorageType, size_t extent, class StorageInfo
 constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator/= (value_type c)
 {
     const auto& self = *this;
-    assignExpressionTemplate (Expressions::DivideVecBySingle<extent, decltype (self)> (self, c));
+    assignExpressionTemplate (Expressions::DivideVecBySingle<extent, decltype (self)> (c, self));
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
@@ -112,7 +112,7 @@ template <class ElementType, class StorageType, size_t extent, class StorageInfo
 constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator-= (value_type c)
 {
     const auto& self = *this;
-    assignExpressionTemplate (Expressions::SubtractSingleFromVec<extent, decltype (self)> (self, c));
+    assignExpressionTemplate (Expressions::SubtractSingleFromVec<extent, decltype (self)> (c, self));
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
