@@ -50,6 +50,7 @@ target_sources (vctr_test PRIVATE
         TestCases/Expressions/Max.cpp
         TestCases/Expressions/Mean.cpp
         TestCases/Expressions/Min.cpp
+        TestCases/Expressions/Pow.cpp
         TestCases/Expressions/PowerSpectrum.cpp
         TestCases/Expressions/RealImag.cpp
         TestCases/Expressions/Subtract.cpp
