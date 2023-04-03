@@ -165,6 +165,21 @@ TEST_CASE ("subSpan", "[VctrBaseMemberFunctions]")
     static_assert (spanStaticOffset3.getExtent() == std::dynamic_extent);
     REQUIRE (spanStaticOffset3.size() == 98);
     REQUIRE (spanStaticOffset3[0] == cvStaticOffset1[1]);
+
+    //==============================================================================
+    // Span on constexpr Array
+    static constexpr vctr::Array<int, 4> cea { 1, 2, 3, 4 };
+    static constexpr auto ces = cea.subSpan<0>();
+    static_assert (cea.size() == ces.size());
+    static_assert (cea[0] == ces[0]);
+    static_assert (cea[1] == ces[1]);
+    static_assert (cea[2] == ces[2]);
+    static_assert (cea[3] == ces[3]);
+
+    static constexpr auto ces2 = cea.subSpan<1, 2>();
+    static_assert (ces2.size() == 2);
+    static_assert (cea[1] == ces2[0]);
+    static_assert (cea[2] == ces2[1]);
 }
 
 TEST_CASE ("forEach", "[VctrBaseMemberFunctions]")
