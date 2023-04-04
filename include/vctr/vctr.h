@@ -154,6 +154,7 @@
 #include "Expressions/Core/Abs.h"
 #include "Expressions/Core/Clamp.h"
 #include "Expressions/Core/Cube.h"
+#include "Expressions/Core/Sqrt.h"
 #include "Expressions/Core/Square.h"
 #include "Expressions/Core/Add.h"
 #include "Expressions/Core/Subtract.h"
