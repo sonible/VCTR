@@ -45,6 +45,7 @@ public:
     static void exp   (const float* src,                    float* dst, int len) { vvexpf (dst, src, &len); }
     static void exp2  (const float* src,                    float* dst, int len) { vvexp2f (dst, src, &len); }
     static void pow   (const float* base, const float* exp, float* dst, int len) { vvpowf (dst, exp, base, &len); }
+    static void sqrt  (const float* src,                    float* dst, int len) { vvsqrtf (dst, src, &len); }
     // clang-format on
 
     //==============================================================================
@@ -66,6 +67,7 @@ public:
 
     static void clampLow (const float* src, float thresh,     float* dst, size_t len) { vDSP_vthr (src, 1, &thresh, dst, 1, len); }
     static void clamp    (const float* src, float l, float h, float* dst, size_t len) { vDSP_vclip (src, 1, &l, &h, dst, 1, len); }
+    static void square   (const float* src,                   float* dst, size_t len) { vDSP_vsq (src, 1, dst, 1, len); }
 
     static void intToFloat (const int32_t* src,  float* dst, size_t len) { vDSP_vflt32 (src, 1, dst, 1, len); }
     static void intToFloat (const uint32_t* src, float* dst, size_t len) { vDSP_vfltu32 (src, 1, dst, 1, len); }
@@ -94,6 +96,7 @@ public:
     static void exp   (const double* src,                     double* dst, int len) { vvexp (dst, src, &len); }
     static void exp2  (const double* src,                     double* dst, int len) { vvexp2 (dst, src, &len); }
     static void pow   (const double* base, const double* exp, double* dst, int len) { vvpow (dst, exp, base, &len); }
+    static void sqrt  (const double* src,                     double* dst, int len) { vvsqrt (dst, src, &len); }
 
     // clang-format on
 
@@ -117,6 +120,7 @@ public:
 
     static void clampLow (const double* src, double thresh,      double* dst, size_t len) { vDSP_vthrD (src, 1, &thresh, dst, 1, len); }
     static void clamp    (const double* src, double l, double h, double* dst, size_t len) { vDSP_vclipD (src, 1, &l, &h, dst, 1, len); }
+    static void square   (const double* src,                     double* dst, size_t len) { vDSP_vsqD (src, 1, dst, 1, len); }
 
     static void intToFloat (const int32_t* src, double* dst, size_t len)
     {

@@ -40,10 +40,17 @@ public:
     //==============================================================================
     // Platform Vector Operation Implementation
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
-    requires is::suitableForAccelerateRealOrComplexFloatVectorOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable>
+    requires is::suitableForAccelerateComplexFloatVectorOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable>
     {
         const auto* s = src.evalNextVectorOpInExpressionChain (dst);
         Expression::Accelerate::mul (s, s, dst, size());
+        return dst;
+    }
+
+    VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
+    requires is::suitableForAccelerateRealFloatVectorOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable>
+    {
+        Expression::Accelerate::square (src.evalNextVectorOpInExpressionChain (dst), dst, size());
         return dst;
     }
 
