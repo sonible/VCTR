@@ -24,6 +24,44 @@
 
 #include <list>
 
+template <class T>
+constexpr bool isStdVector = false;
+
+template <class T, class A>
+constexpr bool isStdVector<std::vector<T, A>> = true;
+
+TEMPLATE_TEST_CASE ("Accessing the underlying storage", "[VctrBaseMemberFunctions]", float, int, std::string)
+{
+    auto vec = UnitTestValues<TestType>::template vector<10, 0>();
+    const auto& constVec (vec);
+
+    auto& stdVec = vec.getUnderlyingVector();
+    auto& constStdVec = constVec.getUnderlyingVector();
+
+    REQUIRE (std::is_reference_v<decltype (stdVec)>);
+    REQUIRE (isStdVector<std::remove_cvref_t<decltype (stdVec)>>);
+
+    REQUIRE (std::is_reference_v<decltype (constStdVec)>);
+    REQUIRE (isStdVector<std::remove_cvref_t<decltype (constStdVec)>>);
+
+    stdVec[1] = TestType{};
+    REQUIRE (vec[1] == TestType{});
+
+    std::vector<TestType> possiblyConverted = vec;
+
+    for (size_t i = 0; i < 10; ++i)
+    {
+        REQUIRE (vec[i] == stdVec[i]);
+        REQUIRE (vec[i] == constStdVec[i]);
+        REQUIRE (vec[i] == possiblyConverted[i]);
+    }
+
+    auto&& movedVec = std::move (vec).moveUnderlyingVector();
+
+    for (size_t i = 0; i < 10; ++i)
+        REQUIRE (movedVec[i] == possiblyConverted[i]);
+}
+
 TEST_CASE ("Assignment operator", "[VectorMemberFunctions]")
 {
     vctr::Vector<int> ints;

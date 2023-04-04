@@ -257,6 +257,32 @@ public:
     }
 
     //==============================================================================
+    // Accessing the underlying vector.
+    //==============================================================================
+    /** Returns a reference to the underlying storage.
+
+        The returned type is std::vector, possibly with a custom allocator type.
+     */
+    constexpr StdVectorType& getUnderlyingVector() { return Vctr::storage; }
+
+    /** Returns a reference to the underlying storage.
+
+       The returned type is std::vector, possibly with a custom allocator type.
+     */
+    constexpr const StdVectorType& getUnderlyingVector() const { return Vctr::storage; }
+
+    /** Moves the underlying storage out of this wrapper class.
+
+       The returned type is std::vector, possibly with a custom allocator type.
+     */
+    constexpr StdVectorType&& moveUnderlyingVector() && { return std::move (Vctr::storage); }
+
+    /** Conversion operator shortcut to getUnderlyingVector. */
+    constexpr operator StdVectorType&() { return Vctr::storage; }
+
+    /** Conversion operator shortcut to getUnderlyingVector. */
+    constexpr operator const StdVectorType&() const { return Vctr::storage; }
+
     /** Conversion operator that allows us to assign this Vector to a std::vector with different allocator
         type.
 
