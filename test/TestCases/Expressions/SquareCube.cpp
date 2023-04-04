@@ -22,11 +22,26 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
+template <vctr::is::floatNumber T>
+T sqrt (T x) { return std::sqrt (x); }
+
+template <vctr::is::complexFloatNumber T>
+T sqrt (T x) { return std::sqrt (x); }
+
 template <class T>
 T square (T x) { return x * x; }
 
 template <class T>
 T cube (T x) { return x * x * x; }
+
+TEMPLATE_PRODUCT_TEST_CASE ("Square Root", "[sqrt]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>) )
+{
+    VCTR_TEST_DEFINES_IN_RANGE (0, 10000, 10)
+
+    const vctr::Vector s = filter << vctr::sqrt << srcA;
+
+    REQUIRE_THAT (s, vctr::EqualsTransformedBy<sqrt> (srcA).withEpsilon (0.000001));
+}
 
 TEMPLATE_PRODUCT_TEST_CASE ("Square", "[square]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
 {
