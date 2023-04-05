@@ -25,11 +25,23 @@
 template <class T>
 T square (T x) { return x * x; }
 
+template <class T>
+T cube (T x) { return x * x * x; }
+
 TEMPLATE_PRODUCT_TEST_CASE ("Square", "[square]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
 {
-    VCTR_TEST_DEFINES (10)
+    VCTR_TEST_DEFINES_IN_RANGE (-20, 20, 10)
 
     const vctr::Vector s = filter << vctr::square << srcA;
 
     REQUIRE_THAT (s, vctr::EqualsTransformedBy<square> (srcA));
+}
+
+TEMPLATE_PRODUCT_TEST_CASE ("Cube", "[cube]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
+{
+    VCTR_TEST_DEFINES (10)
+
+    const vctr::Vector s = filter << vctr::cube << srcA;
+
+    REQUIRE_THAT (s, vctr::EqualsTransformedBy<cube> (srcA).withEpsilon (0.000001));
 }

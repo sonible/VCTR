@@ -55,5 +55,5 @@ target_sources (vctr_test PRIVATE
         TestCases/Expressions/RealImag.cpp
         TestCases/Expressions/Subtract.cpp
         TestCases/Expressions/Sum.cpp
-        TestCases/Expressions/Square.cpp
+        TestCases/Expressions/SquareCube.cpp
         TestCases/Generators/Linspace.cpp)
