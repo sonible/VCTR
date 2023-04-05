@@ -173,7 +173,7 @@ public:                                                                         
     template <class Src>                                                                           \
     constexpr ExpressionName (Src&& s) : srcName (std::forward<Src> (s)) {}                        \
                                                                                                    \
-    constexpr const auto& getStorageInfo() const { return src.getStorageInfo(); }                  \
+    constexpr const auto& getStorageInfo() const { return srcName.getStorageInfo(); }              \
                                                                                                    \
     constexpr size_t size () const { return srcName.size (); }                                     \
                                                                                                    \
