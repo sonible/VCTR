@@ -30,7 +30,7 @@ class Mean : public ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Mean)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Mean, src)
 
     static constexpr value_type reductionResultInitValue = 0;
 
@@ -39,6 +39,7 @@ public:
         result += src[i];
     }
 
+    //==============================================================================
     VCTR_FORCEDINLINE value_type reduceVectorOp() const
     requires is::suitableForAccelerateRealFloatVectorReductionOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable>
     {
@@ -51,6 +52,7 @@ public:
         return Expression::IPP::mean (src.data(), sizeToInt (size()));
     };
 
+    //==============================================================================
     VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister<value_type>& result, size_t i) const
     requires Config::archARM && has::getNeon<SrcType> && (is::floatNumber<value_type> || is::int32Number<value_type>)
     {
@@ -75,6 +77,7 @@ public:
         result = Expression::SSE::add (result, src.getSSE (i));
     }
 
+    //==============================================================================
     template <size_t n>
     VCTR_FORCEDINLINE value_type finalizeReduction (const std::array<value_type, n>& sums) const
     {
@@ -82,9 +85,6 @@ public:
 
         return sum / RealType<value_type> (src.size());
     }
-
-private:
-    SrcType src;
 };
 
 template <size_t extent, class SrcType>
@@ -94,7 +94,7 @@ class MeanSquare : public ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (MeanSquare)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (MeanSquare, src)
 
     static constexpr value_type reductionResultInitValue = 0;
 
@@ -104,6 +104,7 @@ public:
         result += s * s;
     }
 
+    //==============================================================================
     VCTR_FORCEDINLINE value_type reduceVectorOp() const
     requires is::suitableForAccelerateRealFloatVectorReductionOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
     {
@@ -117,6 +118,7 @@ public:
         return (l2Norm * l2Norm) / value_type (size());
     };
 
+    //==============================================================================
     VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister<value_type>& result, size_t i) const
     requires Config::archARM && has::getNeon<SrcType> && (is::floatNumber<value_type> || is::int32Number<value_type>)
     {
@@ -141,6 +143,7 @@ public:
         result = Expression::SSE::add (result, s);
     }
 
+    //==============================================================================
     template <size_t n>
     VCTR_FORCEDINLINE value_type finalizeReduction (const std::array<value_type, n>& sums) const
     {
@@ -148,9 +151,6 @@ public:
 
         return sum / value_type (size());
     }
-
-private:
-    SrcType src;
 };
 
 template <size_t extent, class SrcType>
@@ -160,7 +160,7 @@ class RootMeanSquare : public ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (RootMeanSquare)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (RootMeanSquare, src)
 
     static constexpr value_type reductionResultInitValue = 0;
 
@@ -170,6 +170,7 @@ public:
         result += s * s;
     }
 
+    //==============================================================================
     VCTR_FORCEDINLINE value_type reduceVectorOp() const
     requires is::suitableForAccelerateRealFloatVectorReductionOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
     {
@@ -183,6 +184,7 @@ public:
         return std::sqrt ((l2Norm * l2Norm) / value_type (size()));
     };
 
+    //==============================================================================
     VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister<value_type>& result, size_t i) const
     requires Config::archARM && has::getNeon<SrcType> && (is::floatNumber<value_type> || is::int32Number<value_type>)
     {
@@ -207,6 +209,7 @@ public:
         result = Expression::SSE::add (result, s);
     }
 
+    //==============================================================================
     template <size_t n>
     VCTR_FORCEDINLINE value_type finalizeReduction (const std::array<value_type, n>& sums) const
     {
@@ -214,9 +217,6 @@ public:
 
         return std::sqrt (sum / value_type (src.size()));
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions
@@ -228,18 +228,18 @@ namespace vctr
 
     @ingroup Expressions
  */
-constexpr ExpressionChainBuilder<Expressions::Mean> mean;
+constexpr inline ExpressionChainBuilder<Expressions::Mean> mean;
 
 /** Computes the mean value of the squared source values.
 
     @ingroup Expressions
  */
-constexpr ExpressionChainBuilder<Expressions::MeanSquare> meanSquare;
+constexpr inline ExpressionChainBuilder<Expressions::MeanSquare> meanSquare;
 
 /** Computes the square root of the mean value of the squared source values.
 
     @ingroup Expressions
  */
-constexpr ExpressionChainBuilder<Expressions::RootMeanSquare> rms;
+constexpr inline ExpressionChainBuilder<Expressions::RootMeanSquare> rms;
 
 } // namespace vctr

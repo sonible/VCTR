@@ -30,7 +30,7 @@ class Conjugate : public ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Conjugate)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Conjugate, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
@@ -50,9 +50,6 @@ public:
         Expression::IPP::conj (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));
         return dst;
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions

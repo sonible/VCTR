@@ -29,7 +29,7 @@ class PlatformVectorOpsFilter : public ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (PlatformVectorOpsFilter)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (PlatformVectorOpsFilter, src)
 
     auto* data() const
     requires has::data<SrcType>
@@ -48,9 +48,6 @@ public:
     {
         return src.evalNextVectorOpInExpressionChain (dst);
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions
@@ -66,6 +63,6 @@ namespace vctr
 
     @ingroup Expressions
  */
-constexpr ExpressionChainBuilder<Expressions::PlatformVectorOpsFilter> usePlatformVectorOps;
+constexpr inline ExpressionChainBuilder<Expressions::PlatformVectorOpsFilter> usePlatformVectorOps;
 
 } // namespace vctr

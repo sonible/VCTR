@@ -32,7 +32,7 @@ class Log2 : ExpressionTemplateBase
 public:
     using value_type = std::conditional_t<is::intNumber<SrcValueType>, float, SrcValueType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Log2)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Log2, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
@@ -77,9 +77,6 @@ public:
 
         return dst;
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions

@@ -29,7 +29,7 @@ class Clamp : ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Clamp)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Clamp, src)
 
     static constexpr bool clampLow = ClampLow::value;
     static constexpr bool clampHigh = ClampHigh::value;
@@ -105,7 +105,6 @@ private:
             VCTR_ASSERT (upperBound != std::numeric_limits<value_type>::max());
     }
 
-    SrcType src;
     value_type lowerBound = std::numeric_limits<value_type>::max();
     value_type upperBound = std::numeric_limits<value_type>::max();
 };
@@ -131,7 +130,7 @@ public:
     static constexpr bool clampLow = ! is::disabledConstant<LowerBound>;
     static constexpr bool clampHigh = ! is::disabledConstant<UpperBound>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (ClampByConstant)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (ClampByConstant, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
@@ -182,9 +181,6 @@ public:
 
         return dst;
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions

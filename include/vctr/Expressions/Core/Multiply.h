@@ -274,5 +274,5 @@ constexpr auto operator* (Src&& vec, typename std::remove_cvref_t<Src>::value_ty
     @ingroup Expressions
  */
 template <auto constantValue>
-constexpr ExpressionChainBuilder<Expressions::MultiplyVecByConstant, Constant<constantValue>> multiplyByConstant;
+constexpr inline ExpressionChainBuilder<Expressions::MultiplyVecByConstant, Constant<constantValue>> multiplyByConstant;
 } // namespace vctr

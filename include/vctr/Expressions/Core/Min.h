@@ -30,7 +30,7 @@ class Min : public ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Min)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Min, src)
 
     static constexpr value_type reductionResultInitValue = std::numeric_limits<value_type>::max();
 
@@ -39,6 +39,7 @@ public:
         result = std::min (result, src[i]);
     }
 
+    //==============================================================================
     VCTR_FORCEDINLINE value_type reduceVectorOp() const
     requires is::suitableForAccelerateRealFloatVectorReductionOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable>
     {
@@ -51,6 +52,7 @@ public:
         return Expression::IPP::min (src.data(), size());
     };
 
+    //==============================================================================
     VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister<value_type>& result, size_t i) const
     requires Config::archARM && has::getNeon<SrcType> && (is::floatNumber<value_type> || is::int32Number<value_type>)
     {
@@ -75,6 +77,7 @@ public:
         result = Expression::SSE::min (result, src.getSSE (i));
     }
 
+    //==============================================================================
     template <size_t n>
     VCTR_FORCEDINLINE static value_type finalizeReduction (const std::array<value_type, n>& minima)
     {
@@ -83,9 +86,6 @@ public:
 
         return *std::min_element (minima.begin(), minima.end());
     }
-
-private:
-    SrcType src;
 };
 
 template <size_t extent, class SrcType>
@@ -95,7 +95,7 @@ class MinAbs : public ExpressionTemplateBase
 public:
     using value_type = RealType<ValueType<SrcType>>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (MinAbs)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (MinAbs, src)
 
     static constexpr value_type reductionResultInitValue = std::numeric_limits<value_type>::max();
 
@@ -111,12 +111,14 @@ public:
         result = std::min (result, src[i]);
     }
 
+    //==============================================================================
     VCTR_FORCEDINLINE value_type reduceVectorOp() const
     requires is::suitableForIppRealFloatVectorReductionOp<SrcType, value_type>
     {
         return Expression::IPP::minAbs (src.data(), size());
     };
 
+    //==============================================================================
     VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister<value_type>& result, size_t i) const
     requires Config::archARM && has::getNeon<SrcType> && (is::floatNumber<value_type> || std::same_as<int32_t, value_type>)
     {
@@ -169,6 +171,7 @@ public:
         result = Expression::SSE::min (result, src.getSSE (i));
     }
 
+    //==============================================================================
     template <size_t n>
     VCTR_FORCEDINLINE static value_type finalizeReduction (const std::array<value_type, n>& minima)
     {
@@ -177,9 +180,6 @@ public:
 
         return *std::min_element (minima.begin(), minima.end());
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions
@@ -191,11 +191,11 @@ namespace vctr
 
     @ingroup Expressions
  */
-constexpr ExpressionChainBuilder<Expressions::Min> min;
+constexpr inline ExpressionChainBuilder<Expressions::Min> min;
 
 /** Computes the minimum value of the absolute value of the source values.
 
     @ingroup Expressions
  */
-constexpr ExpressionChainBuilder<Expressions::MinAbs> minAbs;
+constexpr inline ExpressionChainBuilder<Expressions::MinAbs> minAbs;
 }

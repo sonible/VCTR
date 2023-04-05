@@ -30,7 +30,7 @@ class Imag : public ExpressionTemplateBase
 public:
     using value_type = RealType<ValueType<SrcType>>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Imag)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Imag, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
@@ -43,9 +43,6 @@ public:
         Expression::Accelerate::copyImag (src.data(), dst, sizeToInt (size()));
         return dst;
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions
