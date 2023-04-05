@@ -30,7 +30,7 @@ namespace vctr::Expressions
   public:
       using value_type = RealType<ValueType<SrcType>>;
 
-      VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (PowerSpectrum)
+      VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (PowerSpectrum, src)
 
       VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
       {
@@ -50,9 +50,6 @@ namespace vctr::Expressions
           Expression::IPP::powerSpectrum (src.data(), dst, sizeToInt (size()));
           return dst;
       }
-
-  private:
-      SrcType src;
   };
 
 } // namespace vctr::Expressions

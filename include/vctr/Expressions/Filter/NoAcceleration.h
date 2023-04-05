@@ -29,15 +29,12 @@ class NoAccelerationFilter : public ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (NoAccelerationFilter)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (NoAccelerationFilter, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
         return src[i];
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions

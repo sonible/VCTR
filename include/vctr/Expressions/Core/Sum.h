@@ -46,7 +46,7 @@ class Sum : public ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Sum)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Sum, src)
 
     static constexpr auto reductionResultInitValue = detail::SumInit<value_type>::value;
 
@@ -55,6 +55,7 @@ public:
         result += src[i];
     }
 
+    //==============================================================================
     VCTR_FORCEDINLINE value_type reduceVectorOp() const
     requires is::suitableForAccelerateRealFloatVectorReductionOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable>
     {
@@ -67,6 +68,7 @@ public:
         return Expression::IPP::sum (src.data(), size());
     };
 
+    //==============================================================================
     VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister<value_type>& result, size_t i) const
     requires Config::archARM && has::getNeon<SrcType> && (is::floatNumber<value_type> || is::int32Number<value_type>)
     {
@@ -91,6 +93,7 @@ public:
         result = Expression::SSE::add (result, src.getSSE (i));
     }
 
+    //==============================================================================
     template <size_t n>
     VCTR_FORCEDINLINE static value_type finalizeReduction (const std::array<value_type, n>& sums)
     {
@@ -99,9 +102,6 @@ public:
 
         return std::reduce (sums.begin(), sums.end());
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions

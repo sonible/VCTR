@@ -29,7 +29,7 @@ class SSEFilter : public ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (SSEFilter)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (SSEFilter, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
@@ -42,9 +42,6 @@ public:
     {
         return src.getSSE (i);
     }
-
-private:
-    SrcType src;
 };
 
 template <size_t extent, class SrcType>
@@ -53,7 +50,7 @@ class AVXFilter : public ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (AVXFilter)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (AVXFilter, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
@@ -72,9 +69,6 @@ public:
     {
         return src.getAVX (i);
     }
-
-private:
-    SrcType src;
 };
 
 template <size_t extent, class SrcType>
@@ -83,7 +77,7 @@ class NeonFilter : public ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (NeonFilter)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (NeonFilter, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
@@ -96,9 +90,6 @@ public:
     {
         return src.getNeon (i);
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions

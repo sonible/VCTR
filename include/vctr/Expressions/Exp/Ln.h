@@ -32,7 +32,7 @@ class Ln : ExpressionTemplateBase
 public:
     using value_type = std::conditional_t<is::intNumber<SrcValueType>, float, SrcValueType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Ln)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Ln, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
@@ -70,9 +70,6 @@ public:
         Expression::IPP::ln (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));
         return dst;
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions

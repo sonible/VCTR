@@ -29,7 +29,7 @@ class Abs : public ExpressionTemplateBase
 public:
     using value_type = RealType<ValueType<SrcType>>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Abs)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Abs, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     requires is::signedNumber<value_type>
@@ -118,9 +118,6 @@ public:
     {
         return src.getSSE (i); // unsigned integers are always positive
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions

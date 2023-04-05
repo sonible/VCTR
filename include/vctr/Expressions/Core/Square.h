@@ -29,7 +29,7 @@ class Square : ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Square)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Square, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
@@ -72,9 +72,6 @@ public:
         auto x = src.getSSE (i);
         return Expression::SSE::mul (x, x);
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions

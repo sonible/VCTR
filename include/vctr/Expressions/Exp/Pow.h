@@ -133,7 +133,7 @@ public:
 
     static constexpr value_type exp = ConstantType::value;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (PowConstantExponent)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (PowConstantExponent, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
@@ -154,9 +154,6 @@ public:
         Expression::IPP::pow (src.evalNextVectorOpInExpressionChain (dst), exp, dst, sizeToInt (size()));
         return dst;
     }
-
-private:
-    SrcType src;
 };
 
 template <size_t extent, class SrcType, is::constant ConstantType>
@@ -167,7 +164,7 @@ public:
 
     static constexpr value_type base = ConstantType::value;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (PowConstantBase)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (PowConstantBase, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
@@ -199,9 +196,6 @@ public:
 
         return dst;
     }
-
-private:
-    SrcType src;
 };
 
 } // namespace vctr::Expressions

@@ -155,28 +155,36 @@ void tryApplyingRuntimeArgsToSrc (const RuntimeArgs& args, Src& src)
     It expects that the expression class has a suitable value_type defined before this, that the second
     class template type name is SrcType and that there is a private member SrcType src.
 
-    It defines an Expression type, a constructor, a getStorageInfo(), a size() and an isNotAliased (const void*)
-    member function according to the expression template conventions.
+    It defines the member srcName of type SrcType, an Expression type, a constructor, a getStorageInfo(),
+    a size(), an isNotAliased (const void*) and a iterateOverRuntimeArgChain (const RuntimeArgs&) member
+    function according to the expression template conventions.
+
+    Note that this macro contains a private and public sections and ends with the public access specifier.
+    Therefore all code following this macro will be in the public section if not explicitly specified
+    differently.
  */
 // clang-format off
-#define VCTR_COMMON_UNARY_EXPRESSION_MEMBERS(ExpressionName)                               \
-using Expression = ExpressionTypes<value_type, SrcType>;                                   \
-                                                                                           \
-template <class Src>                                                                       \
-constexpr ExpressionName (Src&& s) : src (std::forward<Src> (s)) {}                        \
-                                                                                           \
-constexpr const auto& getStorageInfo() const { return src.getStorageInfo(); }              \
-                                                                                           \
-constexpr size_t size () const { return src.size (); }                                     \
-                                                                                           \
-constexpr bool isNotAliased (const void* other) const { return src.isNotAliased (other); } \
-                                                                                           \
-template <size_t i, class RuntimeArgs>                                                     \
-void iterateOverRuntimeArgChain (const RuntimeArgs& rtArgs)                                \
-{                                                                                          \
-    tryApplyingRuntimeArgsToThisExpression<i> (rtArgs, *this);                             \
-    tryApplyingRuntimeArgsToSrc<i + 1> (rtArgs, src);                                      \
-}
+#define VCTR_COMMON_UNARY_EXPRESSION_MEMBERS(ExpressionName, srcName)                              \
+private:                                                                                           \
+    using Expression = ExpressionTypes<value_type, SrcType>;                                       \
+    SrcType srcName;                                                                               \
+public:                                                                                            \
+                                                                                                   \
+    template <class Src>                                                                           \
+    constexpr ExpressionName (Src&& s) : srcName (std::forward<Src> (s)) {}                        \
+                                                                                                   \
+    constexpr const auto& getStorageInfo() const { return src.getStorageInfo(); }                  \
+                                                                                                   \
+    constexpr size_t size () const { return srcName.size (); }                                     \
+                                                                                                   \
+    constexpr bool isNotAliased (const void* other) const { return srcName.isNotAliased (other); } \
+                                                                                                   \
+    template <size_t i, class RuntimeArgs>                                                         \
+    void iterateOverRuntimeArgChain (const RuntimeArgs& rtArgs)                                    \
+    {                                                                                              \
+        tryApplyingRuntimeArgsToThisExpression<i> (rtArgs, *this);                                 \
+        tryApplyingRuntimeArgsToSrc<i + 1> (rtArgs, srcName);                                      \
+    }
 
 /** A helper macro to avoid repetitive boilerplate code when implementing a binary expression template class
     that defines an expression between two vector-like sources.
@@ -188,6 +196,10 @@ void iterateOverRuntimeArgChain (const RuntimeArgs& rtArgs)                     
     CombinedStorageInfo<SrcAStorageInfoType, SrcBStorageInfoType>, an Expression type, a constructor,
     a getStorageInfo(), a size() and an isNotAliased (const void*)
     member function according to the expression template conventions.
+
+    Note that this macro contains a private and public sections and ends with the public access specifier.
+    Therefore all code following this macro will be in the public section if not explicitly specified
+    differently.
  */
 #define VCTR_COMMON_BINARY_VEC_VEC_EXPRESSION_MEMBERS(ExpressionName, srcAName, srcBName)                                      \
 private:                                                                                                                       \
