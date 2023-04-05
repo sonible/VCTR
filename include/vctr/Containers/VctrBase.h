@@ -435,7 +435,7 @@ public:
 
     /** Calls a function on each element and forwards fnArgs to the function after the value.
 
-        The function returns void and might take the elements by reference to mutate them.
+        The function returns a value_type which is assigned as new value to the element.
      */
     template <class... Args, is::functionWithSignatureOrImplicitlyConvertible<value_type (const value_type&, Args&&...)> Fn>
     constexpr void forEach (Fn&& fn, Args&&... fnArgs)
