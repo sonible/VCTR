@@ -276,9 +276,10 @@ concept suitableForIppRealOrComplexFloatVectorReductionOp = detail::isPreferredV
 //==============================================================================
 /** Constrains two source types to be suitable for a an aliasing-free binary vector operation using platform vector ops. */
 template <class SrcA, class SrcB, class DstType>
-concept suitableForBinaryVectorOp = (expressionWithEvalVectorOp < SrcA, DstType > && anyVctr < SrcB >) ||
-                                    (anyVctr<SrcA> && expressionWithEvalVectorOp < SrcB, DstType >) ||
-                                    (anyVctr<SrcA> && anyVctr<SrcB>);
+concept suitableForBinaryVectorOp = ((expressionWithEvalVectorOp < SrcA, DstType > && anyVctr < SrcB >) ||
+                                     (anyVctr<SrcA> && expressionWithEvalVectorOp < SrcB, DstType >) ||
+                                     (anyVctr<SrcA> && anyVctr<SrcB>)) &&
+                                    std::same_as<typename std::remove_cvref_t<SrcA>::value_type, typename std::remove_cvref_t<SrcB>::value_type>;
 
 //==============================================================================
 /** A combined concept to check if Apple Accelerate is a suitable option for a real valued floating point binary vector operation. */
