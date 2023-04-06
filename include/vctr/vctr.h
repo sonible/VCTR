@@ -58,6 +58,7 @@
 #include <algorithm>
 #include <numeric>
 #include <optional>
+#include <functional>
 
 #ifdef jassert
 #define VCTR_ASSERT(e) jassert (e)
@@ -150,6 +151,9 @@
 #include "Expressions/Filter/NoAcceleration.h"
 #include "Expressions/Filter/SIMDFilter.h"
 #include "Expressions/Filter/PlatformVectorOpsFilter.h"
+
+#include "Expressions/Generic/TransformedBy.h"
+#include "Expressions/Generic/TransformedByStaticCast.h"
 
 #include "Expressions/BasicMath/Abs.h"
 #include "Expressions/BasicMath/Clamp.h"
