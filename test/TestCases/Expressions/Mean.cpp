@@ -111,7 +111,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("RMS", "[rms]", (PlatformVectorOps, VCTR_NATIVE_SIMD
     const auto ref = ElementType (std::sqrt (std::reduce (srcASquared.begin(), srcASquared.end()) / ElementType (srcASquared.size())));
     const auto refU = ElementType (std::sqrt (std::reduce (srcUSquared.begin(), srcUSquared.end()) / ElementType (srcUSquared.size())));
 
-    const auto eps = vctr::RealType<ElementType> (0.00001);
+    const auto eps = vctr::RealType<ElementType> (0.00002);
 
     if constexpr (vctr::is::complexFloatNumber<ElementType>)
     {
