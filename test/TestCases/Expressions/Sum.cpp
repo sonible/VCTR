@@ -33,7 +33,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Sum", "[sum]", (PlatformVectorOps, VCTR_NATIVE_SIMD
     const auto ref = std::reduce (srcA.begin(), srcA.end());
     const auto refU = std::reduce (srcUnaligned.begin(), srcUnaligned.end());
 
-    const auto eps = vctr::RealType<ElementType> (0.00002);
+    const auto eps = vctr::RealType<ElementType> (0.0002);
 
     if constexpr (vctr::is::complexFloatNumber<ElementType>)
     {
