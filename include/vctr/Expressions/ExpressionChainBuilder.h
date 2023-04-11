@@ -250,7 +250,19 @@ template <template <size_t, class...> class ExpressionType, class... RuntimeArgs
 requires (sizeof... (RuntimeArgs) > 0)
 auto makeExpressionChainBuilderWithRuntimeArgs (RuntimeArgs... runtimeArgs)
 {
-    return ExpressionChainBuilderWithRuntimeArgs<ExpressionType, detail::RuntimeArgChain<std::tuple<RuntimeArgs...>>> (detail::RuntimeArgChain<std::tuple<RuntimeArgs...>> (std::forward<RuntimeArgs> (std::move (runtimeArgs))...));
+    return ExpressionChainBuilderWithRuntimeArgs<ExpressionType, detail::RuntimeArgChain<std::tuple<RuntimeArgs...>>> (detail::RuntimeArgChain<std::tuple<RuntimeArgs...>> (std::move (runtimeArgs)...));
+}
+
+/** Helper function to build factory functions for expressions that rely on runtime argument values.
+
+    This function is just like makeExpressionChainBuilderWithRuntimeArgs except for allowing to pass one
+    further template type argument to the ExpressionType.
+ */
+template <template <size_t, class...> class ExpressionType, class ExpressionTemplateArg, class... RuntimeArgs>
+requires (sizeof... (RuntimeArgs) > 0)
+auto makeTemplateExpressionChainBuilderWithRuntimeArgs (RuntimeArgs... runtimeArgs)
+{
+    return ExpressionChainBuilderWithRuntimeArgs<ExpressionType, detail::RuntimeArgChain<std::tuple<RuntimeArgs...>>, ExpressionTemplateArg> (detail::RuntimeArgChain<std::tuple<RuntimeArgs...>> (std::move (runtimeArgs)...));
 }
 
 } // namespace vctr
