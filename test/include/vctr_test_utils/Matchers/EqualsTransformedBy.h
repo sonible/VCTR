@@ -53,6 +53,13 @@ auto EqualsTransformedBy (T scalar, const ReferenceVec& vec);
 
 namespace detail
 {
+
+template <class T>
+double defaultEpsilon = 0.0;
+
+template <is::number T>
+double defaultEpsilon<T> = std::numeric_limits<vctr::RealType<T>>::epsilon() * 100.0;
+
 template <class RetValueType, class SrcValueType, is::anyVctr ReferenceVec, RetValueType (*transformingFn) (SrcValueType)>
 struct UnaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
 {
@@ -68,17 +75,33 @@ struct UnaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
         for (size_t i = 0; i < vec.size(); ++i)
         {
             auto v = transformingFn (reference[i]);
-            if (Approx<RetValueType> (v).margin (margin).epsilon (epsilon) != vec[i])
-                return false;
+
+            if constexpr (vctr::is::number<RetValueType>)
+            {
+                if (Approx<RetValueType> (v).margin (margin).epsilon (epsilon) != vec[i])
+                    return false;
+            }
+            else
+            {
+                if (v != vec[i])
+                    return false;
+            }
         }
 
         return true;
     }
 
-    // clang-format off
-        auto withMargin (double m) &&                                                                       { margin = m; return std::move (*this); }
-        auto withEpsilon (double e = std::numeric_limits<vctr::RealType<RetValueType>>::epsilon() * 100) && { epsilon = e; return std::move (*this); }
-    // clang-format on
+    auto withMargin (double m) &&
+    {
+        margin = m;
+        return std::move (*this);
+    }
+
+    auto withEpsilon (double e = defaultEpsilon<RetValueType>) &&
+    {
+        epsilon = e;
+        return std::move (*this);
+    }
 
     std::string describe() const override
     {
@@ -124,10 +147,17 @@ struct BinaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
         return true;
     }
 
-    // clang-format off
-        auto withMargin (double m) &&                                                                       { margin = m; return std::move (*this); }
-        auto withEpsilon (double e = std::numeric_limits<vctr::RealType<RetValueType>>::epsilon() * 100) && { epsilon = e; return std::move (*this); }
-    // clang-format on
+    auto withMargin (double m) &&
+    {
+        margin = m;
+        return std::move (*this);
+    }
+
+    auto withEpsilon (double e = defaultEpsilon<RetValueType>) &&
+    {
+        epsilon = e;
+        return std::move (*this);
+    }
 
     std::string describe() const override
     {
@@ -188,7 +218,7 @@ struct BinaryScalarEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBas
         margin = m;
         return std::move (*this);
     }
-    auto withEpsilon (double e = std::numeric_limits<vctr::RealType<ValueType>>::epsilon() * 100) &&
+    auto withEpsilon (double e = defaultEpsilon<ValueType>) &&
     {
         epsilon = e;
         return std::move (*this);
@@ -302,33 +332,46 @@ private:
         return detail::BinaryScalarEqualsTransformedMatcher<std::complex<T>, ReferenceVec, fn> (scalar, vec);                         \
     }
 
-#define VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING(SrcT, DstT)                                    \
-                                                                                                            \
-    template <DstT (*fn) (SrcT), is::anyVctr ReferenceVec>                                                  \
-    requires std::same_as<SrcT, std::remove_const_t<typename ReferenceVec::value_type>>                     \
-    auto EqualsTransformedBy (const ReferenceVec& vec)                                                      \
-    {                                                                                                       \
-        return detail::UnaryEqualsTransformedMatcher<DstT, SrcT, ReferenceVec, fn> (vec);                   \
-    }                                                                                                       \
-                                                                                                            \
-template <DstT (*fn) (SrcT, SrcT), is::anyVctr ReferenceVec>                                                \
-requires std::same_as<SrcT, std::remove_const_t<typename ReferenceVec::value_type>>                         \
-auto EqualsTransformedBy (const ReferenceVec& vecA, const ReferenceVec& vecB)                               \
-{                                                                                                           \
-    return detail::BinaryEqualsTransformedMatcher<DstT, SrcT, ReferenceVec, ReferenceVec, fn> (vecA, vecB); \
-}
+#define VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING(SrcT, DstT)                                        \
+                                                                                                                \
+    template <DstT (*fn) (SrcT), is::anyVctr ReferenceVec>                                                      \
+    requires std::same_as<SrcT, std::remove_const_t<typename ReferenceVec::value_type>>                         \
+    auto EqualsTransformedBy (const ReferenceVec& vec)                                                          \
+    {                                                                                                           \
+        return detail::UnaryEqualsTransformedMatcher<DstT, SrcT, ReferenceVec, fn> (vec);                       \
+    }                                                                                                           \
+                                                                                                                \
+    template <DstT (*fn) (SrcT, SrcT), is::anyVctr ReferenceVec>                                                \
+    requires std::same_as<SrcT, std::remove_const_t<typename ReferenceVec::value_type>>                         \
+    auto EqualsTransformedBy (const ReferenceVec& vecA, const ReferenceVec& vecB)                               \
+    {                                                                                                           \
+        return detail::BinaryEqualsTransformedMatcher<DstT, SrcT, ReferenceVec, ReferenceVec, fn> (vecA, vecB); \
+    }
 
 VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE (float)
 VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE (double)
+VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE (int16_t)
 VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE (int32_t)
 VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE (uint32_t)
 VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE (int64_t)
 VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE (uint64_t)
 
+VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (float, double)
+VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (int16_t, double)
 VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (int32_t, double)
 VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (uint32_t, double)
 VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (int64_t, double)
 VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (uint64_t, double)
+
+VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (double, int16_t)
+VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (float, int16_t)
+VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (int64_t, int16_t)
+VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (int32_t, int16_t)
+
+VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (double, std::string)
+VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (float, std::string)
+VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (int64_t, std::string)
+VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE_CONVERTING (int32_t, std::string)
 
 #endif
 } // namespace vctr
