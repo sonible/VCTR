@@ -600,6 +600,32 @@ public:
         return it == rend() ? std::nullopt : std::optional<size_t> (std::distance (it, rend()) - 1);
     }
 
+    /** Returns a std::optional holding a copy of the first element value which is greater or equal to valueToLookFor or
+        std::nullopt if no such value is found.
+
+        This function requires that the elements are sorted.
+     */
+    std::optional<value_type> firstValueGreaterThanOrEqualTo (const value_type& valueToLookFor) const
+    requires std::totally_ordered<value_type>
+    {
+        VCTR_ASSERT (elementsAreSorted());
+        auto it = std::lower_bound (begin(), end(), valueToLookFor);
+        return it == end() ? std::nullopt : std::optional<value_type> (*it);
+    }
+
+    /** Returns a std::optional holding a copy of the first element value which is greater than valueToLookFor or
+        std::nullopt if no such value is found.
+
+        This function requires that the elements are sorted.
+     */
+    std::optional<value_type> firstValueGreaterThan (const value_type& valueToLookFor) const
+    requires std::totally_ordered<value_type>
+    {
+        VCTR_ASSERT (elementsAreSorted());
+        auto it = std::upper_bound (begin(), end(), valueToLookFor);
+        return it == end() ? std::nullopt : std::optional<value_type> (*it);
+    }
+
     //==============================================================================
     // Shuffling and sorting elements
     //==============================================================================

@@ -381,6 +381,29 @@ TEST_CASE ("sort", "[VctrBaseMemberFunctions]")
     REQUIRE (characters == "/AccD");
 }
 
+TEST_CASE ("firstValueGreaterThan", "[VctrBaseMemberFunctions]")
+{
+    auto v = UnitTestValues<double>::template vector<100, 1>();
+    v.sort();
+
+    if (v.back() <= 50.0)
+        v.back() = 50.1;
+
+    auto fegt = v.firstValueGreaterThan (50.0);
+    REQUIRE (fegt.has_value());
+    REQUIRE (fegt > 50.0);
+
+    v.push_back (fegt.value());
+    v.sort();
+    
+    auto feget = v.firstValueGreaterThanOrEqualTo (fegt.value());
+    REQUIRE (fegt.has_value());
+    REQUIRE (fegt == feget);
+
+    REQUIRE (v.firstValueGreaterThan (200.0) == std::nullopt);
+    REQUIRE (v.firstValueGreaterThanOrEqualTo (200.0) == std::nullopt);
+}
+
 TEST_CASE ("assign", "[VctrBaseMemberFunctions]")
 {
     vctr::Vector<int> v (3, 42);
