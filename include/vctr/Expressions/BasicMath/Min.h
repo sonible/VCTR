@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType>
@@ -182,7 +182,7 @@ public:
     }
 };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -191,11 +191,11 @@ namespace vctr
 
     @ingroup Expressions
  */
-constexpr inline ExpressionChainBuilder<Expressions::Min> min;
+constexpr inline ExpressionChainBuilder<expressions::Min> min;
 
 /** Computes the minimum value of the absolute value of the source values.
 
     @ingroup Expressions
  */
-constexpr inline ExpressionChainBuilder<Expressions::MinAbs> minAbs;
+constexpr inline ExpressionChainBuilder<expressions::MinAbs> minAbs;
 }

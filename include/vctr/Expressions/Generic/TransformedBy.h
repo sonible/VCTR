@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType, std::invocable<ValueType<SrcType>> FunctionType>
@@ -47,7 +47,7 @@ private:
     FnCopyType fn;
 };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -67,7 +67,7 @@ namespace vctr
 template <class Fn>
 constexpr auto transformedBy (Fn&& fn)
 {
-    return makeTemplateExpressionChainBuilderWithRuntimeArgs<Expressions::TransformedBy, std::remove_cvref_t<Fn>> (std::forward<Fn> (fn));
+    return makeTemplateExpressionChainBuilderWithRuntimeArgs<expressions::TransformedBy, std::remove_cvref_t<Fn>> (std::forward<Fn> (fn));
 }
 
 } // namespace vctr

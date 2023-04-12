@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType, is::constantWithType<bool> ClampLow, is::constantWithType<bool> ClampHigh>
@@ -183,7 +183,7 @@ public:
     }
 };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -198,7 +198,7 @@ namespace vctr
 template <class T>
 constexpr auto clampLow (T lowerBound)
 {
-    return makeExpressionChainBuilderWithRuntimeArgs<Expressions::ClampLow> (lowerBound, std::numeric_limits<T>::max());
+    return makeExpressionChainBuilderWithRuntimeArgs<expressions::ClampLow> (lowerBound, std::numeric_limits<T>::max());
 }
 
 /** Ensures that the elements are not greater than upperBound.
@@ -211,7 +211,7 @@ constexpr auto clampLow (T lowerBound)
 template <class T>
 constexpr auto clampHigh (T upperBound)
 {
-    return makeExpressionChainBuilderWithRuntimeArgs<Expressions::ClampHigh> (std::numeric_limits<T>::max(), upperBound);
+    return makeExpressionChainBuilderWithRuntimeArgs<expressions::ClampHigh> (std::numeric_limits<T>::max(), upperBound);
 }
 
 /** Ensures that the elements are not lower than lowerBound and not higher than upperBound.
@@ -224,7 +224,7 @@ constexpr auto clampHigh (T upperBound)
 template <class T>
 constexpr auto clamp (T lowerBound, T upperBound)
 {
-    return makeExpressionChainBuilderWithRuntimeArgs<Expressions::ClampLowHigh> (lowerBound, upperBound);
+    return makeExpressionChainBuilderWithRuntimeArgs<expressions::ClampLowHigh> (lowerBound, upperBound);
 }
 
 
@@ -238,7 +238,7 @@ constexpr auto clamp (T lowerBound, T upperBound)
     @ingroup Expressions
  */
 template <auto lowerBound>
-constexpr inline ExpressionChainBuilder<Expressions::ClampByConstant, Constant<lowerBound>, DisabledConstant> clampLowByConstant;
+constexpr inline ExpressionChainBuilder<expressions::ClampByConstant, Constant<lowerBound>, DisabledConstant> clampLowByConstant;
 
 /** Ensures that the elements are not higher than upperBound.
 
@@ -249,7 +249,7 @@ constexpr inline ExpressionChainBuilder<Expressions::ClampByConstant, Constant<l
     @ingroup Expressions
  */
 template <auto upperBound>
-constexpr inline ExpressionChainBuilder<Expressions::ClampByConstant, DisabledConstant, Constant<upperBound>> clampHighByConstant;
+constexpr inline ExpressionChainBuilder<expressions::ClampByConstant, DisabledConstant, Constant<upperBound>> clampHighByConstant;
 
 /** Ensures that the elements are not lower than lowerBound and not higher than upperBound.
 
@@ -260,6 +260,6 @@ constexpr inline ExpressionChainBuilder<Expressions::ClampByConstant, DisabledCo
     @ingroup Expressions
  */
 template <auto lowerBound, auto upperBound>
-constexpr inline ExpressionChainBuilder<Expressions::ClampByConstant, Constant<lowerBound>, Constant<upperBound>> clampByConstant;
+constexpr inline ExpressionChainBuilder<expressions::ClampByConstant, Constant<lowerBound>, Constant<upperBound>> clampByConstant;
 
 } // namespace vctr

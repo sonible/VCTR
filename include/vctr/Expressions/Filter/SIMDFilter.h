@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType>
@@ -92,7 +92,7 @@ public:
     }
 };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -103,7 +103,7 @@ namespace vctr
 
     @ingroup Expressions
  */
-constexpr inline ExpressionChainBuilder<Expressions::SSEFilter> useSSE;
+constexpr inline ExpressionChainBuilder<expressions::SSEFilter> useSSE;
 
 /** This filter expression ensures that only AVX based accelerated evaluation of the previous expression is possible.
 
@@ -111,7 +111,7 @@ constexpr inline ExpressionChainBuilder<Expressions::SSEFilter> useSSE;
 
     @ingroup Expressions
  */
-constexpr inline ExpressionChainBuilder<Expressions::AVXFilter> useAVX;
+constexpr inline ExpressionChainBuilder<expressions::AVXFilter> useAVX;
 
 /** This filter expression ensures that only Neon based accelerated evaluation of the previous expression is possible.
 
@@ -119,13 +119,13 @@ constexpr inline ExpressionChainBuilder<Expressions::AVXFilter> useAVX;
 
     @ingroup Expressions
  */
-constexpr inline ExpressionChainBuilder<Expressions::NeonFilter> useNeon;
+constexpr inline ExpressionChainBuilder<expressions::NeonFilter> useNeon;
 
 #if VCTR_ARM
 constexpr inline ExpressionChainBuilder<Expressions::NeonFilter> useNeonOrAVX;
 constexpr inline ExpressionChainBuilder<Expressions::NeonFilter> useNeonOrSSE;
 #else
-constexpr inline ExpressionChainBuilder<Expressions::AVXFilter> useNeonOrAVX;
-constexpr inline ExpressionChainBuilder<Expressions::SSEFilter> useNeonOrSSE;
+constexpr inline ExpressionChainBuilder<expressions::AVXFilter> useNeonOrAVX;
+constexpr inline ExpressionChainBuilder<expressions::SSEFilter> useNeonOrSSE;
 #endif
 } // namespace vctr

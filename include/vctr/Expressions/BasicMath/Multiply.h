@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 //==============================================================================
@@ -214,7 +214,7 @@ private:
     const typename Expression::NeonSrc asNeon;
 };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr::detail
 {
@@ -222,10 +222,10 @@ template <class T>
 struct IsMultiplicationExpression : std::false_type {};
 
 template <size_t e, class A, class B>
-struct IsMultiplicationExpression<Expressions::MultiplyVectors<e, A, B>> : std::true_type {};
+struct IsMultiplicationExpression<expressions::MultiplyVectors<e, A, B>> : std::true_type {};
 
 template <size_t e, class A>
-struct IsMultiplicationExpression<Expressions::MultiplyVecBySingle<e, A>> : std::true_type {};
+struct IsMultiplicationExpression<expressions::MultiplyVecBySingle<e, A>> : std::true_type {};
 } // namespace vctr::detail
 
 namespace vctr
@@ -243,7 +243,7 @@ constexpr auto operator* (SrcAType&& a, SrcBType&& b)
     assertCommonSize (a, b);
     constexpr auto extent = getCommonExtent<SrcAType, SrcBType>();
 
-    return Expressions::MultiplyVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
+    return expressions::MultiplyVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
 }
 
 /** Returns an expression that multiplies a single value with a vector or expression source.
@@ -254,7 +254,7 @@ template <class Src>
 requires is::anyVctrOrExpression<Src>
 constexpr auto operator* (typename std::remove_cvref_t<Src>::value_type single, Src&& vec)
 {
-    return Expressions::MultiplyVecBySingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
+    return expressions::MultiplyVecBySingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
 }
 
 /** Returns an expression that multiplies a vector or expression source with a single value.
@@ -265,7 +265,7 @@ template <class Src>
 requires is::anyVctrOrExpression<Src>
 constexpr auto operator* (Src&& vec, typename std::remove_cvref_t<Src>::value_type single)
 {
-    return Expressions::MultiplyVecBySingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
+    return expressions::MultiplyVecBySingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
 }
 
 
@@ -274,5 +274,5 @@ constexpr auto operator* (Src&& vec, typename std::remove_cvref_t<Src>::value_ty
     @ingroup Expressions
  */
 template <auto constantValue>
-constexpr inline ExpressionChainBuilder<Expressions::MultiplyVecByConstant, Constant<constantValue>> multiplyByConstant;
+constexpr inline ExpressionChainBuilder<expressions::MultiplyVecByConstant, Constant<constantValue>> multiplyByConstant;
 } // namespace vctr

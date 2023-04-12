@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType>
@@ -182,7 +182,7 @@ public:
     }
 };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -191,12 +191,12 @@ namespace vctr
 
     @ingroup Expressions
  */
-constexpr inline ExpressionChainBuilder<Expressions::Max> max;
+constexpr inline ExpressionChainBuilder<expressions::Max> max;
 
 /** Computes the maximum value of the absolute value of the source values.
 
     @ingroup Expressions
  */
-constexpr inline ExpressionChainBuilder<Expressions::MaxAbs> maxAbs;
+constexpr inline ExpressionChainBuilder<expressions::MaxAbs> maxAbs;
 
 } // namespace vctr
