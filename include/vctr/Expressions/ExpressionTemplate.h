@@ -137,6 +137,12 @@ void tryApplyingRuntimeArgsToThisExpression (const RuntimeArgs& args, Expression
                         e.applyRuntimeArgs (args...);
                     }, args.template get<i>());
     }
+    else if constexpr (has::applyRuntimeArgs<Expression>)
+    {
+        // Some expressions need to initialize runtime values that depend on their source before every
+        // evaluation rather than being injected as external arguments (see e.g. NormalizeSum).
+        e.applyRuntimeArgs();
+    }
 }
 
 template <size_t i, class RuntimeArgs, is::anyVctrOrExpression Src>
