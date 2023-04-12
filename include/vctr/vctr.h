@@ -120,7 +120,6 @@
     used to initialize a new Vector or Array.
  */
 
-#include "TypeTraitsAndConcepts/NumericTypeConcepts.h"
 #include "TypeTraitsAndConcepts/ContainerAndExpressionConcepts.h"
 #include "TypeTraitsAndConcepts/FunctionConcepts.h"
 
@@ -138,6 +137,8 @@
 #include "TypeTraitsAndConcepts/Traits.h"
 
 #include "Expressions/ExpressionTemplate.h"
+
+#include "Miscellaneous/Range.h"
 
 #include "Containers/VctrBase.h"
 #include "Containers/Span.h"
