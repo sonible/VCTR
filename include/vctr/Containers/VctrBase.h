@@ -672,6 +672,30 @@ public:
             clear (data(), n);
     }
 
+    /** Sorts all elements in an ascending order using operator <=>. */
+    void sort()
+    requires std::totally_ordered<value_type>
+    {
+        std::sort (begin(), end());
+    }
+
+    /** Sorts all elements in this vector according to the compare function.
+
+        The compare function should receive true if the first argument is less than the second argument.
+     */
+    template <is::functionWithSignatureOrImplicitlyConvertible<bool (const value_type&, const value_type&)> ComparatorFn>
+    void sort (ComparatorFn&& compare)
+    {
+        std::sort (begin(), end(), compare);
+    }
+
+    /** Returns true if all elements are sorted. */
+    bool elementsAreSorted() const
+    requires std::totally_ordered<value_type>
+    {
+        return std::is_sorted (begin(), end());
+    }
+
     //==============================================================================
     // SIMD Register Access
     //==============================================================================
