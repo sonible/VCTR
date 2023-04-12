@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType, std::constructible_from<ValueType<SrcType>> DstValueType>
@@ -55,7 +55,7 @@ public:
     }
 };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -64,7 +64,7 @@ namespace vctr
     @ingroup Expressions
  */
 template <class DstType>
-constexpr inline ExpressionChainBuilder<Expressions::TransformedByStaticCast, DstType> transformedByStaticCastTo;
+constexpr inline ExpressionChainBuilder<expressions::TransformedByStaticCast, DstType> transformedByStaticCastTo;
 
 } // namespace vctr
 

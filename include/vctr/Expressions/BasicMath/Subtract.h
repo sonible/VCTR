@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 //==============================================================================
@@ -202,7 +202,7 @@ public:
     }
 };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -219,7 +219,7 @@ constexpr auto operator- (SrcAType&& a, SrcBType&& b)
     assertCommonSize (a, b);
     constexpr auto extent = getCommonExtent<SrcAType, SrcBType>();
 
-    return Expressions::SubtractVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
+    return expressions::SubtractVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
 }
 
 /** Returns an expression that subtracts a vector or expression source from a single value.
@@ -230,7 +230,7 @@ template <class Src>
 requires is::anyVctrOrExpression<Src>
 constexpr auto operator- (typename std::remove_cvref_t<Src>::value_type single, Src&& vec)
 {
-    return Expressions::SubtractVecFromSingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
+    return expressions::SubtractVecFromSingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
 }
 
 /** Returns an expression that subtracts a single value from a vector or expression.
@@ -241,7 +241,7 @@ template <class Src>
 requires is::anyVctrOrExpression<Src>
 constexpr auto operator- (Src&& vec, typename std::remove_cvref_t<Src>::value_type single)
 {
-    return Expressions::SubtractSingleFromVec<extentOf<Src>, Src> (single, std::forward<Src> (vec));
+    return expressions::SubtractSingleFromVec<extentOf<Src>, Src> (single, std::forward<Src> (vec));
 }
 
 } // namespace vctr

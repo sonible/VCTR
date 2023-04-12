@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType>
@@ -219,7 +219,7 @@ public:
     }
 };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -228,18 +228,18 @@ namespace vctr
 
     @ingroup Expressions
  */
-constexpr inline ExpressionChainBuilder<Expressions::Mean> mean;
+constexpr inline ExpressionChainBuilder<expressions::Mean> mean;
 
 /** Computes the mean value of the squared source values.
 
     @ingroup Expressions
  */
-constexpr inline ExpressionChainBuilder<Expressions::MeanSquare> meanSquare;
+constexpr inline ExpressionChainBuilder<expressions::MeanSquare> meanSquare;
 
 /** Computes the square root of the mean value of the squared source values.
 
     @ingroup Expressions
  */
-constexpr inline ExpressionChainBuilder<Expressions::RootMeanSquare> rms;
+constexpr inline ExpressionChainBuilder<expressions::RootMeanSquare> rms;
 
 } // namespace vctr

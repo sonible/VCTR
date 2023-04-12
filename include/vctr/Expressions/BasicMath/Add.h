@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 //==============================================================================
@@ -126,7 +126,7 @@ public:
     }
 };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -141,7 +141,7 @@ constexpr auto operator+ (SrcAType&& a, SrcBType&& b)
     assertCommonSize (a, b);
     constexpr auto extent = getCommonExtent<SrcAType, SrcBType>();
 
-    return Expressions::AddVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
+    return expressions::AddVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
 }
 
 /** Returns an expression that adds a single value to a vector or expression source.
@@ -151,7 +151,7 @@ constexpr auto operator+ (SrcAType&& a, SrcBType&& b)
 template <is::anyVctrOrExpression Src>
 constexpr auto operator+ (typename std::remove_cvref_t<Src>::value_type single, Src&& vec)
 {
-    return Expressions::AddSingleToVec<extentOf<Src>, Src> (single, std::forward<Src> (vec));
+    return expressions::AddSingleToVec<extentOf<Src>, Src> (single, std::forward<Src> (vec));
 }
 
 /** Returns an expression that adds a vector or expression source to a single value.
@@ -161,7 +161,7 @@ constexpr auto operator+ (typename std::remove_cvref_t<Src>::value_type single, 
 template <is::anyVctrOrExpression Src>
 constexpr auto operator+ (Src&& vec, typename std::remove_cvref_t<Src>::value_type single)
 {
-    return Expressions::AddSingleToVec<extentOf<Src>, Src> (single, std::forward<Src> (vec));
+    return expressions::AddSingleToVec<extentOf<Src>, Src> (single, std::forward<Src> (vec));
 }
 
 } // namespace vctr

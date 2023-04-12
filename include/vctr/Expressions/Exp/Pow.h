@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 template <size_t extent, class SrcAType, class SrcBType>
@@ -198,7 +198,7 @@ public:
     }
 };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -213,7 +213,7 @@ namespace vctr
     assertCommonSize (bases, exponents);
     constexpr auto extent = getCommonExtent<SrcBaseType, SrcExpType>();
 
-    return Expressions::PowVectors<extent, SrcBaseType, SrcExpType> (std::forward<SrcBaseType> (bases), std::forward<SrcExpType> (exponents));
+    return expressions::PowVectors<extent, SrcBaseType, SrcExpType> (std::forward<SrcBaseType> (bases), std::forward<SrcExpType> (exponents));
 }
 
 /** Returns an expression that raises the base value base to the power of the elements in exponents.
@@ -223,7 +223,7 @@ namespace vctr
 template <is::anyVctrOrExpression Src>
 constexpr auto pow (typename std::remove_cvref_t<Src>::value_type base, Src&& exponents)
 {
-    return Expressions::PowSingleBase<extentOf<Src>, Src> (base, exponents);
+    return expressions::PowSingleBase<extentOf<Src>, Src> (base, exponents);
 }
 
 /** Returns an expression that raises the elements in bases to the power of the exponent value.
@@ -239,7 +239,7 @@ constexpr auto pow (typename std::remove_cvref_t<Src>::value_type base, Src&& ex
 template <is::anyVctrOrExpression Src>
 constexpr auto pow (Src&& bases, typename std::remove_cvref_t<Src>::value_type exponent)
 {
-    return Expressions::PowSingleExponent<extentOf<Src>, Src> (exponent, bases);
+    return expressions::PowSingleExponent<extentOf<Src>, Src> (exponent, bases);
 }
 
 /** Evaluates base raised to the power of the source elements.
@@ -247,13 +247,13 @@ constexpr auto pow (Src&& bases, typename std::remove_cvref_t<Src>::value_type e
     @ingroup Expressions
  */
 template <auto base>
-constexpr inline ExpressionChainBuilder<Expressions::PowConstantBase, Constant<base>> powConstantBase;
+constexpr inline ExpressionChainBuilder<expressions::PowConstantBase, Constant<base>> powConstantBase;
 
 /** Evaluates the source elements raised to the power of exponent.
 
     @ingroup Expressions
  */
 template <auto exponent>
-constexpr inline ExpressionChainBuilder<Expressions::PowConstantExponent, Constant<exponent>> powConstantExponent;
+constexpr inline ExpressionChainBuilder<expressions::PowConstantExponent, Constant<exponent>> powConstantExponent;
 
 } // namespace vctr

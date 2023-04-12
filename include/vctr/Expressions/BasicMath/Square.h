@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType>
@@ -81,7 +81,7 @@ public:
     }
 };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -90,6 +90,6 @@ namespace vctr
 
     @ingroup Expressions
  */
-constexpr inline ExpressionChainBuilder<Expressions::Square> square;
+constexpr inline ExpressionChainBuilder<expressions::Square> square;
 
 } // namespace vctr

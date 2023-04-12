@@ -30,7 +30,7 @@ struct InvertedConstant
 
 } // namespace vctr::detail
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType, class DecibelConstant, class MinDb>
@@ -48,7 +48,7 @@ using DBToMag = PowConstantBase<extent,
                                                       detail::InvertedConstant<DecibelConstant>>,
                                 Constant<10>>;
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -82,7 +82,7 @@ struct dBPower : Constant<10> {};
    @ingroup Expressions
  */
 template <is::constant DecibelConstant, auto minDb = -100>
-constexpr inline ExpressionChainBuilder<Expressions::MagToDb, DecibelConstant, Constant<minDb>> magToDb;
+constexpr inline ExpressionChainBuilder<expressions::MagToDb, DecibelConstant, Constant<minDb>> magToDb;
 
 /** Converts the source decibel values into their magnitude representation.
 
@@ -94,6 +94,6 @@ constexpr inline ExpressionChainBuilder<Expressions::MagToDb, DecibelConstant, C
    @ingroup Expressions
  */
 template <is::constant DecibelConstant>
-constexpr inline ExpressionChainBuilder<Expressions::DBToMag, DecibelConstant> dbToMag;
+constexpr inline ExpressionChainBuilder<expressions::DBToMag, DecibelConstant> dbToMag;
 
 } // namespace vctr

@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
   template <size_t extent, class SrcType>
@@ -52,7 +52,7 @@ namespace vctr::Expressions
       }
   };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -64,6 +64,6 @@ namespace vctr
 
     @ingroup Expressions
 */
-constexpr inline ExpressionChainBuilder<Expressions::Angle> angle;
+constexpr inline ExpressionChainBuilder<expressions::Angle> angle;
 
 } // namespace vctr

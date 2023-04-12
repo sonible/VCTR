@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::Expressions
+namespace vctr::expressions
 {
 
 //==============================================================================
@@ -154,7 +154,7 @@ public:
     }
 };
 
-} // namespace vctr::Expressions
+} // namespace vctr::expressions
 
 namespace vctr
 {
@@ -171,7 +171,7 @@ constexpr auto operator/ (SrcAType&& a, SrcBType&& b)
     assertCommonSize (a, b);
     constexpr auto extent = getCommonExtent<SrcAType, SrcBType>();
 
-    return Expressions::DivideVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
+    return expressions::DivideVectors<extent, SrcAType, SrcBType> (std::forward<SrcAType> (a), std::forward<SrcBType> (b));
 }
 
 /** Returns an expression that divides a single value by a vector or expression source.
@@ -182,7 +182,7 @@ template <class Src>
 requires is::anyVctrOrExpression<Src>
 constexpr auto operator/ (typename std::remove_cvref_t<Src>::value_type single, Src&& vec)
 {
-    return Expressions::DivideSingleByVec<extentOf<Src>, Src> (single, std::forward<Src> (vec));
+    return expressions::DivideSingleByVec<extentOf<Src>, Src> (single, std::forward<Src> (vec));
 }
 
 /** Returns an expression that divides a vector or expression source by a single value.
@@ -193,7 +193,7 @@ template <class Src>
 requires is::anyVctrOrExpression<Src>
 constexpr auto operator/ (Src&& vec, typename std::remove_cvref_t<Src>::value_type single)
 {
-    return Expressions::DivideVecBySingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
+    return expressions::DivideVecBySingle<extentOf<Src>, Src> (single, std::forward<Src> (vec));
 }
 
 } // namespace vctr
