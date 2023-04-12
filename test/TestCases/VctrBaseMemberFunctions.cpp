@@ -368,6 +368,19 @@ TEST_CASE ("shift", "[VctrBaseMemberFunctions]")
     }
 }
 
+TEST_CASE ("sort", "[VctrBaseMemberFunctions]")
+{
+    vctr::Array numericalValues { -3, 10, 78, -24, 0 };
+    REQUIRE_FALSE (numericalValues.elementsAreSorted());
+    numericalValues.sort();
+    REQUIRE_THAT (numericalValues, vctr::Equals ({ -24, -3, 0, 10, 78}));
+    REQUIRE (numericalValues.elementsAreSorted());
+
+    std::string characters = "Ac/Dc";
+    vctr::Span (characters).sort ([] (char lhs, char rhs) { return std::tolower (lhs) < std::tolower (rhs); });
+    REQUIRE (characters == "/AccD");
+}
+
 TEST_CASE ("assign", "[VctrBaseMemberFunctions]")
 {
     vctr::Vector<int> v (3, 42);
