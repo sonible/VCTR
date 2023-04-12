@@ -27,8 +27,33 @@ namespace vctr::has
 template <class Lhs, class Rhs = Lhs>
 concept operatorPlusEquals = requires (Lhs l, Rhs r) { l += r; };
 
+/** Constrains the type to have a member function init that takes a void pointer and a size_t. */
 template <class T>
 concept init = requires (T& t, void* ptr, size_t s) { t.init (ptr, s); };
+
+/** Constrains the type to have a member function function getStart() const which returns a real number. */
+template <class T>
+concept getStart = requires (const T& t) { { t.getStart() } -> is::realNumber; };
+
+/** Constrains the type to have a member function function getLength() const which returns a real number. */
+template <class T>
+concept getLength = requires (const T& t) { { t.getLength() } -> is::realNumber; };
+
+/** Constrains the type to have a member function function getEnd() const which returns a real number. */
+template <class T>
+concept getEnd = requires (const T& t) { { t.getEnd() } -> is::realNumber; };
+
+/** Constrains the type to have a member function function getStart() const which returns ValueType. */
+template <class T, class ValueType>
+concept getStartWithValueType = requires (const T& t) { { t.getStart() } -> std::same_as<ValueType>; };
+
+/** Constrains the type to have a member function function getLength() const which returns ValueType. */
+template <class T, class ValueType>
+concept getLengthWithValueType = requires (const T& t) { { t.getLength() } -> std::same_as<ValueType>; };
+
+/** Constrains the type to have a member function function getEnd() const which returns ValueType. */
+template <class T, class ValueType>
+concept getEndWithValueType = requires (const T& t) { { t.getEnd() } -> std::same_as<ValueType>; };
 
 }
 
@@ -53,8 +78,6 @@ struct IsStdTuple<std::tuple<T...>> : std::true_type {};
 
 namespace vctr::is
 {
-
-// clang-format off
 
 /** Constrains a type to be trivially copyable */
 template <class T>
@@ -97,7 +120,17 @@ concept constant = requires (const void* ptr) { ptr = &C::value; };
 template <class C, class T>
 concept constantWithType = std::same_as<T, std::remove_cvref_t<decltype (C::value)>>;
 
-// clang-format on
+/** Constrains the type to be a range, this is a class with a getStart, getLength and getEnd member function returning a real number. */
+template <class T>
+concept range = has::getStart<T> &&
+                has::getLength<T> &&
+                has::getEnd<T>;
+
+/** Constrains the type to be a range, this is a class with a getStart, getLength and getEnd member function returning ValueType. */
+template <class T, class ValueType>
+concept rangeWithValueType = has::getStartWithValueType<T, ValueType> &&
+                             has::getLengthWithValueType<T, ValueType> &&
+                             has::getEndWithValueType<T, ValueType>;
 
 } // namespace vctr::is
 

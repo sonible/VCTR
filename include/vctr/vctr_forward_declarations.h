@@ -22,9 +22,15 @@
 
 #pragma once
 
+namespace vctr
+{
+struct DisabledConstant;
+}
+
 #include <complex>
-#include "TypeTraitsAndConcepts/GenericConcepts.h"
 #include "TypeTraitsAndConcepts/NumericValueConcepts.h"
+#include "TypeTraitsAndConcepts/NumericTypeConcepts.h"
+#include "TypeTraitsAndConcepts/GenericConcepts.h"
 
 /** The main namespace of the VCTR project. */
 namespace vctr
@@ -63,6 +69,4 @@ struct SSERegister;
 
 template <class T>
 struct NeonRegister;
-
-struct DisabledConstant;
 } // namespace vctr
