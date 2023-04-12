@@ -170,6 +170,7 @@
 #include "Expressions/BasicMath/Min.h"
 #include "Expressions/BasicMath/Mean.h"
 #include "Expressions/BasicMath/Sum.h"
+#include "Expressions/BasicMath/NormalizeSum.h"
 
 #include "Expressions/Complex/Angle.h"
 #include "Expressions/Complex/Conjugate.h"
