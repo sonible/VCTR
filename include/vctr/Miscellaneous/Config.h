@@ -135,6 +135,19 @@
 #endif
 #endif
 
+/** Define this to 0 in case you don't want vctr::Array to align its storage to the default SIMD memberAlignment for the type.
+
+    By default this is enabled to gain some performance for math operations on numerical Arrays. If instances of vctr::Array
+    are members of classes that are allocated on the heap, this requires the availability of aligned new and delete operators
+    introduced in C++ 17 since the memberAlignment requirements are propagated to enclosing classes. However when building for macOS,
+    aligned allocation and deallocation might not be available for pre 10.13 or 10.14 deployment targets depending on the llvm
+    toolchain. For those cases or for cases where you want to trade memory efficiency over runtime performance you might
+    consider disabling this feature.
+ */
+#ifndef VCTR_ALIGNED_ARRAY
+#define VCTR_ALIGNED_ARRAY 1
+#endif
+
 namespace vctr
 {
 
@@ -330,6 +343,8 @@ struct Config
     // User supplied config
     //==============================================================================
     static constexpr bool hasIPP = VCTR_USE_IPP && archX64;
+
+    static constexpr bool alignedArray = VCTR_ALIGNED_ARRAY;
 
     //==============================================================================
     // Auto generated config
