@@ -42,7 +42,7 @@ consteval auto simdAlignedSpanStorageInfo() { return StaticStorageInfo<true, fal
 
     @ingroup Core
  */
-template <class ElementType, size_t extent = std::dynamic_extent, class StorageInfoType = StorageInfo<std::span<ElementType, extent> > > // Extra whitespaces are needed for proper doxygen rendering
+template <class ElementType, size_t extent = std::dynamic_extent, class StorageInfoType = StorageInfoWithMemberAlignment<alignof (std::span<ElementType, extent>), StorageInfo<std::span<ElementType, extent> > > > // Extra whitespaces are needed for proper doxygen rendering
 class Span : public VctrBase<ElementType, std::span<ElementType, extent>, extent, StorageInfoType>
 {
 // clang-format on
@@ -147,13 +147,16 @@ private:
     template <has::sizeAndData Container>
     static constexpr auto makeStorageInfo (const Container& container)
     {
+        constexpr size_t memberAlignment = alignof (StdSpanType);
+
         if constexpr (is::anyVctr<Container>)
         {
-            return container.getStorageInfo();
+            const auto& info = container.getStorageInfo();
+            return StorageInfoWithMemberAlignment<memberAlignment, std::remove_cvref_t<decltype (info)>> (info);
         }
         else
         {
-            return StorageInfo<Container>().init (container.data(), container.size());
+            return StorageInfoWithMemberAlignment<memberAlignment, StorageInfo<Container>>().init (container.data(), container.size());
         }
     }
 };
@@ -166,5 +169,5 @@ template <class ElementType, bool isDataSIMDAligned, bool isStorageSIMDExtended>
 Span (ElementType*, size_t, const StaticStorageInfo<isDataSIMDAligned, isStorageSIMDExtended, alignof (std::span<ElementType>)>&) -> Span<ElementType, std::dynamic_extent, StaticStorageInfo<isDataSIMDAligned, isStorageSIMDExtended, alignof (std::span<ElementType>)>>;
 
 template <class Container>
-Span (Container&&) -> Span<DataType<Container>, extentOf<Container>, StorageInfoType<Container>>;
+Span (Container&&) -> Span<DataType<Container>, extentOf<Container>, StorageInfoWithMemberAlignment<alignof (std::span<DataType<Container>, extentOf<Container>>), StorageInfoType<Container>>>;
 } // namespace vctr

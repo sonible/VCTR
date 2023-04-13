@@ -122,10 +122,10 @@ struct StorageInfo<std::array<ElementType, size>>
 {
     constexpr StorageInfo init (const void*, size_t) { return *this; }
 
-    static constexpr size_t memberAlignment = Config::maxSIMDRegisterSize;
+    static constexpr size_t memberAlignment = Config::alignedArray ? Config::maxSIMDRegisterSize : alignof (std::array<ElementType, size>);
 
-    /** This is ensured by the enforced member alignment */
-    static constexpr bool dataIsSIMDAligned = true;
+    /** This might be ensured at build time by an enforced member memberAlignment depending on the VCTR_ALIGNED_ARRAY config */
+    static constexpr bool dataIsSIMDAligned = Config::alignedArray;
 
     static constexpr bool hasSIMDExtendedStorage = (size * sizeof (ElementType)) % Config::maxSIMDRegisterSize == 0;
 };
@@ -151,6 +151,22 @@ struct StaticStorageInfo
     static constexpr bool dataIsSIMDAligned = isDataSIMDAligned;
     static constexpr bool hasSIMDExtendedStorage = isStorageSIMDExtended;
     static constexpr size_t memberAlignment = customMemberAlignment;
+};
+
+/** A storage info type especially used for vctr::Span.
+
+    A vctr::Span is a vctr::VctrBase wrapping a std::span. Therefore we should not take the class member alignment
+    of the viewed container as the alignment for the std::span but should reflect all other storage information
+    of the original source.
+ */
+template <size_t alignment, class WrappedInfo>
+struct StorageInfoWithMemberAlignment : WrappedInfo
+{
+    StorageInfoWithMemberAlignment() = default;
+
+    StorageInfoWithMemberAlignment (const WrappedInfo& i) : WrappedInfo (i) {}
+
+    static constexpr size_t memberAlignment = alignment;
 };
 
 namespace detail
