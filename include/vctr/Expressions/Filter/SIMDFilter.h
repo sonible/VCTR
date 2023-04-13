@@ -122,8 +122,8 @@ constexpr inline ExpressionChainBuilder<expressions::AVXFilter> useAVX;
 constexpr inline ExpressionChainBuilder<expressions::NeonFilter> useNeon;
 
 #if VCTR_ARM
-constexpr inline ExpressionChainBuilder<Expressions::NeonFilter> useNeonOrAVX;
-constexpr inline ExpressionChainBuilder<Expressions::NeonFilter> useNeonOrSSE;
+constexpr inline ExpressionChainBuilder<expressions::NeonFilter> useNeonOrAVX;
+constexpr inline ExpressionChainBuilder<expressions::NeonFilter> useNeonOrSSE;
 #else
 constexpr inline ExpressionChainBuilder<expressions::AVXFilter> useNeonOrAVX;
 constexpr inline ExpressionChainBuilder<expressions::SSEFilter> useNeonOrSSE;
