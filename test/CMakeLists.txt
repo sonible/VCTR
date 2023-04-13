@@ -48,6 +48,7 @@ target_sources (vctr_test PRIVATE
         TestCases/Expressions/Log10.cpp
         TestCases/Expressions/Decibels.cpp
         TestCases/Expressions/Multiply.cpp
+        TestCases/Expressions/Map.cpp
         TestCases/Expressions/Max.cpp
         TestCases/Expressions/Mean.cpp
         TestCases/Expressions/Min.cpp
