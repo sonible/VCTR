@@ -153,6 +153,7 @@
 #include "Expressions/Filter/SIMDFilter.h"
 #include "Expressions/Filter/PlatformVectorOpsFilter.h"
 
+#include "Expressions/Generic/Map.h"
 #include "Expressions/Generic/TransformedBy.h"
 #include "Expressions/Generic/TransformedByStaticCast.h"
 
