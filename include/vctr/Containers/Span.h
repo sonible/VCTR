@@ -106,6 +106,9 @@ public:
     //==============================================================================
     // Operators
     //==============================================================================
+    // Deleting the default copy operator forces the usage of the intended operator below
+    Span& operator= (const Span&) = delete;
+
     /** Copies or moves the data of the source container to this Span. You have to ensure that the source size matches. */
     template <has::sizeAndDataWithElementType<ElementType> Container>
     constexpr Span& operator= (Container&& containerToCopyDataFrom)
