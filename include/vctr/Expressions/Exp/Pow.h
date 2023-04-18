@@ -62,15 +62,15 @@ public:
     //==============================================================================
     // Apple specific SIMD Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
-    requires platformApple && archX64 && has::getSSE<SrcAType> && has::getSSE<SrcBType> && std::same_as<float, value_type>
+    requires is::suitableForAccelerateSSEOp<value_type, SrcAType, SrcBType>
     {
-        return SSERegister<value_type> { vpowf (srcBase.getSSE (i).value, srcExp.getSSE (i).value) };
+        return { vpowf (srcBase.getSSE (i).value, srcExp.getSSE (i).value) };
     }
 
     NeonRegister<value_type> getNeon (size_t i) const
-    requires platformApple && archARM && has::getNeon<SrcAType> && has::getNeon<SrcBType> && std::same_as<float, value_type>
+    requires is::suitableForAccelerateNeonOp<value_type, SrcBType, SrcBType>
     {
-        return NeonRegister<value_type> { vpowf (srcBase.getNeon (i).value, srcExp.getNeon (i).value) };
+        return { vpowf (srcBase.getNeon (i).value, srcExp.getNeon (i).value) };
     }
 };
 

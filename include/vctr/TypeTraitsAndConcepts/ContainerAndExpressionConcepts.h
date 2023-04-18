@@ -221,6 +221,14 @@ template <class T, class DstType>
 concept expressionWithEvalVectorOp = expression<T> && has::evalNextVectorOpInExpressionChain<T, DstType>;
 
 //==============================================================================
+/** A combined concept to check if Apple Accelerate vpf functions are suitable to work on SSE registers. */
+template <class DstType, class... Sources>
+concept suitableForAccelerateSSEOp = Config::platformApple && Config::archX64 && std::same_as<float, DstType> && (has::getSSE<Sources> && ...);
+
+/** A combined concept to check if Apple Accelerate vpf functions are suitable to work on Neon registers. */
+template <class DstType, class... Sources>
+concept suitableForAccelerateNeonOp = Config::platformApple && Config::archARM && std::same_as<float, DstType> && (has::getNeon<Sources> && ...);
+
 /** A combined concept to check if Apple Accelerate is a suitable option for a real valued floating point vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForAccelerateRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::evalNextVectorOpInExpressionChain<Src, DstType> && realFloatNumber<DstType>;
