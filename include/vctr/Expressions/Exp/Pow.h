@@ -35,7 +35,7 @@ public:
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
 #if VCTR_USE_GCEM
-        if constexpr (! is::complexNumber<value_type>)
+        if constexpr (! is::complexFloatNumber<value_type>)
         {
             if (std::is_constant_evaluated())
                 return gcem::pow (srcBase[i], srcExp[i]);
@@ -85,7 +85,7 @@ public:
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
 #if VCTR_USE_GCEM
-        if constexpr (! is::complexNumber<value_type>)
+        if constexpr (! is::complexFloatNumber<value_type>)
         {
             if (std::is_constant_evaluated())
                 return gcem::pow (base[i], exp);
@@ -114,7 +114,7 @@ public:
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
 #if VCTR_USE_GCEM
-        if constexpr (! is::complexNumber<value_type>)
+        if constexpr (! is::complexFloatNumber<value_type>)
         {
             if (std::is_constant_evaluated())
                 return gcem::pow (base, exp[i]);
@@ -138,7 +138,7 @@ public:
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
 #if VCTR_USE_GCEM
-        if constexpr (! is::complexNumber<value_type>)
+        if constexpr (! is::complexFloatNumber<value_type>)
         {
             if (std::is_constant_evaluated())
                 return gcem::pow (src[i], exp);
@@ -169,7 +169,7 @@ public:
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
 #if VCTR_USE_GCEM
-        if constexpr (! is::complexNumber<value_type>)
+        if constexpr (! is::complexFloatNumber<value_type>)
         {
             if (std::is_constant_evaluated())
                 return gcem::pow (base, src[i]);

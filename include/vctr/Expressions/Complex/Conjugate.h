@@ -24,7 +24,7 @@ namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType>
-requires is::complexNumber<ValueType<SrcType>>
+requires is::complexFloatNumber<ValueType<SrcType>>
 class Conjugate : public ExpressionTemplateBase
 {
 public:

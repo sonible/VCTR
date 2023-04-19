@@ -24,7 +24,7 @@ namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType, is::rangeWithValueType<ValueType<SrcType>> RangeType>
-requires is::floatNumber<ValueType<SrcType>>
+requires is::realFloatNumber<ValueType<SrcType>>
 class Map : ExpressionTemplateBase
 {
 public:
@@ -78,7 +78,7 @@ private:
 };
 
 template <size_t extent, class SrcType, is::rangeWithValueType<ValueType<SrcType>> RangeType>
-requires is::floatNumber<ValueType<SrcType>>
+requires is::realFloatNumber<ValueType<SrcType>>
 class MapFrom0To1 : ExpressionTemplateBase
 {
 public:
@@ -128,7 +128,7 @@ private:
 };
 
 template <size_t extent, class SrcType, is::rangeWithValueType<ValueType<SrcType>> RangeType>
-requires is::floatNumber<ValueType<SrcType>>
+requires is::realFloatNumber<ValueType<SrcType>>
 class MapTo0To1 : ExpressionTemplateBase
 {
 public:
@@ -200,7 +200,7 @@ auto map (RangeType&& srcValueRange, RangeType&& dstValueRange)
 
     @ingroup Expressions
  */
-template <is::floatNumber T>
+template <is::realFloatNumber T>
 auto map (T srcValueRangeStart, T srcValueRangeEnd, T dstValueRangeStart, T dstValueRangeEnd)
 {
     return map (Range (srcValueRangeStart, srcValueRangeEnd), Range (dstValueRangeStart, dstValueRangeEnd));
@@ -224,7 +224,7 @@ auto mapFrom0To1 (RangeType&& dstValueRange)
 
     @ingroup Expressions
  */
-template <is::floatNumber T>
+template <is::realFloatNumber T>
 auto mapFrom0To1 (T dstValueRangeStart, T dstValueRangeEnd)
 {
     return mapFrom0To1 (vctr::Range (dstValueRangeStart, dstValueRangeEnd));
@@ -248,7 +248,7 @@ auto mapTo0To1 (RangeType&& srcValueRange)
 
     @ingroup Expressions
  */
-template <is::floatNumber T>
+template <is::realFloatNumber T>
 auto mapTo0To1 (T srcValueRangeStart, T srcValueRangeEnd)
 {
     return mapTo0To1 (Range (srcValueRangeStart, srcValueRangeEnd));

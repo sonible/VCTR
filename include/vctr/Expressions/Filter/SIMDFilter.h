@@ -59,13 +59,13 @@ public:
 
     //==============================================================================
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
-    requires (archX64 && has::getAVX<SrcType> && is::floatNumber<value_type>)
+    requires (archX64 && has::getAVX<SrcType> && is::realFloatNumber<value_type>)
     {
         return src.getAVX (i);
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("avx2") AVXRegister<value_type> getAVX (size_t i) const
-    requires (archX64 && has::getAVX<SrcType> && ! is::floatNumber<value_type>)
+    requires (archX64 && has::getAVX<SrcType> && ! is::realFloatNumber<value_type>)
     {
         return src.getAVX (i);
     }

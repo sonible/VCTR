@@ -44,7 +44,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Sum", "[sum]", (PlatformVectorOps, VCTR_NATIVE_SIMD
         REQUIRE_THAT (sumU.real(), Catch::Matchers::WithinRel (refU.real(), eps));
         REQUIRE_THAT (sumU.imag(), Catch::Matchers::WithinRel (refU.imag(), eps));
     }
-    else if constexpr (vctr::is::floatNumber<ElementType>)
+    else if constexpr (vctr::is::realFloatNumber<ElementType>)
     {
         REQUIRE_THAT (sum, Catch::Matchers::WithinRel (sumMemFn, eps));
         REQUIRE_THAT (sum, Catch::Matchers::WithinRel (ref, eps));

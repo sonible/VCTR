@@ -24,7 +24,7 @@ namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType>
-requires is::floatNumber<ValueType<SrcType>>
+requires is::realFloatNumber<ValueType<SrcType>>
 class NormalizeSum : ExpressionTemplateBase
 {
 public:

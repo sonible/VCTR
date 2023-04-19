@@ -223,7 +223,7 @@ concept expressionWithEvalVectorOp = expression<T> && has::evalNextVectorOpInExp
 //==============================================================================
 /** A combined concept to check if Apple Accelerate is a suitable option for a real valued floating point vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForAccelerateRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::evalNextVectorOpInExpressionChain<Src, DstType> && floatNumber<DstType>;
+concept suitableForAccelerateRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::evalNextVectorOpInExpressionChain<Src, DstType> && realFloatNumber<DstType>;
 
 /** A combined concept to check if Apple Accelerate is a suitable option for a complex valued floating point vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
@@ -231,23 +231,23 @@ concept suitableForAccelerateComplexFloatVectorOp = detail::isPreferredVectorOp<
 
 /** A combined concept to check if Apple Accelerate is a suitable option for a real or complex valued floating point vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForAccelerateRealOrComplexFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::evalNextVectorOpInExpressionChain<Src, DstType> && (floatNumber<DstType> || complexFloatNumber<DstType>);
+concept suitableForAccelerateRealOrComplexFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::evalNextVectorOpInExpressionChain<Src, DstType> && (realFloatNumber<DstType> || complexFloatNumber<DstType>);
 
 /** A combined concept to check if Apple Accelerate is a suitable option for a floating point vector operation that transforms a complex vector into a real one. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForAccelerateComplexToRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && anyVctr<Src> && complexFloatNumber<typename std::remove_cvref_t<Src>::value_type> && floatNumber<DstType>;
+concept suitableForAccelerateComplexToRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && anyVctr<Src> && complexFloatNumber<typename std::remove_cvref_t<Src>::value_type> && realFloatNumber<DstType>;
 
 /** A combined concept to check if Apple Accelerate is a suitable option for a vector operation that transforms an integer vector into a floating point one. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForAccelerateRealIntToFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::evalNextVectorOpInExpressionChain<Src, typename std::remove_cvref_t<Src>::value_type> && floatNumber<DstType> && intNumber<typename std::remove_cvref_t<Src>::value_type>;
+concept suitableForAccelerateRealIntToFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::evalNextVectorOpInExpressionChain<Src, typename std::remove_cvref_t<Src>::value_type> && realFloatNumber<DstType> && intNumber<typename std::remove_cvref_t<Src>::value_type>;
 
 /** A combined concept to check if Apple Accelerate is a suitable option for a floating point vector reduction operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForAccelerateRealFloatVectorReductionOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::data<Src> && floatNumber<DstType>;
+concept suitableForAccelerateRealFloatVectorReductionOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::data<Src> && realFloatNumber<DstType>;
 //==============================================================================
 /** A combined concept to check if Intel IPP is a suitable option for a real valued floating point vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForIppRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::evalNextVectorOpInExpressionChain<Src, DstType> && floatNumber<DstType>;
+concept suitableForIppRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::evalNextVectorOpInExpressionChain<Src, DstType> && realFloatNumber<DstType>;
 
 /** A combined concept to check if Intel IPP is a suitable option for a real valued singed int32 vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
@@ -259,19 +259,19 @@ concept suitableForIppComplexFloatVectorOp = detail::isPreferredVectorOp<pref> &
 
 /** A combined concept to check if Intel IPP is a suitable option for a real or complex valued floating point vector operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForIppRealOrComplexFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::evalNextVectorOpInExpressionChain<Src, DstType> && (floatNumber<DstType> || complexFloatNumber<DstType>);
+concept suitableForIppRealOrComplexFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::evalNextVectorOpInExpressionChain<Src, DstType> && (realFloatNumber<DstType> || complexFloatNumber<DstType>);
 
 /** A combined concept to check if Intel IPP is a suitable option for a floating point vector operation that transforms a complex vector into a real one. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForIppComplexToRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && anyVctr<Src> && complexFloatNumber<typename std::remove_cvref_t<Src>::value_type> && floatNumber<DstType>;
+concept suitableForIppComplexToRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && anyVctr<Src> && complexFloatNumber<typename std::remove_cvref_t<Src>::value_type> && realFloatNumber<DstType>;
 
 /** A combined concept to check if Intel IPP is a suitable option for a floating point vector reduction operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForIppRealFloatVectorReductionOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::data<Src> && floatNumber<DstType>;
+concept suitableForIppRealFloatVectorReductionOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::data<Src> && realFloatNumber<DstType>;
 
 /** A combined concept to check if Intel IPP is a suitable option for a real or complex floating point vector reduction operation. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForIppRealOrComplexFloatVectorReductionOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::data<Src> && (floatNumber<DstType> || complexFloatNumber<DstType>);
+concept suitableForIppRealOrComplexFloatVectorReductionOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && has::data<Src> && (realFloatNumber<DstType> || complexFloatNumber<DstType>);
 
 //==============================================================================
 /** Constrains two source types to be suitable for a an aliasing-free binary vector operation using platform vector ops. */
@@ -284,7 +284,7 @@ concept suitableForBinaryVectorOp = ((expressionWithEvalVectorOp < SrcA, DstType
 //==============================================================================
 /** A combined concept to check if Apple Accelerate is a suitable option for a real valued floating point binary vector operation. */
 template <class SrcA, class SrcB, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForAccelerateRealFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && floatNumber<DstType>;
+concept suitableForAccelerateRealFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && realFloatNumber<DstType>;
 
 /** A combined concept to check if Apple Accelerate is a suitable option for a complex valued floating point binary vector operation. */
 template <class SrcA, class SrcB, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
@@ -292,12 +292,12 @@ concept suitableForAccelerateComplexFloatBinaryVectorOp = detail::isPreferredVec
 
 /** A combined concept to check if Apple Accelerate is a suitable option for a real or complex valued floating point binary vector operation. */
 template <class SrcA, class SrcB, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForAccelerateRealOrComplexComplexFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && (floatNumber<DstType> || complexFloatNumber<DstType>);
+concept suitableForAccelerateRealOrComplexComplexFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && (realFloatNumber<DstType> || complexFloatNumber<DstType>);
 
 //==============================================================================
 /** A combined concept to check if Intel IPP is a suitable option for a real valued floating point binary vector operation. */
 template <class SrcA, class SrcB, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForIppRealFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && floatNumber<DstType>;
+concept suitableForIppRealFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && realFloatNumber<DstType>;
 
 /** A combined concept to check if Intel IPP is a suitable option for a complex valued floating point binary vector operation. */
 template <class SrcA, class SrcB, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
@@ -305,7 +305,7 @@ concept suitableForIppComplexFloatBinaryVectorOp = detail::isPreferredVectorOp<p
 
 /** A combined concept to check if Intel IPP is a suitable option for a real or complex valued floating point binary vector operation. */
 template <class SrcA, class SrcB, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
-concept suitableForIppRealOrComplexComplexFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && (floatNumber<DstType> || complexFloatNumber<DstType>);
+concept suitableForIppRealOrComplexComplexFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && (realFloatNumber<DstType> || complexFloatNumber<DstType>);
 
 //==============================================================================
 /** Constrains a type to supply a data and size function, an index operator and define a trivially copyable value_type. */

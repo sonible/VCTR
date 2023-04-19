@@ -65,7 +65,7 @@ public:
     //==============================================================================
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
-    requires archX64 && has::getAVX<SrcType> && Expression::CommonElement::isFloatingPoint
+    requires archX64 && has::getAVX<SrcType> && Expression::CommonElement::isRealFloat
     {
         auto x = src.getAVX (i);
         return Expression::AVX::mul (x, x);
@@ -74,7 +74,7 @@ public:
     //==============================================================================
     // SSE Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
-    requires archX64 && has::getSSE<SrcType> && Expression::CommonElement::isFloatingPoint
+    requires archX64 && has::getSSE<SrcType> && Expression::CommonElement::isRealFloat
     {
         auto x = src.getSSE (i);
         return Expression::SSE::mul (x, x);

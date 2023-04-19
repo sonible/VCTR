@@ -24,7 +24,7 @@ namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType>
-requires is::floatNumber<ValueType<SrcType>> || is::complexFloatNumber<ValueType<SrcType>>
+requires is::realFloatNumber<ValueType<SrcType>> || is::complexFloatNumber<ValueType<SrcType>>
 class Sqrt : ExpressionTemplateBase
 {
 public:

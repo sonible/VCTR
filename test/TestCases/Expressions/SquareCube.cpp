@@ -22,7 +22,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-template <vctr::is::floatNumber T>
+template <vctr::is::realFloatNumber T>
 T sqrt (T x) { return std::sqrt (x); }
 
 template <vctr::is::complexFloatNumber T>

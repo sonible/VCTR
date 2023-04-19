@@ -26,13 +26,13 @@ namespace vctr::detail
 template <class T>
 struct IsNumber : std::bool_constant<std::is_arithmetic_v<T>> {};
 
-template <class T>
-struct IsNumber<std::complex<T>> : std::bool_constant<std::is_arithmetic_v<T>> {};
+template <std::floating_point T>
+struct IsNumber<std::complex<T>> : std::true_type {};
 
 template <class T>
 struct IsComplex : std::false_type {};
 
-template <class T>
+template <std::floating_point T>
 struct IsComplex<std::complex<T>> : std::true_type {};
 // clang-format on
 } // namespace vctr::detail
@@ -43,10 +43,6 @@ namespace vctr::is
 /** Constrains a type to represent a real valued or std::complex number type */
 template <class T>
 concept number = detail::IsNumber<T>::value;
-
-/** Constrains a type to represent a real valued floating point number */
-template <class T>
-concept floatNumber = std::is_floating_point_v<std::remove_cvref_t<T>>;
 
 /** Constrains a type to represent a real valued integer number */
 template <class T>
@@ -60,7 +56,7 @@ concept int32Number = intNumber<T> && sizeof (T) == 4;
 template <class T>
 concept int64Number = intNumber<T> && sizeof (T) == 8;
 
-/** Constrains a type to represent a real valued signed number (e.g. floatNumber or signedIntNumber) */
+/** Constrains a type to represent a real valued signed number (e.g. realFloatNumber or signedIntNumber) */
 template <class T>
 concept signedNumber = std::is_signed_v<std::remove_cvref_t<T>>;
 
@@ -78,17 +74,17 @@ concept unsignedIntNumber = intNumber<T> && ! signedNumber<T>;
 template <class T>
 concept realNumber = std::is_arithmetic_v<T>;
 
-/** Constrains a type to represent a complex valued number (that means, any instance of std::complex) */
+/** Constrains a type to represent a real valued floating point number */
 template <class T>
-concept complexNumber = detail::IsComplex<std::remove_cvref_t<T>>::value;
+concept realFloatNumber = std::is_floating_point_v<std::remove_cvref_t<T>>;
 
 /** Constrains a type to represent a complex valued floating point number (e.g. std::complex<float> or std::complex<double>) */
 template <class T>
-concept complexFloatNumber = complexNumber<T> && floatNumber<typename T::value_type>;
+concept complexFloatNumber = detail::IsComplex<std::remove_cvref_t<T>>::value;
 
-/** Constrains a type to represent a complex valued integer number */
+/** Constrains a type to represent a real or complex valued floating point number */
 template <class T>
-concept complexIntNumber = complexNumber<T> && intNumber<typename T::value_type>;
+concept realOrComplexFloatNumber = realFloatNumber<T> || complexFloatNumber<T>;
 
 /** Constrains a type to be of the type DisabledConstant */
 template <class T>

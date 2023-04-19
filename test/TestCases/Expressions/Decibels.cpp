@@ -23,8 +23,8 @@
 #include <vctr_test_utils/vctr_test_common.h>
 
 // clang-format off
-template <vctr::is::floatNumber T> auto magToDbFS    (T x) { return std::max (std::log10 (x) * T (20), T (-100)); }
-template <vctr::is::floatNumber T> auto magToDbPower (T x) { return std::max (std::log10 (x) * T (10), T (-100)); }
+template <vctr::is::realFloatNumber T> auto magToDbFS    (T x) { return std::max (std::log10 (x) * T (20), T (-100)); }
+template <vctr::is::realFloatNumber T> auto magToDbPower (T x) { return std::max (std::log10 (x) * T (10), T (-100)); }
 // clang-format on
 
 TEMPLATE_PRODUCT_TEST_CASE ("Decibels", "[Decibels]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
