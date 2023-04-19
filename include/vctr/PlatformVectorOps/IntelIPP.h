@@ -74,6 +74,19 @@ public:
     static void pow   (const float* base, float exp,        float* dst, int len) { assertIppNoErr (ippsPowx_32f_A24 (base, exp, dst, len)); }
     static void sqrt  (const float* src,                    float* dst, int len) { assertIppNoErr (ippsSqrt_32f (src, dst, len)); }
 
+    static void sin   (const float* src, float* dst, int len) { assertIppNoErr (ippsSin_32f_A24 (src, dst, len)); }
+    static void cos   (const float* src, float* dst, int len) { assertIppNoErr (ippsCos_32f_A24 (src, dst, len)); }
+    static void tan   (const float* src, float* dst, int len) { assertIppNoErr (ippsTan_32f_A24 (src, dst, len)); }
+    static void asin  (const float* src, float* dst, int len) { assertIppNoErr (ippsAsin_32f_A24 (src, dst, len)); }
+    static void acos  (const float* src, float* dst, int len) { assertIppNoErr (ippsAcos_32f_A24 (src, dst, len)); }
+    static void atan  (const float* src, float* dst, int len) { assertIppNoErr (ippsAtan_32f_A24 (src, dst, len)); }
+    static void sinh  (const float* src, float* dst, int len) { assertIppNoErr (ippsSinh_32f_A24 (src, dst, len)); }
+    static void cosh  (const float* src, float* dst, int len) { assertIppNoErr (ippsCosh_32f_A24 (src, dst, len)); }
+    static void tanh  (const float* src, float* dst, int len) { assertIppNoErr (ippsTanh_32f_A24 (src, dst, len)); }
+    static void asinh (const float* src, float* dst, int len) { assertIppNoErr (ippsAsinh_32f_A24 (src, dst, len)); }
+    static void acosh (const float* src, float* dst, int len) { assertIppNoErr (ippsAcosh_32f_A24 (src, dst, len)); }
+    static void atanh (const float* src, float* dst, int len) { assertIppNoErr (ippsAtanh_32f_A24 (src, dst, len)); }
+
     static float max    (const float* src, int len) { float r; assertIppNoErr (ippsMax_32f (src, len, &r)); return r; }
     static float maxAbs (const float* src, int len) { float r; assertIppNoErr (ippsMaxAbs_32f (src, len, &r)); return r; }
     static float min    (const float* src, int len) { float r; assertIppNoErr (ippsMin_32f (src, len, &r)); return r; }
@@ -111,6 +124,19 @@ public:
     static void pow   (const double* base, const double* exp, double* dst, int len) { assertIppNoErr (ippsPow_64f_A53 (base, exp, dst, len)); }
     static void pow   (const double* base, double exp,        double* dst, int len) { assertIppNoErr (ippsPowx_64f_A53 (base, exp, dst, len)); }
     static void sqrt  (const double* src,                     double* dst, int len) { assertIppNoErr (ippsSqrt_64f (src, dst, len)); }
+
+    static void sin   (const double* src, double* dst, int len) { assertIppNoErr (ippsSin_64f_A53 (src, dst, len)); }
+    static void cos   (const double* src, double* dst, int len) { assertIppNoErr (ippsCos_64f_A53 (src, dst, len)); }
+    static void tan   (const double* src, double* dst, int len) { assertIppNoErr (ippsTan_64f_A53 (src, dst, len)); }
+    static void asin  (const double* src, double* dst, int len) { assertIppNoErr (ippsAsin_64f_A53 (src, dst, len)); }
+    static void acos  (const double* src, double* dst, int len) { assertIppNoErr (ippsAcos_64f_A53 (src, dst, len)); }
+    static void atan  (const double* src, double* dst, int len) { assertIppNoErr (ippsAtan_64f_A53 (src, dst, len)); }
+    static void sinh  (const double* src, double* dst, int len) { assertIppNoErr (ippsSinh_64f_A53 (src, dst, len)); }
+    static void cosh  (const double* src, double* dst, int len) { assertIppNoErr (ippsCosh_64f_A53 (src, dst, len)); }
+    static void tanh  (const double* src, double* dst, int len) { assertIppNoErr (ippsTanh_64f_A53 (src, dst, len)); }
+    static void asinh (const double* src, double* dst, int len) { assertIppNoErr (ippsAsinh_64f_A53 (src, dst, len)); }
+    static void acosh (const double* src, double* dst, int len) { assertIppNoErr (ippsAcosh_64f_A53 (src, dst, len)); }
+    static void atanh (const double* src, double* dst, int len) { assertIppNoErr (ippsAtanh_64f_A53 (src, dst, len)); }
 
     static double max    (const double* src, int len) { double r; assertIppNoErr (ippsMax_64f (src, len, &r)); return r; }
     static double maxAbs (const double* src, int len) { double r; assertIppNoErr (ippsMaxAbs_64f (src, len, &r)); return r; }
@@ -150,6 +176,19 @@ public:
     static void pow           (const std::complex<float>* base, std::complex<float> exp,        std::complex<float>* dst, int len) { assertIppNoErr (ippsPowx_32fc_A24 (fc (base), fc (exp), fc (dst), len)); }
     static void sqrt          (const std::complex<float>* src,                                  std::complex<float>* dst, int len) { assertIppNoErr (ippsSqrt_32fc (fc (src), fc (dst), len)); }
 
+    static void sin   (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsSin_32fc_A24 (fc (src), fc (dst), len)); }
+    static void cos   (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsCos_32fc_A24 (fc(src), fc(dst), len)); }
+    static void tan   (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsTan_32fc_A24 (fc(src), fc(dst), len)); }
+    static void asin  (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsAsin_32fc_A24 (fc(src), fc(dst), len)); }
+    static void acos  (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsAcos_32fc_A24 (fc(src), fc(dst), len)); }
+    static void atan  (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsAtan_32fc_A24 (fc(src), fc(dst), len)); }
+    static void sinh  (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsSinh_32fc_A24 (fc(src), fc(dst), len)); }
+    static void cosh  (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsCosh_32fc_A24 (fc(src), fc(dst), len)); }
+    static void tanh  (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsTanh_32fc_A24 (fc(src), fc(dst), len)); }
+    static void asinh (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsAsinh_32fc_A24 (fc(src), fc(dst), len)); }
+    static void acosh (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsAcosh_32fc_A24 (fc(src), fc(dst), len)); }
+    static void atanh (const std::complex<float>* src, std::complex<float>* dst, int len) { assertIppNoErr (ippsAtanh_32fc_A24 (fc(src), fc(dst), len)); }
+
     static std::complex<float> sum  (const std::complex<float>* src, int len) { std::complex<float> r; assertIppNoErr (ippsSum_32fc (fc (src), len, fc (&r), ippAlgHintNone)); return r; }
     static std::complex<float> mean (const std::complex<float>* src, int len) { std::complex<float> r; assertIppNoErr (ippsMean_32fc (fc (src), len, fc (&r), ippAlgHintNone)); return r;}
 };
@@ -182,6 +221,19 @@ public:
     static void pow           (const std::complex<double>* base, const std::complex<double>* exp, std::complex<double>* dst, int len) { assertIppNoErr (ippsPow_64fc_A53 (fc (base), fc (exp), fc (dst), len)); }
     static void pow           (const std::complex<double>* base, std::complex<double> exp,        std::complex<double>* dst, int len) { assertIppNoErr (ippsPowx_64fc_A53 (fc (base), fc (exp), fc (dst), len)); }
     static void sqrt          (const std::complex<double>* src,                                   std::complex<double>* dst, int len) { assertIppNoErr (ippsSqrt_64fc (fc (src), fc (dst), len)); }
+
+    static void sin   (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsSin_64fc_A53 (fc (src), fc (dst), len)); }
+    static void cos   (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsCos_64fc_A53 (fc (src), fc (dst), len)); }
+    static void tan   (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsTan_64fc_A53 (fc (src), fc (dst), len)); }
+    static void asin  (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsAsin_64fc_A53 (fc (src), fc (dst), len)); }
+    static void acos  (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsAcos_64fc_A53 (fc (src), fc (dst), len)); }
+    static void atan  (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsAtan_64fc_A53 (fc (src), fc (dst), len)); }
+    static void sinh  (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsSinh_64fc_A53 (fc (src), fc (dst), len)); }
+    static void cosh  (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsCosh_64fc_A53 (fc (src), fc (dst), len)); }
+    static void tanh  (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsTanh_64fc_A53 (fc (src), fc (dst), len)); }
+    static void asinh (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsAsinh_64fc_A53 (fc (src), fc (dst), len)); }
+    static void acosh (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsAcosh_64fc_A53 (fc (src), fc (dst), len)); }
+    static void atanh (const std::complex<double>* src, std::complex<double>* dst, int len) { assertIppNoErr (ippsAtanh_64fc_A53 (fc (src), fc(dst), len)); }
 
     static std::complex<double> sum  (const std::complex<double>* src, int len) { std::complex<double> r; assertIppNoErr (ippsSum_64fc (fc (src), len, fc (&r))); return r; }
     static std::complex<double> mean (const std::complex<double>* src, int len) { std::complex<double> r; assertIppNoErr (ippsMean_64fc (fc (src), len, fc (&r))); return r;}
