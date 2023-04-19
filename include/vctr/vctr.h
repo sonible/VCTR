@@ -184,6 +184,19 @@
 #include "Expressions/Exp/Log10.h"
 #include "Expressions/Exp/Pow.h"
 
+#include "Expressions/Trigonometric/Sin.h"
+#include "Expressions/Trigonometric/Cos.h"
+#include "Expressions/Trigonometric/Tan.h"
+#include "Expressions/Trigonometric/Sinh.h"
+#include "Expressions/Trigonometric/Cosh.h"
+#include "Expressions/Trigonometric/Tanh.h"
+#include "Expressions/Trigonometric/Asin.h"
+#include "Expressions/Trigonometric/Acos.h"
+#include "Expressions/Trigonometric/Atan.h"
+#include "Expressions/Trigonometric/Asinh.h"
+#include "Expressions/Trigonometric/Acosh.h"
+#include "Expressions/Trigonometric/Atanh.h"
+
 #include "Expressions/DSP/Decibels.h"
 
 #include "Generators/Linspace.h"

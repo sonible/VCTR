@@ -60,4 +60,6 @@ target_sources (vctr_test PRIVATE
         TestCases/Expressions/Sum.cpp
         TestCases/Expressions/SquareCube.cpp
         TestCases/Expressions/Transformation.cpp
+        TestCases/Expressions/Trigonometric.cpp
+
         TestCases/Generators/Linspace.cpp)
