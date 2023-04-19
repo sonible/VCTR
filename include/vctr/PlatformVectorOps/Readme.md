@@ -69,7 +69,7 @@ abs operation:
 
 ```C++
 const ReturnElementType* evalNextVectorOpInExpressionChain (ReturnElementType* dst) const
-requires (platformApple && has::evalNextVectorOpInExpressionChain<SrcType, ReturnElementType> && is::floatNumber<ReturnElementType>)
+requires (platformApple && has::evalNextVectorOpInExpressionChain<SrcType, ReturnElementType> && is::realFloatNumber<ReturnElementType>)
 {
     AccelerateRetType::abs (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));
     return dst;
@@ -79,14 +79,14 @@ requires (platformApple && has::evalNextVectorOpInExpressionChain<SrcType, Retur
 We see that the first constraint is `platformApple` – this way, we would disable that function overload
 if we are building for a non-apple platform where the corresponding struct would be an empty dummy struct. Then, after
 checking if the source allows to evaluate vector ops, we check if the data type matches – Accelerate defines functions
-for `float` and `double` so we constrain it to `is::floatNumber`. This way, we can be sure that this code path is only
+for `float` and `double` so we constrain it to `is::realFloatNumber`. This way, we can be sure that this code path is only
 taken if we are evaluating abs for float or double on Apple.
 
 Now if this should also use IPP on x64 CPUs in case of non-apple, we could add another overload with different constraints like this:
 
 ```C++
 const ReturnElementType* evalNextVectorOpInExpressionChain (ReturnElementType* dst) const
-requires (hasIPP && ! platformApple && has::evalNextVectorOpInExpressionChain<SrcType, ReturnElementType> && is::floatNumber<ReturnElementType>)
+requires (hasIPP && ! platformApple && has::evalNextVectorOpInExpressionChain<SrcType, ReturnElementType> && is::realFloatNumber<ReturnElementType>)
 {
     IPPRetType::abs (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));
     return dst;

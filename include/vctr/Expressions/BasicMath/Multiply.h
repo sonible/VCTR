@@ -68,7 +68,7 @@ public:
     //==============================================================================
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
-    requires (archX64 && has::getAVX<SrcAType> && has::getAVX<SrcBType> && Expression::allElementTypesSame && Expression::CommonElement::isFloatingPoint)
+    requires (archX64 && has::getAVX<SrcAType> && has::getAVX<SrcBType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
         return Expression::AVX::mul (srcA.getAVX (i), srcB.getAVX (i));
     }
@@ -118,7 +118,7 @@ public:
     //==============================================================================
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
-    requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isFloatingPoint)
+    requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
         return Expression::AVX::mul (Expression::AVX::fromSSE (singleAsSSE, singleAsSSE), src.getAVX (i));
     }
@@ -126,7 +126,7 @@ public:
     //==============================================================================
     // SSE Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
-    requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isFloatingPoint)
+    requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
         return Expression::SSE::mul (singleAsSSE, src.getSSE (i));
     }
@@ -194,7 +194,7 @@ public:
     //==============================================================================
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
-    requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isFloatingPoint)
+    requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
         return Expression::AVX::mul (Expression::AVX::fromSSE (asSSE, asSSE), src.getAVX (i));
     }
@@ -202,7 +202,7 @@ public:
     //==============================================================================
     // SSE Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
-    requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isFloatingPoint)
+    requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
         return Expression::SSE::mul (asSSE, src.getSSE (i));
     }

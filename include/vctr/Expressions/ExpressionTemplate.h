@@ -45,7 +45,7 @@ struct ExpressionTemplateBase : Config
         {
             using Type = T;
 
-            static constexpr auto isFloatingPoint = is::floatNumber<Type>;
+            static constexpr auto isRealFloat = is::realFloatNumber<Type>;
 
             static constexpr auto isSigned = std::is_signed_v<Type>;
 
@@ -55,11 +55,7 @@ struct ExpressionTemplateBase : Config
 
             static constexpr auto isSignedInt = isSigned & isInt;
 
-            static constexpr auto isComplex = is::complexNumber<Type>;
-
-            static constexpr auto isComplexFloat = is::complexNumber<Type> && is::floatNumber<Type>;
-
-            static constexpr auto isComplexInt = is::complexNumber<Type> && ! is::floatNumber<Type>;
+            static constexpr auto isComplexFloat = is::complexFloatNumber<Type>;
 
             static constexpr auto isInt32 = std::same_as<int32_t, Type>;
 

@@ -54,13 +54,13 @@ public:
 
     //==============================================================================
     VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister<value_type>& result, size_t i) const
-    requires Config::archARM && has::getNeon<SrcType> && (is::floatNumber<value_type> || is::int32Number<value_type>)
+    requires Config::archARM && has::getNeon<SrcType> && (is::realFloatNumber<value_type> || is::int32Number<value_type>)
     {
         result = Expression::Neon::min (result, src.getNeon (i));
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const
-    requires Config::archX64 && has::getAVX<SrcType> && is::floatNumber<value_type>
+    requires Config::archX64 && has::getAVX<SrcType> && is::realFloatNumber<value_type>
     {
         result = Expression::AVX::min (result, src.getAVX (i));
     }
@@ -72,7 +72,7 @@ public:
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void reduceSSERegisterWise (SSERegister<value_type>& result, size_t i) const
-    requires Config::archX64 && has::getSSE<SrcType> && (is::floatNumber<value_type> || is::int32Number<value_type>)
+    requires Config::archX64 && has::getSSE<SrcType> && (is::realFloatNumber<value_type> || is::int32Number<value_type>)
     {
         result = Expression::SSE::min (result, src.getSSE (i));
     }
@@ -120,7 +120,7 @@ public:
 
     //==============================================================================
     VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister<value_type>& result, size_t i) const
-    requires Config::archARM && has::getNeon<SrcType> && (is::floatNumber<value_type> || std::same_as<int32_t, value_type>)
+    requires Config::archARM && has::getNeon<SrcType> && (is::realFloatNumber<value_type> || std::same_as<int32_t, value_type>)
     {
         result = Expression::Neon::min (result, Expression::Neon::abs (src.getNeon (i)));
     }
@@ -132,7 +132,7 @@ public:
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const
-    requires Config::archX64 && has::getAVX<SrcType> && is::floatNumber<value_type>
+    requires Config::archX64 && has::getAVX<SrcType> && is::realFloatNumber<value_type>
     {
         static const auto avxSignBit = Expression::AVX::broadcast (typename Expression::CommonElement::Type (-0.0));
 
@@ -152,7 +152,7 @@ public:
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void reduceSSERegisterWise (SSERegister<value_type>& result, size_t i) const
-    requires Config::archX64 && has::getSSE<SrcType> && is::floatNumber<value_type>
+    requires Config::archX64 && has::getSSE<SrcType> && is::realFloatNumber<value_type>
     {
         static const auto sseSignBit = Expression::SSE::broadcast (typename Expression::CommonElement::Type (-0.0));
 

@@ -949,7 +949,7 @@ protected:
 
             if constexpr (has::getAVX<Expression>)
             {
-                if constexpr (is::floatNumber<ElementType>)
+                if constexpr (is::realFloatNumber<ElementType>)
                 {
                     if (supportsAVX)
                     {

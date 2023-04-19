@@ -76,7 +76,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Addition in place", "[add]", (PlatformVectorOps, VC
             REQUIRE_THAT (mac2[i].real(), Catch::Matchers::WithinRel ((srcA[i] + srcB[i] * c).real(), eps));
             REQUIRE_THAT (mac2[i].imag(), Catch::Matchers::WithinRel ((srcA[i] + srcB[i] * c).imag(), eps));
         }
-        else if constexpr (vctr::is::floatNumber<ElementType>)
+        else if constexpr (vctr::is::realFloatNumber<ElementType>)
         {
             REQUIRE_THAT (mac1[i], Catch::Matchers::WithinRel (srcA[i] + srcB[i] * srcC[i], eps));
             REQUIRE_THAT (mac2[i], Catch::Matchers::WithinRel (srcA[i] + srcB[i] * c, eps));

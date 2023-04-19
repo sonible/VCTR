@@ -47,7 +47,7 @@ public:
     //==============================================================================
     // Platform Vector Operation Implementation
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
-    requires is::suitableForAccelerateRealFloatVectorOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable> && is::floatNumber<SrcValueType>
+    requires is::suitableForAccelerateRealFloatVectorOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable> && is::realFloatNumber<SrcValueType>
     {
         Expression::Accelerate::log10 (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));
         return dst;

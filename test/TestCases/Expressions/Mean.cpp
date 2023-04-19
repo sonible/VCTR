@@ -44,7 +44,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Mean", "[mean]", (PlatformVectorOps, VCTR_NATIVE_SI
         REQUIRE_THAT (meanU.real(), Catch::Matchers::WithinRel (refU.real(), eps));
         REQUIRE_THAT (meanU.imag(), Catch::Matchers::WithinRel (refU.imag(), eps));
     }
-    else if constexpr (vctr::is::floatNumber<ElementType>)
+    else if constexpr (vctr::is::realFloatNumber<ElementType>)
     {
         REQUIRE_THAT (mean, Catch::Matchers::WithinRel (meanMemFn, eps));
         REQUIRE_THAT (mean, Catch::Matchers::WithinRel (ref, eps));
@@ -83,7 +83,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("MeanSquare", "[meanSquare]", (PlatformVectorOps, VC
         REQUIRE_THAT (meanSquareU.real(), Catch::Matchers::WithinRel (refU.real(), eps));
         REQUIRE_THAT (meanSquareU.imag(), Catch::Matchers::WithinRel (refU.imag(), eps));
     }
-    else if constexpr (vctr::is::floatNumber<ElementType>)
+    else if constexpr (vctr::is::realFloatNumber<ElementType>)
     {
         REQUIRE_THAT (meanSquare, Catch::Matchers::WithinRel (meanSquareMemFn, eps));
         REQUIRE_THAT (meanSquare, Catch::Matchers::WithinRel (ref, eps));
@@ -122,7 +122,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("RMS", "[rms]", (PlatformVectorOps, VCTR_NATIVE_SIMD
         REQUIRE_THAT (rmsU.real(), Catch::Matchers::WithinRel (refU.real(), eps));
         REQUIRE_THAT (rmsU.imag(), Catch::Matchers::WithinRel (refU.imag(), eps));
     }
-    else if constexpr (vctr::is::floatNumber<ElementType>)
+    else if constexpr (vctr::is::realFloatNumber<ElementType>)
     {
         REQUIRE_THAT (rms, Catch::Matchers::WithinRel (rmsMemFn, eps));
         REQUIRE_THAT (rms, Catch::Matchers::WithinRel (ref, eps));

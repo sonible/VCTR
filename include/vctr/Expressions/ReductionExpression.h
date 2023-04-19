@@ -58,7 +58,7 @@ public:
 
         if constexpr (has::reduceAVXRegisterWise<Expression, ValueType<Expression>>)
         {
-            if constexpr (is::floatNumber<ValueType<Expression>>)
+            if constexpr (is::realFloatNumber<ValueType<Expression>>)
             {
                 if (Config::supportsAVX)
                     return reduceAVX (e);

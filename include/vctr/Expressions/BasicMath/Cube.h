@@ -40,7 +40,7 @@ public:
     //==============================================================================
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
-    requires archX64 && has::getAVX<SrcType> && Expression::CommonElement::isFloatingPoint
+    requires archX64 && has::getAVX<SrcType> && Expression::CommonElement::isRealFloat
     {
         auto x = src.getAVX (i);
         auto y = Expression::AVX::mul (x, x);
@@ -50,7 +50,7 @@ public:
     //==============================================================================
     // SSE Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
-    requires archX64 && has::getSSE<SrcType> && Expression::CommonElement::isFloatingPoint
+    requires archX64 && has::getSSE<SrcType> && Expression::CommonElement::isRealFloat
     {
         auto x = src.getSSE (i);
         auto y = Expression::SSE::mul (x, x);
@@ -60,7 +60,7 @@ public:
     //==============================================================================
     // Neon Implementation
     NeonRegister<value_type> getNeon (size_t i) const
-    requires archARM && has::getNeon<SrcType> && (Expression::CommonElement::isFloatingPoint || Expression::CommonElement::isInt32 || Expression::CommonElement::isUint32)
+    requires archARM && has::getNeon<SrcType> && (Expression::CommonElement::isRealFloat || Expression::CommonElement::isInt32 || Expression::CommonElement::isUint32)
     {
         auto x = src.getNeon (i);
         auto y = Expression::Neon::mul (x, x);

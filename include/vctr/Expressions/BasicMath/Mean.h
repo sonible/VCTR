@@ -54,13 +54,13 @@ public:
 
     //==============================================================================
     VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister<value_type>& result, size_t i) const
-    requires Config::archARM && has::getNeon<SrcType> && (is::floatNumber<value_type> || is::int32Number<value_type>)
+    requires Config::archARM && has::getNeon<SrcType> && (is::realFloatNumber<value_type> || is::int32Number<value_type>)
     {
         result = Expression::Neon::add (result, src.getNeon (i));
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const
-    requires Config::archX64 && has::getAVX<SrcType> && is::floatNumber<value_type>
+    requires Config::archX64 && has::getAVX<SrcType> && is::realFloatNumber<value_type>
     {
         result = Expression::AVX::add (result, src.getAVX (i));
     }
@@ -72,7 +72,7 @@ public:
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void reduceSSERegisterWise (SSERegister<value_type>& result, size_t i) const
-    requires Config::archX64 && has::getSSE<SrcType> && (is::floatNumber<value_type> || is::int32Number<value_type>)
+    requires Config::archX64 && has::getSSE<SrcType> && (is::realFloatNumber<value_type> || is::int32Number<value_type>)
     {
         result = Expression::SSE::add (result, src.getSSE (i));
     }
@@ -120,7 +120,7 @@ public:
 
     //==============================================================================
     VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister<value_type>& result, size_t i) const
-    requires Config::archARM && has::getNeon<SrcType> && (is::floatNumber<value_type> || is::int32Number<value_type>)
+    requires Config::archARM && has::getNeon<SrcType> && (is::realFloatNumber<value_type> || is::int32Number<value_type>)
     {
         auto s = src.getNeon (i);
         s = Expression::Neon::mul (s, s);
@@ -128,7 +128,7 @@ public:
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const
-    requires Config::archX64 && has::getAVX<SrcType> && is::floatNumber<value_type>
+    requires Config::archX64 && has::getAVX<SrcType> && is::realFloatNumber<value_type>
     {
         auto s = src.getAVX (i);
         s = Expression::AVX::mul (s, s);
@@ -136,7 +136,7 @@ public:
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void reduceSSERegisterWise (SSERegister<value_type>& result, size_t i) const
-    requires Config::archX64 && has::getSSE<SrcType> && is::floatNumber<value_type>
+    requires Config::archX64 && has::getSSE<SrcType> && is::realFloatNumber<value_type>
     {
         auto s = src.getSSE (i);
         s = Expression::SSE::mul (s, s);
@@ -186,7 +186,7 @@ public:
 
     //==============================================================================
     VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister<value_type>& result, size_t i) const
-    requires Config::archARM && has::getNeon<SrcType> && (is::floatNumber<value_type> || is::int32Number<value_type>)
+    requires Config::archARM && has::getNeon<SrcType> && (is::realFloatNumber<value_type> || is::int32Number<value_type>)
     {
         auto s = src.getNeon (i);
         s = Expression::Neon::mul (s, s);
@@ -194,7 +194,7 @@ public:
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const
-    requires Config::archX64 && has::getAVX<SrcType> && is::floatNumber<value_type>
+    requires Config::archX64 && has::getAVX<SrcType> && is::realFloatNumber<value_type>
     {
         auto s = src.getAVX (i);
         s = Expression::AVX::mul (s, s);
@@ -202,7 +202,7 @@ public:
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void reduceSSERegisterWise (SSERegister<value_type>& result, size_t i) const
-    requires Config::archX64 && has::getSSE<SrcType> && is::floatNumber<value_type>
+    requires Config::archX64 && has::getSSE<SrcType> && is::realFloatNumber<value_type>
     {
         auto s = src.getSSE (i);
         s = Expression::SSE::mul (s, s);

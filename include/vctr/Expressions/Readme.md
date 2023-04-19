@@ -196,7 +196,7 @@ add multiple implementations for different types, e.g. like this
 
 ```C++
 VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
-requires (archX64 && has::getSSE<SrcType> && is::floatNumber<SrcElementType>)
+requires (archX64 && has::getSSE<SrcType> && is::realFloatNumber<SrcElementType>)
 {
     static const auto sseSignBit = SSESrcType::broadcast (SrcElementType (-0.0));
 
@@ -230,7 +230,7 @@ handwritten SIMD code. We can also use them to execute our expressions. To do so
 
 ```C++
 VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
-requires (platformApple && has::evalNextVectorOpInExpressionChain<SrcType, value_type> && is::floatNumber<value_type>)
+requires (platformApple && has::evalNextVectorOpInExpressionChain<SrcType, value_type> && is::realFloatNumber<value_type>)
 {
     AccelerateRetType::abs (src.evalNextVectorOpInExpressionChain (dst), dst, int (size()));
     return dst;
