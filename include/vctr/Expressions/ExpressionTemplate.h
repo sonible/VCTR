@@ -144,7 +144,7 @@ void tryApplyingRuntimeArgsToThisExpression (const RuntimeArgs& args, Expression
 template <size_t i, class RuntimeArgs, is::anyVctrOrExpression Src>
 void tryApplyingRuntimeArgsToSrc (const RuntimeArgs& args, Src& src)
 {
-    if constexpr (has::iterateOverRuntimeArgChain<Src, i, RuntimeArgs>)
+    if constexpr (has::iterateOverRuntimeArgChain<Src, i, RuntimeArgs> && i < RuntimeArgs::size())
         src.template iterateOverRuntimeArgChain<i> (args);
 }
 
