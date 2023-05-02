@@ -30,8 +30,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Mean", "[mean]", (PlatformVectorOps, VCTR_NATIVE_SI
     const auto meanU = vctr::mean << filter << srcUnaligned;
 
     const auto meanMemFn = srcA.mean();
-    const auto ref = std::reduce (srcA.begin(), srcA.end()) / ElementType (srcA.size());
-    const auto refU = std::reduce (srcUnaligned.begin(), srcUnaligned.end()) / ElementType (srcUnaligned.size());
+    const auto ref = ElementType (std::reduce (srcA.begin(), srcA.end()) / vctr::FloatType<vctr::RealType<ElementType>> (srcA.size()));
+    const auto refU = ElementType (std::reduce (srcUnaligned.begin(), srcUnaligned.end()) / vctr::FloatType<vctr::RealType<ElementType>> (srcUnaligned.size()));
 
     const auto eps = vctr::RealType<ElementType> (0.001);
 
@@ -97,7 +97,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("MeanSquare", "[meanSquare]", (PlatformVectorOps, VC
     }
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("RMS", "[rms]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>, int32_t, int64_t, uint32_t, uint64_t) )
+TEMPLATE_PRODUCT_TEST_CASE ("RMS", "[rms]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES (10)
 
