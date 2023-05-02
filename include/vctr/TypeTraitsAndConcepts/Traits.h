@@ -132,6 +132,22 @@ struct RealType<std::complex<T>>
 };
 
 template <class T>
+struct FloatType
+{};
+
+template <std::integral T>
+struct FloatType<T>
+{
+    using Type = std::conditional_t<sizeof (T) < 4, float, double>;
+};
+
+template <std::floating_point T>
+struct FloatType<T>
+{
+    using Type = T;
+};
+
+template <class T>
 struct StorageInfoType
 {
     using Type = StorageInfo<T>;
@@ -193,6 +209,16 @@ using DataType = typename detail::DataType<std::remove_reference_t<T>>::Type;
  */
 template <is::number T>
 using RealType = typename detail::RealType<std::remove_cvref_t<T>>::Type;
+
+/** The best matching float type for the real number type T.
+
+    If T is an integer, the type will be float if T is < 32 Bit and double otherwise.
+    If T is a floating point type, the type will be T.
+ */
+template <is::realNumber T>
+using FloatType = typename detail::FloatType<std::remove_cvref_t<T>>::Type;
+
+
 
 /** If t is a type derived from VctrBase, this will equal the return value of T::getStorageInfo,
     otherwise this will be StorageInfo<T>.
