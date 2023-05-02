@@ -39,41 +39,44 @@ public:
         The implementation tries to use accelerated evaluation options if available.
      */
     template <is::reductionExpression Expression>
-    VCTR_FORCEDINLINE static auto reduce (const Expression& e)
+    VCTR_FORCEDINLINE static constexpr auto reduce (const Expression& e)
     {
         const auto s = e.size();
 
         // Reducing an empty vector can lead to undefined edge cases
         VCTR_ASSERT (s > 0);
 
-        if constexpr (has::reduceVectorOp<Expression, ValueType<Expression>>)
+        if (! std::is_constant_evaluated())
         {
-            return e.reduceVectorOp();
-        }
-
-        if constexpr (has::reduceNeonRegisterWise<Expression, ValueType<Expression>>)
-        {
-            return reduceNeon (e);
-        }
-
-        if constexpr (has::reduceAVXRegisterWise<Expression, ValueType<Expression>>)
-        {
-            if constexpr (is::realFloatNumber<ValueType<Expression>>)
+            if constexpr (has::reduceVectorOp<Expression, ValueType<Expression>>)
             {
-                if (Config::supportsAVX)
-                    return reduceAVX (e);
+                return e.reduceVectorOp();
             }
-            else
-            {
-                if (Config::supportsAVX2)
-                    return reduceAVX2 (e);
-            }
-        }
 
-        if constexpr (has::reduceSSERegisterWise<Expression, ValueType<Expression>>)
-        {
-            if (Config::highestSupportedCPUInstructionSet != CPUInstructionSet::fallback)
-                return reduceSSE (e);
+            if constexpr (has::reduceNeonRegisterWise<Expression, ValueType<Expression>>)
+            {
+                return reduceNeon (e);
+            }
+
+            if constexpr (has::reduceAVXRegisterWise<Expression, ValueType<Expression>>)
+            {
+                if constexpr (is::realFloatNumber<ValueType<Expression>>)
+                {
+                    if (Config::supportsAVX)
+                        return reduceAVX (e);
+                }
+                else
+                {
+                    if (Config::supportsAVX2)
+                        return reduceAVX2 (e);
+                }
+            }
+
+            if constexpr (has::reduceSSERegisterWise<Expression, ValueType<Expression>>)
+            {
+                if (Config::highestSupportedCPUInstructionSet != CPUInstructionSet::fallback)
+                    return reduceSSE (e);
+            }
         }
 
         std::array<ValueType<Expression>, 1> v = { Expression::reductionResultInitValue };

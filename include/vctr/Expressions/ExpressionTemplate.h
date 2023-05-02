@@ -122,7 +122,7 @@ namespace detail
 {
 
 template <size_t i, class RuntimeArgs, is::expression Expression>
-void tryApplyingRuntimeArgsToThisExpression (const RuntimeArgs& args, Expression& e)
+constexpr void tryApplyingRuntimeArgsToThisExpression (const RuntimeArgs& args, Expression& e)
 {
     if constexpr (RuntimeArgs::template hasValue<i>())
     {
@@ -142,7 +142,7 @@ void tryApplyingRuntimeArgsToThisExpression (const RuntimeArgs& args, Expression
 }
 
 template <size_t i, class RuntimeArgs, is::anyVctrOrExpression Src>
-void tryApplyingRuntimeArgsToSrc (const RuntimeArgs& args, Src& src)
+constexpr void tryApplyingRuntimeArgsToSrc (const RuntimeArgs& args, Src& src)
 {
     if constexpr (has::iterateOverRuntimeArgChain<Src, i, RuntimeArgs> && i < RuntimeArgs::size())
         src.template iterateOverRuntimeArgChain<i> (args);
@@ -182,7 +182,7 @@ public:                                                                         
     constexpr bool isNotAliased (const void* other) const { return srcName.isNotAliased (other); } \
                                                                                                    \
     template <size_t i, class RuntimeArgs>                                                         \
-    void iterateOverRuntimeArgChain (const RuntimeArgs& rtArgs)                                    \
+    constexpr void iterateOverRuntimeArgChain (const RuntimeArgs& rtArgs)                          \
     {                                                                                              \
         tryApplyingRuntimeArgsToThisExpression<i> (rtArgs, *this);                                 \
         tryApplyingRuntimeArgsToSrc<i + 1> (rtArgs, srcName);                                      \
