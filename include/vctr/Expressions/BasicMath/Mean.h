@@ -83,7 +83,7 @@ public:
     {
         auto sum = n == 1 ? sums[0] : std::reduce (sums.begin(), sums.end());
 
-        return sum / RealType<value_type> (src.size());
+        return value_type (sum / FloatType<RealType<value_type>> (src.size()));
     }
 };
 
@@ -149,12 +149,12 @@ public:
     {
         auto sum = n == 1 ? sums[0] : std::reduce (sums.begin(), sums.end());
 
-        return sum / value_type (size());
+        return value_type (sum / FloatType<RealType<value_type>> (size()));
     }
 };
 
 template <size_t extent, class SrcType>
-requires is::number<ValueType<SrcType>>
+requires is::realOrComplexFloatNumber<ValueType<SrcType>>
 class RootMeanSquare : public ExpressionTemplateBase
 {
 public:
@@ -215,7 +215,7 @@ public:
     {
         auto sum = n == 1 ? sums[0] : std::reduce (sums.begin(), sums.end());
 
-        return std::sqrt (sum / value_type (src.size()));
+        return value_type (std::sqrt (sum / RealType<value_type> (src.size())));
     }
 };
 
