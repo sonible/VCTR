@@ -50,7 +50,7 @@ public:
 
     static constexpr auto reductionResultInitValue = detail::SumInit<value_type>::value;
 
-    VCTR_FORCEDINLINE void reduceElementWise (value_type& result, size_t i) const
+    VCTR_FORCEDINLINE constexpr void reduceElementWise (value_type& result, size_t i) const
     {
         result += src[i];
     }
@@ -95,7 +95,7 @@ public:
 
     //==============================================================================
     template <size_t n>
-    VCTR_FORCEDINLINE static value_type finalizeReduction (const std::array<value_type, n>& sums)
+    VCTR_FORCEDINLINE static constexpr value_type finalizeReduction (const std::array<value_type, n>& sums)
     {
         if constexpr (n == 1)
             return sums[0];
