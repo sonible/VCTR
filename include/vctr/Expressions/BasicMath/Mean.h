@@ -34,7 +34,7 @@ public:
 
     static constexpr value_type reductionResultInitValue = 0;
 
-    VCTR_FORCEDINLINE void reduceElementWise (value_type& result, size_t i) const
+    VCTR_FORCEDINLINE constexpr void reduceElementWise (value_type& result, size_t i) const
     {
         result += src[i];
     }
@@ -79,7 +79,7 @@ public:
 
     //==============================================================================
     template <size_t n>
-    VCTR_FORCEDINLINE value_type finalizeReduction (const std::array<value_type, n>& sums) const
+    VCTR_FORCEDINLINE constexpr value_type finalizeReduction (const std::array<value_type, n>& sums) const
     {
         auto sum = n == 1 ? sums[0] : std::reduce (sums.begin(), sums.end());
 
@@ -98,7 +98,7 @@ public:
 
     static constexpr value_type reductionResultInitValue = 0;
 
-    VCTR_FORCEDINLINE void reduceElementWise (value_type& result, size_t i) const
+    VCTR_FORCEDINLINE constexpr void reduceElementWise (value_type& result, size_t i) const
     {
         auto s = src[i];
         result += s * s;
@@ -145,7 +145,7 @@ public:
 
     //==============================================================================
     template <size_t n>
-    VCTR_FORCEDINLINE value_type finalizeReduction (const std::array<value_type, n>& sums) const
+    VCTR_FORCEDINLINE constexpr value_type finalizeReduction (const std::array<value_type, n>& sums) const
     {
         auto sum = n == 1 ? sums[0] : std::reduce (sums.begin(), sums.end());
 
@@ -164,7 +164,7 @@ public:
 
     static constexpr value_type reductionResultInitValue = 0;
 
-    VCTR_FORCEDINLINE void reduceElementWise (value_type& result, size_t i) const
+    VCTR_FORCEDINLINE constexpr void reduceElementWise (value_type& result, size_t i) const
     {
         auto s = src[i];
         result += s * s;
@@ -211,11 +211,22 @@ public:
 
     //==============================================================================
     template <size_t n>
-    VCTR_FORCEDINLINE value_type finalizeReduction (const std::array<value_type, n>& sums) const
+    VCTR_FORCEDINLINE constexpr value_type finalizeReduction (const std::array<value_type, n>& squaredSums) const
     {
-        auto sum = n == 1 ? sums[0] : std::reduce (sums.begin(), sums.end());
+        auto squaredSum = n == 1 ? squaredSums[0] : std::reduce (squaredSums.begin(), squaredSums.end());
+        auto meanSquaredSum = squaredSum / RealType<value_type> (src.size());
 
-        return value_type (std::sqrt (sum / RealType<value_type> (src.size())));
+    #if VCTR_USE_GCEM
+        if constexpr (is::realFloatNumber<value_type>)
+        {
+            if (std::is_constant_evaluated())
+            {
+                return value_type (gcem::sqrt (meanSquaredSum));
+            }
+        }
+    #endif
+
+        return value_type (std::sqrt (meanSquaredSum));
     }
 };
 
