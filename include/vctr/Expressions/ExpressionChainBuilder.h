@@ -58,7 +58,7 @@ public:
     }
 
     template <size_t idx>
-    static consteval bool hasValue()
+    static constexpr bool hasValue()
     {
         return ! std::is_same_v<std::tuple<>, std::tuple_element_t<idx, decltype (chain)>>;
     }
