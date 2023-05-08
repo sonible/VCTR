@@ -20,6 +20,15 @@
   ==============================================================================
 */
 
+#pragma once
+
+#include "../vctr/vctr.h"
+#include <juce_dsp/juce_dsp.h>
+
+/** Helper functions to integrate vctr into dsp code written with JUCE (https://github.com/juce-framework/JUCE).
+
+    It requires that the project links against the JUCE dsp module.
+ */
 namespace vctr::juce_helpers
 {
 
