@@ -123,18 +123,6 @@
 #endif
 #endif
 
-/** Define this to 1 in case the JUCE (https://github.com/juce-framework/JUCE) dsp module is available.
-
-    If not defined, it will decide whether to use juce dsp or not depending on the JUCE_MODULE_AVAILABLE_juce_dsp macro
- */
-#ifndef VCTR_USE_JUCE_DSP
-#if JUCE_MODULE_AVAILABLE_juce_dsp
-#define VCTR_USE_JUCE_DSP 1
-#else
-#define VCTR_USE_JUCE_DSP 0
-#endif
-#endif
-
 /** Define this to 0 in case you don't want vctr::Array to align its storage to the default SIMD memberAlignment for the type.
 
     By default this is enabled to gain some performance for math operations on numerical Arrays. If instances of vctr::Array
