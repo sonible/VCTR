@@ -28,12 +28,6 @@ TEMPLATE_TEST_CASE ("Span Constructors", "[Span][Constructor]", float, int64_t, 
     auto v = UnitTestValues<TestType>::template vector<100, 0>();
     const auto cv = UnitTestValues<TestType>::template vector<100, 0>();
 
-    // Default constructor
-    vctr::Span<TestType> uninitialized;
-    REQUIRE (uninitialized.data() == nullptr);
-    REQUIRE (uninitialized.size() == 0);
-    REQUIRE (uninitialized.getExtent() == std::dynamic_extent);
-
     // Manually created from pointer and size
     vctr::Span fromPtrAndSize (v.data(), v.size());
     REQUIRE (fromPtrAndSize.data() == v.data());

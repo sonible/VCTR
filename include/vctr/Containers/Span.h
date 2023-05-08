@@ -40,6 +40,10 @@ consteval auto simdAlignedSpanStorageInfo() { return StaticStorageInfo<true, fal
     Note that unlike Vector and Array, Spans have a const ElementType in case they view non-mutable data. This means,
     e.g. a const Vector<Foo> will be converted into a Span<const Foo>.
 
+    A Span should always act as a view to a valid memory location, therefore it has no default constructor. The
+    assignment operators of a Span never reassign the viewed memory location but copy elements from the source to
+    the memory viewed by the Span instance.
+
     @ingroup Core
  */
 template <class ElementType, size_t extent = std::dynamic_extent, class StorageInfoType = StorageInfoWithMemberAlignment<alignof (std::span<ElementType, extent>), StorageInfo<std::span<ElementType, extent> > > > // Extra whitespaces are needed for proper doxygen rendering
@@ -60,11 +64,6 @@ public:
     //==============================================================================
     // Constructors
     //==============================================================================
-
-    /** Creates an empty Span with size = 0 and data = nullptr. */
-    constexpr Span()
-    requires (extent == 0 || extent == std::dynamic_extent)
-    = default;
 
     /** Creates a Span with a given size that views externally managed data, accessed by ptr. */
     constexpr Span (ElementType* ptr, size_t size)
