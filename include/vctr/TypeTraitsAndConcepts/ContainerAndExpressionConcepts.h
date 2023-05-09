@@ -191,9 +191,17 @@ namespace vctr::is
 template <class T>
 concept anyVctr = detail::AnyVctr<std::remove_cvref_t<T>>::value;
 
+/** Constrains a type to be any derived instance of VctrBase with a certain value_type. */
+template <class T, class V>
+concept anyVctrWithValueType = anyVctr<T> && std::same_as<typename std::remove_cvref_t<T>::value_type, V>;
+
 /** Constrains a type to be an expression template. */
 template <class T>
 concept expression = has::getStorageInfo<T> && has::size<T> && has::isNotAliased<T> && ! anyVctr<T>;
+
+/** Constrains a type to be an expression template with a certain value_type. */
+template <class T, class V>
+concept expressionWithValueType = expression<T> && std::same_as<typename std::remove_cvref_t<T>::value_type, V>;
 
 /** Constrains a type to be an expression chain builder. */
 template <class T>
