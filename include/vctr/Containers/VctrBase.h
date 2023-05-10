@@ -761,11 +761,9 @@ public:
         expression result back to the vector.
      */
     template <is::expressionChainBuilder ExpressionChain>
-    void evalInPlace (const ExpressionChain&)
+    void evalInPlace (const ExpressionChain& expression)
     {
-        using Expression = typename ExpressionChain::template Expression<std::remove_const_t<ElementType>, const VctrBase&>;
-
-        assignExpressionTemplate (Expression (*this));
+        assignExpressionTemplate (expression << *this);
     }
 
     constexpr bool isNotAliased (const void*) const { return true; }
