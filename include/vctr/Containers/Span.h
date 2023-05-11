@@ -172,4 +172,28 @@ Span (ElementType*, size_t, const StaticStorageInfo<isDataSIMDAligned, isStorage
 
 template <class Container>
 Span (Container&&) -> Span<DataType<Container>, extentOf<Container>, StorageInfoWithMemberAlignment<alignof (std::span<DataType<Container>, extentOf<Container>>), StorageInfoType<Container>>>;
+
+/** Creates a span with dynamic extent pointing to a memory location that is expected to be SIMD aligned. */
+template <class ElementType>
+auto makeSimdAlignedSpan (ElementType* data, size_t size)
+{
+    // If you hit this assertion, you passed a StaticStorageInfo that specifies SIMD aligned
+    // memory, but it is not aligned. Required alignment is 32 byte on x64 and 16 byte on ARM.
+    VCTR_ASSERT (detail::isPtrAligned (data));
+
+    return Span<ElementType, std::dynamic_extent, StaticStorageInfo<true, false, alignof (std::span<ElementType>)>> (data, size);
+}
+
+/** Creates a span with static extent pointing to a memory location that is expected to be SIMD aligned. */
+template <size_t extent, class ElementType>
+requires (extent != std::dynamic_extent)
+auto makeSimdAlignedSpan (ElementType* data)
+{
+    // If you hit this assertion, you passed a StaticStorageInfo that specifies SIMD aligned
+    // memory, but it is not aligned. Required alignment is 32 byte on x64 and 16 byte on ARM.
+    VCTR_ASSERT (detail::isPtrAligned (data));
+
+    return  Span<ElementType, extent, StaticStorageInfo<true, false, alignof (std::span<ElementType>)>> (data, extent);
+}
+
 } // namespace vctr
