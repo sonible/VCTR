@@ -362,7 +362,7 @@ concept contiguousIteratorWithValueTypeSameAs = std::contiguous_iterator<T> && s
     for which special single argument constructors exist, so no ambiguity can arise.
  */
 template <class T>
-concept suitableSingleElementInitializer = ! anyVctrOrExpression<T> && ! triviallyCopyableWithDataAndSize<T> && ! iteratorCopyable<T> && ! suitableInitializerFunction<T>;
+concept suitableSingleElementInitializer = ! anyVctrOrExpression<T> && ! triviallyCopyableWithDataAndSize<T> && ! suitableInitializerFunction<T>;
 
 /** Constrains the type to be a suitable storage info type.
 

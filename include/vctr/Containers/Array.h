@@ -69,6 +69,7 @@ public:
 
     /** Creates an Array with all elements initialised to initialValue */
     constexpr Array (ElementType initialValue)
+    requires (extent > 1)
     {
         Vctr::storage.fill (initialValue);
     }
@@ -97,7 +98,7 @@ public:
         - It supplies an operator[] returning the nth element
      */
     template <is::triviallyCopyableWithDataAndSize OtherContainer>
-    requires (! std::same_as<Array, OtherContainer>)
+    requires (std::same_as<value_type, ValueType<OtherContainer>> && ! std::same_as<Array, OtherContainer>)
     constexpr Array (const OtherContainer& other)
     {
         if (std::is_constant_evaluated())
