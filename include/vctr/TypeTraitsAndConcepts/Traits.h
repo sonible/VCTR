@@ -237,10 +237,10 @@ constexpr size_t extentOf = detail::Extent<std::remove_cvref_t<T>>::value;
 template <class A, class B>
 consteval size_t getCommonExtent()
 {
-    if (extentOf<A> == std::dynamic_extent && extentOf<B> == std::dynamic_extent)
+    if constexpr (extentOf<A> == std::dynamic_extent && extentOf<B> == std::dynamic_extent)
         return std::dynamic_extent;
 
-    if (extentOf<A> != std::dynamic_extent && extentOf<B> != std::dynamic_extent && extentOf<A> != extentOf<B>)
+    if constexpr (extentOf<A> != std::dynamic_extent && extentOf<B> != std::dynamic_extent && extentOf<A> != extentOf<B>)
         throw std::logic_error ("A and B both define different non-dynamic extents");
 
     return extentOf<A> != std::dynamic_extent ? extentOf<A> : extentOf<B>;
