@@ -142,7 +142,7 @@ public:
 
     using Expression = ExpressionTypes<value_type, SrcType>;
 
-    static constexpr value_type constant = ConstantType::value;
+    static constexpr auto constant = value_type (ConstantType::value);
 
     template <class Src>
     constexpr MultiplyVecByConstant (Src&& b)
