@@ -205,7 +205,7 @@ TEST_CASE ("erase", "[VectorMemberFunctions]")
 
     SECTION ("erase all occurrences of a value")
     {
-        v.eraseAllOccurrencesOf (4);
+        REQUIRE (v.eraseAllOccurrencesOf (4));
 
         const vctr::Vector expected { 0, 1, 2, 3, 5, 1, 2, 3, 5 };
 
@@ -214,11 +214,17 @@ TEST_CASE ("erase", "[VectorMemberFunctions]")
 
     SECTION ("erase all predicate matches")
     {
-        v.eraseAllOccurrencesIf (isOdd);
+        REQUIRE (v.eraseAllOccurrencesIf (isOdd));
 
         const vctr::Vector expected { 0, 2, 4, 2, 4 };
 
         REQUIRE_THAT (v, vctr::Equals (expected));
+    }
+
+    SECTION ("attempting to erase a non existent value")
+    {
+        REQUIRE_FALSE (v.eraseAllOccurrencesOf (1000));
+        REQUIRE_FALSE (v.eraseAllOccurrencesIf ([] (auto) { return false; }));
     }
 }
 
