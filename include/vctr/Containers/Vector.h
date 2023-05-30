@@ -421,18 +421,35 @@ public:
         return it != Vctr::end() ? erase (it) : it;
     }
 
-    /** Removes all occurrences of value from this Vector and adjusts its size. */
+    /** Removes all occurrences of value from this Vector and adjusts its size.
+
+        Returns true if one or more occurrences have been found and erased, false otherwise.
+     */
     template <std::equality_comparable_with<ElementType> T>
-    constexpr void eraseAllOccurrencesOf (const T& value)
+    constexpr bool eraseAllOccurrencesOf (const T& value)
     {
-        erase (std::remove (Vctr::begin(), Vctr::end(), value), Vctr::end());
+        auto beginOfElementsToRemove = std::remove (Vctr::begin(), Vctr::end(), value);
+        if (beginOfElementsToRemove == Vctr::end())
+            return false;
+
+        erase (beginOfElementsToRemove, Vctr::end());
+        return true;
     }
 
-    /** Removes all elements inside this Vector for which predicate is true and adjusts its size. */
+    /** Removes all elements inside this Vector for which predicate is true and adjusts its size.
+
+        Returns true if one or more predicate matches have been found and corresponding elements
+        have been erased, false otherwise.
+     */
     template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
-    constexpr void eraseAllOccurrencesIf (Fn&& predicate)
+    constexpr bool eraseAllOccurrencesIf (Fn&& predicate)
     {
-        erase (std::remove_if (Vctr::begin(), Vctr::end(), std::forward<Fn> (predicate)), Vctr::end());
+        auto beginOfElementsToRemove = std::remove_if (Vctr::begin(), Vctr::end(), std::forward<Fn> (predicate));
+        if (beginOfElementsToRemove == Vctr::end())
+            return false;
+
+        erase (beginOfElementsToRemove, Vctr::end());
+        return true;
     }
 
     //==============================================================================
