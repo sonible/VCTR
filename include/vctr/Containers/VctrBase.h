@@ -990,7 +990,7 @@ protected:
                                                          (! std::is_trivially_copyable_v<ElementType>);
 
     //==============================================================================
-    alignas (StorageInfoType::memberAlignment) StorageType storage;
+    alignas (StorageInfoType::memberAlignment) StorageType storage = StorageType {};
 
 private:
     //==============================================================================
