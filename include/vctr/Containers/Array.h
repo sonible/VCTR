@@ -64,8 +64,16 @@ public:
     // Constructors
     //==============================================================================
 
-    /** Creates an uninitialised Array */
-    constexpr Array() : Vctr (StdArrayType {}) {}
+    /** Creates an uninitialised Array.
+
+        In case of constant evaluation the values are actually default initialized since
+        uninitialized data structures are not allowed in that case.
+     */
+    constexpr Array()
+    {
+        if (std::is_constant_evaluated())
+            Vctr::storage.fill (value_type());
+    }
 
     /** Creates an Array with all elements initialised to initialValue */
     constexpr Array (ElementType initialValue)
