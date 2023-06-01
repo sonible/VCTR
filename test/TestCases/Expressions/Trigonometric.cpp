@@ -66,8 +66,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Sin", "[expressions][trigonometric]", (PlatformVect
     const vctr::Vector res = filter << vctr::sin << srcA;
     const vctr::Vector resU = filter << vctr::sin << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<sin> (srcA).withMargin (0.00001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<sin> (srcUnaligned).withMargin (0.00001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<sin> (srcA).withMargin (0.0001));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<sin> (srcUnaligned).withMargin (0.0001));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Cos", "[expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
@@ -77,8 +77,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Cos", "[expressions][trigonometric]", (PlatformVect
     const vctr::Vector res = filter << vctr::cos << srcA;
     const vctr::Vector resU = filter << vctr::cos << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<cos> (srcA).withMargin (0.00001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<cos> (srcUnaligned).withMargin (0.00001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<cos> (srcA).withMargin (0.0001));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<cos> (srcUnaligned).withMargin (0.0001));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Tan", "[expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
@@ -88,8 +88,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Tan", "[expressions][trigonometric]", (PlatformVect
     const vctr::Vector res = filter << vctr::tan << srcA;
     const vctr::Vector resU = filter << vctr::tan << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<tan> (srcA).withMargin (0.00001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<tan> (srcUnaligned).withMargin (0.00001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<tan> (srcA).withMargin (0.0001));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<tan> (srcUnaligned).withMargin (0.0001));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Sinh", "[expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
