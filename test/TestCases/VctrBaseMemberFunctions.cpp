@@ -189,7 +189,7 @@ TEST_CASE ("forEach", "[VctrBaseMemberFunctions]")
     auto strings = loremIpsum;
 
     // In place for each function
-    strings.forEach ([] (std::string& s) { for (auto& c : s) c = std::toupper (c); });
+    strings.forEach ([] (std::string& s) { for (auto& c : s) c = char (std::toupper (c)); });
     REQUIRE (strings[0] == "LOREM");
     REQUIRE (strings[1] == "IPSUM");
     REQUIRE (strings[2] == "DOLOR");

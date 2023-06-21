@@ -69,8 +69,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("MeanSquare", "[meanSquare]", (PlatformVectorOps, VC
     vctr::Vector srcUSquared = vctr::square << srcUnaligned;
 
     const auto meanSquareMemFn = srcA.meanSquare();
-    const auto ref = std::reduce (srcASquared.begin(), srcASquared.end()) / ElementType (srcASquared.size());
-    const auto refU = std::reduce (srcUSquared.begin(), srcUSquared.end()) / ElementType (srcUSquared.size());
+    const auto ref = std::reduce (srcASquared.begin(), srcASquared.end()) / ElementType (vctr::RealType<ElementType> (srcASquared.size()));
+    const auto refU = std::reduce (srcUSquared.begin(), srcUSquared.end()) / ElementType (vctr::RealType<ElementType> (srcUSquared.size()));
 
     const auto eps = vctr::RealType<ElementType> (0.00002);
 
@@ -108,8 +108,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("RMS", "[rms]", (PlatformVectorOps, VCTR_NATIVE_SIMD
     vctr::Vector srcUSquared = vctr::square << srcUnaligned;
 
     const auto rmsMemFn = srcA.rms();
-    const auto ref = ElementType (std::sqrt (std::reduce (srcASquared.begin(), srcASquared.end()) / ElementType (srcASquared.size())));
-    const auto refU = ElementType (std::sqrt (std::reduce (srcUSquared.begin(), srcUSquared.end()) / ElementType (srcUSquared.size())));
+    const auto ref = ElementType (std::sqrt (std::reduce (srcASquared.begin(), srcASquared.end()) / ElementType (vctr::RealType<ElementType> (srcASquared.size()))));
+    const auto refU = ElementType (std::sqrt (std::reduce (srcUSquared.begin(), srcUSquared.end()) / ElementType (vctr::RealType<ElementType> (srcUSquared.size()))));
 
     const auto eps = vctr::RealType<ElementType> (0.00002);
 

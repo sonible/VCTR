@@ -25,6 +25,14 @@
 template <int srcMin, int srcMax, int dstMin, int dstMax, vctr::is::realNumber T>
 T map (T val)
 {
+    constexpr auto tMin = std::numeric_limits<T>::lowest();
+    constexpr auto tMax = std::numeric_limits<T>::max();
+
+    static_assert (srcMin >= tMin && srcMin <= tMax);
+    static_assert (srcMax >= tMin && srcMax <= tMax);
+    static_assert (dstMin >= tMin && dstMin <= tMax);
+    static_assert (dstMax >= tMin && dstMax <= tMax);
+
     val -= T (srcMin);
     val *= T (dstMax - dstMin);
     val /= T (srcMax - srcMin);
@@ -37,7 +45,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Map", "[expressions]", (PlatformVectorOps, VCTR_NAT
     constexpr int srcValueMin = -52;
     constexpr int srcValueMax = 4000;
 
-    constexpr int dstValueMin = -70123;
+    constexpr int dstValueMin = -32768;
     constexpr int dstValueMax = -2;
 
     VCTR_TEST_DEFINES_IN_RANGE (srcValueMin, srcValueMax, 10)
@@ -57,7 +65,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("MapFrom0To1", "[expressions]", (PlatformVectorOps, 
     constexpr int srcValueMin = 0;
     constexpr int srcValueMax = 1;
 
-    constexpr int dstValueMin = -70123;
+    constexpr int dstValueMin = -32768;
     constexpr int dstValueMax = -2;
 
     VCTR_TEST_DEFINES_IN_RANGE (srcValueMin, srcValueMax, 10)
