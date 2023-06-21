@@ -36,7 +36,6 @@ TEMPLATE_TEST_CASE ("Element access functions", "[VctrBase][Element Access]", bo
 
     TestType* vPtr = v.data();
     TestType* aPtr = a.data();
-    TestType* sPtr = s.data();
 
     const auto cv = UnitTestValues<TestType>::template vector<size, 0>();
     const auto ca = UnitTestValues<TestType>::template array<size, 0>();
@@ -44,7 +43,6 @@ TEMPLATE_TEST_CASE ("Element access functions", "[VctrBase][Element Access]", bo
 
     const TestType* cvPtr = cv.data();
     const TestType* caPtr = ca.data();
-    const TestType* csPtr = cs.data();
 
     auto vFirst = *vPtr;
     auto vSecond = *(vPtr + 1);

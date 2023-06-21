@@ -38,8 +38,8 @@ template <int64_t base> double               powerConstantBase (int64_t exp)    
 template <int32_t base> std::complex<float>  powerConstantBase (std::complex<float> exp)  { return std::pow (std::complex<float> (base), exp); }
 template <int32_t base> std::complex<double> powerConstantBase (std::complex<double> exp) { return std::pow (std::complex<double> (base), exp); }
 
-template <int32_t exp> float                powerConstantExp (float base)                { return std::pow (base, exp); }
-template <int32_t exp> double               powerConstantExp (double base)               { return std::pow (base, exp); }
+template <int32_t exp> float                powerConstantExp (float base)                { return std::pow (base, float (exp)); }
+template <int32_t exp> double               powerConstantExp (double base)               { return std::pow (base, double (exp)); }
 template <int32_t exp> double               powerConstantExp (int32_t base)              { return std::pow (base, exp); }
 template <int64_t exp> double               powerConstantExp (int64_t base)              { return std::pow (base, exp); }
 template <int32_t exp> std::complex<float>  powerConstantExp (std::complex<float> base)  { return std::pow (base, std::complex<float> (exp)); }
@@ -67,7 +67,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Pow", "[pow]", (PlatformVectorOps, VCTR_NATIVE_SIMD
 
     SECTION ("Single value raised to the power of Vector")
     {
-        const vctr::Vector p = filter << vctr::pow (3.0f, srcA);
+        const vctr::Vector p = filter << vctr::pow (ElementType (3), srcA);
         REQUIRE_THAT (p, vctr::EqualsTransformedBy<powerConstantBase<3>> (srcA));
     }
 

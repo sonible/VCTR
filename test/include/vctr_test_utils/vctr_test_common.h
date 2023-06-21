@@ -179,14 +179,14 @@ struct Neon
 #define VCTR_NATIVE_SIMD AVX, SSE
 #endif
 
-#define VCTR_TEST_DEFINES_BASE(testVectorSize, start, end, avoidZeros, forceZero)                                             \
-    using ElementType = typename TestType::ElementType;                                                                       \
-    const auto& filter = TestType::filter;                                                                                    \
-    constexpr auto srcA = UnitTestValues<ElementType>::template array<testVectorSize, 0, start, end> (avoidZeros, forceZero); \
-    constexpr auto srcB = UnitTestValues<ElementType>::template array<testVectorSize, 1, start, end> (avoidZeros, forceZero); \
-    const auto srcC = UnitTestValues<ElementType>::template vector<testVectorSize, 2, start, end> (avoidZeros, forceZero);    \
-    const auto srcD = UnitTestValues<ElementType>::template vector<testVectorSize, 3, start, end> (avoidZeros, forceZero);    \
-    const vctr::Span srcUnaligned = srcD.template subSpan<1>();
+#define VCTR_TEST_DEFINES_BASE(testVectorSize, start, end, avoidZeros, forceZero)                                                              \
+    using ElementType = typename TestType::ElementType;                                                                                        \
+    [[maybe_unused]] const auto& filter = TestType::filter;                                                                                    \
+    [[maybe_unused]] constexpr auto srcA = UnitTestValues<ElementType>::template array<testVectorSize, 0, start, end> (avoidZeros, forceZero); \
+    [[maybe_unused]] constexpr auto srcB = UnitTestValues<ElementType>::template array<testVectorSize, 1, start, end> (avoidZeros, forceZero); \
+    [[maybe_unused]] const auto srcC = UnitTestValues<ElementType>::template vector<testVectorSize, 2, start, end> (avoidZeros, forceZero);    \
+    [[maybe_unused]] const auto srcD = UnitTestValues<ElementType>::template vector<testVectorSize, 3, start, end> (avoidZeros, forceZero);    \
+    [[maybe_unused]] const vctr::Span srcUnaligned = srcD.template subSpan<1>();
 
 /** Defines a few handy things, needed in nearly every numerical unit test case:
 
