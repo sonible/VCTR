@@ -38,11 +38,11 @@ public:
         if constexpr (! is::complexFloatNumber<value_type>)
         {
             if (std::is_constant_evaluated())
-                return gcem::pow (srcBase[i], srcExp[i]);
+                return value_type (gcem::pow (srcBase[i], srcExp[i]));
         }
 #endif
 
-        return std::pow (srcBase[i], srcExp[i]);
+        return value_type (std::pow (srcBase[i], srcExp[i]));
     }
 
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
@@ -88,11 +88,11 @@ public:
         if constexpr (! is::complexFloatNumber<value_type>)
         {
             if (std::is_constant_evaluated())
-                return gcem::pow (base[i], exp);
+                return value_type (gcem::pow (base[i], exp));
         }
 #endif
 
-        return std::pow (base[i], exp);
+        return value_type (std::pow (base[i], exp));
     }
 
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
@@ -117,11 +117,11 @@ public:
         if constexpr (! is::complexFloatNumber<value_type>)
         {
             if (std::is_constant_evaluated())
-                return gcem::pow (base, exp[i]);
+                return value_type (gcem::pow (base, exp[i]));
         }
 #endif
 
-        return std::pow (base, exp[i]);
+        return value_type (std::pow (base, exp[i]));
     }
 };
 
@@ -141,11 +141,11 @@ public:
         if constexpr (! is::complexFloatNumber<value_type>)
         {
             if (std::is_constant_evaluated())
-                return gcem::pow (src[i], exp);
+                return value_type (gcem::pow (src[i], exp));
         }
 #endif
 
-        return std::pow (src[i], exp);
+        return value_type (std::pow (src[i], exp));
     }
     
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
@@ -172,11 +172,11 @@ public:
         if constexpr (! is::complexFloatNumber<value_type>)
         {
             if (std::is_constant_evaluated())
-                return gcem::pow (base, src[i]);
+                return value_type (gcem::pow (base, src[i]));
         }
 #endif
 
-        return std::pow (base, src[i]);
+        return value_type (std::pow (base, src[i]));
     }
 
     //==============================================================================

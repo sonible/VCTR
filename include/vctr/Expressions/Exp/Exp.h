@@ -38,10 +38,10 @@ public:
     {
 #if VCTR_USE_GCEM
         if (std::is_constant_evaluated())
-            return gcem::exp (src[i]);
+            return value_type (gcem::exp (src[i]));
 #endif
 
-        return std::exp (src[i]);
+        return value_type (std::exp (src[i]));
     }
 
     //==============================================================================
