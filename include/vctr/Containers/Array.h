@@ -162,16 +162,14 @@ public:
 
         In case the expressions extent is non-dynamic, e.g. its sources are Arrays or
         Spans with a non-dynamic extent, class template argument deduction will work with this constructor.
-        If you are trying to assign an expression with dynamic extent and you know the expected size, you have to
-        specify the ElementType and extent manually. In case you don't you will hit the require constraint below.
+        If you are trying to assign an expression with dynamic extent and you know the expected size, a runtime check
+        is performed to figure out if the size matches. Class template argument decuction obviously does not work for
+        those cases.
      */
     template <is::expression Expression>
     constexpr Array (Expression&& e)
-    requires (extentOf<Expression> != std::dynamic_extent)
     {
-        if (! std::is_constant_evaluated())
-            VCTR_ASSERT (e.size() == extent);
-
+        VCTR_ASSERT (e.size() == extent);
         Vctr::assignExpressionTemplate (std::forward<Expression> (e));
     }
 
