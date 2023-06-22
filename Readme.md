@@ -149,13 +149,16 @@ In Projucer, add this directory using the `+` button in the `Modules` tab and se
 After doing so, you can use it as shown in the example at the beginning of this document.
 
 
-## Contributing and Unit Tests
+## Contributing
 
 The project is currently under development. Contributions to the project are highly appreciated, just have a look at the issue section to find open issues. We'll add a contribution guideline to this repository soon.
 
-### Test dependencies
+### Unit Tests
 
 VCTR's unit tests, located in the `test` subfolder, are dependent on [Catch2](https://github.com/catchorg/Catch2) and [gcem](https://github.com/kthohr/gcem).
+To create the unit test target, run cmake with the -DVCTR_BUILD_TEST=1```. In case you want to integrate the VCTR unit
+test cases into your own catch2 based unit tests, you can define `VCTR_EXPOSE_UNIT_TEST_CASES_TARGET` to 1 and link
+against the `sonible::vctr_test_targets` target which contains all test cases.
 
 #### Installation via conan
 
