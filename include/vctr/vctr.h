@@ -93,7 +93,9 @@
 #endif
 
 #if VCTR_USE_GCEM
+VCTR_START_IGNORE_WARNING_MSVC (4244) // conversion from 'long double' to 'T', possible loss of data
 #include <gcem.hpp>
+VCTR_END_IGNORE_WARNING_MSVC
 
 #if ((GCEM_VERSION_MAJOR < 1) || (GCEM_VERSION_MAJOR == 1 && GCEM_VERSION_MINOR < 16))
 #error "VCTR needs gcem version 1.16.0 or greater"

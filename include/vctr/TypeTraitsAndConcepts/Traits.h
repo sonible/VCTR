@@ -181,9 +181,9 @@ class DataType
 {
 private:
     // This function is only used to deduce a return type, so we can safely ignore warnings about returning a stack address
-    VCTR_START_IGNORE_WARNING_CLANG_GCC (return-stack-address)
+    VCTR_START_IGNORE_WARNING_CLANG (return-stack-address)
     static auto* invokeData (T t) { return t.data(); }
-    VCTR_END_IGNORE_WARNING_CLANG_GCC
+    VCTR_END_IGNORE_WARNING_CLANG
 
 public:
     using Type = typename RemovePointer<std::invoke_result_t<decltype (&DataType::invokeData), T>>::Type;
