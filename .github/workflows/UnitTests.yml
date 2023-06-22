@@ -173,8 +173,8 @@ jobs:
         run: cmake --build build/ --target vctr_test
 
       - name: Change execution permissions if necessary
-        run: chmod +x ./build/test/vctr_test
+        run: chmod +x ./build/test/TestMain/vctr_test
         if: runner.os != 'Windows'
 
       - name: Run test
-        run: ./build/test/vctr_test
+        run: ./build/test/TestMain/vctr_test

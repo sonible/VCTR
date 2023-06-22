@@ -1,27 +1,12 @@
 cmake_minimum_required (VERSION 3.15)
-
-project (VCTR_TEST)
+# ================================================================================
+add_library (vctr_test_utils INTERFACE)
+target_include_directories (vctr_test_utils INTERFACE include)
 
 # ================================================================================
+add_library (vctr_test_cases INTERFACE)
 
-if (VCTR_USE_CONAN)
-        conan_cmake_configure (REQUIRES catch2/3.1.0 gcem/1.16.0 BUILD missing GENERATORS cmake_find_package)
-        conan_cmake_autodetect (settings)
-        conan_cmake_install (PATH_OR_REFERENCE . BUILD missing SETTINGS ${settings})
-        set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_BINARY_DIR})
-endif()
-find_package (Catch2 REQUIRED)
-find_package (gcem REQUIRED)
-
-if (TARGET gcem AND NOT TARGET gcem::gcem)
-        add_library (gcem::gcem ALIAS gcem)
-endif()
-
-# ================================================================================
-add_executable (vctr_test EXCLUDE_FROM_ALL vctr_test.cpp)
-target_link_libraries (vctr_test PRIVATE vctr vctr_test_utils Catch2::Catch2 gcem::gcem)
-
-target_sources (vctr_test PRIVATE
+target_sources (vctr_test_cases INTERFACE
         TestCases/InternalFunctions.cpp
 
         TestCases/ArrayConstructors.cpp
@@ -63,3 +48,11 @@ target_sources (vctr_test PRIVATE
         TestCases/Expressions/Trigonometric.cpp
 
         TestCases/Generators/Linspace.cpp)
+
+if (VCTR_BUILD_TEST)
+    add_subdirectory (TestMain)
+endif()
+
+# ================================================================================
+add_library (sonible::vctr_test_utils ALIAS vctr_test_utils)
+add_library (sonible::vctr_test_cases ALIAS vctr_test_cases)

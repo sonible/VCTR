@@ -43,14 +43,11 @@ if (CMAKE_CXX_COMPILER_ID AND CMAKE_CXX_COMPILER_FRONTEND_VARIANT AND CMAKE_CXX_
     endif()
 endif()
 
-add_library (vctr_test_utils INTERFACE)
-target_include_directories (vctr_test_utils INTERFACE test/include)
-add_library (sonible::vctr ALIAS vctr)
-add_library (sonible::vctr_test_utils ALIAS vctr_test_utils)
-
-if (VCTR_BUILD_TEST)
+if (VCTR_EXPOSE_UNIT_TEST_CASES_TARGET OR VCTR_BUILD_TEST)
     add_subdirectory (test)
 endif()
+
+add_library (sonible::vctr ALIAS vctr)
 
 if (VCTR_BUILD_BENCHMARK)
     add_subdirectory (benchmark)
