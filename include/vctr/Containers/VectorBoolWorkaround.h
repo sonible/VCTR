@@ -51,6 +51,13 @@ private:
     static const bool* toBool (const std::byte* ptr)     { return reinterpret_cast<const bool*> (ptr); }
 
 public:
+    constexpr VectorBoolWorkaround (std::initializer_list<bool> il)
+    {
+        StdVectorType::reserve (il.size());
+        for (bool e : il)
+            push_back (e);
+    }
+
     //==============================================================================
     constexpr bool&       operator[] (size_t i)       { return toBool (StdVectorType::operator[] (i)); }
     constexpr const bool& operator[] (size_t i) const { return toBool (StdVectorType::operator[] (i)); }
@@ -60,6 +67,7 @@ public:
     constexpr const bool& front() const               { return toBool (StdVectorType::front()); }
     constexpr bool&       back()                      { return toBool (StdVectorType::back()); }
     constexpr const bool& back() const                { return toBool (StdVectorType::back()); }
+    constexpr void        push_back (bool v)          { StdVectorType::push_back (std::byte (v)); }
 
     bool*       data()        { return toBool (StdVectorType::data()); }
     const bool* data() const  { return toBool (StdVectorType::data()); }

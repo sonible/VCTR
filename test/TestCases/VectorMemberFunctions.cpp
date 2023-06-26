@@ -240,6 +240,12 @@ TEST_CASE ("push_back", "[VectorMemberFunctions]")
     v.push_back (std::move (byMove));
 
     REQUIRE_THAT (v, vctr::Equals ({ "In place string literal", "By copy", "By move" }));
+
+    vctr::Vector<bool> b;
+    b.push_back (true);
+    b.push_back (false);
+
+    REQUIRE_THAT (b, vctr::Equals ({ true, false }));
 }
 
 TEST_CASE ("pop_back", "[VectorMemberFunctions]")
