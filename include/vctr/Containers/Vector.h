@@ -116,6 +116,10 @@ public:
     /** Creates an empty Vector with size = 0. */
     constexpr Vector() = default;
 
+    /** Creates an empty Vector that uses the specified allocator instance. */
+    template <std::convertible_to<Allocator<ElementType>> Alloc>
+    Vector (Alloc&& allocator) : Vctr (StdVectorType (allocator)) {}
+
     /** Creates an uninitialised Vector of the desired size. */
     constexpr Vector (size_t size) : Vctr (StdVectorType (size)) {}
 
