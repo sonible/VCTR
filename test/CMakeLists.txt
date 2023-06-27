@@ -20,6 +20,7 @@ target_sources (vctr_test_cases INTERFACE
         TestCases/VctrBaseMemberFunctions.cpp
         TestCases/VectorMemberFunctions.cpp
         TestCases/VectorConstructors.cpp
+        TestCases/VectorStdPMRCompatibility.cpp
 
         TestCases/Expressions/Abs.cpp
         TestCases/Expressions/Add.cpp
