@@ -523,7 +523,7 @@ public:
     auto insert (ConstIterator pos, const ElementType& value)
     {
         // Undefined behaviour if pos does not refer to an element in this Vector
-        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        VCTR_ASSERT (pos == Vctr::end() || Vctr::contains (pos));
         return Vctr::storage.insert (pos, value);
     }
 
@@ -539,7 +539,7 @@ public:
     auto insert (ConstIterator pos, ElementType&& value)
     {
         // Undefined behaviour if pos does not refer to an element in this Vector
-        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        VCTR_ASSERT (pos == Vctr::end() || Vctr::contains (pos));
         return Vctr::storage.insert (pos, std::move (value));
     }
 
@@ -556,7 +556,7 @@ public:
     auto insert (ConstIterator pos, size_t numCopies, const ElementType& value)
     {
         // Undefined behaviour if pos does not refer to an element in this Vector
-        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        VCTR_ASSERT (pos == Vctr::end() || Vctr::contains (pos));
         return Vctr::storage.insert (pos, numCopies, value);
     }
 
@@ -575,7 +575,7 @@ public:
     auto insert (ConstIterator pos, InputIterator first, InputIterator last)
     {
         // Undefined behaviour if pos does not refer to an element in this Vector
-        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        VCTR_ASSERT (pos == Vctr::end() || Vctr::contains (pos));
 
         if constexpr (is::contiguousIteratorWithValueTypeSameAs<ElementType, InputIterator>)
         {
@@ -608,7 +608,7 @@ public:
     auto insert (ConstIterator pos, std::initializer_list<ElementType> initList)
     {
         // Undefined behaviour if pos does not refer to an element in this Vector
-        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        VCTR_ASSERT (pos == Vctr::end() || Vctr::contains (pos));
         return Vctr::storage.insert (pos, initList);
     }
 
@@ -626,7 +626,7 @@ public:
     auto insert (ConstIterator pos, VctrToInsert&& vctrToInsert, bool moveValuesFromSrc = false)
     {
         // Undefined behaviour if pos does not refer to an element in this Vector
-        VCTR_ASSERT (Vctr::contains (pos) || pos == Vctr::end());
+        VCTR_ASSERT (pos == Vctr::end() || Vctr::contains (pos));
 
         // If it is no view and no reference, the container passed in has no dependencies outside this scope,
         // so we can safely move its elements in every case
