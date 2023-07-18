@@ -62,6 +62,8 @@ TEMPLATE_TEST_CASE ("Array Constructors", "[Array][Constructor]", float, int64_t
 
     // Moving a std::array into an Array
     std::array sa { v[0], v[1], v[2] };
+    vctr::Array saCopied (sa);
+    REQUIRE_THAT (sa, vctr::Equals (saCopied));
     vctr::Array saMoved (std::move (sa));
     REQUIRE (saMoved.size() == 3);
     REQUIRE (il[0] == v[0]);
@@ -70,10 +72,13 @@ TEMPLATE_TEST_CASE ("Array Constructors", "[Array][Constructor]", float, int64_t
 
     // Copying from a different container type
     const std::list<TestType> l { v[0], v[1], v[2], v[3] };
+    std::vector<TestType> sv { v[0], v[1], v[2], v[3] };
     vctr::Array<TestType, 4> lCopied (l);
     REQUIRE_THAT (l, vctr::Equals (lCopied));
     vctr::Array<TestType, 100> vCopied (v);
     REQUIRE_THAT (v, vctr::Equals (vCopied));
+    vctr::Array<TestType, 4> svCopied (sv);
+    REQUIRE_THAT (sv, vctr::Equals (svCopied));
 
     // Constructing a vector from a pointer and size pair
     vctr::Array<TestType, 100> fromPtr (v.data(), v.size());
