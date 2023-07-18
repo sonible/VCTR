@@ -89,7 +89,7 @@ public:
     {}
 
     /** Creates an Array with extent 1 from an initial value. */
-    template <is::suitableSingleElementInitializer T>
+    template <std::convertible_to<ElementType> T>
     constexpr Array (T&& initialValues) : Vctr (StdArrayType { initialValues }) {}
 
     /** Creates an Array by moving a std::array into it */

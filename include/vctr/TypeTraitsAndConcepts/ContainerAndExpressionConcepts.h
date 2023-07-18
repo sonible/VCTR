@@ -358,12 +358,6 @@ concept inputIteratorToConstructValuesOfType = std::input_iterator<T> && std::co
 template <class T, class ElementType>
 concept contiguousIteratorWithValueTypeSameAs = std::contiguous_iterator<T> && std::same_as<ElementType, std::iter_value_t<T>>;
 
-/** Constrains the type to be suitable for initializing a single element Vctr, that is, it is not of any other type
-    for which special single argument constructors exist, so no ambiguity can arise.
- */
-template <class T>
-concept suitableSingleElementInitializer = ! anyVctrOrExpression<T> && ! triviallyCopyableWithDataAndSize<T> && ! suitableInitializerFunction<T>;
-
 /** Constrains the type to be a suitable storage info type.
 
     @see StorageInfo
