@@ -1152,6 +1152,18 @@ private:
     }
 };
 
+/** Compares lhs and rhs for equality.
+
+   They are considered equal if their size is the same and every element at a certain index in lhs
+   compares equal to the corresponding element at the same index in rhs.
+ */
+template <is::anyVctr Lhs, is::anyVctr Rhs>
+requires std::same_as<ValueType<Lhs>, ValueType<Rhs>>
+constexpr bool operator== (const Lhs& lhs, const Rhs& rhs)
+{
+    return std::equal (lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+}
+
 } // namespace vctr
 
 #if VCTR_MSVC
