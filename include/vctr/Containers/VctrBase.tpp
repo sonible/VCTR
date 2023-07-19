@@ -166,7 +166,7 @@ requires is::number<ElementType>
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
 constexpr ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::sum() const
-requires has::operatorPlusEquals<ElementType>
+requires has::operatorPlusEquals<std::remove_cv_t<ElementType>>
 {
     return vctr::sum << *this;
 }
