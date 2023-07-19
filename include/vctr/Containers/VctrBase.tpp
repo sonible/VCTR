@@ -116,56 +116,56 @@ constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::oper
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
-ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::min() const
+constexpr ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::min() const
 requires std::totally_ordered<ElementType>
 {
     return vctr::min << *this;
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
-ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::minAbs() const
+constexpr ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::minAbs() const
 requires is::number<ElementType>
 {
     return vctr::minAbs << *this;
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
-ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::max() const
+constexpr ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::max() const
 requires std::totally_ordered<ElementType>
 {
     return vctr::max << *this;
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
-ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::maxAbs() const
+constexpr ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::maxAbs() const
 requires is::number<ElementType>
 {
     return vctr::maxAbs << *this;
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
-ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::mean() const
+constexpr ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::mean() const
 requires is::number<ElementType>
 {
     return vctr::mean << *this;
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
-ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::meanSquare() const
+constexpr ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::meanSquare() const
 requires is::number<ElementType>
 {
     return vctr::meanSquare << *this;
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
-ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::rms() const
+constexpr ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::rms() const
 requires is::number<ElementType>
 {
     return vctr::rms << *this;
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
-ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::sum() const
+constexpr ElementType VctrBase<ElementType, StorageType, extent, StorageInfoType>::sum() const
 requires has::operatorPlusEquals<ElementType>
 {
     return vctr::sum << *this;

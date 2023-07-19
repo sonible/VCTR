@@ -58,31 +58,31 @@ public:
     }
 
     /** Returns the number of elements. This overload is a non-static function, used in case the extent is dynamic. */
-    constexpr size_t size() const noexcept requires (extent == std::dynamic_extent) { return storage.size(); }
+    [[nodiscard]] constexpr size_t size() const noexcept requires (extent == std::dynamic_extent) { return storage.size(); }
 
     /** Returns the number of elements. This overload is a static function, used in case the extent is static. */
     static constexpr size_t size() noexcept requires (extent != std::dynamic_extent) { return extent; }
 
     /** Checks whether the container is empty. */
-    constexpr bool empty() const noexcept { return storage.empty(); }
+    [[nodiscard]] constexpr bool empty() const noexcept { return storage.empty(); }
 
     /** Returns the container size in bytes.
 
         This overload is a non-static function, used in case the extent is dynamic.
      */
-    constexpr size_t sizeInBytes() const noexcept requires (extent == std::dynamic_extent) { return size() * sizeof (value_type); }
+    [[nodiscard]] constexpr size_t sizeInBytes() const noexcept requires (extent == std::dynamic_extent) { return size() * sizeof (value_type); }
 
     /** Returns the container size in bytes.
 
         This overload is a static function, used in case the extent is static.
      */
-    static constexpr size_t sizeInBytes() noexcept requires (extent != std::dynamic_extent) { return size() * sizeof (value_type); }
+    [[nodiscard]] static constexpr size_t sizeInBytes() noexcept requires (extent != std::dynamic_extent) { return size() * sizeof (value_type); }
 
     /** Returns the index referring to the last element in the vector.
 
         This overload is a non-static function, used in case the extent is dynamic.
      */
-    constexpr size_t backIdx() const noexcept requires (extent == std::dynamic_extent) { return size() - 1; }
+    [[nodiscard]] constexpr size_t backIdx() const noexcept requires (extent == std::dynamic_extent) { return size() - 1; }
 
     /** Returns the index referring to the last element in the vector.
 
@@ -538,7 +538,7 @@ public:
     }
 
     /** Returns true if all elements are equal to themselves */
-    constexpr bool allElementsEqual() const
+    [[nodiscard]] constexpr bool allElementsEqual() const
     requires std::equality_comparable<ElementType>
     {
         if (size() < 2)
@@ -559,7 +559,7 @@ public:
         It will return false in case it equals end().
      */
     template <is::contiguousIteratorWithValueTypeSameAs<ElementType> It>
-    bool contains (It it) const
+    constexpr bool contains (It it) const
     {
         const auto* address = std::to_address (it);
         const auto* first = std::to_address (begin());
@@ -570,7 +570,7 @@ public:
 
     /** Returns the index of the first element that compares true to value or std::nullopt if none is found. */
     template <std::equality_comparable_with<ElementType> T>
-    std::optional<size_t> indexOf (const T& value) const
+    constexpr std::optional<size_t> indexOf (const T& value) const
     {
         auto it = find (value);
         return it == end() ? std::nullopt : std::optional<size_t> (std::distance (begin(), it));
@@ -578,7 +578,7 @@ public:
 
     /** Returns the index of the last element that compares true to value or std::nullopt if none is found. */
     template <std::equality_comparable_with<ElementType> T>
-    std::optional<size_t> indexOfReverse (const T& value) const
+    constexpr std::optional<size_t> indexOfReverse (const T& value) const
     {
         auto it = findReverse (value);
         return it == rend() ? std::nullopt : std::optional<size_t> (std::distance (it, rend()) - 1);
@@ -586,7 +586,7 @@ public:
 
     /** Returns the index of the first element that satisfies the predicate or std::nullopt if none is found. */
     template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
-    std::optional<size_t> indexIf (Fn&& predicate) const
+    constexpr std::optional<size_t> indexIf (Fn&& predicate) const
     {
         auto it = findIf (predicate);
         return it == end() ? std::nullopt : std::optional<size_t> (std::distance (begin(), it));
@@ -594,7 +594,7 @@ public:
 
     /** Returns the index of the last element that satisfies the predicate or std::nullopt if none is found. */
     template <is::functionWithSignatureOrImplicitlyConvertible<bool (const ElementType&)> Fn>
-    std::optional<size_t> indexIfReverse (Fn&& predicate) const
+    constexpr std::optional<size_t> indexIfReverse (Fn&& predicate) const
     {
         auto it = findIfReverse (predicate);
         return it == rend() ? std::nullopt : std::optional<size_t> (std::distance (it, rend()) - 1);
@@ -605,7 +605,7 @@ public:
 
         This function requires that the elements are sorted.
      */
-    std::optional<value_type> firstValueGreaterThanOrEqualTo (const value_type& valueToLookFor) const
+    constexpr std::optional<value_type> firstValueGreaterThanOrEqualTo (const value_type& valueToLookFor) const
     requires std::totally_ordered<value_type>
     {
         VCTR_ASSERT (elementsAreSorted());
@@ -618,7 +618,7 @@ public:
 
         This function requires that the elements are sorted.
      */
-    std::optional<value_type> firstValueGreaterThan (const value_type& valueToLookFor) const
+    constexpr std::optional<value_type> firstValueGreaterThan (const value_type& valueToLookFor) const
     requires std::totally_ordered<value_type>
     {
         VCTR_ASSERT (elementsAreSorted());
@@ -699,7 +699,7 @@ public:
     }
 
     /** Sorts all elements in an ascending order using operator <=>. */
-    void sort()
+    constexpr void sort()
     requires std::totally_ordered<value_type>
     {
         std::sort (begin(), end());
@@ -710,13 +710,13 @@ public:
         The compare function should receive true if the first argument is less than the second argument.
      */
     template <is::functionWithSignatureOrImplicitlyConvertible<bool (const value_type&, const value_type&)> ComparatorFn>
-    void sort (ComparatorFn&& compare)
+    constexpr void sort (ComparatorFn&& compare)
     {
         std::sort (begin(), end(), compare);
     }
 
     /** Returns true if all elements are sorted. */
-    bool elementsAreSorted() const
+    [[nodiscard]] constexpr bool elementsAreSorted() const
     requires std::totally_ordered<value_type>
     {
         return std::is_sorted (begin(), end());
@@ -825,28 +825,28 @@ public:
     // Math reduction operations.
     //==============================================================================
     /** Returns the minimal value of all elements. */
-    ElementType min() const requires std::totally_ordered<ElementType>;
+    constexpr ElementType min() const requires std::totally_ordered<ElementType>;
 
     /** Returns the minimal absolute value of all elements. */
-    ElementType minAbs() const requires is::number<ElementType>;
+    constexpr ElementType minAbs() const requires is::number<ElementType>;
 
     /** Returns the maximum value of all elements. */
-    ElementType max() const requires std::totally_ordered<ElementType>;
+    constexpr ElementType max() const requires std::totally_ordered<ElementType>;
 
     /** Returns the maximum absolute value of all elements. */
-    ElementType maxAbs() const requires is::number<ElementType>;
+    constexpr ElementType maxAbs() const requires is::number<ElementType>;
 
     /** Returns the mean value across all elements. */
-    ElementType mean() const requires is::number<ElementType>;
+    constexpr ElementType mean() const requires is::number<ElementType>;
 
     /** Returns the mean value across all squared elements. */
-    ElementType meanSquare() const requires is::number<ElementType>;
+    constexpr ElementType meanSquare() const requires is::number<ElementType>;
 
     /** Returns the square root of the mean value across all squared elements. */
-    ElementType rms() const requires is::number<ElementType>;
+    constexpr ElementType rms() const requires is::number<ElementType>;
 
     /** Returns the sum of all elements. */
-    ElementType sum() const requires has::operatorPlusEquals<ElementType>;
+    constexpr ElementType sum() const requires has::operatorPlusEquals<ElementType>;
 
     //==============================================================================
     // Math sanity checks.
