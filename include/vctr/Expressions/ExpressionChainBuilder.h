@@ -46,10 +46,16 @@ public:
 
     constexpr RuntimeArgChain()
     requires (sizeof... (ArgTuples) == 1)
-    : chain {{ std::tuple<>() }}
+        : chain {{ std::tuple<>() }}
     {}
 
-    static consteval size_t size() { return sizeof... (ArgTuples); }
+    // TODO: This is a workaround for https://github.com/sonible/VCTR/issues/111 and should be replaced by a generic solution
+    constexpr RuntimeArgChain()
+    requires (sizeof... (ArgTuples) == 3)
+        : chain {{ std::tuple<>() }, { std::tuple<>() }, { std::tuple<>() }}
+    {}
+
+    static constexpr size_t size() { return sizeof... (ArgTuples); }
 
     template <is::stdTuple... ArgTuplesToPrepend>
     constexpr RuntimeArgChain<ArgTuplesToPrepend..., ArgTuples...> prepend (RuntimeArgChain<ArgTuplesToPrepend...> chainToPrepend) const

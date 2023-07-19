@@ -40,9 +40,9 @@ public:
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
         VCTR_ASSERT (srcSum != value_type (0));
-        VCTR_START_IGNORE_WARNING_MSVC (4723); // potential divide by 0
+        VCTR_START_IGNORE_WARNING_MSVC (4723) // potential divide by 0
         return src[i] / srcSum;
-        VCTR_END_IGNORE_WARNING_MSVC (4723);
+        VCTR_END_IGNORE_WARNING_MSVC
     }
 
     //==============================================================================

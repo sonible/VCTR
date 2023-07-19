@@ -140,29 +140,19 @@ class MultiplyVecByConstant : ExpressionTemplateBase
 public:
     using value_type = ValueType<SrcType>;
 
-    using Expression = ExpressionTypes<value_type, SrcType>;
-
     static constexpr auto constant = value_type (ConstantType::value);
 
-    template <class Src>
-    constexpr MultiplyVecByConstant (Src&& b)
-        : src (std::forward<Src> (b)),
-          asSSE (Expression::SSESrc::broadcast (constant)),
-          asNeon (Expression::NeonSrc::broadcast (constant))
-    {}
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (MultiplyVecByConstant, src)
 
-    constexpr const auto& getStorageInfo() const { return src.getStorageInfo(); }
-
-    constexpr size_t size() const { return src.size(); }
+    void applyRuntimeArgs()
+    {
+        asSSE = Expression::SSESrc::broadcast (constant);
+        asNeon = Expression::NeonSrc::broadcast (constant);
+    }
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
         return constant * src[i];
-    }
-
-    constexpr bool isNotAliased (const void* other) const
-    {
-        return src.isNotAliased (other);
     }
 
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
@@ -208,10 +198,9 @@ public:
     }
 
 private:
-    SrcType src;
 
-    const typename Expression::SSESrc asSSE;
-    const typename Expression::NeonSrc asNeon;
+    typename Expression::SSESrc asSSE;
+    typename Expression::NeonSrc asNeon;
 };
 
 } // namespace vctr::expressions
