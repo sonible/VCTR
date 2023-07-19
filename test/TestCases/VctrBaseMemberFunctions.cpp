@@ -483,3 +483,26 @@ TEMPLATE_TEST_CASE ("anyElementIsNaN", "[VctrBaseMemberFunctions]", float, doubl
     cplx.push_back ({ 0.0f, std::numeric_limits<TestType>::quiet_NaN()});
     REQUIRE (cplx.anyElementIsNaN());
 }
+
+TEMPLATE_TEST_CASE ("operator==", "[VctrBaseFreeFunctions]", float, uint64_t, std::string)
+{
+    auto a = UnitTestValues<TestType>::template array<100, 0>();
+    vctr::Vector v (a);
+
+    REQUIRE (a == v);
+    REQUIRE_FALSE (a != v);
+
+    REQUIRE (a == a);
+    REQUIRE_FALSE (a != a);
+
+    REQUIRE (v == v);
+    REQUIRE_FALSE (v != v);
+
+    v.pop_back();
+
+    REQUIRE (a != v);
+    REQUIRE_FALSE (a == v);
+
+    REQUIRE (a.subSpan (0, 99) == v);
+    REQUIRE_FALSE (a.subSpan (0, 99) != v);
+}
