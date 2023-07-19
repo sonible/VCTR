@@ -82,7 +82,7 @@ struct dBPower : Constant<10> {};
    @ingroup Expressions
  */
 template <is::constant DecibelConstant, auto minDb = -100>
-constexpr inline ExpressionChainBuilder<expressions::MagToDb, DecibelConstant, Constant<minDb>> magToDb;
+constexpr inline ExpressionChainBuilderWithRuntimeArgs<expressions::MagToDb, detail::RuntimeArgChain<std::tuple<>, std::tuple<>, std::tuple<>>, DecibelConstant, Constant<minDb>> magToDb;
 
 /** Converts the source decibel values into their magnitude representation.
 
@@ -94,6 +94,6 @@ constexpr inline ExpressionChainBuilder<expressions::MagToDb, DecibelConstant, C
    @ingroup Expressions
  */
 template <is::constant DecibelConstant>
-constexpr inline ExpressionChainBuilder<expressions::DBToMag, DecibelConstant> dbToMag;
+constexpr inline ExpressionChainBuilderWithRuntimeArgs<expressions::DBToMag, detail::RuntimeArgChain<std::tuple<>, std::tuple<>, std::tuple<>>, DecibelConstant> dbToMag;
 
 } // namespace vctr
