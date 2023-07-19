@@ -846,7 +846,7 @@ public:
     constexpr ElementType rms() const requires is::number<ElementType>;
 
     /** Returns the sum of all elements. */
-    constexpr ElementType sum() const requires has::operatorPlusEquals<ElementType>;
+    constexpr ElementType sum() const requires has::operatorPlusEquals<std::remove_cv_t<ElementType>>;
 
     //==============================================================================
     // Math sanity checks.
