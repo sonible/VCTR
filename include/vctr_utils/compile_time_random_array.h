@@ -41,15 +41,15 @@ __pragma(warning(pop))
         constexpr auto min = 0.0f;
         constexpr auto max = 1.0f;
         constexpr auto seed = 42;
-        constexpr std::array<float, 100> uniformRandomData = vctr::Random::makeArrayWithNormalDistribution<float, 100> (min, max, seed);
+        constexpr std::array<float, 100> uniformRandomData = vctr::random::makeArrayWithNormalDistribution<float, 100> (min, max, seed);
 
         constexpr auto mean = 42.0f;
         constexpr auto sigma = 1.0f;
-        constexpr std::array<float, 100> normalRandomData = vctr::Random::makeArrayWithNormalDistribution<float, 100> (mean, sigma, seed);
+        constexpr std::array<float, 100> normalRandomData = vctr::random::makeArrayWithNormalDistribution<float, 100> (mean, sigma, seed);
     @endcode
 */
 
-namespace vctr::Random::detail
+namespace vctr::random::detail
 {
 /** Computes a uint32 integer from a string */
 consteval auto getTimeFromString (const char* str, int offset)
@@ -143,9 +143,9 @@ consteval auto makeArrayWithNormalDistribution (T mean, T sigma, uint32_t seed)
 
     return dst;
 }
-} // namespace vctr::Random::detail
+} // namespace vctr::random::detail
 
-namespace vctr::Random
+namespace vctr::random
 {
 
 /** Returns an std::array<T, size>, with uniformly distributed random values in between [min, max].
@@ -168,4 +168,4 @@ consteval auto makeArrayWithNormalDistribution (T mean, T sigma)
     return detail::makeArrayWithNormalDistribution<size, T> (mean, sigma, detail::getSeedFromCurrentTime());
 }
 
-} // namespace vctr::Random
+} // namespace vctr::random

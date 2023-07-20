@@ -33,7 +33,7 @@ struct UnitTestValues
     template <size_t size, int seedOffset, int min = -100, int max = 100>
     static constexpr auto array (bool removeZeros = false, bool forceZero = false)
     {
-        constexpr auto r = vctr::Random::makeArrayWithUniformDistribution<size> (T (min), T (max), seedOffset);
+        constexpr auto r = vctr::random::makeArrayWithUniformDistribution<size> (T (min), T (max), seedOffset);
 
         vctr::Array<T, size> a;
 
@@ -64,7 +64,7 @@ struct UnitTestValues<std::complex<T>>
     template <size_t size, int seedOffset, int min = -100, int max = 100>
     static constexpr auto array (bool removeZeros = false, bool forceZero = false)
     {
-        auto realArray = vctr::Random::makeArrayWithUniformDistribution<2 * size> (T (min), T (max), seedOffset);
+        auto realArray = vctr::random::makeArrayWithUniformDistribution<2 * size> (T (min), T (max), seedOffset);
 
         vctr::Array<std::complex<T>, size> cplxArray;
 
