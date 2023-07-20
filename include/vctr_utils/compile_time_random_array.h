@@ -25,7 +25,15 @@
 #include <array>
 #include <cstdint>
 #include <numbers>
+
+#ifdef _MSC_VER
+__pragma(warning(push))
+__pragma(warning(disable:4244)) // conversion from 'long double' to 'T', possible loss of data
+#endif
 #include <gcem.hpp>
+#ifdef _MSC_VER
+__pragma(warning(pop))
+#endif
 
 /** This file contains methods that allow for the creations of randomly filled arrays at compile-time.
     The methods of interest are @see makeArrayWithNormalDistribution and @see makeArrayWithUniformDistribution.
