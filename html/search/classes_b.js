@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['sin_0',['Sin',['../classvctr_1_1expressions_1_1Sin.html',1,'vctr::expressions']]],
+  ['sinh_1',['Sinh',['../classvctr_1_1expressions_1_1Sinh.html',1,'vctr::expressions']]],
+  ['span_2',['Span',['../classvctr_1_1Span.html',1,'vctr']]],
+  ['sqrt_3',['Sqrt',['../classvctr_1_1expressions_1_1Sqrt.html',1,'vctr::expressions']]],
+  ['square_4',['Square',['../classvctr_1_1expressions_1_1Square.html',1,'vctr::expressions']]],
+  ['ssefilter_5',['SSEFilter',['../classvctr_1_1expressions_1_1SSEFilter.html',1,'vctr::expressions']]],
+  ['sseregister_6',['SSERegister',['../structvctr_1_1SSERegister.html',1,'vctr']]],
+  ['staticstorageinfo_7',['StaticStorageInfo',['../structvctr_1_1StaticStorageInfo.html',1,'vctr']]],
+  ['storageinfo_8',['StorageInfo',['../structvctr_1_1StorageInfo.html',1,'vctr']]],
+  ['storageinfo_3c_20detail_3a_3astdvectortype_3c_20elementtype_2c_20defaultvectorallocator_20_3e_20_3e_9',['StorageInfo&lt; detail::StdVectorType&lt; ElementType, DefaultVectorAllocator &gt; &gt;',['../structvctr_1_1StorageInfo.html',1,'vctr']]],
+  ['storageinfo_3c_20std_3a_3aarray_3c_20elementtype_2c_20detail_3a_3astorageextent_3c_20elementtype_2c_20extent_20_3e_3a_3aextent_20_3e_20_3e_10',['StorageInfo&lt; std::array&lt; ElementType, detail::StorageExtent&lt; ElementType, extent &gt;::extent &gt; &gt;',['../structvctr_1_1StorageInfo.html',1,'vctr']]],
+  ['storageinfo_3c_20std_3a_3aarray_3c_20elementtype_2c_20size_20_3e_20_3e_11',['StorageInfo&lt; std::array&lt; ElementType, size &gt; &gt;',['../structvctr_1_1StorageInfo_3_01std_1_1array_3_01ElementType_00_01size_01_4_01_4.html',1,'vctr']]],
+  ['storageinfo_3c_20std_3a_3aarray_3c_20std_3a_3aunique_5fptr_3c_20ownedelementtype_20_3e_2c_20detail_3a_3astorageextent_3c_20std_3a_3aunique_5fptr_3c_20ownedelementtype_20_3e_2c_20extent_20_3e_3a_3aextent_20_3e_20_3e_12',['StorageInfo&lt; std::array&lt; std::unique_ptr&lt; OwnedElementType &gt;, detail::StorageExtent&lt; std::unique_ptr&lt; OwnedElementType &gt;, extent &gt;::extent &gt; &gt;',['../structvctr_1_1StorageInfo.html',1,'vctr']]],
+  ['storageinfo_3c_20std_3a_3aspan_3c_20elementtype_2c_20std_3a_3adynamic_5fextent_20_3e_20_3e_13',['StorageInfo&lt; std::span&lt; ElementType, std::dynamic_extent &gt; &gt;',['../structvctr_1_1StorageInfo.html',1,'vctr']]],
+  ['storageinfo_3c_20std_3a_3avector_3c_20elementtype_2c_20alignedallocator_3c_20elementtype_2c_20alignmentinbytes_20_3e_20_3e_20_3e_14',['StorageInfo&lt; std::vector&lt; ElementType, AlignedAllocator&lt; ElementType, alignmentInBytes &gt; &gt; &gt;',['../structvctr_1_1StorageInfo_3_01std_1_1vector_3_01ElementType_00_01AlignedAllocator_3_01ElementTypb1ff9125abc35bf2a038ab1c1b675ea6.html',1,'vctr']]],
+  ['storageinfo_3c_20storagetype_20_3e_15',['StorageInfo&lt; StorageType &gt;',['../structvctr_1_1StorageInfo_3_01StorageType_01_4.html',1,'vctr']]],
+  ['storageinfowithmemberalignment_16',['StorageInfoWithMemberAlignment',['../structvctr_1_1StorageInfoWithMemberAlignment.html',1,'vctr']]],
+  ['storageinfowithmemberalignment_3c_20alignof_28std_3a_3aspan_3c_20elementtype_2c_20std_3a_3adynamic_5fextent_20_3e_29_2c_20storageinfo_3c_20std_3a_3aspan_3c_20elementtype_2c_20std_3a_3adynamic_5fextent_20_3e_20_3e_20_3e_17',['StorageInfoWithMemberAlignment&lt; alignof(std::span&lt; ElementType, std::dynamic_extent &gt;), StorageInfo&lt; std::span&lt; ElementType, std::dynamic_extent &gt; &gt; &gt;',['../structvctr_1_1StorageInfoWithMemberAlignment.html',1,'vctr']]],
+  ['subtractsinglefromvec_18',['SubtractSingleFromVec',['../classvctr_1_1expressions_1_1SubtractSingleFromVec.html',1,'vctr::expressions']]],
+  ['subtractvecfromsingle_19',['SubtractVecFromSingle',['../classvctr_1_1expressions_1_1SubtractVecFromSingle.html',1,'vctr::expressions']]],
+  ['subtractvectors_20',['SubtractVectors',['../classvctr_1_1expressions_1_1SubtractVectors.html',1,'vctr::expressions']]],
+  ['sum_21',['Sum',['../classvctr_1_1expressions_1_1Sum.html',1,'vctr::expressions']]]
+];
