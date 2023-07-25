@@ -37,3 +37,11 @@ jobs:
         with:
           name: Documentation
           path: doxygen
+          
+      - name: Deploy to GitHub Pages (if on develop or main branch)
+        if: ${{ github.ref_name == 'develop' }}
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          github_token: ${{ github.token }}
+          branch: gh-pages
+          folder: doxygen/html
