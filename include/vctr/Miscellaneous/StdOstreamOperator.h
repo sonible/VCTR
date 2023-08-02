@@ -26,6 +26,12 @@ namespace vctr
 template <is::anyVctrOrExpression V>
 std::ostream& operator<< (std::ostream& s, const V& vec)
 {
+    if (vec.empty())
+    {
+        s << "[ ]";
+        return s;
+    }
+  
     s << "[ ";
 
     const auto n = vec.size() - 1;
