@@ -72,7 +72,10 @@ public:
     constexpr Array()
     {
         if (std::is_constant_evaluated())
-            Vctr::storage.fill (value_type());
+        {
+            if constexpr (extent > 0)
+                Vctr::storage.fill (value_type());
+        }
     }
 
     /** Creates an Array with all elements initialised to initialValue */
