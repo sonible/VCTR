@@ -65,6 +65,8 @@ public:
     }
 
     //==============================================================================
+    VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS
+
     NeonRegister<value_type> getNeon (size_t i) const
     requires (archARM && has::getNeon<SrcType> && Expression::CommonElement::isSigned)
     {

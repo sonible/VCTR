@@ -53,6 +53,8 @@ public:
     }
 
     //==============================================================================
+    VCTR_FORWARD_PREPARE_SIMD_EVALUATION_BINARY_EXPRESSION_MEMBER_FUNCTIONS (srcA, srcB)
+
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcAType> && has::getAVX<SrcBType> && Expression::CommonElement::isRealFloat)
@@ -60,7 +62,6 @@ public:
         return Expression::AVX::div (srcA.getAVX (i), srcB.getAVX (i));
     }
 
-    //==============================================================================
     // SSE Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcAType> && has::getSSE<SrcBType> && Expression::CommonElement::isRealFloat)
@@ -93,19 +94,35 @@ public:
 
     //==============================================================================
     // AVX Implementation
+    void prepareAVXEvaluation() const
+    requires has::prepareAVXEvaluation<SrcType>
+    {
+        src.prepareAVXEvaluation();
+        singleSIMD.avx = Expression::AVX::broadcast (single);
+    }
+
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        return Expression::AVX::div (Expression::AVX::fromSSE (singleAsSSE, singleAsSSE), src.getAVX (i));
+        return Expression::AVX::div (singleSIMD.avx, src.getAVX (i));
     }
 
-    //==============================================================================
     // SSE Implementation
+    void prepareSSEEvaluation() const
+    requires has::prepareSSEEvaluation<SrcType>
+    {
+        src.prepareSSEEvaluation();
+        singleSIMD.sse = Expression::SSE::broadcast (single);
+    }
+
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        return Expression::SSE::div (singleAsSSE, src.getSSE (i));
+        return Expression::SSE::div (singleSIMD.sse, src.getSSE (i));
     }
+
+private:
+    mutable SIMDRegisterUnion<Expression> singleSIMD {};
 };
 
 //==============================================================================
@@ -139,19 +156,35 @@ public:
 
     //==============================================================================
     // AVX Implementation
+    void prepareAVXEvaluation() const
+    requires has::prepareAVXEvaluation<SrcType>
+    {
+        src.prepareAVXEvaluation();
+        singleSIMD.avx = Expression::AVX::broadcast (single);
+    }
+
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        return Expression::AVX::div (src.getAVX (i), Expression::AVX::fromSSE (singleAsSSE, singleAsSSE));
+        return Expression::AVX::div (src.getAVX (i), singleSIMD.avx);
     }
 
-    //==============================================================================
     // SSE Implementation
+    void prepareSSEEvaluation() const
+    requires has::prepareSSEEvaluation<SrcType>
+    {
+        src.prepareSSEEvaluation();
+        singleSIMD.sse = Expression::SSE::broadcast (single);
+    }
+
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        return Expression::SSE::div (src.getSSE (i), singleAsSSE);
+        return Expression::SSE::div (src.getSSE (i), singleSIMD.sse);
     }
+
+private:
+    mutable SIMDRegisterUnion<Expression> singleSIMD {};
 };
 
 } // namespace vctr::expressions

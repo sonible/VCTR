@@ -53,6 +53,8 @@ public:
     }
 
     //==============================================================================
+    VCTR_FORWARD_PREPARE_SIMD_EVALUATION_BINARY_EXPRESSION_MEMBER_FUNCTIONS (srcA, srcB)
+
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcAType> && has::getAVX<SrcBType> && Expression::CommonElement::isRealFloat)
@@ -66,7 +68,6 @@ public:
         return Expression::AVX::sub (srcA.getAVX (i), srcB.getAVX (i));
     }
 
-    //==============================================================================
     // SSE Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcAType> && has::getSSE<SrcBType>)
@@ -74,7 +75,6 @@ public:
         return Expression::SSE::sub (srcA.getSSE (i), srcB.getSSE (i));
     }
 
-    //==============================================================================
     // Neon Implementation
     NeonRegister<value_type> getNeon (size_t i) const
     requires (archARM && has::getNeon<SrcAType> && has::getNeon<SrcBType>)
@@ -115,32 +115,55 @@ public:
 
     //==============================================================================
     // AVX Implementation
+    void prepareAVXEvaluation() const
+    requires has::prepareAVXEvaluation<SrcType>
+    {
+        src.prepareAVXEvaluation();
+        singleSIMD.avx = Expression::AVX::broadcast (single);
+    }
+
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        return Expression::AVX::sub (Expression::AVX::fromSSE (singleAsSSE, singleAsSSE), src.getAVX (i));
+        return Expression::AVX::sub (singleSIMD.avx, src.getAVX (i));
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("avx2") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isInt)
     {
-        return Expression::AVX::sub (Expression::AVX::fromSSE (singleAsSSE, singleAsSSE), src.getAVX (i));
+        return Expression::AVX::sub (singleSIMD.avx, src.getAVX (i));
     }
-    //==============================================================================
+
     // SSE Implementation
+    void prepareSSEEvaluation() const
+    requires has::prepareSSEEvaluation<SrcType>
+    {
+        src.prepareSSEEvaluation();
+        singleSIMD.sse = Expression::SSE::broadcast (single);
+    }
+
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame)
     {
-        return Expression::SSE::sub (singleAsSSE, src.getSSE (i));
+        return Expression::SSE::sub (singleSIMD.sse, src.getSSE (i));
     }
 
-    //==============================================================================
     // Neon Implementation
+    void prepareNeonEvaluation() const
+    requires has::prepareNeonEvaluation<SrcType>
+    {
+        src.prepareNeonEvaluation();
+        singleSIMD.neon = Expression::Neon::broadcast (single);
+    }
+
     NeonRegister<value_type> getNeon (size_t i) const
     requires (archARM && has::getNeon<SrcType> && Expression::allElementTypesSame)
     {
-        return Expression::Neon::sub (singleAsNeon, src.getNeon (i));
+        return Expression::Neon::sub (singleSIMD.neon, src.getNeon (i));
     }
+
+private:
+    mutable SIMDRegisterUnion<Expression> singleSIMD {};
 };
 
 //==============================================================================
@@ -173,33 +196,56 @@ public:
     }
 
     //==============================================================================
+    void prepareAVXEvaluation() const
+    requires has::prepareAVXEvaluation<SrcType>
+    {
+        src.prepareAVXEvaluation();
+        singleSIMD.avx = Expression::AVX::broadcast (single);
+    }
+
+    void prepareSSEEvaluation() const
+    requires has::prepareSSEEvaluation<SrcType>
+    {
+        src.prepareSSEEvaluation();
+        singleSIMD.sse = Expression::SSE::broadcast (single);
+    }
+
+    void prepareNeonEvaluation() const
+    requires has::prepareNeonEvaluation<SrcType>
+    {
+        src.prepareNeonEvaluation();
+        singleSIMD.neon = Expression::Neon::broadcast (single);
+    }
+
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        return Expression::AVX::sub (src.getAVX (i), Expression::AVX::fromSSE (singleAsSSE, singleAsSSE));
+        return Expression::AVX::sub (src.getAVX (i), singleSIMD.avx);
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("avx2") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isInt)
     {
-        return Expression::AVX::sub (src.getAVX (i), Expression::AVX::fromSSE (singleAsSSE, singleAsSSE));
+        return Expression::AVX::sub (src.getAVX (i), singleSIMD.avx);
     }
-    //==============================================================================
+
     // SSE Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame)
     {
-        return Expression::SSE::sub (src.getSSE (i), singleAsSSE);
+        return Expression::SSE::sub (src.getSSE (i), singleSIMD.sse);
     }
 
-    //==============================================================================
     // Neon Implementation
     NeonRegister<value_type> getNeon (size_t i) const
     requires (archARM && has::getNeon<SrcType> && Expression::allElementTypesSame)
     {
-        return Expression::Neon::sub (src.getNeon (i), singleAsNeon);
+        return Expression::Neon::sub (src.getNeon (i), singleSIMD.neon);
     }
+
+private:
+    mutable SIMDRegisterUnion<Expression> singleSIMD {};
 };
 
 } // namespace vctr::expressions

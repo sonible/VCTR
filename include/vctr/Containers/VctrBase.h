@@ -725,12 +725,16 @@ public:
     //==============================================================================
     // SIMD Register Access
     //==============================================================================
+    void prepareNeonEvaluation() const {}
+
     NeonRegister<std::remove_const_t<ElementType>> getNeon (size_t i) const
     requires archARM && is::realNumber<ElementType>
     {
         VCTR_ASSERT (i % NeonRegister<std::remove_const_t<ElementType>>::numElements == 0);
         return NeonRegister<std::remove_const_t<ElementType>>::load (data() + i);
     }
+
+    void prepareAVXEvaluation() const {}
 
     VCTR_TARGET ("avx")
     AVXRegister<std::remove_const_t<ElementType>> getAVX (size_t i) const
@@ -742,6 +746,8 @@ public:
         else
             return AVXRegister<std::remove_const_t<ElementType>>::loadUnaligned (data() + i);
     }
+
+    void prepareSSEEvaluation() const {}
 
     VCTR_TARGET ("sse4.1")
     SSERegister<std::remove_const_t<ElementType>> getSSE (size_t i) const
@@ -1003,6 +1009,7 @@ private:
         const auto n = storage.size();
         const auto nSIMD = hasExtendedSIMDStorage ? detail::nextMultipleOf<inc> (n) : detail::previousMultipleOf<inc> (n);
 
+        e.prepareNeonEvaluation();
         auto* d = data();
 
         size_t i = 0;
@@ -1023,6 +1030,7 @@ private:
         const auto n = storage.size();
         const auto nSIMD = hasExtendedSIMDStorage ? detail::nextMultipleOf<inc> (n) : detail::previousMultipleOf<inc> (n);
 
+        e.prepareAVXEvaluation();
         auto* d = data();
 
         if (StorageInfoType::dataIsSIMDAligned)
@@ -1055,6 +1063,7 @@ private:
         const auto n = storage.size();
         const auto nSIMD = hasExtendedSIMDStorage ? detail::nextMultipleOf<inc> (n) : detail::previousMultipleOf<inc> (n);
 
+        e.prepareAVXEvaluation();
         auto* d = data();
 
         if (StorageInfoType::dataIsSIMDAligned)
@@ -1087,6 +1096,7 @@ private:
         const auto n = storage.size();
         const auto nSIMD = hasExtendedSIMDStorage ? detail::nextMultipleOf<inc> (n) : detail::previousMultipleOf<inc> (n);
 
+        e.prepareSSEEvaluation();
         auto* d = data();
 
         if (StorageInfoType::dataIsSIMDAligned)
