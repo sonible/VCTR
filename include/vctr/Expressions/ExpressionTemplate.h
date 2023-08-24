@@ -116,6 +116,15 @@ struct ExpressionTemplateBase : Config
         /** The PlatformVectorOps::IntelIPP type for the common element type */
         using IPP = PlatformVectorOps::IntelIPP<typename CommonElement::Type>;
     };
+
+    /** Helper template to define a union of all supported SIMD types. Especially useful for space efficient scratch registers kept as members. */
+    template <class ExpressionTypes>
+    union SIMDRegisterUnion
+    {
+        typename ExpressionTypes::NeonSrc neon;
+        typename ExpressionTypes::SSESrc sse;
+        typename ExpressionTypes::AVXSrc avx;
+    };
 };
 
 namespace detail
@@ -260,20 +269,59 @@ private:                                                                        
                                                                                                       \
     SrcType srcVecName;                                                                               \
     typename Expression::CommonSrcElement::Type srcSingleName;                                        \
-    const typename Expression::SSESrc srcSingleName##AsSSE;                                           \
-    const typename Expression::NeonSrc srcSingleName##AsNeon;                                         \
 public:                                                                                               \
                                                                                                       \
     template <class Src>                                                                              \
     constexpr ExpressionName (typename Expression::CommonSrcElement::Type a, Src&& b)                 \
         : srcVecName (std::forward<Src> (b)),                                                         \
-          srcSingleName (a),                                                                          \
-          srcSingleName##AsSSE (Expression::SSESrc::broadcast (a)),                                   \
-          srcSingleName##AsNeon (Expression::NeonSrc::broadcast (a))                                  \
+          srcSingleName (a)                                                                           \
     {}                                                                                                \
                                                                                                       \
     constexpr const auto& getStorageInfo() const { return srcVecName.getStorageInfo(); }              \
                                                                                                       \
     constexpr size_t size() const { return srcVecName.size(); }                                       \
     constexpr bool isNotAliased (const void* other) const { return srcVecName.isNotAliased (other); }
+
+/** Forwards prepareNeonEvaluation(), prepareAVXEvaluation() and prepareSSEEvaluation() if the SrcType supplies them. */
+#define VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS \
+    void prepareNeonEvaluation() const                                         \
+    requires has::prepareNeonEvaluation<SrcType>                               \
+    {                                                                          \
+        src.prepareNeonEvaluation();                                           \
+    }                                                                          \
+                                                                               \
+    void prepareAVXEvaluation() const                                          \
+    requires has::prepareAVXEvaluation<SrcType>                                \
+    {                                                                          \
+        src.prepareAVXEvaluation();                                            \
+    }                                                                          \
+                                                                               \
+    void prepareSSEEvaluation() const                                          \
+    requires has::prepareSSEEvaluation<SrcType>                                \
+    {                                                                          \
+        src.prepareSSEEvaluation();                                            \
+    }
+
+/** Forwards prepareNeonEvaluation(), prepareAVXEvaluation() and prepareSSEEvaluation() if both source types supply them. */
+#define VCTR_FORWARD_PREPARE_SIMD_EVALUATION_BINARY_EXPRESSION_MEMBER_FUNCTIONS(srcAName, srcBName) \
+    void prepareNeonEvaluation() const                                                              \
+    requires has::prepareNeonEvaluation<SrcAType> && has::prepareNeonEvaluation<SrcBType>           \
+    {                                                                                               \
+        srcAName.prepareNeonEvaluation();                                                           \
+        srcBName.prepareNeonEvaluation();                                                           \
+    }                                                                                               \
+                                                                                                    \
+    void prepareAVXEvaluation() const                                                               \
+    requires has::prepareAVXEvaluation<SrcAType> && has::prepareAVXEvaluation<SrcBType>             \
+    {                                                                                               \
+        srcAName.prepareAVXEvaluation();                                                            \
+        srcBName.prepareAVXEvaluation();                                                            \
+    }                                                                                               \
+                                                                                                    \
+    void prepareSSEEvaluation() const                                                               \
+    requires has::prepareSSEEvaluation<SrcAType> && has::prepareSSEEvaluation<SrcBType>             \
+    {                                                                                               \
+        srcAName.prepareSSEEvaluation();                                                            \
+        srcBName.prepareSSEEvaluation();                                                            \
+    }
 // clang-format on

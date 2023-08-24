@@ -66,6 +66,8 @@ public:
     }
 
     //==============================================================================
+    VCTR_FORWARD_PREPARE_SIMD_EVALUATION_BINARY_EXPRESSION_MEMBER_FUNCTIONS (srcA, srcB)
+
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcAType> && has::getAVX<SrcBType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
@@ -117,19 +119,34 @@ public:
 
     //==============================================================================
     // AVX Implementation
+    void prepareAVXEvaluation() const
+    requires has::prepareAVXEvaluation<SrcType>
+    {
+        src.prepareAVXEvaluation();
+        singleSIMD.avx = Expression::AVX::broadcast (single);
+    }
+
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        return Expression::AVX::mul (Expression::AVX::fromSSE (singleAsSSE, singleAsSSE), src.getAVX (i));
+        return Expression::AVX::mul (singleSIMD.avx, src.getAVX (i));
     }
 
-    //==============================================================================
     // SSE Implementation
+    void prepareSSEEvaluation() const
+    requires has::prepareSSEEvaluation<SrcType>
+    {
+        src.prepareSSEEvaluation();
+        singleSIMD.sse = Expression::SSE::broadcast (single);
+    }
+
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        return Expression::SSE::mul (singleAsSSE, src.getSSE (i));
+        return Expression::SSE::mul (singleSIMD.sse, src.getSSE (i));
     }
+private:
+    mutable SIMDRegisterUnion<Expression> singleSIMD {};
 };
 
 //==============================================================================
@@ -143,12 +160,6 @@ public:
     static constexpr auto constant = value_type (ConstantType::value);
 
     VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (MultiplyVecByConstant, src)
-
-    void applyRuntimeArgs()
-    {
-        asSSE = Expression::SSESrc::broadcast (constant);
-        asNeon = Expression::NeonSrc::broadcast (constant);
-    }
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
@@ -183,24 +194,35 @@ public:
 
     //==============================================================================
     // AVX Implementation
+    void prepareAVXEvaluation() const
+    requires has::prepareAVXEvaluation<SrcType>
+    {
+        src.prepareAVXEvaluation();
+        constantSIMD.avx = Expression::AVX::broadcast (constant);
+    }
+
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        return Expression::AVX::mul (Expression::AVX::fromSSE (asSSE, asSSE), src.getAVX (i));
+        return Expression::AVX::mul (constantSIMD.avx, src.getAVX (i));
     }
 
-    //==============================================================================
     // SSE Implementation
+    void prepareSSEEvaluation() const
+    requires has::prepareSSEEvaluation<SrcType>
+    {
+        src.prepareSSEEvaluation();
+        constantSIMD.sse = Expression::SSE::broadcast (constant);
+    }
+
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        return Expression::SSE::mul (asSSE, src.getSSE (i));
+        return Expression::SSE::mul (constantSIMD.sse, src.getSSE (i));
     }
 
 private:
-
-    typename Expression::SSESrc asSSE;
-    typename Expression::NeonSrc asNeon;
+    mutable SIMDRegisterUnion<Expression> constantSIMD {};
 };
 
 } // namespace vctr::expressions

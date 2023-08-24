@@ -69,13 +69,25 @@ struct IsExpressionChainBuilder<ExpressionChainBuilderWithRuntimeArgs<Expression
 namespace vctr::has
 {
 
+/** Constrains a type to have a member function prepareNeonEvaluation() const. */
+template <class T>
+concept prepareNeonEvaluation = requires (const T& t) { t.prepareNeonEvaluation(); };
+
 /** Constrains a type to have a member function getNeon (size_t) const. */
 template <class T>
 concept getNeon = requires (const T& t, size_t i) { t.getNeon (i); };
 
+/** Constrains a type to have a member function prepareAVXEvaluation() const. */
+template <class T>
+concept prepareAVXEvaluation = requires (const T& t) { t.prepareAVXEvaluation(); };
+
 /** Constrains a type to have a member function getAVX (size_t) const. */
 template <class T>
 concept getAVX = requires (const T& t, size_t i) { t.getAVX (i); };
+
+/** Constrains a type to have a member function prepareSSEEvaluation() const. */
+template <class T>
+concept prepareSSEEvaluation = requires (const T& t) { t.prepareSSEEvaluation(); };
 
 /** Constrains a type to have a member function getSSE (size_t) const. */
 template <class T>

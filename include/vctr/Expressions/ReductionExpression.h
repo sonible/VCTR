@@ -99,6 +99,8 @@ private:
         const auto n = e.size();
         const auto nSIMD = detail::previousMultipleOf<inc> (n);
 
+        e.prepareAVXEvaluation();
+
         auto avxValue = RType::broadcast (Expression::reductionResultInitValue);
 
         size_t i = 0;
@@ -125,6 +127,8 @@ private:
         constexpr auto inc = RType::numElements;
         const auto n = e.size();
         const auto nSIMD = detail::previousMultipleOf<inc> (n);
+
+        e.prepareAVXEvaluation();
 
         auto avxValue = RType::broadcast (Expression::reductionResultInitValue);
 
@@ -153,6 +157,8 @@ private:
         const auto n = e.size();
         const auto nSIMD = detail::previousMultipleOf<inc> (n);
 
+        e.prepareSSEEvaluation();
+
         auto sseValue = RType::broadcast (Expression::reductionResultInitValue);
 
         size_t i = 0;
@@ -180,14 +186,16 @@ private:
         const auto n = e.size();
         const auto nSIMD = detail::previousMultipleOf<inc> (n);
 
-        auto sseValue = RType::broadcast (Expression::reductionResultInitValue);
+        e.prepareNeonEvaluation();
+
+        auto neonValue = RType::broadcast (Expression::reductionResultInitValue);
 
         size_t i = 0;
         for (; i < nSIMD; i += inc)
-            e.reduceNeonRegisterWise (sseValue, i);
+            e.reduceNeonRegisterWise (neonValue, i);
 
         alignas (Config::maxSIMDRegisterSize) std::array<VType, RType::numElements + 1> results;
-        sseValue.store (results.data());
+        neonValue.store (results.data());
         results.back() = Expression::reductionResultInitValue;
 
         for (; i < n; ++i)

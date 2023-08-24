@@ -62,6 +62,8 @@ public:
     }
 
     //==============================================================================
+    VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS
+
     // Apple specific SIMD Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires is::suitableForAccelerateSSEOp<value_type, SrcType>

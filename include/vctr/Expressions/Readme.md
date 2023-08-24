@@ -183,7 +183,7 @@ the expression:
 - SSE: Implement `SSERegister<value_type> getSSE (size_t i) const` for suitable types. Make sure to require at
   least `archX64 && has::getSSE<SrcType>`
 - Neon: Implement `NeonRegister<value_type> getNeon (size_t i) const` for suitable types. Make sure to require at
-  least `archARM && has::getAVX<SrcType>`
+  least `archARM && has::getNeon<SrcType>`
 - Platform specific vector operations (Intel IPP, Apple Accelerate, etc). See dedicated section below.
 
 Intel architecture specific implementations have to be prefixed with the `VCTR_TARGET (<arch>)` macro to instruct
@@ -221,6 +221,64 @@ is no straightforward abs function in SSE 4.1 so we don't implement it. Calling 
 to the default `operator[]` implementation then. When assigning the expression, the implementation tries its best to
 choose the most promising strategy for the given architecture it runs on, so it's a good idea to implement multiple
 possibilities.
+
+Some SIMD based evaluations can gain performance by storing constants to a SIMD register once before looping over
+the registers. These temporary registers are managed as private `mutable` member variables in the expression class.
+They are mutable since expressions are usually passed as const reference to the destination container that evaluates
+them, and they are used as temporary working buffer only. Since multithreaded expression evaluation is not supported,
+this is safe. To avoid the need of declaring individual variables per register type which will never be used
+simultaneously, we can use the `SIMDRegisterUnion` union template which contains a Neon, an AVX and an SSE register.
+To initialize the values in the register before the SIMD evaluation starts, the expression has to expose a 
+`prepare<arch>Evaluation` function with `<arch>` being one of `Neon`, `AVX` and `SSE` for every evaluation function
+that it implements. Even if the expression does not make use of that feature, it has to forward those functions to 
+the source expressions. To avoid a lot of boilerplate code, the 
+`VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS` and 
+`VCTR_FORWARD_PREPARE_SIMD_EVALUATION_BINARY_EXPRESSION_MEMBER_FUNCTIONS` macros can be used. A manual implementation
+can look like this, taking an expression that sums a SIMD register with a scalar value:
+```C++
+public:
+    //...
+    
+    // AVX Implementation
+    void prepareAVXEvaluation() const
+    requires has::prepareAVXEvaluation<SrcType>
+    {
+        src.prepareAVXEvaluation();
+        singleSIMD.avx = Expression::AVX::broadcast (single);
+    }
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
+    requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
+    {
+        return Expression::AVX::add (singleSIMD.avx, src.getAVX (i));
+    }
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") AVXRegister<value_type> getAVX (size_t i) const
+    requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isInt)
+    {
+        return Expression::AVX::add (singleSIMD.avx, src.getAVX (i));
+    }
+    
+    // SSE Implementation
+    void prepareSSEEvaluation() const
+    requires has::prepareSSEEvaluation<SrcType>
+    {
+        src.prepareSSEEvaluation();
+        singleSIMD.sse = Expression::SSE::broadcast (single);
+    }
+    
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
+    requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame)
+    {
+        return Expression::SSE::add (singleSIMD.sse, src.getSSE (i));
+    }
+
+private:
+    mutable SIMDRegisterUnion<Expression> singleSIMD {};
+```
+
+Note: Don't forget the default initialization braces for your `SIMDRegisterUnion` member(s), otherwise the expression 
+class won't work in a constexpr context.
 
 ## Platform Specific Vector Operations
 

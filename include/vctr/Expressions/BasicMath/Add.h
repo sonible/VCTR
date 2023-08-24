@@ -53,6 +53,8 @@ public:
     }
 
     //==============================================================================
+    VCTR_FORWARD_PREPARE_SIMD_EVALUATION_BINARY_EXPRESSION_MEMBER_FUNCTIONS (srcA, srcB)
+
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcAType> && has::getAVX<SrcBType> && Expression::CommonElement::isRealFloat)
@@ -106,24 +108,41 @@ public:
 
     //==============================================================================
     // AVX Implementation
+    void prepareAVXEvaluation() const
+    requires has::prepareAVXEvaluation<SrcType>
+    {
+        src.prepareAVXEvaluation();
+        singleSIMD.avx = Expression::AVX::broadcast (single);
+    }
+
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        return Expression::AVX::add (Expression::AVX::fromSSE (singleAsSSE, singleAsSSE), src.getAVX (i));
+        return Expression::AVX::add (singleSIMD.avx, src.getAVX (i));
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("avx2") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isInt)
     {
-        return Expression::AVX::add (Expression::AVX::fromSSE (singleAsSSE, singleAsSSE), src.getAVX (i));
+        return Expression::AVX::add (singleSIMD.avx, src.getAVX (i));
     }
-    //==============================================================================
+
     // SSE Implementation
+    void prepareSSEEvaluation() const
+    requires has::prepareSSEEvaluation<SrcType>
+    {
+        src.prepareSSEEvaluation();
+        singleSIMD.sse = Expression::SSE::broadcast (single);
+    }
+
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame)
     {
-        return Expression::SSE::add (singleAsSSE, src.getSSE (i));
+        return Expression::SSE::add (singleSIMD.sse, src.getSSE (i));
     }
+
+private:
+    mutable SIMDRegisterUnion<Expression> singleSIMD {};
 };
 
 } // namespace vctr::expressions
