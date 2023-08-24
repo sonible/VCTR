@@ -34,7 +34,7 @@ public:
     static constexpr bool clampLow = ClampLow::value;
     static constexpr bool clampHigh = ClampHigh::value;
 
-    void applyRuntimeArgs (value_type newLowerBound, value_type newUpperBound)
+    constexpr void applyRuntimeArgs (value_type newLowerBound, value_type newUpperBound)
     {
         lowerBound = newLowerBound;
         upperBound = newUpperBound;

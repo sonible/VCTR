@@ -32,7 +32,7 @@ public:
     
     VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Map, src)
 
-    void applyRuntimeArgs (RangeType newSrcRange, RangeType newDstRange)
+    constexpr void applyRuntimeArgs (RangeType newSrcRange, RangeType newDstRange)
     {
         srcRangeStartNegated = -newSrcRange.getStart();
         srcDstLenRatio = newDstRange.getLength() / newSrcRange.getLength();
@@ -86,7 +86,7 @@ public:
 
     VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (MapFrom0To1, src)
 
-    void applyRuntimeArgs (RangeType newDstRange)
+    constexpr void applyRuntimeArgs (RangeType newDstRange)
     {
         dstRangeStart = newDstRange.getStart();
         dstRangeLen = newDstRange.getLength();
@@ -136,7 +136,7 @@ public:
 
     VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (MapTo0To1, src)
 
-    void applyRuntimeArgs (RangeType newSrcRange)
+    constexpr void applyRuntimeArgs (RangeType newSrcRange)
     {
         srcRangeStartNegated = -newSrcRange.getStart();
         srcRangeLen = newSrcRange.getLength();

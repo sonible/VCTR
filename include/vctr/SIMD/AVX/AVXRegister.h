@@ -26,7 +26,7 @@ namespace vctr
 template <class T>
 struct AVXRegister
 {
-    static AVXRegister broadcast (const T&) { return {}; }
+    static constexpr AVXRegister broadcast (const T&) { return {}; }
 };
 
 #if VCTR_X64

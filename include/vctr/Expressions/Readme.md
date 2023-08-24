@@ -36,7 +36,7 @@ public:
     
     // Some expression need runtime args. Even if this expression does not need them, it should try to forward them
     template <size_t i, class RuntimeArgs>
-    void iterateOverRuntimeArgChain (const RuntimeArgs& rtArgs)
+    constexpr void iterateOverRuntimeArgChain (const RuntimeArgs& rtArgs)
     {
         tryApplyingRuntimeArgsToSrc<i + 1> (rtArgs, src); 
     }
@@ -113,7 +113,7 @@ When the expression instance is created, the chain builder has to apply the argu
 we need to add an `applyRuntimeArgs` member function to the expression template, which accepts the same number of 
 arguments as passed to the expression chain builder instance and applies them to the actual expression:
 ```C++
-void applyRuntimeArgs (value_type arg1, value_type arg2)
+constexpr void applyRuntimeArgs (value_type arg1, value_type arg2)
 {
    // apply the args to some member variables, some sanity checks...
 }
@@ -363,13 +363,13 @@ public:
 
     static constexpr value_type reductionResultInitValue = std::numeric_limits<value_type>::min();
 
-    VCTR_FORCEDINLINE void reduceElementWise (value_type& result, size_t i) const
+    VCTR_FORCEDINLINE constexpr void reduceElementWise (value_type& result, size_t i) const
     {
         result = someComputation (result, src[i]);
     }
     
     template <size_t n>
-    VCTR_FORCEDINLINE static value_type finalizeReduction (const std::array<value_type, n>& subResults)
+    VCTR_FORCEDINLINE static constexpr value_type finalizeReduction (const std::array<value_type, n>& subResults)
     {
         return finalComputationOnSubResults (subResults);
     }

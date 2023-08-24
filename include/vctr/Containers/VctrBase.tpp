@@ -89,30 +89,26 @@ constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::oper
         return;
     }
 
-    const auto& self = *this;
-    assignExpressionTemplate (expressions::AddVectors<extent, decltype (self), const V&> (self, v));
+    assignExpressionTemplate (*this + v);
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
 constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator+= (value_type c)
 {
-    const auto& self = *this;
-    assignExpressionTemplate (expressions::AddSingleToVec<extent, decltype (self)> (c, self));
+    assignExpressionTemplate (*this + c);
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
 template <is::anyVctrOrExpression V>
 constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator-= (const V& v)
 {
-    const auto& self = *this;
-    assignExpressionTemplate (expressions::SubtractVectors<extent, decltype (self), const V&> (self, v));
+    assignExpressionTemplate (*this - v);
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>
 constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::operator-= (value_type c)
 {
-    const auto& self = *this;
-    assignExpressionTemplate (expressions::SubtractSingleFromVec<extent, decltype (self)> (c, self));
+    assignExpressionTemplate (*this - c);
 }
 
 template <class ElementType, class StorageType, size_t extent, class StorageInfoType>

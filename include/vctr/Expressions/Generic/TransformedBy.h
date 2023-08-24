@@ -32,7 +32,7 @@ public:
 
     VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (TransformedBy, src)
 
-    void applyRuntimeArgs (const FunctionType& transformationFunction)
+    constexpr void applyRuntimeArgs (const FunctionType& transformationFunction)
     {
         fn = transformationFunction;
     }

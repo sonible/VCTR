@@ -254,7 +254,7 @@ using ExpressionChainBuilder = ExpressionChainBuilderWithRuntimeArgs<ExpressionT
  */
 template <template <size_t, class...> class ExpressionType, class... RuntimeArgs>
 requires (sizeof... (RuntimeArgs) > 0)
-auto makeExpressionChainBuilderWithRuntimeArgs (RuntimeArgs... runtimeArgs)
+constexpr auto makeExpressionChainBuilderWithRuntimeArgs (RuntimeArgs... runtimeArgs)
 {
     return ExpressionChainBuilderWithRuntimeArgs<ExpressionType, detail::RuntimeArgChain<std::tuple<RuntimeArgs...>>> (detail::RuntimeArgChain<std::tuple<RuntimeArgs...>> (std::move (runtimeArgs)...));
 }
@@ -266,7 +266,7 @@ auto makeExpressionChainBuilderWithRuntimeArgs (RuntimeArgs... runtimeArgs)
  */
 template <template <size_t, class...> class ExpressionType, class ExpressionTemplateArg, class... RuntimeArgs>
 requires (sizeof... (RuntimeArgs) > 0)
-auto makeTemplateExpressionChainBuilderWithRuntimeArgs (RuntimeArgs... runtimeArgs)
+constexpr auto makeTemplateExpressionChainBuilderWithRuntimeArgs (RuntimeArgs... runtimeArgs)
 {
     return ExpressionChainBuilderWithRuntimeArgs<ExpressionType, detail::RuntimeArgChain<std::tuple<RuntimeArgs...>>, ExpressionTemplateArg> (detail::RuntimeArgChain<std::tuple<RuntimeArgs...>> (std::move (runtimeArgs)...));
 }
