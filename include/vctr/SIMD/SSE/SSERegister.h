@@ -26,7 +26,7 @@ namespace vctr
 template <class T>
 struct SSERegister
 {
-    static SSERegister broadcast (const T&) { return {}; }
+    static constexpr SSERegister broadcast (const T&) { return {}; }
 };
 
 #if VCTR_X64

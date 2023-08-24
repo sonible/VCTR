@@ -32,7 +32,7 @@ public:
 
     VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (NormalizeSum, src)
 
-    void applyRuntimeArgs()
+    constexpr void applyRuntimeArgs()
     {
         srcSum = sum << src;
     }

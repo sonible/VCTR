@@ -34,7 +34,7 @@ public:
 
     static constexpr value_type reductionResultInitValue = std::numeric_limits<value_type>::max();
 
-    VCTR_FORCEDINLINE void reduceElementWise (value_type& result, size_t i) const
+    VCTR_FORCEDINLINE constexpr void reduceElementWise (value_type& result, size_t i) const
     {
         result = std::min (result, src[i]);
     }
@@ -81,7 +81,7 @@ public:
 
     //==============================================================================
     template <size_t n>
-    VCTR_FORCEDINLINE static value_type finalizeReduction (const std::array<value_type, n>& minima)
+    VCTR_FORCEDINLINE static constexpr value_type finalizeReduction (const std::array<value_type, n>& minima)
     {
         if constexpr (n == 1)
             return minima[0];
@@ -101,13 +101,13 @@ public:
 
     static constexpr value_type reductionResultInitValue = std::numeric_limits<value_type>::max();
 
-    VCTR_FORCEDINLINE void reduceElementWise (value_type& result, size_t i) const
+    VCTR_FORCEDINLINE constexpr void reduceElementWise (value_type& result, size_t i) const
     requires is::signedNumber<value_type>
     {
         result = std::min (result, std::abs (src[i]));
     }
 
-    VCTR_FORCEDINLINE void reduceElementWise (value_type& result, size_t i) const
+    VCTR_FORCEDINLINE constexpr void reduceElementWise (value_type& result, size_t i) const
     requires (! is::signedNumber<value_type>)
     {
         result = std::min (result, src[i]);
@@ -177,7 +177,7 @@ public:
 
     //==============================================================================
     template <size_t n>
-    VCTR_FORCEDINLINE static value_type finalizeReduction (const std::array<value_type, n>& minima)
+    VCTR_FORCEDINLINE static constexpr value_type finalizeReduction (const std::array<value_type, n>& minima)
     {
         if constexpr (n == 1)
             return minima[0];

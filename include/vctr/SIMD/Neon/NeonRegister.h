@@ -26,7 +26,7 @@ namespace vctr
 template <class T>
 struct NeonRegister
 {
-    static NeonRegister broadcast (const T&) { return {}; }
+    static constexpr NeonRegister broadcast (const T&) { return {}; }
 };
 
 #if VCTR_ARM

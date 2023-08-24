@@ -162,9 +162,9 @@ struct StaticStorageInfo
 template <size_t alignment, class WrappedInfo>
 struct StorageInfoWithMemberAlignment : WrappedInfo
 {
-    StorageInfoWithMemberAlignment() = default;
+    constexpr StorageInfoWithMemberAlignment() = default;
 
-    StorageInfoWithMemberAlignment (const WrappedInfo& i) : WrappedInfo (i) {}
+    constexpr StorageInfoWithMemberAlignment (const WrappedInfo& i) : WrappedInfo (i) {}
 
     static constexpr size_t memberAlignment = alignment;
 };
