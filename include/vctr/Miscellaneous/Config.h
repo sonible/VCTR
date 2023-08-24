@@ -136,6 +136,11 @@
 #define VCTR_ALIGNED_ARRAY 1
 #endif
 
+#if VCTR_WINDOWS
+// This is needed for the CPU instruction set check found below
+#include <intrin.h>
+#endif
+
 namespace vctr
 {
 
@@ -151,9 +156,6 @@ enum class CPUInstructionSet
 };
 
 #if VCTR_WINDOWS
-
-#include <intrin.h>
-
 namespace detail
 {
 /** Implementation inspired by https://learn.microsoft.com/en-us/cpp/intrinsics/cpuid-cpuidex?redirectedfrom=MSDN&view=msvc-170 */
