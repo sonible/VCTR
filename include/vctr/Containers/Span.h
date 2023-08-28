@@ -102,6 +102,14 @@ public:
         VCTR_ASSERT (extent == containerToView.size() || extent == std::dynamic_extent);
     }
 
+    /** Creates a Span that acts as a view to a compile time constant sized C style array. */
+    template <std::same_as<ElementType> T, size_t n>
+    requires (n != std::dynamic_extent)
+    constexpr Span (T (&cStyleArray)[n])
+    requires (n == extent)
+        : Vctr (StdSpanType (cStyleArray))
+    {}
+
     //==============================================================================
     // Operators
     //==============================================================================
@@ -172,6 +180,9 @@ Span (ElementType*, size_t, const StaticStorageInfo<isDataSIMDAligned, isStorage
 
 template <class Container>
 Span (Container&&) -> Span<DataType<Container>, extentOf<Container>, StorageInfoWithMemberAlignment<alignof (std::span<DataType<Container>, extentOf<Container>>), StorageInfoType<Container>>>;
+
+template <class ElementType, size_t size>
+Span (ElementType (&)[size]) -> Span<ElementType, size, StorageInfoWithMemberAlignment<alignof (std::span<ElementType, size>), StorageInfo<std::span<ElementType, size>>>>;
 
 /** Creates a span with dynamic extent pointing to a memory location that is expected to be SIMD aligned. */
 template <class ElementType>

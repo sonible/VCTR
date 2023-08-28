@@ -70,4 +70,9 @@ TEMPLATE_TEST_CASE ("Span Constructors", "[Span][Constructor]", float, int64_t, 
     auto fn = [&] (const vctr::Span<TestType> s) { s[4] = cv[1]; };
     fn (v);
     REQUIRE (v[4] == cv[1]);
+
+    TestType cArray[100];
+    std::copy_n (cv.begin(), 100, cArray);
+    vctr::Span fromCArray (cArray);
+    REQUIRE_THAT (fromCArray, vctr::Equals (cv));
 }
