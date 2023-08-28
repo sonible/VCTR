@@ -134,26 +134,26 @@ $(document).ready(function(){initNavTree('Cube_8h_source.html',''); initResizabl
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    }</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="comment">// AVX Implementation</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    VCTR_FORCEDINLINE VCTR_TARGET (<span class="stringliteral">&quot;avx&quot;</span>) <a class="code hl_struct" href="structvctr_1_1AVXRegister.html">AVXRegister&lt;value_type&gt;</a> getAVX (<span class="keywordtype">size_t</span> i) <span class="keyword">const</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keyword">requires</span> archX64 &amp;&amp; <a class="code hl_concept" href="conceptvctr_1_1has_1_1getAVX.html">has::getAVX&lt;SrcType&gt;</a> &amp;&amp; Expression::CommonElement::isRealFloat</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    {</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keyword">auto</span> x = src.getAVX (i);</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="keyword">auto</span> y = Expression::AVX::mul (x, x);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">return</span> Expression::AVX::mul (x, y);</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    }</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="comment">// SSE Implementation</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    VCTR_FORCEDINLINE VCTR_TARGET (<span class="stringliteral">&quot;sse4.1&quot;</span>) <a class="code hl_struct" href="structvctr_1_1SSERegister.html">SSERegister&lt;value_type&gt;</a> getSSE (<span class="keywordtype">size_t</span> i) <span class="keyword">const</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keyword">requires</span> archX64 &amp;&amp; <a class="code hl_concept" href="conceptvctr_1_1has_1_1getSSE.html">has::getSSE&lt;SrcType&gt;</a> &amp;&amp; Expression::CommonElement::isRealFloat</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    {</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keyword">auto</span> x = src.getSSE (i);</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <span class="keyword">auto</span> y = Expression::SSE::mul (x, x);</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">return</span> Expression::SSE::mul (x, y);</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    }</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="comment">// AVX Implementation</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    VCTR_FORCEDINLINE VCTR_TARGET (<span class="stringliteral">&quot;avx&quot;</span>) <a class="code hl_struct" href="structvctr_1_1AVXRegister.html">AVXRegister&lt;value_type&gt;</a> getAVX (<span class="keywordtype">size_t</span> i) <span class="keyword">const</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keyword">requires</span> archX64 &amp;&amp; <a class="code hl_concept" href="conceptvctr_1_1has_1_1getAVX.html">has::getAVX&lt;SrcType&gt;</a> &amp;&amp; Expression::CommonElement::isRealFloat</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keyword">auto</span> x = src.getAVX (i);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keyword">auto</span> y = Expression::AVX::mul (x, x);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">return</span> Expression::AVX::mul (x, y);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    }</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="comment">// SSE Implementation</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    VCTR_FORCEDINLINE VCTR_TARGET (<span class="stringliteral">&quot;sse4.1&quot;</span>) <a class="code hl_struct" href="structvctr_1_1SSERegister.html">SSERegister&lt;value_type&gt;</a> getSSE (<span class="keywordtype">size_t</span> i) <span class="keyword">const</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keyword">requires</span> archX64 &amp;&amp; <a class="code hl_concept" href="conceptvctr_1_1has_1_1getSSE.html">has::getSSE&lt;SrcType&gt;</a> &amp;&amp; Expression::CommonElement::isRealFloat</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <span class="keyword">auto</span> x = src.getSSE (i);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keyword">auto</span> y = Expression::SSE::mul (x, x);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keywordflow">return</span> Expression::SSE::mul (x, y);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    }</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="comment">// Neon Implementation</span></div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <a class="code hl_struct" href="structvctr_1_1NeonRegister.html">NeonRegister&lt;value_type&gt;</a> getNeon (<span class="keywordtype">size_t</span> i) <span class="keyword">const</span></div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keyword">requires</span> archARM &amp;&amp; <a class="code hl_concept" href="conceptvctr_1_1has_1_1getNeon.html">has::getNeon&lt;SrcType&gt;</a> &amp;&amp; (Expression::CommonElement::isRealFloat || Expression::CommonElement::isInt32 || Expression::CommonElement::isUint32)</div>
@@ -173,9 +173,9 @@ $(document).ready(function(){initNavTree('Cube_8h_source.html',''); initResizabl
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>} <span class="comment">// namespace vctr</span></div>
 <div class="ttc" id="aclassvctr_1_1expressions_1_1Cube_html"><div class="ttname"><a href="classvctr_1_1expressions_1_1Cube.html">vctr::expressions::Cube</a></div><div class="ttdef"><b>Definition:</b> Cube.h:28</div></div>
-<div class="ttc" id="aconceptvctr_1_1has_1_1getAVX_html"><div class="ttname"><a href="conceptvctr_1_1has_1_1getAVX.html">vctr::has::getAVX</a></div><div class="ttdoc">Constrains a type to have a member function getAVX (size_t) const.</div><div class="ttdef"><b>Definition:</b> ContainerAndExpressionConcepts.h:78</div></div>
-<div class="ttc" id="aconceptvctr_1_1has_1_1getNeon_html"><div class="ttname"><a href="conceptvctr_1_1has_1_1getNeon.html">vctr::has::getNeon</a></div><div class="ttdoc">Constrains a type to have a member function getNeon (size_t) const.</div><div class="ttdef"><b>Definition:</b> ContainerAndExpressionConcepts.h:74</div></div>
-<div class="ttc" id="aconceptvctr_1_1has_1_1getSSE_html"><div class="ttname"><a href="conceptvctr_1_1has_1_1getSSE.html">vctr::has::getSSE</a></div><div class="ttdoc">Constrains a type to have a member function getSSE (size_t) const.</div><div class="ttdef"><b>Definition:</b> ContainerAndExpressionConcepts.h:82</div></div>
+<div class="ttc" id="aconceptvctr_1_1has_1_1getAVX_html"><div class="ttname"><a href="conceptvctr_1_1has_1_1getAVX.html">vctr::has::getAVX</a></div><div class="ttdoc">Constrains a type to have a member function getAVX (size_t) const.</div><div class="ttdef"><b>Definition:</b> ContainerAndExpressionConcepts.h:86</div></div>
+<div class="ttc" id="aconceptvctr_1_1has_1_1getNeon_html"><div class="ttname"><a href="conceptvctr_1_1has_1_1getNeon.html">vctr::has::getNeon</a></div><div class="ttdoc">Constrains a type to have a member function getNeon (size_t) const.</div><div class="ttdef"><b>Definition:</b> ContainerAndExpressionConcepts.h:78</div></div>
+<div class="ttc" id="aconceptvctr_1_1has_1_1getSSE_html"><div class="ttname"><a href="conceptvctr_1_1has_1_1getSSE.html">vctr::has::getSSE</a></div><div class="ttdoc">Constrains a type to have a member function getSSE (size_t) const.</div><div class="ttdef"><b>Definition:</b> ContainerAndExpressionConcepts.h:94</div></div>
 <div class="ttc" id="agroup__Expressions_html_gad4e424bc5fa6e6b74c38135f20e10621"><div class="ttname"><a href="group__Expressions.html#gad4e424bc5fa6e6b74c38135f20e10621">vctr::cube</a></div><div class="ttdeci">constexpr ExpressionChainBuilder&lt; expressions::Cube &gt; cube</div><div class="ttdoc">Raises the source values to the power of three.</div><div class="ttdef"><b>Definition:</b> Cube.h:80</div></div>
 <div class="ttc" id="anamespacevctr_html"><div class="ttname"><a href="namespacevctr.html">vctr</a></div><div class="ttdoc">The main namespace of the VCTR project.</div><div class="ttdef"><b>Definition:</b> Array.h:24</div></div>
 <div class="ttc" id="anamespacevctr_html_a83a43fd917a646b18b60be7e88becc33"><div class="ttname"><a href="namespacevctr.html#a83a43fd917a646b18b60be7e88becc33">vctr::ValueType</a></div><div class="ttdeci">typename detail::ValueType&lt; std::remove_cvref_t&lt; T &gt; &gt;::Type ValueType</div><div class="ttdoc">If T is an expression template, it equals its return type, if it's a type that defines value_type as ...</div><div class="ttdef"><b>Definition:</b> Traits.h:201</div></div>

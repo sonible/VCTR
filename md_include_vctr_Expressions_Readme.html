@@ -127,7 +127,7 @@ $(document).ready(function(){initNavTree('md_include_vctr_Expressions_Readme.htm
 <div class="line">    </div>
 <div class="line">    // Some expression need runtime args. Even if this expression does not need them, it should try to forward them</div>
 <div class="line">    template &lt;size_t i, class RuntimeArgs&gt;</div>
-<div class="line">    void iterateOverRuntimeArgChain (const RuntimeArgs&amp; rtArgs)</div>
+<div class="line">    constexpr void iterateOverRuntimeArgChain (const RuntimeArgs&amp; rtArgs)</div>
 <div class="line">    {</div>
 <div class="line">        tryApplyingRuntimeArgsToSrc&lt;i + 1&gt; (rtArgs, src); </div>
 <div class="line">    }</div>
@@ -171,7 +171,7 @@ Creating an &lt;tt&gt;ExpressionChainBuilder&lt;/tt&gt; instance</h1>
 <div class="line">    return makeExpressionChainBuilderWithRuntimeArgs&lt;ExpressionWithArgs&gt; (arg1, arg2);</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>When the expression instance is created, the chain builder has to apply the argument to the expression. Therefore, we need to add an <code>applyRuntimeArgs</code> member function to the expression template, which accepts the same number of arguments as passed to the expression chain builder instance and applies them to the actual expression: </p><div class="fragment"><div class="line"> {C++}</div>
-<div class="line">void applyRuntimeArgs (value_type arg1, value_type arg2)</div>
+<div class="line">constexpr void applyRuntimeArgs (value_type arg1, value_type arg2)</div>
 <div class="line">{</div>
 <div class="line">   // apply the args to some member variables, some sanity checks...</div>
 <div class="line">}</div>
@@ -212,7 +212,7 @@ Using alternative approaches to evaluate the expression</h1>
 <ul>
 <li>AXV: Implement <code>AVXRegister&lt;value_type&gt; getAVX (size_t i) const</code> for suitable types. Make sure to require at least <code>archX64 &amp;&amp; has::getAVX&lt;SrcType&gt;</code></li>
 <li>SSE: Implement <code>SSERegister&lt;value_type&gt; getSSE (size_t i) const</code> for suitable types. Make sure to require at least <code>archX64 &amp;&amp; has::getSSE&lt;SrcType&gt;</code></li>
-<li>Neon: Implement <code>NeonRegister&lt;value_type&gt; getNeon (size_t i) const</code> for suitable types. Make sure to require at least <code>archARM &amp;&amp; has::getAVX&lt;SrcType&gt;</code></li>
+<li>Neon: Implement <code>NeonRegister&lt;value_type&gt; getNeon (size_t i) const</code> for suitable types. Make sure to require at least <code>archARM &amp;&amp; has::getNeon&lt;SrcType&gt;</code></li>
 <li>Platform specific vector operations (Intel IPP, Apple Accelerate, etc). See dedicated section below.</li>
 </ul>
 <p>Intel architecture specific implementations have to be prefixed with the <code>VCTR_TARGET (&lt;arch&gt;)</code> macro to instruct the compiler to deliberately generate instructions for that instruction set, no matter what compiler flags are set. The calling side will do a runtime check if the corresponding functions are available at runtime. Valid values for <code>&lt;arch&gt;</code> are <code>"avx"</code>, <code>"avx2&lt;/tt&gt;" and `"sse4.1"`.</code></p>
@@ -239,6 +239,48 @@ Using alternative approaches to evaluate the expression</h1>
 <div class="line">}</div>
 </div><!-- fragment --><p></code></p>
 <p><code>Here we see some explicit overloads for floating point values, int32 values and unsigned integers. For int64, there is no straightforward abs function in SSE 4.1 so we don't implement it. Calling abs on an int64 vector might fall back to the default <code>operator[]</code> implementation then. When assigning the expression, the implementation tries its best to choose the most promising strategy for the given architecture it runs on, so it's a good idea to implement multiple possibilities.</code></p>
+<p><code>Some SIMD based evaluations can gain performance by storing constants to a SIMD register once before looping over the registers. These temporary registers are managed as private <code>mutable</code> member variables in the expression class. They are mutable since expressions are usually passed as const reference to the destination container that evaluates them, and they are used as temporary working buffer only. Since multithreaded expression evaluation is not supported, this is safe. To avoid the need of declaring individual variables per register type which will never be used simultaneously, we can use the <code>SIMDRegisterUnion</code> union template which contains a Neon, an AVX and an SSE register. To initialize the values in the register before the SIMD evaluation starts, the expression has to expose a <code>prepare&lt;arch&gt;Evaluation</code> function with <code>&lt;arch&gt;</code> being one of <code>Neon</code>, <code>AVX</code> and <code>SSE</code> for every evaluation function that it implements. Even if the expression does not make use of that feature, it has to forward those functions to the source expressions. To avoid a lot of boilerplate code, the <code>VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS</code> and <code>VCTR_FORWARD_PREPARE_SIMD_EVALUATION_BINARY_EXPRESSION_MEMBER_FUNCTIONS</code> macros can be used. A manual implementation can look like this, taking an expression that sums a SIMD register with a scalar value: </p><div class="fragment"><div class="line"> {C++}</div>
+<div class="line">public:</div>
+<div class="line">    //...</div>
+<div class="line">    </div>
+<div class="line">    // AVX Implementation</div>
+<div class="line">    void prepareAVXEvaluation() const</div>
+<div class="line">    requires has::prepareAVXEvaluation&lt;SrcType&gt;</div>
+<div class="line">    {</div>
+<div class="line">        src.prepareAVXEvaluation();</div>
+<div class="line">        singleSIMD.avx = Expression::AVX::broadcast (single);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    VCTR_FORCEDINLINE VCTR_TARGET (&quot;avx&quot;) AVXRegister&lt;value_type&gt; getAVX (size_t i) const</div>
+<div class="line">    requires (archX64 &amp;&amp; has::getAVX&lt;SrcType&gt; &amp;&amp; Expression::allElementTypesSame &amp;&amp; Expression::CommonElement::isRealFloat)</div>
+<div class="line">    {</div>
+<div class="line">        return Expression::AVX::add (singleSIMD.avx, src.getAVX (i));</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    VCTR_FORCEDINLINE VCTR_TARGET (&quot;avx2&quot;) AVXRegister&lt;value_type&gt; getAVX (size_t i) const</div>
+<div class="line">    requires (archX64 &amp;&amp; has::getAVX&lt;SrcType&gt; &amp;&amp; Expression::allElementTypesSame &amp;&amp; Expression::CommonElement::isInt)</div>
+<div class="line">    {</div>
+<div class="line">        return Expression::AVX::add (singleSIMD.avx, src.getAVX (i));</div>
+<div class="line">    }</div>
+<div class="line">    </div>
+<div class="line">    // SSE Implementation</div>
+<div class="line">    void prepareSSEEvaluation() const</div>
+<div class="line">    requires has::prepareSSEEvaluation&lt;SrcType&gt;</div>
+<div class="line">    {</div>
+<div class="line">        src.prepareSSEEvaluation();</div>
+<div class="line">        singleSIMD.sse = Expression::SSE::broadcast (single);</div>
+<div class="line">    }</div>
+<div class="line">    </div>
+<div class="line">    VCTR_FORCEDINLINE VCTR_TARGET (&quot;sse4.1&quot;) SSERegister&lt;value_type&gt; getSSE (size_t i) const</div>
+<div class="line">    requires (archX64 &amp;&amp; has::getSSE&lt;SrcType&gt; &amp;&amp; Expression::allElementTypesSame)</div>
+<div class="line">    {</div>
+<div class="line">        return Expression::SSE::add (singleSIMD.sse, src.getSSE (i));</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">private:</div>
+<div class="line">    mutable SIMDRegisterUnion&lt;Expression&gt; singleSIMD {};</div>
+</div><!-- fragment --><p></code></p>
+<p><code>Note: Don't forget the default initialization braces for your <code>SIMDRegisterUnion</code> member(s), otherwise the expression class won't work in a constexpr context.</code></p>
 <p><code></code></p>
 <h1><a class="anchor" id="autotoc_md4"></a>
 Platform Specific Vector Operations</h1>
@@ -287,13 +329,13 @@ Reduction expressions</h1>
 <div class="line"> </div>
 <div class="line">    static constexpr value_type reductionResultInitValue = std::numeric_limits&lt;value_type&gt;::min();</div>
 <div class="line"> </div>
-<div class="line">    VCTR_FORCEDINLINE void reduceElementWise (value_type&amp; result, size_t i) const</div>
+<div class="line">    VCTR_FORCEDINLINE constexpr void reduceElementWise (value_type&amp; result, size_t i) const</div>
 <div class="line">    {</div>
 <div class="line">        result = someComputation (result, src[i]);</div>
 <div class="line">    }</div>
 <div class="line">    </div>
 <div class="line">    template &lt;size_t n&gt;</div>
-<div class="line">    VCTR_FORCEDINLINE static value_type finalizeReduction (const std::array&lt;value_type, n&gt;&amp; subResults)</div>
+<div class="line">    VCTR_FORCEDINLINE static constexpr value_type finalizeReduction (const std::array&lt;value_type, n&gt;&amp; subResults)</div>
 <div class="line">    {</div>
 <div class="line">        return finalComputationOnSubResults (subResults);</div>
 <div class="line">    }</div>

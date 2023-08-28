@@ -1,9 +1,9 @@
 var searchData=
 [
   ['makearray_0',['makeArray',['../structvctr_1_1generators_1_1Linspace.html#a1b0bafc1830841437b0c2f1fb235850f',1,'vctr::generators::Linspace']]],
-  ['makeexpressionchainbuilderwithruntimeargs_1',['makeExpressionChainBuilderWithRuntimeArgs',['../namespacevctr.html#a732792b914478e386517793a618464ec',1,'vctr']]],
+  ['makeexpressionchainbuilderwithruntimeargs_1',['makeExpressionChainBuilderWithRuntimeArgs',['../namespacevctr.html#afc1a63f35218dca5e5e92802c49b2793',1,'vctr']]],
   ['makesimdalignedspan_2',['makeSimdAlignedSpan',['../namespacevctr.html#a946767da5d097bc029825bba6c2a2595',1,'vctr::makeSimdAlignedSpan(ElementType *data)'],['../namespacevctr.html#a5e7c9ccef500aff1ca7881f2e1904408',1,'vctr::makeSimdAlignedSpan(ElementType *data, size_t size)']]],
-  ['maketemplateexpressionchainbuilderwithruntimeargs_3',['makeTemplateExpressionChainBuilderWithRuntimeArgs',['../namespacevctr.html#a04278317a44a2211b7c73a529b2692c9',1,'vctr']]],
+  ['maketemplateexpressionchainbuilderwithruntimeargs_3',['makeTemplateExpressionChainBuilderWithRuntimeArgs',['../namespacevctr.html#a340fb7574b2f7707e6f86ca65fd2ccbb',1,'vctr']]],
   ['makevector_4',['makeVector',['../structvctr_1_1generators_1_1Linspace.html#a9735aaf58e597e96326381451aad97ec',1,'vctr::generators::Linspace::makeVector(ElementType start, ElementType stop, size_t num, bool includeEnd=true)'],['../structvctr_1_1generators_1_1Linspace.html#ada090fbbb01bc911a696036d31e24a5c',1,'vctr::generators::Linspace::makeVector(ElementType start, ElementType stop, bool includeEnd=true)']]],
   ['map_5',['map',['../group__Expressions.html#ga1bb32794f6c515e3ea8043483bf1dcc9',1,'vctr::map(T srcValueRangeStart, T srcValueRangeEnd, T dstValueRangeStart, T dstValueRangeEnd)'],['../group__Expressions.html#gacaebe8e635121b4a8a143abb74bf9fc1',1,'vctr::map(RangeType &amp;&amp;srcValueRange, RangeType &amp;&amp;dstValueRange)']]],
   ['mapfrom0to1_6',['mapFrom0To1',['../group__Expressions.html#gab3ac5d8df8839be733d06d9272d7cd25',1,'vctr::mapFrom0To1(T dstValueRangeStart, T dstValueRangeEnd)'],['../group__Expressions.html#ga243c68d6c931db606b95fd580f53faec',1,'vctr::mapFrom0To1(RangeType &amp;&amp;dstValueRange)']]],

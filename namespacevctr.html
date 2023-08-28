@@ -270,6 +270,10 @@ template&lt;class ElementType , bool isDataSIMDAligned, bool isStorageSIMDExtend
 template&lt;class Container &gt; </td></tr>
 <tr class="memitem:a258aa32930d21e7c25e889f50c0337af"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Span</b> (Container &amp;&amp;) -&gt; <a class="el" href="classvctr_1_1Span.html">Span</a>&lt; <a class="el" href="namespacevctr.html#ad3cbb6dc6bd6736802f5a7537b8dfb62">DataType</a>&lt; Container &gt;, <a class="el" href="namespacevctr.html#a0e2879d4e781cb85ff0ae8cf4f1deefd">extentOf</a>&lt; Container &gt;, <a class="el" href="structvctr_1_1StorageInfoWithMemberAlignment.html">StorageInfoWithMemberAlignment</a>&lt; alignof(std::span&lt; <a class="el" href="namespacevctr.html#ad3cbb6dc6bd6736802f5a7537b8dfb62">DataType</a>&lt; Container &gt;, <a class="el" href="namespacevctr.html#a0e2879d4e781cb85ff0ae8cf4f1deefd">extentOf</a>&lt; Container &gt; &gt;), <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a>&lt; Container &gt; &gt; &gt;</td></tr>
 <tr class="separator:a258aa32930d21e7c25e889f50c0337af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d0f84cd9c134342df3b80ca8e067aab"><td class="memTemplParams" colspan="2"><a id="a6d0f84cd9c134342df3b80ca8e067aab" name="a6d0f84cd9c134342df3b80ca8e067aab"></a>
+template&lt;class ElementType , size_t size&gt; </td></tr>
+<tr class="memitem:a6d0f84cd9c134342df3b80ca8e067aab"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Span</b> (ElementType(&amp;)[size]) -&gt; <a class="el" href="classvctr_1_1Span.html">Span</a>&lt; ElementType, size, <a class="el" href="structvctr_1_1StorageInfoWithMemberAlignment.html">StorageInfoWithMemberAlignment</a>&lt; alignof(std::span&lt; ElementType, size &gt;), <a class="el" href="structvctr_1_1StorageInfo.html">StorageInfo</a>&lt; std::span&lt; ElementType, size &gt; &gt; &gt; &gt;</td></tr>
+<tr class="separator:a6d0f84cd9c134342df3b80ca8e067aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e7c9ccef500aff1ca7881f2e1904408"><td class="memTemplParams" colspan="2">template&lt;class ElementType &gt; </td></tr>
 <tr class="memitem:a5e7c9ccef500aff1ca7881f2e1904408"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a5e7c9ccef500aff1ca7881f2e1904408">makeSimdAlignedSpan</a> (ElementType *data, size_t size)</td></tr>
 <tr class="memdesc:a5e7c9ccef500aff1ca7881f2e1904408"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a span with dynamic extent pointing to a memory location that is expected to be SIMD aligned.  <br /></td></tr>
@@ -386,16 +390,16 @@ requires is::anyVctrOrExpression&lt;Src&gt;</td></tr>
 <tr class="memitem:ga3b49d9d6f6070cc6a9af10c8c167cc35"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga3b49d9d6f6070cc6a9af10c8c167cc35">pow</a> (Src &amp;&amp;bases, typename std::remove_cvref_t&lt; Src &gt;::value_type exponent)</td></tr>
 <tr class="memdesc:ga3b49d9d6f6070cc6a9af10c8c167cc35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that raises the elements in bases to the power of the exponent value.  <br /></td></tr>
 <tr class="separator:ga3b49d9d6f6070cc6a9af10c8c167cc35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a732792b914478e386517793a618464ec"><td class="memTemplParams" colspan="2">template&lt;template&lt; size_t, class... &gt; class ExpressionType, class... RuntimeArgs&gt; <br />
+<tr class="memitem:afc1a63f35218dca5e5e92802c49b2793"><td class="memTemplParams" colspan="2">template&lt;template&lt; size_t, class... &gt; class ExpressionType, class... RuntimeArgs&gt; <br />
 requires (sizeof... (RuntimeArgs) &gt; 0)</td></tr>
-<tr class="memitem:a732792b914478e386517793a618464ec"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a732792b914478e386517793a618464ec">makeExpressionChainBuilderWithRuntimeArgs</a> (RuntimeArgs... runtimeArgs)</td></tr>
-<tr class="memdesc:a732792b914478e386517793a618464ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to build factory functions for expressions that rely on runtime argument values.  <br /></td></tr>
-<tr class="separator:a732792b914478e386517793a618464ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04278317a44a2211b7c73a529b2692c9"><td class="memTemplParams" colspan="2">template&lt;template&lt; size_t, class... &gt; class ExpressionType, class ExpressionTemplateArg , class... RuntimeArgs&gt; <br />
+<tr class="memitem:afc1a63f35218dca5e5e92802c49b2793"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#afc1a63f35218dca5e5e92802c49b2793">makeExpressionChainBuilderWithRuntimeArgs</a> (RuntimeArgs... runtimeArgs)</td></tr>
+<tr class="memdesc:afc1a63f35218dca5e5e92802c49b2793"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to build factory functions for expressions that rely on runtime argument values.  <br /></td></tr>
+<tr class="separator:afc1a63f35218dca5e5e92802c49b2793"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a340fb7574b2f7707e6f86ca65fd2ccbb"><td class="memTemplParams" colspan="2">template&lt;template&lt; size_t, class... &gt; class ExpressionType, class ExpressionTemplateArg , class... RuntimeArgs&gt; <br />
 requires (sizeof... (RuntimeArgs) &gt; 0)</td></tr>
-<tr class="memitem:a04278317a44a2211b7c73a529b2692c9"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a04278317a44a2211b7c73a529b2692c9">makeTemplateExpressionChainBuilderWithRuntimeArgs</a> (RuntimeArgs... runtimeArgs)</td></tr>
-<tr class="memdesc:a04278317a44a2211b7c73a529b2692c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to build factory functions for expressions that rely on runtime argument values.  <br /></td></tr>
-<tr class="separator:a04278317a44a2211b7c73a529b2692c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a340fb7574b2f7707e6f86ca65fd2ccbb"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a340fb7574b2f7707e6f86ca65fd2ccbb">makeTemplateExpressionChainBuilderWithRuntimeArgs</a> (RuntimeArgs... runtimeArgs)</td></tr>
+<tr class="memdesc:a340fb7574b2f7707e6f86ca65fd2ccbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to build factory functions for expressions that rely on runtime argument values.  <br /></td></tr>
+<tr class="separator:a340fb7574b2f7707e6f86ca65fd2ccbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacaebe8e635121b4a8a143abb74bf9fc1"><td class="memTemplParams" colspan="2">template&lt;is::range RangeType&gt; </td></tr>
 <tr class="memitem:gacaebe8e635121b4a8a143abb74bf9fc1"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#gacaebe8e635121b4a8a143abb74bf9fc1">map</a> (RangeType &amp;&amp;srcValueRange, RangeType &amp;&amp;dstValueRange)</td></tr>
 <tr class="memdesc:gacaebe8e635121b4a8a143abb74bf9fc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maps all source element values from srcValueRange to values in dstValueRange.  <br /></td></tr>
@@ -883,23 +887,31 @@ template&lt;class A , class B &gt; </div>
 
 </div>
 </div>
-<a id="a732792b914478e386517793a618464ec" name="a732792b914478e386517793a618464ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a732792b914478e386517793a618464ec">&#9670;&#160;</a></span>makeExpressionChainBuilderWithRuntimeArgs()</h2>
+<a id="afc1a63f35218dca5e5e92802c49b2793" name="afc1a63f35218dca5e5e92802c49b2793"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc1a63f35218dca5e5e92802c49b2793">&#9670;&#160;</a></span>makeExpressionChainBuilderWithRuntimeArgs()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;template&lt; size_t, class... &gt; class ExpressionType, class... RuntimeArgs&gt; <br />
 requires (sizeof... (RuntimeArgs) &gt; 0)</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto vctr::makeExpressionChainBuilderWithRuntimeArgs </td>
+          <td class="memname">constexpr auto vctr::makeExpressionChainBuilderWithRuntimeArgs </td>
           <td>(</td>
           <td class="paramtype">RuntimeArgs...&#160;</td>
           <td class="paramname"><em>runtimeArgs</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Helper function to build factory functions for expressions that rely on runtime argument values. </p>
@@ -969,23 +981,31 @@ template&lt;class ElementType &gt; </div>
 
 </div>
 </div>
-<a id="a04278317a44a2211b7c73a529b2692c9" name="a04278317a44a2211b7c73a529b2692c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04278317a44a2211b7c73a529b2692c9">&#9670;&#160;</a></span>makeTemplateExpressionChainBuilderWithRuntimeArgs()</h2>
+<a id="a340fb7574b2f7707e6f86ca65fd2ccbb" name="a340fb7574b2f7707e6f86ca65fd2ccbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a340fb7574b2f7707e6f86ca65fd2ccbb">&#9670;&#160;</a></span>makeTemplateExpressionChainBuilderWithRuntimeArgs()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;template&lt; size_t, class... &gt; class ExpressionType, class ExpressionTemplateArg , class... RuntimeArgs&gt; <br />
 requires (sizeof... (RuntimeArgs) &gt; 0)</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto vctr::makeTemplateExpressionChainBuilderWithRuntimeArgs </td>
+          <td class="memname">constexpr auto vctr::makeTemplateExpressionChainBuilderWithRuntimeArgs </td>
           <td>(</td>
           <td class="paramtype">RuntimeArgs...&#160;</td>
           <td class="paramname"><em>runtimeArgs</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Helper function to build factory functions for expressions that rely on runtime argument values. </p>

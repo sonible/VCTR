@@ -6,8 +6,11 @@ var concepts =
         [ "same", "conceptvctr_1_1are_1_1same.html", null ]
       ] ],
       [ "has", null, [
+        [ "prepareNeonEvaluation", "conceptvctr_1_1has_1_1prepareNeonEvaluation.html", null ],
         [ "getNeon", "conceptvctr_1_1has_1_1getNeon.html", null ],
+        [ "prepareAVXEvaluation", "conceptvctr_1_1has_1_1prepareAVXEvaluation.html", null ],
         [ "getAVX", "conceptvctr_1_1has_1_1getAVX.html", null ],
+        [ "prepareSSEEvaluation", "conceptvctr_1_1has_1_1prepareSSEEvaluation.html", null ],
         [ "getSSE", "conceptvctr_1_1has_1_1getSSE.html", null ],
         [ "indexOperator", "conceptvctr_1_1has_1_1indexOperator.html", null ],
         [ "constIndexOperator", "conceptvctr_1_1has_1_1constIndexOperator.html", null ],

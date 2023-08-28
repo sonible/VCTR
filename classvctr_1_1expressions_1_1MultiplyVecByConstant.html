@@ -120,9 +120,6 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>value_type</b> = <a 
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad53d7482a87569fe17ab310641a4cd8e"><td class="memItemLeft" align="right" valign="top"><a id="ad53d7482a87569fe17ab310641a4cd8e" name="ad53d7482a87569fe17ab310641a4cd8e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>applyRuntimeArgs</b> ()</td></tr>
-<tr class="separator:ad53d7482a87569fe17ab310641a4cd8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ca04a12155a97352ce4424b3e21cd4c"><td class="memItemLeft" align="right" valign="top"><a id="a5ca04a12155a97352ce4424b3e21cd4c" name="a5ca04a12155a97352ce4424b3e21cd4c"></a>
 VCTR_FORCEDINLINE constexpr value_type&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (size_t i) const</td></tr>
 <tr class="separator:a5ca04a12155a97352ce4424b3e21cd4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,9 +135,15 @@ VCTR_FORCEDINLINE void&#160;</td><td class="memItemRight" valign="bottom"><b>eva
 <tr class="memitem:a88a73fdb9c3a8672846a66860951e102"><td class="memItemLeft" align="right" valign="top"><a id="a88a73fdb9c3a8672846a66860951e102" name="a88a73fdb9c3a8672846a66860951e102"></a>
 VCTR_FORCEDINLINE void&#160;</td><td class="memItemRight" valign="bottom"><b>evalVectorOpMultiplyAccumulate</b> (value_type *dst) const</td></tr>
 <tr class="separator:a88a73fdb9c3a8672846a66860951e102"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad51071284048fda6723e6637c85246dc"><td class="memItemLeft" align="right" valign="top"><a id="ad51071284048fda6723e6637c85246dc" name="ad51071284048fda6723e6637c85246dc"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>prepareAVXEvaluation</b> () const</td></tr>
+<tr class="separator:ad51071284048fda6723e6637c85246dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fb585726b7d74aa53aec02d88a7de37"><td class="memItemLeft" align="right" valign="top"><a id="a3fb585726b7d74aa53aec02d88a7de37" name="a3fb585726b7d74aa53aec02d88a7de37"></a>
 VCTR_FORCEDINLINE&#160;</td><td class="memItemRight" valign="bottom"><b>VCTR_TARGET</b> (&quot;avx&quot;) <a class="el" href="structvctr_1_1AVXRegister.html">AVXRegister</a>&lt; value_type &gt; getAVX(size_t i) const</td></tr>
 <tr class="separator:a3fb585726b7d74aa53aec02d88a7de37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad25ad7aa345c9b14aa64518a196a4d2a"><td class="memItemLeft" align="right" valign="top"><a id="ad25ad7aa345c9b14aa64518a196a4d2a" name="ad25ad7aa345c9b14aa64518a196a4d2a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>prepareSSEEvaluation</b> () const</td></tr>
+<tr class="separator:ad25ad7aa345c9b14aa64518a196a4d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa92b6e9f178ed2eed2be201971134a0e"><td class="memItemLeft" align="right" valign="top"><a id="aa92b6e9f178ed2eed2be201971134a0e" name="aa92b6e9f178ed2eed2be201971134a0e"></a>
 VCTR_FORCEDINLINE&#160;</td><td class="memItemRight" valign="bottom"><b>VCTR_TARGET</b> (&quot;sse4.1&quot;) <a class="el" href="structvctr_1_1SSERegister.html">SSERegister</a>&lt; value_type &gt; getSSE(size_t i) const</td></tr>
 <tr class="separator:aa92b6e9f178ed2eed2be201971134a0e"><td class="memSeparator" colspan="2">&#160;</td></tr>

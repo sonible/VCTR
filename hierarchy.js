@@ -2,6 +2,7 @@ var hierarchy =
 [
     [ "vctr::AlignedAllocator< ElementType, alignmentInBytes >", "classvctr_1_1AlignedAllocator.html", null ],
     [ "vctr::AVXRegister< T >", "structvctr_1_1AVXRegister.html", null ],
+    [ "vctr::AVXRegister< typename CommonSrcElement::Type >", "structvctr_1_1AVXRegister.html", null ],
     [ "vctr::CombinedStorageInfo< InfoA, InfoB >", "structvctr_1_1CombinedStorageInfo.html", null ],
     [ "vctr::CombinedStorageInfo< InfoA, InfoB >", "structvctr_1_1CombinedStorageInfo_3_01InfoA_00_01InfoB_01_4.html", null ],
     [ "vctr::Config", "structvctr_1_1Config.html", [
@@ -98,11 +99,14 @@ var hierarchy =
     [ "vctr::ExpressionTemplateBase::ExpressionTypes< ReturnElementType, SrcTypes >", "structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html", null ],
     [ "vctr::generators::Linspace", "structvctr_1_1generators_1_1Linspace.html", null ],
     [ "vctr::NeonRegister< T >", "structvctr_1_1NeonRegister.html", null ],
+    [ "vctr::NeonRegister< typename CommonSrcElement::Type >", "structvctr_1_1NeonRegister.html", null ],
     [ "vctr::Range< ValueType >", "classvctr_1_1Range.html", null ],
     [ "vctr::AlignedAllocator< ElementType, alignmentInBytes >::rebind< T >", "structvctr_1_1AlignedAllocator_1_1rebind.html", null ],
     [ "vctr::ReductionExpression", "classvctr_1_1ReductionExpression.html", null ],
     [ "vctr::RequireConstexpr< v >", "structvctr_1_1RequireConstexpr.html", null ],
+    [ "vctr::ExpressionTemplateBase::SIMDRegisterUnion< ExpressionTypes >", "unionvctr_1_1ExpressionTemplateBase_1_1SIMDRegisterUnion.html", null ],
     [ "vctr::SSERegister< T >", "structvctr_1_1SSERegister.html", null ],
+    [ "vctr::SSERegister< typename CommonSrcElement::Type >", "structvctr_1_1SSERegister.html", null ],
     [ "vctr::StaticStorageInfo< isDataSIMDAligned, isStorageSIMDExtended, customMemberAlignment >", "structvctr_1_1StaticStorageInfo.html", null ],
     [ "vctr::StorageInfo< StorageType >", "structvctr_1_1StorageInfo.html", [
       [ "vctr::VctrBase< ElementType, StorageType, extent, StorageInfoType >", "classvctr_1_1VctrBase.html", null ]

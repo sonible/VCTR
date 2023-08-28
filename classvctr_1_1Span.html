@@ -136,6 +136,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9bb94b844c8ad76b16ef9bb599bfe5ce"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1Span.html#a9bb94b844c8ad76b16ef9bb599bfe5ce">Span</a> (Container &amp;&amp;containerToView)</td></tr>
 <tr class="memdesc:a9bb94b844c8ad76b16ef9bb599bfe5ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> that acts as a view to the given container.  <br /></td></tr>
 <tr class="separator:a9bb94b844c8ad76b16ef9bb599bfe5ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e9df6dfea3f44667f438f13542d8110"><td class="memTemplParams" colspan="2">template&lt;std::same_as&lt; ElementType &gt; T, size_t n&gt; <br />
+requires (n != std::dynamic_extent) (n == extent)</td></tr>
+<tr class="memitem:a6e9df6dfea3f44667f438f13542d8110"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1Span.html#a6e9df6dfea3f44667f438f13542d8110">Span</a> (T(&amp;cStyleArray)[n])</td></tr>
+<tr class="memdesc:a6e9df6dfea3f44667f438f13542d8110"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> that acts as a view to a compile time constant sized C style array.  <br /></td></tr>
+<tr class="separator:a6e9df6dfea3f44667f438f13542d8110"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad26de4c2c45bdc2949ae69914da5bb50"><td class="memItemLeft" align="right" valign="top"><a id="ad26de4c2c45bdc2949ae69914da5bb50" name="ad26de4c2c45bdc2949ae69914da5bb50"></a>
 <a class="el" href="classvctr_1_1Span.html">Span</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classvctr_1_1Span.html">Span</a> &amp;)=delete</td></tr>
 <tr class="separator:ad26de4c2c45bdc2949ae69914da5bb50"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -398,6 +403,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab71e907a8173889718559fef90a45aed"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#ab71e907a8173889718559fef90a45aed">elementsAreSorted</a> () const</td></tr>
 <tr class="memdesc:ab71e907a8173889718559fef90a45aed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if all elements are sorted.  <br /></td></tr>
 <tr class="separator:ab71e907a8173889718559fef90a45aed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdd7d6eb3c0dbb9edca5ba132a77d4a5"><td class="memItemLeft" align="right" valign="top"><a id="afdd7d6eb3c0dbb9edca5ba132a77d4a5" name="afdd7d6eb3c0dbb9edca5ba132a77d4a5"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>prepareNeonEvaluation</b> () const</td></tr>
+<tr class="separator:afdd7d6eb3c0dbb9edca5ba132a77d4a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82baf69e22b816a5b14994c89889a138"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structvctr_1_1NeonRegister.html">NeonRegister</a>&lt; std::remove_const_t&lt; ElementType &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#a82baf69e22b816a5b14994c89889a138">getNeon</a> (size_t i) const &amp;&amp;is</td></tr>
 <tr class="memdesc:a82baf69e22b816a5b14994c89889a138"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates a certain expression in place on this vector, e.g.  <br /></td></tr>
 <tr class="separator:a82baf69e22b816a5b14994c89889a138"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -497,7 +505,7 @@ class vctr::Span&lt; ElementType, extent, StorageInfoType &gt;</div><p>The view 
 <p>A <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> should always act as a view to a valid memory location, therefore it has no default constructor. The assignment operators of a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> never reassign the viewed memory location but copy elements from the source to the memory viewed by the <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> instance. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8751c1480e89e047a6c27c7a94124152" name="a8751c1480e89e047a6c27c7a94124152"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8751c1480e89e047a6c27c7a94124152">&#9670;&#160;</a></span>Span() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8751c1480e89e047a6c27c7a94124152">&#9670;&#160;</a></span>Span() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -537,7 +545,7 @@ template&lt;class ElementType , size_t extent = std::dynamic_extent, class <a cl
 </div>
 </div>
 <a id="a2e2fb386e5ab073187e657adb2406be9" name="a2e2fb386e5ab073187e657adb2406be9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e2fb386e5ab073187e657adb2406be9">&#9670;&#160;</a></span>Span() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e2fb386e5ab073187e657adb2406be9">&#9670;&#160;</a></span>Span() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -586,7 +594,7 @@ template&lt;bool isDataSIMDAligned, bool isStorageSIMDExtended&gt; </div>
 </div>
 </div>
 <a id="a9bb94b844c8ad76b16ef9bb599bfe5ce" name="a9bb94b844c8ad76b16ef9bb599bfe5ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bb94b844c8ad76b16ef9bb599bfe5ce">&#9670;&#160;</a></span>Span() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bb94b844c8ad76b16ef9bb599bfe5ce">&#9670;&#160;</a></span>Span() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -615,6 +623,39 @@ template&lt;has::sizeAndDataWithElementType&lt; ElementType &gt; Container&gt; <
 
 <p>Creates a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> that acts as a view to the given container. </p>
 <p>The container can be any type that supplies a matching <a class="el" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b" title="Returns a raw pointer to the underlying storage.">data()</a> and view() member function. </p>
+
+</div>
+</div>
+<a id="a6e9df6dfea3f44667f438f13542d8110" name="a6e9df6dfea3f44667f438f13542d8110"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e9df6dfea3f44667f438f13542d8110">&#9670;&#160;</a></span>Span() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ElementType , size_t extent = std::dynamic_extent, class <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a>  = StorageInfoWithMemberAlignment&lt;alignof (std::span&lt;ElementType, extent&gt;), StorageInfo&lt;std::span&lt;ElementType, extent&gt; &gt; &gt;&gt; </div>
+<div class="memtemplate">
+template&lt;std::same_as&lt; ElementType &gt; T, size_t n&gt; <br />
+requires (n != std::dynamic_extent) (n == extent)</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="classvctr_1_1Span.html">vctr::Span</a>&lt; ElementType, extent, <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a> &gt;::Span </td>
+          <td>(</td>
+          <td class="paramtype">T(&amp;)&#160;</td>
+          <td class="paramname"><em>cStyleArray</em>[n]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> that acts as a view to a compile time constant sized C style array. </p>
 
 </div>
 </div>
@@ -2729,7 +2770,7 @@ template&lt;is::anyVctrOrExpression V&gt; </div>
 <div class="line"><span class="comment">// some temporary memory location first.</span></div>
 <div class="line">c += a * <a class="code hl_variable" href="group__Expressions.html#gace331be21cfd6aa9705f5bc0e283e3f9">vctr::square</a> (b);</div>
 <div class="ttc" id="aclassvctr_1_1Array_html"><div class="ttname"><a href="classvctr_1_1Array.html">vctr::Array</a></div><div class="ttdoc">The stack-based container type.</div><div class="ttdef"><b>Definition:</b> Array.h:53</div></div>
-<div class="ttc" id="agroup__Expressions_html_gace331be21cfd6aa9705f5bc0e283e3f9"><div class="ttname"><a href="group__Expressions.html#gace331be21cfd6aa9705f5bc0e283e3f9">vctr::square</a></div><div class="ttdeci">constexpr ExpressionChainBuilder&lt; expressions::Square &gt; square</div><div class="ttdoc">Squares the source values.</div><div class="ttdef"><b>Definition:</b> Square.h:93</div></div>
+<div class="ttc" id="agroup__Expressions_html_gace331be21cfd6aa9705f5bc0e283e3f9"><div class="ttname"><a href="group__Expressions.html#gace331be21cfd6aa9705f5bc0e283e3f9">vctr::square</a></div><div class="ttdeci">constexpr ExpressionChainBuilder&lt; expressions::Square &gt; square</div><div class="ttdoc">Squares the source values.</div><div class="ttdef"><b>Definition:</b> Square.h:94</div></div>
 </div><!-- fragment --> 
 </div>
 </div>

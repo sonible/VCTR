@@ -62,10 +62,10 @@ var NAVTREE =
     [ "functionName", "namespacevctr.html#a127327a069f9c9d92bb9c5325234f2fe", null ],
     [ "functionName", "namespacevctr.html#acd3bde90036f67b89e469aea181516e8", null ],
     [ "getCommonExtent", "namespacevctr.html#a50b3b641de5cbcac59ad5c852df70929", null ],
-    [ "makeExpressionChainBuilderWithRuntimeArgs", "namespacevctr.html#a732792b914478e386517793a618464ec", null ],
+    [ "makeExpressionChainBuilderWithRuntimeArgs", "namespacevctr.html#afc1a63f35218dca5e5e92802c49b2793", null ],
     [ "makeSimdAlignedSpan", "namespacevctr.html#a946767da5d097bc029825bba6c2a2595", null ],
     [ "makeSimdAlignedSpan", "namespacevctr.html#a5e7c9ccef500aff1ca7881f2e1904408", null ],
-    [ "makeTemplateExpressionChainBuilderWithRuntimeArgs", "namespacevctr.html#a04278317a44a2211b7c73a529b2692c9", null ],
+    [ "makeTemplateExpressionChainBuilderWithRuntimeArgs", "namespacevctr.html#a340fb7574b2f7707e6f86ca65fd2ccbb", null ],
     [ "map", "group__Expressions.html#gacaebe8e635121b4a8a143abb74bf9fc1", null ],
     [ "map", "group__Expressions.html#ga1bb32794f6c515e3ea8043483bf1dcc9", null ],
     [ "mapFrom0To1", "group__Expressions.html#ga243c68d6c931db606b95fd580f53faec", null ],
@@ -172,7 +172,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classvctr_1_1Range.html#ac938978e7cc55658fb0742613bb9d663",
-"conceptvctr_1_1is_1_1suitableForIppComplexFloatBinaryVectorOp.html"
+"conceptvctr_1_1is_1_1suitableForAccelerateRealOrComplexFloatVectorOp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

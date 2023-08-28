@@ -1,5 +1,8 @@
 var NAVTREEINDEX2 =
 {
+"conceptvctr_1_1is_1_1suitableForAccelerateRealOrComplexFloatVectorOp.html":[101,0,2,15],
+"conceptvctr_1_1is_1_1suitableForAccelerateSSEOp.html":[101,0,2,11],
+"conceptvctr_1_1is_1_1suitableForBinaryVectorOp.html":[101,0,2,26],
 "conceptvctr_1_1is_1_1suitableForIppComplexFloatBinaryVectorOp.html":[101,0,2,31],
 "conceptvctr_1_1is_1_1suitableForIppComplexFloatVectorOp.html":[101,0,2,21],
 "conceptvctr_1_1is_1_1suitableForIppComplexToRealFloatVectorOp.html":[101,0,2,23],
@@ -114,5 +117,6 @@ var NAVTREEINDEX2 =
 "structvctr_1_1generators_1_1Linspace.html":[100,0,0,1,0],
 "structvctr_1_1generators_1_1Linspace.html#a1b0bafc1830841437b0c2f1fb235850f":[100,0,0,1,0,0],
 "structvctr_1_1generators_1_1Linspace.html#a9735aaf58e597e96326381451aad97ec":[100,0,0,1,0,2],
-"structvctr_1_1generators_1_1Linspace.html#ada090fbbb01bc911a696036d31e24a5c":[100,0,0,1,0,1]
+"structvctr_1_1generators_1_1Linspace.html#ada090fbbb01bc911a696036d31e24a5c":[100,0,0,1,0,1],
+"unionvctr_1_1ExpressionTemplateBase_1_1SIMDRegisterUnion.html":[100,0,0,16,1]
 };

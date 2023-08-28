@@ -14,5 +14,6 @@ var searchData=
   ['atan_11',['Atan',['../classvctr_1_1expressions_1_1Atan.html',1,'vctr::expressions']]],
   ['atanh_12',['Atanh',['../classvctr_1_1expressions_1_1Atanh.html',1,'vctr::expressions']]],
   ['avxfilter_13',['AVXFilter',['../classvctr_1_1expressions_1_1AVXFilter.html',1,'vctr::expressions']]],
-  ['avxregister_14',['AVXRegister',['../structvctr_1_1AVXRegister.html',1,'vctr']]]
+  ['avxregister_14',['AVXRegister',['../structvctr_1_1AVXRegister.html',1,'vctr']]],
+  ['avxregister_3c_20typename_20commonsrcelement_3a_3atype_20_3e_15',['AVXRegister&lt; typename CommonSrcElement::Type &gt;',['../structvctr_1_1AVXRegister.html',1,'vctr']]]
 ];

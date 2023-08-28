@@ -119,18 +119,18 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>value_type</b> = <a 
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac1ce2bd7500c33c228ae267a292cdb1e"><td class="memItemLeft" align="right" valign="top"><a id="ac1ce2bd7500c33c228ae267a292cdb1e" name="ac1ce2bd7500c33c228ae267a292cdb1e"></a>
-VCTR_FORCEDINLINE void&#160;</td><td class="memItemRight" valign="bottom"><b>reduceElementWise</b> (value_type &amp;result, size_t i) const</td></tr>
-<tr class="separator:ac1ce2bd7500c33c228ae267a292cdb1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af60ce711279332c0c876435483c5d8c2"><td class="memItemLeft" align="right" valign="top"><a id="af60ce711279332c0c876435483c5d8c2" name="af60ce711279332c0c876435483c5d8c2"></a>
+VCTR_FORCEDINLINE constexpr void&#160;</td><td class="memItemRight" valign="bottom"><b>reduceElementWise</b> (value_type &amp;result, size_t i) const</td></tr>
+<tr class="separator:af60ce711279332c0c876435483c5d8c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac56237afc5ea4d6acee706fd23b737a5"><td class="memItemLeft" align="right" valign="top"><a id="ac56237afc5ea4d6acee706fd23b737a5" name="ac56237afc5ea4d6acee706fd23b737a5"></a>
 VCTR_FORCEDINLINE value_type&#160;</td><td class="memItemRight" valign="bottom"><b>reduceVectorOp</b> () const</td></tr>
 <tr class="separator:ac56237afc5ea4d6acee706fd23b737a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac607321656dfb638e3f79e86e874f7bb"><td class="memItemLeft" align="right" valign="top"><a id="ac607321656dfb638e3f79e86e874f7bb" name="ac607321656dfb638e3f79e86e874f7bb"></a>
 VCTR_FORCEDINLINE value_type&#160;</td><td class="memItemRight" valign="bottom"><b>reduceVectorOp</b> () const</td></tr>
 <tr class="separator:ac607321656dfb638e3f79e86e874f7bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6871ba21ca18b5587d7ff4287fe7aac"><td class="memItemLeft" align="right" valign="top"><a id="ae6871ba21ca18b5587d7ff4287fe7aac" name="ae6871ba21ca18b5587d7ff4287fe7aac"></a>
-VCTR_FORCEDINLINE void&#160;</td><td class="memItemRight" valign="bottom"><b>reduceNeonRegisterWise</b> (<a class="el" href="structvctr_1_1NeonRegister.html">NeonRegister</a>&lt; value_type &gt; &amp;result, size_t i) const</td></tr>
-<tr class="separator:ae6871ba21ca18b5587d7ff4287fe7aac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecc1ed73aeae667849738d53b78b8a3e"><td class="memItemLeft" align="right" valign="top"><a id="aecc1ed73aeae667849738d53b78b8a3e" name="aecc1ed73aeae667849738d53b78b8a3e"></a>
+VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS VCTR_FORCEDINLINE void&#160;</td><td class="memItemRight" valign="bottom"><b>reduceNeonRegisterWise</b> (<a class="el" href="structvctr_1_1NeonRegister.html">NeonRegister</a>&lt; value_type &gt; &amp;result, size_t i) const</td></tr>
+<tr class="separator:aecc1ed73aeae667849738d53b78b8a3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69040dbc5986df1e46c400aad506c57a"><td class="memItemLeft" align="right" valign="top"><a id="a69040dbc5986df1e46c400aad506c57a" name="a69040dbc5986df1e46c400aad506c57a"></a>
 VCTR_FORCEDINLINE&#160;</td><td class="memItemRight" valign="bottom"><b>VCTR_TARGET</b> (&quot;avx&quot;) void reduceAVXRegisterWise(<a class="el" href="structvctr_1_1AVXRegister.html">AVXRegister</a>&lt; value_type &gt; &amp;result</td></tr>
 <tr class="separator:a69040dbc5986df1e46c400aad506c57a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,10 +143,10 @@ VCTR_FORCEDINLINE&#160;</td><td class="memItemRight" valign="bottom"><b>VCTR_TAR
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:acc848a6cb2ac9ed824ff0885e9e78751"><td class="memTemplParams" colspan="2"><a id="acc848a6cb2ac9ed824ff0885e9e78751" name="acc848a6cb2ac9ed824ff0885e9e78751"></a>
+<tr class="memitem:aab180063511cadef755ddb3bc88c658f"><td class="memTemplParams" colspan="2"><a id="aab180063511cadef755ddb3bc88c658f" name="aab180063511cadef755ddb3bc88c658f"></a>
 template&lt;size_t n&gt; </td></tr>
-<tr class="memitem:acc848a6cb2ac9ed824ff0885e9e78751"><td class="memTemplItemLeft" align="right" valign="top">static VCTR_FORCEDINLINE value_type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>finalizeReduction</b> (const std::array&lt; value_type, n &gt; &amp;maxima)</td></tr>
-<tr class="separator:acc848a6cb2ac9ed824ff0885e9e78751"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab180063511cadef755ddb3bc88c658f"><td class="memTemplItemLeft" align="right" valign="top">static VCTR_FORCEDINLINE constexpr value_type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>finalizeReduction</b> (const std::array&lt; value_type, n &gt; &amp;maxima)</td></tr>
+<tr class="separator:aab180063511cadef755ddb3bc88c658f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
