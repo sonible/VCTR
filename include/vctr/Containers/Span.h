@@ -23,13 +23,28 @@
 namespace vctr
 {
 
+/** A StaticStorageInfo type alias suitable for vctr::Span.
+
+    Useful if you want to define a Span type to point to some externally managed
+    raw data pointer that you know to be SIMD aligned.
+    @code
+    float a alignas (32) [12]
+
+    using SIMDAlignedFloatSpan = vctr::Span<float, sizeof (a), vctr::SpanStorageInfo<float, true>>;
+
+    SIMDAlignedFloatSpan aSpan (a, sizeof (a));
+    @endcode
+ */
+template <class ElementType, bool isDataSIMDAligned, bool isStorageSIMDExtended = false>
+using SpanStorageInfo = StaticStorageInfo<isDataSIMDAligned, isStorageSIMDExtended, alignof (std::span<ElementType>)>;
+
 /** Creates a StaticStorageInfo instance suitable to be passed to a Span constructor.
 
     Declares the viewed data to be SIMD aligned. Required alignment is 32 byte on x64
     and 16 byte on ARM.
  */
 template <class ElementType>
-consteval auto simdAlignedSpanStorageInfo() { return StaticStorageInfo<true, false, alignof (std::span<ElementType>)>(); }
+consteval auto simdAlignedSpanStorageInfo() { return SpanStorageInfo<ElementType, true>(); }
 
 // clang-format off
 
@@ -70,6 +85,13 @@ public:
         : Vctr (StdSpanType (ptr, size))
     {
         VCTR_ASSERT (extent == size || extent == std::dynamic_extent);
+
+        if (Vctr::getStorageInfo().dataIsSIMDAligned)
+        {
+            // If you hit this assertion, you passed a StaticStorageInfo that specifies SIMD aligned
+            // memory, but it is not aligned. Required alignment is 32 byte on x64 and 16 byte on ARM.
+            VCTR_ASSERT (isPtrAligned (ptr));
+        }
     }
 
     /** Creates a Span with a given size that views externally managed data, accessed by ptr.
@@ -108,7 +130,14 @@ public:
     constexpr Span (T (&cStyleArray)[n])
     requires (n == extent)
         : Vctr (StdSpanType (cStyleArray))
-    {}
+    {
+        if (Vctr::getStorageInfo().dataIsSIMDAligned)
+        {
+            // If you hit this assertion, you passed a StaticStorageInfo that specifies SIMD aligned
+            // memory, but it is not aligned. Required alignment is 32 byte on x64 and 16 byte on ARM.
+            VCTR_ASSERT (isPtrAligned (cStyleArray));
+        }
+    }
 
     //==============================================================================
     // Operators
