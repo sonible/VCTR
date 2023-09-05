@@ -40,6 +40,19 @@ constexpr size_t nextMultipleOf (size_t numElements)
     return size_t ((int64_t (numElements) + int64_t (value) - 1) & -int64_t (value));
 }
 
+} // namespace vctr::detail
+
+namespace vctr
+{
+
+/** Helper function to check if a pointer is aligned to the required alignment value.
+
+    The default alignment value is maxSIMDRegisterSize, which is the alignment that
+    VCTR tries to use wherever possible.
+
+    In case of constant evaluation, this function will always return false, since alignment
+    does not have any meaning in that context.
+ */
 template <uintptr_t requiredAlignment = Config::maxSIMDRegisterSize>
 inline constexpr bool isPtrAligned (const void* ptr)
 {
@@ -49,10 +62,6 @@ inline constexpr bool isPtrAligned (const void* ptr)
 
     return reinterpret_cast<std::uintptr_t> (ptr) % requiredAlignment == 0;
 }
-} // namespace vctr::detail
-
-namespace vctr
-{
 
 /** A helper class to describe some properties regarding the storage class wrapped in a VctrBase instance.
 
@@ -92,7 +101,7 @@ struct StorageInfo<StorageType>
     template <class T>
     constexpr StorageInfo init (const T* ptr, size_t s)
     {
-        dataIsSIMDAligned = detail::isPtrAligned (ptr);
+        dataIsSIMDAligned = isPtrAligned (ptr);
         hasSIMDExtendedStorage = (s * sizeof (T)) % Config::maxSIMDRegisterSize == 0;
         return *this;
     }
