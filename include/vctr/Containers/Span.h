@@ -87,7 +87,7 @@ public:
         {
             // If you hit this assertion, you passed a StaticStorageInfo that specifies SIMD aligned
             // memory, but it is not aligned. Required alignment is 32 byte on x64 and 16 byte on ARM.
-            VCTR_ASSERT (detail::isPtrAligned (ptr));
+            VCTR_ASSERT (isPtrAligned (ptr));
         }
     }
 
@@ -190,7 +190,7 @@ auto makeSimdAlignedSpan (ElementType* data, size_t size)
 {
     // If you hit this assertion, you passed a StaticStorageInfo that specifies SIMD aligned
     // memory, but it is not aligned. Required alignment is 32 byte on x64 and 16 byte on ARM.
-    VCTR_ASSERT (detail::isPtrAligned (data));
+    VCTR_ASSERT (isPtrAligned (data));
 
     return Span<ElementType, std::dynamic_extent, StaticStorageInfo<true, false, alignof (std::span<ElementType>)>> (data, size);
 }
@@ -202,7 +202,7 @@ auto makeSimdAlignedSpan (ElementType* data)
 {
     // If you hit this assertion, you passed a StaticStorageInfo that specifies SIMD aligned
     // memory, but it is not aligned. Required alignment is 32 byte on x64 and 16 byte on ARM.
-    VCTR_ASSERT (detail::isPtrAligned (data));
+    VCTR_ASSERT (isPtrAligned (data));
 
     return  Span<ElementType, extent, StaticStorageInfo<true, false, alignof (std::span<ElementType>)>> (data, extent);
 }
