@@ -55,9 +55,11 @@
 #if defined(__aarch64__) || defined(_M_ARM64)
 #define VCTR_ARM 1
 #define VCTR_X64 0
+#define VCTR_MAX_SIMD_REGISTER_SIZE 16
 #else
 #define VCTR_ARM 0
 #define VCTR_X64 1
+#define VCTR_MAX_SIMD_REGISTER_SIZE 32
 #endif
 
 //==============================================================================
@@ -339,7 +341,7 @@ struct Config
     //==============================================================================
     // Auto generated config
     //==============================================================================
-    static constexpr size_t maxSIMDRegisterSize = archX64 ? 32 : 16;
+    static constexpr size_t maxSIMDRegisterSize = VCTR_MAX_SIMD_REGISTER_SIZE;
 };
 
 } // namespace vctr
