@@ -202,6 +202,10 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:ad74ae35c2844e5e4e79889b55a82f21f"><td class="memTemplParams" colspan="2">template&lt;class ElementType , bool isDataSIMDAligned, bool isStorageSIMDExtended = false&gt; </td></tr>
+<tr class="memitem:ad74ae35c2844e5e4e79889b55a82f21f"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#ad74ae35c2844e5e4e79889b55a82f21f">SpanStorageInfo</a> = <a class="el" href="structvctr_1_1StaticStorageInfo.html">StaticStorageInfo</a>&lt; isDataSIMDAligned, isStorageSIMDExtended, alignof(std::span&lt; ElementType &gt;)&gt;</td></tr>
+<tr class="memdesc:ad74ae35c2844e5e4e79889b55a82f21f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="structvctr_1_1StaticStorageInfo.html" title="A storage info type especially used to pass compile time constant traits when viewing externally owne...">StaticStorageInfo</a> type alias suitable for <a class="el" href="classvctr_1_1Span.html" title="The view type.">vctr::Span</a>.  <br /></td></tr>
+<tr class="separator:ad74ae35c2844e5e4e79889b55a82f21f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40c9f56937ddfca3c1b85f5f52627deb"><td class="memTemplParams" colspan="2">template&lt;template&lt; size_t, class... &gt; class ExpressionType, class... AdditionalCompileTimeParameters&gt; </td></tr>
 <tr class="memitem:a40c9f56937ddfca3c1b85f5f52627deb"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a> = <a class="el" href="structvctr_1_1ExpressionChainBuilderWithRuntimeArgs.html">ExpressionChainBuilderWithRuntimeArgs</a>&lt; ExpressionType, detail::RuntimeArgChain&lt; std::tuple&lt;&gt; &gt;, AdditionalCompileTimeParameters... &gt;</td></tr>
 <tr class="memdesc:a40c9f56937ddfca3c1b85f5f52627deb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenient typedef to create a simple expression chain builder instance for an expression template.  <br /></td></tr>
@@ -442,6 +446,10 @@ template&lt;is::anyVctrOrExpression V&gt; </td></tr>
 <tr class="memitem:aecbd148207a93e819482375969ad3db9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevctr.html#aecbd148207a93e819482375969ad3db9">sizeToInt</a> (size_t size)</td></tr>
 <tr class="memdesc:aecbd148207a93e819482375969ad3db9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Casts the size_t argument to an int.  <br /></td></tr>
 <tr class="separator:aecbd148207a93e819482375969ad3db9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47672a92dc631509f9b7cf1e5d01d9aa"><td class="memTemplParams" colspan="2">template&lt;uintptr_t requiredAlignment = Config::maxSIMDRegisterSize&gt; </td></tr>
+<tr class="memitem:a47672a92dc631509f9b7cf1e5d01d9aa"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a47672a92dc631509f9b7cf1e5d01d9aa">isPtrAligned</a> (const void *ptr)</td></tr>
+<tr class="memdesc:a47672a92dc631509f9b7cf1e5d01d9aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to check if a pointer is aligned to the required alignment value.  <br /></td></tr>
+<tr class="separator:a47672a92dc631509f9b7cf1e5d01d9aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50b3b641de5cbcac59ad5c852df70929"><td class="memTemplParams" colspan="2">template&lt;class A , class B &gt; </td></tr>
 <tr class="memitem:a50b3b641de5cbcac59ad5c852df70929"><td class="memTemplItemLeft" align="right" valign="top">consteval size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a50b3b641de5cbcac59ad5c852df70929">getCommonExtent</a> ()</td></tr>
 <tr class="memdesc:a50b3b641de5cbcac59ad5c852df70929"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns std::dynamic_extent in case both sources specify a dynamic extent.  <br /></td></tr>
@@ -745,6 +753,31 @@ template&lt;is::number T&gt; </div>
 
 </div>
 </div>
+<a id="ad74ae35c2844e5e4e79889b55a82f21f" name="ad74ae35c2844e5e4e79889b55a82f21f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad74ae35c2844e5e4e79889b55a82f21f">&#9670;&#160;</a></span>SpanStorageInfo</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ElementType , bool isDataSIMDAligned, bool isStorageSIMDExtended = false&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacevctr.html#ad74ae35c2844e5e4e79889b55a82f21f">vctr::SpanStorageInfo</a> = typedef <a class="el" href="structvctr_1_1StaticStorageInfo.html">StaticStorageInfo</a>&lt;isDataSIMDAligned, isStorageSIMDExtended, alignof (std::span&lt;ElementType&gt;)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A <a class="el" href="structvctr_1_1StaticStorageInfo.html" title="A storage info type especially used to pass compile time constant traits when viewing externally owne...">StaticStorageInfo</a> type alias suitable for <a class="el" href="classvctr_1_1Span.html" title="The view type.">vctr::Span</a>. </p>
+<p>Useful if you want to define a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> type to point to some externally managed raw data pointer that you know to be SIMD aligned. </p><div class="fragment"><div class="line"><span class="keywordtype">float</span> a <span class="keyword">alignas</span> (32) [12]</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">using</span> SIMDAlignedFloatSpan = <a class="code hl_class" href="classvctr_1_1Span.html">vctr::Span</a>&lt;<span class="keywordtype">float</span>, <span class="keyword">sizeof</span> (a), <a class="code hl_struct" href="structvctr_1_1StaticStorageInfo.html">vctr::SpanStorageInfo&lt;float, true&gt;</a>&gt;;</div>
+<div class="line"> </div>
+<div class="line">SIMDAlignedFloatSpan aSpan (a, <span class="keyword">sizeof</span> (a));</div>
+<div class="ttc" id="aclassvctr_1_1Span_html"><div class="ttname"><a href="classvctr_1_1Span.html">vctr::Span</a></div><div class="ttdoc">The view type.</div><div class="ttdef"><b>Definition:</b> Span.h:66</div></div>
+<div class="ttc" id="astructvctr_1_1StaticStorageInfo_html"><div class="ttname"><a href="structvctr_1_1StaticStorageInfo.html">vctr::StaticStorageInfo</a></div><div class="ttdoc">A storage info type especially used to pass compile time constant traits when viewing externally owne...</div><div class="ttdef"><b>Definition:</b> SIMDHelpers.h:159</div></div>
+</div><!-- fragment --> 
+</div>
+</div>
 <a id="a222cc9e4338c24b2f0751c132503ce3a" name="a222cc9e4338c24b2f0751c132503ce3a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a222cc9e4338c24b2f0751c132503ce3a">&#9670;&#160;</a></span>StorageInfoType</h2>
 
@@ -884,6 +917,38 @@ template&lt;class A , class B &gt; </div>
 
 <p>Returns std::dynamic_extent in case both sources specify a dynamic extent. </p>
 <p>Throws in case both sources specify a non-matching non-dynamic extent. Returns the non-dynamic extent found otherwise. </p>
+
+</div>
+</div>
+<a id="a47672a92dc631509f9b7cf1e5d01d9aa" name="a47672a92dc631509f9b7cf1e5d01d9aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47672a92dc631509f9b7cf1e5d01d9aa">&#9670;&#160;</a></span>isPtrAligned()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;uintptr_t requiredAlignment = Config::maxSIMDRegisterSize&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr bool vctr::isPtrAligned </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Helper function to check if a pointer is aligned to the required alignment value. </p>
+<p>The default alignment value is maxSIMDRegisterSize, which is the alignment that VCTR tries to use wherever possible.</p>
+<p>In case of constant evaluation, this function will always return false, since alignment does not have any meaning in that context. </p>
 
 </div>
 </div>
