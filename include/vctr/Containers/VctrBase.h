@@ -600,6 +600,48 @@ public:
         return it == rend() ? std::nullopt : std::optional<size_t> (std::distance (it, rend()) - 1);
     }
 
+    /** Returns an iterator to the first greatest element. */
+    [[nodiscard]] auto findMaxElement()
+    requires std::totally_ordered<value_type>
+    {
+        return std::max_element (begin(), end());
+    }
+
+    /** Returns an iterator to the first greatest element. */
+    [[nodiscard]] auto findMaxElement() const
+    requires std::totally_ordered<value_type>
+    {
+        return std::max_element (begin(), end());
+    }
+
+    /** Returns an iterator to the first smallest element. */
+    [[nodiscard]] auto findMinElement()
+    requires std::totally_ordered<value_type>
+    {
+        return std::min_element (begin(), end());
+    }
+
+    /** Returns an iterator to the first smallest element. */
+    [[nodiscard]] auto findMinElement() const
+    requires std::totally_ordered<value_type>
+    {
+        return std::min_element (begin(), end());
+    }
+
+    /** Returns the index of the first greatest element (aka argMax). */
+    [[nodiscard]] size_t indexOfMaxElement() const
+    requires std::totally_ordered<value_type>
+    {
+        return std::distance (begin(), findMaxElement());
+    }
+
+    /** Returns the index of the first smallest element (aka argMin). */
+    [[nodiscard]] size_t indexOfMinElement() const
+    requires std::totally_ordered<value_type>
+    {
+        return std::distance (begin(), findMinElement());
+    }
+
     /** Returns a std::optional holding a copy of the first element value which is greater or equal to valueToLookFor or
         std::nullopt if no such value is found.
 

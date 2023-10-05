@@ -381,6 +381,16 @@ TEST_CASE ("sort", "[VctrBaseMemberFunctions]")
     REQUIRE (characters == "/AccD");
 }
 
+TEST_CASE ("min and max element", "[VctrBaseMemberFunctions]")
+{
+    const vctr::Array values { 2, 0, -4, 10, -4 };
+
+    REQUIRE (*values.findMinElement() == -4);
+    REQUIRE (values.indexOfMinElement() == 2);
+    REQUIRE (*values.findMaxElement() == 10);
+    REQUIRE (values.indexOfMaxElement() == 3);
+}
+
 TEST_CASE ("firstValueGreaterThan", "[VctrBaseMemberFunctions]")
 {
     auto v = UnitTestValues<double>::template vector<100, 1>();
