@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::PlatformVectorOps
+namespace vctr::platform_vec_ops
 {
 
 // clang-format off
@@ -249,4 +249,4 @@ public:
 
 // clang-format on
 
-} // namespace vctr::PlatformVectorOps
+} // namespace vctr::platform_vec_ops

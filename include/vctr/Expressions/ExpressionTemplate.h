@@ -110,11 +110,11 @@ struct ExpressionTemplateBase : Config
         using SSERet = SSERegister<ReturnElementType>;
 
         //==============================================================================
-        /** The PlatformVectorOps::AppleAccelerate type for the common element type */
-        using Accelerate = PlatformVectorOps::AppleAccelerate<typename CommonElement::Type>;
+        /** The platform_vec_ops::AppleAccelerate type for the common element type */
+        using Accelerate = platform_vec_ops::AppleAccelerate<typename CommonElement::Type>;
 
-        /** The PlatformVectorOps::IntelIPP type for the common element type */
-        using IPP = PlatformVectorOps::IntelIPP<typename CommonElement::Type>;
+        /** The platform_vec_ops::IntelIPP type for the common element type */
+        using IPP = platform_vec_ops::IntelIPP<typename CommonElement::Type>;
     };
 
     /** Helper template to define a union of all supported SIMD types. Especially useful for space efficient scratch registers kept as members. */

@@ -1,6 +1,6 @@
-# PlatformVectorOps
+# platform_vec_ops
 
-PlatformVectorOps is a generic name for third-party, platform optimized vector math operations. At the moment we
+platform_vec_ops is a generic name for third-party, platform optimized vector math operations. At the moment we
 particularly use functions from the Apple Accelerate Framework and from the Intel IPP library.
 
 Both, Accelerate and IPP are not available on all systems. For Apple, we assume that Accelerate is generally available,
@@ -15,7 +15,7 @@ need to ensure that the relevant functions are not available in case there is no
 via concepts. Let's take the `AppleAccelerate` implementation as an example:
 
 ```C++
-namespace vctr::PlatformVectorOps
+namespace vctr::platform_vec_ops
 {
 
 template <class T>
