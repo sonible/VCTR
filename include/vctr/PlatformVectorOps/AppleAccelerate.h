@@ -20,7 +20,7 @@
   ==============================================================================
 */
 
-namespace vctr::PlatformVectorOps
+namespace vctr::platform_vec_ops
 {
 
 template <class T>
@@ -344,4 +344,4 @@ public:
 };
 
 #endif
-} // namespace vctr::PlatformVectorOps
+} // namespace vctr::platform_vec_ops
