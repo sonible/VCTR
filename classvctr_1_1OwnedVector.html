@@ -473,6 +473,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a13755f0b72bc98a60663e7e90be620cc"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::optional&lt; size_t &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#a13755f0b72bc98a60663e7e90be620cc">indexIfReverse</a> (Fn &amp;&amp;predicate) const</td></tr>
 <tr class="memdesc:a13755f0b72bc98a60663e7e90be620cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of the last element that satisfies the predicate or std::nullopt if none is found.  <br /></td></tr>
 <tr class="separator:a13755f0b72bc98a60663e7e90be620cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a080fe9d9e226860b48acde1178bb3209"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#a080fe9d9e226860b48acde1178bb3209">findMaxElement</a> ()</td></tr>
+<tr class="memdesc:a080fe9d9e226860b48acde1178bb3209"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to the first greatest element.  <br /></td></tr>
+<tr class="separator:a080fe9d9e226860b48acde1178bb3209"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a029ddc0c88fbc4aac667bca7f6125348"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#a029ddc0c88fbc4aac667bca7f6125348">findMaxElement</a> () const</td></tr>
+<tr class="memdesc:a029ddc0c88fbc4aac667bca7f6125348"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to the first greatest element.  <br /></td></tr>
+<tr class="separator:a029ddc0c88fbc4aac667bca7f6125348"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2261b01e1400927039586ef3b4be869b"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#a2261b01e1400927039586ef3b4be869b">findMinElement</a> ()</td></tr>
+<tr class="memdesc:a2261b01e1400927039586ef3b4be869b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to the first smallest element.  <br /></td></tr>
+<tr class="separator:a2261b01e1400927039586ef3b4be869b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae24e1fbd352ce351643a5d410179bb8d"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#ae24e1fbd352ce351643a5d410179bb8d">findMinElement</a> () const</td></tr>
+<tr class="memdesc:ae24e1fbd352ce351643a5d410179bb8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to the first smallest element.  <br /></td></tr>
+<tr class="separator:ae24e1fbd352ce351643a5d410179bb8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc8f6bb18b8c5fc752c3a3c2440bf589"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#abc8f6bb18b8c5fc752c3a3c2440bf589">indexOfMaxElement</a> () const</td></tr>
+<tr class="memdesc:abc8f6bb18b8c5fc752c3a3c2440bf589"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of the first greatest element (aka argMax).  <br /></td></tr>
+<tr class="separator:abc8f6bb18b8c5fc752c3a3c2440bf589"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a575932e270e9eb0bb8bf3550cf47acf0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#a575932e270e9eb0bb8bf3550cf47acf0">indexOfMinElement</a> () const</td></tr>
+<tr class="memdesc:a575932e270e9eb0bb8bf3550cf47acf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of the first smallest element (aka argMin).  <br /></td></tr>
+<tr class="separator:a575932e270e9eb0bb8bf3550cf47acf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abaf31ce8bd7c61d08b1d0a0128d4a94e"><td class="memItemLeft" align="right" valign="top">constexpr std::optional&lt; value_type &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#abaf31ce8bd7c61d08b1d0a0128d4a94e">firstValueGreaterThanOrEqualTo</a> (const value_type &amp;valueToLookFor) const</td></tr>
 <tr class="memdesc:abaf31ce8bd7c61d08b1d0a0128d4a94e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a std::optional holding a copy of the first element value which is greater or equal to valueToLookFor or std::nullopt if no such value is found.  <br /></td></tr>
 <tr class="separator:abaf31ce8bd7c61d08b1d0a0128d4a94e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2167,6 +2185,122 @@ template&lt;is::functionWithSignatureOrImplicitlyConvertible&lt; bool(const Elem
 
 </div>
 </div>
+<a id="a080fe9d9e226860b48acde1178bb3209" name="a080fe9d9e226860b48acde1178bb3209"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a080fe9d9e226860b48acde1178bb3209">&#9670;&#160;</a></span>findMaxElement() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ElementType , class StorageType , size_t extent, class <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a>  = StorageInfo&lt;StorageType&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classvctr_1_1VctrBase.html">vctr::VctrBase</a>&lt; ElementType, StorageType, extent, <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a> &gt;::findMaxElement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an iterator to the first greatest element. </p>
+
+</div>
+</div>
+<a id="a029ddc0c88fbc4aac667bca7f6125348" name="a029ddc0c88fbc4aac667bca7f6125348"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a029ddc0c88fbc4aac667bca7f6125348">&#9670;&#160;</a></span>findMaxElement() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ElementType , class StorageType , size_t extent, class <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a>  = StorageInfo&lt;StorageType&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classvctr_1_1VctrBase.html">vctr::VctrBase</a>&lt; ElementType, StorageType, extent, <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a> &gt;::findMaxElement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an iterator to the first greatest element. </p>
+
+</div>
+</div>
+<a id="a2261b01e1400927039586ef3b4be869b" name="a2261b01e1400927039586ef3b4be869b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2261b01e1400927039586ef3b4be869b">&#9670;&#160;</a></span>findMinElement() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ElementType , class StorageType , size_t extent, class <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a>  = StorageInfo&lt;StorageType&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classvctr_1_1VctrBase.html">vctr::VctrBase</a>&lt; ElementType, StorageType, extent, <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a> &gt;::findMinElement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an iterator to the first smallest element. </p>
+
+</div>
+</div>
+<a id="ae24e1fbd352ce351643a5d410179bb8d" name="ae24e1fbd352ce351643a5d410179bb8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae24e1fbd352ce351643a5d410179bb8d">&#9670;&#160;</a></span>findMinElement() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ElementType , class StorageType , size_t extent, class <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a>  = StorageInfo&lt;StorageType&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classvctr_1_1VctrBase.html">vctr::VctrBase</a>&lt; ElementType, StorageType, extent, <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a> &gt;::findMinElement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an iterator to the first smallest element. </p>
+
+</div>
+</div>
 <a id="a13389760f277db65b2d08cc058e58e25" name="a13389760f277db65b2d08cc058e58e25"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a13389760f277db65b2d08cc058e58e25">&#9670;&#160;</a></span>findReverse() <span class="overload">[1/2]</span></h2>
 
@@ -2917,6 +3051,64 @@ template&lt;std::equality_comparable_with&lt; ElementType &gt; T&gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the index of the first element that compares true to value or std::nullopt if none is found. </p>
+
+</div>
+</div>
+<a id="abc8f6bb18b8c5fc752c3a3c2440bf589" name="abc8f6bb18b8c5fc752c3a3c2440bf589"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc8f6bb18b8c5fc752c3a3c2440bf589">&#9670;&#160;</a></span>indexOfMaxElement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ElementType , class StorageType , size_t extent, class <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a>  = StorageInfo&lt;StorageType&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classvctr_1_1VctrBase.html">vctr::VctrBase</a>&lt; ElementType, StorageType, extent, <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a> &gt;::indexOfMaxElement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the index of the first greatest element (aka argMax). </p>
+
+</div>
+</div>
+<a id="a575932e270e9eb0bb8bf3550cf47acf0" name="a575932e270e9eb0bb8bf3550cf47acf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a575932e270e9eb0bb8bf3550cf47acf0">&#9670;&#160;</a></span>indexOfMinElement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ElementType , class StorageType , size_t extent, class <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a>  = StorageInfo&lt;StorageType&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classvctr_1_1VctrBase.html">vctr::VctrBase</a>&lt; ElementType, StorageType, extent, <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a> &gt;::indexOfMinElement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the index of the first smallest element (aka argMin). </p>
 
 </div>
 </div>
