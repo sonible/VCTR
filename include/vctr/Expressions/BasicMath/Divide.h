@@ -48,7 +48,7 @@ public:
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
     requires is::suitableForIppRealOrComplexComplexFloatBinaryVectorOp<SrcAType, SrcBType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
     {
-        Expression::IPP::div (srcA.evalNextVectorOpInExpressionChain (dst), srcB.evalNextVectorOpInExpressionChain (dst), dst, size());
+        Expression::IPP::div (srcA.evalNextVectorOpInExpressionChain (dst), srcB.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));
         return dst;
     }
 
@@ -150,7 +150,7 @@ public:
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
     requires is::suitableForIppRealOrComplexFloatVectorOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
     {
-        Expression::IPP::div (src.evalNextVectorOpInExpressionChain (dst), single, dst, size());
+        Expression::IPP::div (src.evalNextVectorOpInExpressionChain (dst), single, dst, sizeToInt (size()));
         return dst;
     }
 

@@ -59,7 +59,7 @@ public:
     requires is::suitableForIppRealFloatVectorOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
     {
         VCTR_ASSERT (srcSum != value_type (0));
-        Expression::IPP::div (src.evalNextVectorOpInExpressionChain (dst), srcSum, dst, size());
+        Expression::IPP::div (src.evalNextVectorOpInExpressionChain (dst), srcSum, dst, sizeToInt (size()));
         return dst;
     }
 

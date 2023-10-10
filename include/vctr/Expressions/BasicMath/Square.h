@@ -58,7 +58,7 @@ public:
     requires is::suitableForIppRealOrComplexFloatVectorOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
     {
         const auto* s = src.evalNextVectorOpInExpressionChain (dst);
-        Expression::IPP::mul (s, s, dst, size());
+        Expression::IPP::mul (s, s, dst, sizeToInt (size()));
         return dst;
     }
 

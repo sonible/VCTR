@@ -49,7 +49,7 @@ public:
     VCTR_FORCEDINLINE value_type reduceVectorOp() const
     requires is::suitableForIppRealFloatVectorReductionOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
     {
-        return Expression::IPP::max (src.data(), size());
+        return Expression::IPP::max (src.data(), sizeToInt (size()));
     };
 
     //==============================================================================
@@ -117,7 +117,7 @@ public:
     VCTR_FORCEDINLINE value_type reduceVectorOp() const
     requires is::suitableForIppRealFloatVectorReductionOp<SrcType, value_type>
     {
-        return Expression::IPP::maxAbs (src.data(), size());
+        return Expression::IPP::maxAbs (src.data(), sizeToInt (size()));
     };
 
     //==============================================================================
