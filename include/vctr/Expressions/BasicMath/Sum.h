@@ -65,7 +65,7 @@ public:
     VCTR_FORCEDINLINE value_type reduceVectorOp() const
     requires is::suitableForIppRealOrComplexFloatVectorReductionOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
     {
-        return Expression::IPP::sum (src.data(), size());
+        return Expression::IPP::sum (src.data(), sizeToInt (size()));
     };
 
     //==============================================================================

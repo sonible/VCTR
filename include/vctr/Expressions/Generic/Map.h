@@ -61,7 +61,7 @@ public:
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
     requires is::suitableForIppRealFloatVectorOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
     {
-        const auto s = size();
+        const auto s = sizeToInt (size());
 
         Expression::IPP::add (src.evalNextVectorOpInExpressionChain (dst), srcRangeStartNegated, dst, s);
         Expression::IPP::mul (dst, srcDstLenRatio, dst, s);
@@ -113,7 +113,7 @@ public:
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
     requires is::suitableForIppRealFloatVectorOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
     {
-        const auto s = size();
+        const auto s = sizeToInt (size());
 
         Expression::IPP::mul (src.evalNextVectorOpInExpressionChain (dst), dstRangeLen, dst, s);
         Expression::IPP::add (dst, dstRangeStart, dst, s);
@@ -163,7 +163,7 @@ public:
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
     requires is::suitableForIppRealFloatVectorOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
     {
-        const auto s = size();
+        const auto s = sizeToInt (size());
 
         Expression::IPP::add (src.evalNextVectorOpInExpressionChain (dst), srcRangeStartNegated, dst, s);
         Expression::IPP::div (dst, srcRangeLen, dst, s);
