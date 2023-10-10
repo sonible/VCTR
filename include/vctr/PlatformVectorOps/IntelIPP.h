@@ -115,8 +115,8 @@ public:
     static void multiplyAccumulate (const double* srcA, const double* srcB, double* srcDst, int len) { assertIppNoErr (ippsAddProduct_64f (srcA, srcB, srcDst, len)); }
     static void multiplyAccumulate (const double* srcA, double        srcB, double* srcDst, int len) { assertIppNoErr (ippsAddProductC_64f (srcA, srcB, srcDst, len)); }
 
-    static void clampLow  (const double* src, float thresh,  double* dst, int len) { assertIppNoErr (ippsThreshold_LT_64f (src, dst, len, thresh)); }
-    static void clampHigh (const double* src, float thresh,  double* dst, int len) { assertIppNoErr (ippsThreshold_GT_64f (src, dst, len, thresh)); }
+    static void clampLow  (const double* src, double thresh,  double* dst, int len) { assertIppNoErr (ippsThreshold_LT_64f (src, dst, len, thresh)); }
+    static void clampHigh (const double* src, double thresh,  double* dst, int len) { assertIppNoErr (ippsThreshold_GT_64f (src, dst, len, thresh)); }
 
     static void ln    (const double* src,                     double* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLn_64f (src, dst, len)); }
     static void log10 (const double* src,                     double* dst, int len) { assertAllowedStatus<ippStsNoErr, ippStsSingularity> (ippsLog10_64f_A53 (src, dst, len)); }
