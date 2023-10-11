@@ -143,7 +143,7 @@ $(document).ready(function(){initNavTree('Divide_8h_source.html',''); initResiza
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    VCTR_FORCEDINLINE <span class="keyword">const</span> value_type* evalNextVectorOpInExpressionChain (value_type* dst) <span class="keyword">const</span></div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keyword">requires</span> <a class="code hl_concept" href="conceptvctr_1_1is_1_1suitableForIppRealOrComplexComplexFloatBinaryVectorOp.html">is::suitableForIppRealOrComplexComplexFloatBinaryVectorOp&lt;SrcAType, SrcBType, value_type, detail::preferIfIppAndAccelerateAreAvailable&gt;</a></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    {</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        Expression::IPP::div (srcA.evalNextVectorOpInExpressionChain (dst), srcB.evalNextVectorOpInExpressionChain (dst), dst, size());</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        Expression::IPP::div (srcA.evalNextVectorOpInExpressionChain (dst), srcB.evalNextVectorOpInExpressionChain (dst), dst, <a class="code hl_function" href="namespacevctr.html#aecbd148207a93e819482375969ad3db9">sizeToInt</a> (size()));</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <span class="keywordflow">return</span> dst;</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    }</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
@@ -243,7 +243,7 @@ $(document).ready(function(){initNavTree('Divide_8h_source.html',''); initResiza
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    VCTR_FORCEDINLINE <span class="keyword">const</span> value_type* evalNextVectorOpInExpressionChain (value_type* dst) <span class="keyword">const</span></div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keyword">requires</span> <a class="code hl_concept" href="conceptvctr_1_1is_1_1suitableForIppRealOrComplexFloatVectorOp.html">is::suitableForIppRealOrComplexFloatVectorOp&lt;SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable&gt;</a></div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    {</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        Expression::IPP::div (src.evalNextVectorOpInExpressionChain (dst), single, dst, size());</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        Expression::IPP::div (src.evalNextVectorOpInExpressionChain (dst), single, dst, <a class="code hl_function" href="namespacevctr.html#aecbd148207a93e819482375969ad3db9">sizeToInt</a> (size()));</div>
 <div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        <span class="keywordflow">return</span> dst;</div>
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    }</div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>

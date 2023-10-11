@@ -144,12 +144,12 @@ Public Types</h2></td></tr>
 <tr class="memitem:ae804ad35ca50571002c160c1fa500877"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html#ae804ad35ca50571002c160c1fa500877">SSERet</a> = <a class="el" href="structvctr_1_1SSERegister.html">SSERegister</a>&lt; ReturnElementType &gt;</td></tr>
 <tr class="memdesc:ae804ad35ca50571002c160c1fa500877"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="structvctr_1_1SSERegister.html">SSERegister</a> type for the common return element type.  <br /></td></tr>
 <tr class="separator:ae804ad35ca50571002c160c1fa500877"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bc636ca95019916aeab9e5afd0c1254"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html#a7bc636ca95019916aeab9e5afd0c1254">Accelerate</a> = PlatformVectorOps::AppleAccelerate&lt; typename CommonElement::Type &gt;</td></tr>
-<tr class="memdesc:a7bc636ca95019916aeab9e5afd0c1254"><td class="mdescLeft">&#160;</td><td class="mdescRight">The PlatformVectorOps::AppleAccelerate type for the common element type.  <br /></td></tr>
-<tr class="separator:a7bc636ca95019916aeab9e5afd0c1254"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e832f642907381938c9dd0ef2776925"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html#a2e832f642907381938c9dd0ef2776925">IPP</a> = PlatformVectorOps::IntelIPP&lt; typename CommonElement::Type &gt;</td></tr>
-<tr class="memdesc:a2e832f642907381938c9dd0ef2776925"><td class="mdescLeft">&#160;</td><td class="mdescRight">The PlatformVectorOps::IntelIPP type for the common element type.  <br /></td></tr>
-<tr class="separator:a2e832f642907381938c9dd0ef2776925"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf0a64be24916cb0b462148444ad61f8"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html#aaf0a64be24916cb0b462148444ad61f8">Accelerate</a> = platform_vec_ops::AppleAccelerate&lt; typename CommonElement::Type &gt;</td></tr>
+<tr class="memdesc:aaf0a64be24916cb0b462148444ad61f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The platform_vec_ops::AppleAccelerate type for the common element type.  <br /></td></tr>
+<tr class="separator:aaf0a64be24916cb0b462148444ad61f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb273e1a290759ba72dd176a7ae7bfeb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html#abb273e1a290759ba72dd176a7ae7bfeb">IPP</a> = platform_vec_ops::IntelIPP&lt; typename CommonElement::Type &gt;</td></tr>
+<tr class="memdesc:abb273e1a290759ba72dd176a7ae7bfeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The platform_vec_ops::IntelIPP type for the common element type.  <br /></td></tr>
+<tr class="separator:abb273e1a290759ba72dd176a7ae7bfeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -161,8 +161,8 @@ Static Public Attributes</h2></td></tr>
 <div class="textblock"><div class="compoundTemplParams">template&lt;class ReturnElementType, class... SrcTypes&gt;<br />
 struct vctr::ExpressionTemplateBase::ExpressionTypes&lt; ReturnElementType, SrcTypes &gt;</div><p>Supplies some handy typedefs and traits needed when implementing expression templates. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a7bc636ca95019916aeab9e5afd0c1254" name="a7bc636ca95019916aeab9e5afd0c1254"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7bc636ca95019916aeab9e5afd0c1254">&#9670;&#160;</a></span>Accelerate</h2>
+<a id="aaf0a64be24916cb0b462148444ad61f8" name="aaf0a64be24916cb0b462148444ad61f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf0a64be24916cb0b462148444ad61f8">&#9670;&#160;</a></span>Accelerate</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -170,12 +170,12 @@ struct vctr::ExpressionTemplateBase::ExpressionTypes&lt; ReturnElementType, SrcT
 template&lt;class ReturnElementType , class... SrcTypes&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html">vctr::ExpressionTemplateBase::ExpressionTypes</a>&lt; ReturnElementType, SrcTypes &gt;::Accelerate =  PlatformVectorOps::AppleAccelerate&lt;typename CommonElement::Type&gt;</td>
+          <td class="memname">using <a class="el" href="structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html">vctr::ExpressionTemplateBase::ExpressionTypes</a>&lt; ReturnElementType, SrcTypes &gt;::Accelerate =  platform_vec_ops::AppleAccelerate&lt;typename CommonElement::Type&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>The PlatformVectorOps::AppleAccelerate type for the common element type. </p>
+<p>The platform_vec_ops::AppleAccelerate type for the common element type. </p>
 
 </div>
 </div>
@@ -269,8 +269,8 @@ template&lt;class ReturnElementType , class... SrcTypes&gt; </div>
 
 </div>
 </div>
-<a id="a2e832f642907381938c9dd0ef2776925" name="a2e832f642907381938c9dd0ef2776925"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e832f642907381938c9dd0ef2776925">&#9670;&#160;</a></span>IPP</h2>
+<a id="abb273e1a290759ba72dd176a7ae7bfeb" name="abb273e1a290759ba72dd176a7ae7bfeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb273e1a290759ba72dd176a7ae7bfeb">&#9670;&#160;</a></span>IPP</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -278,12 +278,12 @@ template&lt;class ReturnElementType , class... SrcTypes&gt; </div>
 template&lt;class ReturnElementType , class... SrcTypes&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html">vctr::ExpressionTemplateBase::ExpressionTypes</a>&lt; ReturnElementType, SrcTypes &gt;::IPP =  PlatformVectorOps::IntelIPP&lt;typename CommonElement::Type&gt;</td>
+          <td class="memname">using <a class="el" href="structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html">vctr::ExpressionTemplateBase::ExpressionTypes</a>&lt; ReturnElementType, SrcTypes &gt;::IPP =  platform_vec_ops::IntelIPP&lt;typename CommonElement::Type&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>The PlatformVectorOps::IntelIPP type for the common element type. </p>
+<p>The platform_vec_ops::IntelIPP type for the common element type. </p>
 
 </div>
 </div>

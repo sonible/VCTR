@@ -2,7 +2,7 @@ var searchData=
 [
   ['abs_0',['abs',['../group__Expressions.html#gac4fac892235effd8638c99018b7ab32f',1,'vctr']]],
   ['abs_1',['Abs',['../classvctr_1_1expressions_1_1Abs.html',1,'vctr::expressions']]],
-  ['accelerate_2',['Accelerate',['../structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html#a7bc636ca95019916aeab9e5afd0c1254',1,'vctr::ExpressionTemplateBase::ExpressionTypes']]],
+  ['accelerate_2',['Accelerate',['../structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html#aaf0a64be24916cb0b462148444ad61f8',1,'vctr::ExpressionTemplateBase::ExpressionTypes']]],
   ['acos_3',['acos',['../group__Expressions.html#ga778493aa5f46f4a688de257b299c8d92',1,'vctr']]],
   ['acos_4',['Acos',['../classvctr_1_1expressions_1_1Acos.html',1,'vctr::expressions']]],
   ['acosh_5',['acosh',['../group__Expressions.html#ga45af1bb62e14a9d6aa8380346c030c8e',1,'vctr']]],

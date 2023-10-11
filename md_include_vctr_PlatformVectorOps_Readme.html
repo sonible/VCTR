@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>VCTR: PlatformVectorOps</title>
+<title>VCTR: platform_vec_ops</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -91,14 +91,14 @@ $(document).ready(function(){initNavTree('md_include_vctr_PlatformVectorOps_Read
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">PlatformVectorOps </div></div>
+  <div class="headertitle"><div class="title">platform_vec_ops </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>PlatformVectorOps is a generic name for third-party, platform optimized vector math operations. At the moment we particularly use functions from the Apple Accelerate Framework and from the Intel IPP library.</p>
+<div class="textblock"><p>platform_vec_ops is a generic name for third-party, platform optimized vector math operations. At the moment we particularly use functions from the Apple Accelerate Framework and from the Intel IPP library.</p>
 <p>Both, Accelerate and IPP are not available on all systems. For Apple, we assume that Accelerate is generally available, the CMake target already links against it. If IPP should be used, the user has to specify <code>VCTR_HAS_IPP</code> and ensure that IPP headers are available on the search path and that we link against it properly.</p>
 <p>PlatformVectorOp functions are wrapped behind a struct template, which is empty by default, but have specializations for the datatype for which they are available. These specializations are wrapped in <code>#if</code> blocks so that they are only available if the platform we build for supports them. Using this approach of an empty default struct and specializations, we can reference the struct in code without needing to wrap that code into <code>#if</code> sections, we only need to ensure that the relevant functions are not available in case there is no matching operation by constraining them via concepts. Let's take the <code>AppleAccelerate</code> implementation as an example:</p>
 <div class="fragment"><div class="line"> {C++}</div>
-<div class="line">namespace vctr::PlatformVectorOps</div>
+<div class="line">namespace vctr::platform_vec_ops</div>
 <div class="line">{</div>
 <div class="line"> </div>
 <div class="line">template &lt;class T&gt;</div>

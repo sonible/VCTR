@@ -162,7 +162,7 @@ var NAVTREE =
       [ "Platform Specific Vector Operations", "md_include_vctr_Expressions_Readme.html#autotoc_md4", null ],
       [ "Reduction expressions", "md_include_vctr_Expressions_Readme.html#autotoc_md5", null ]
     ] ],
-    [ "PlatformVectorOps", "md_include_vctr_PlatformVectorOps_Readme.html", [
+    [ "platform_vec_ops", "md_include_vctr_PlatformVectorOps_Readme.html", [
       [ "Using them in expressions", "md_include_vctr_PlatformVectorOps_Readme.html#autotoc_md7", null ],
       [ "Safe int casting", "md_include_vctr_PlatformVectorOps_Readme.html#autotoc_md8", null ]
     ] ],
