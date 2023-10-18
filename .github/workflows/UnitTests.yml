@@ -18,8 +18,8 @@ jobs:
           #  ipp: no_ipp
 
           - runner: ubuntu-22.04
-            cc: gcc-12
-            cxx: g++-12
+            cc: gcc-11
+            cxx: g++-11
             ipp: no_ipp
 
           # Linux clang 15 runners are temporarily disabled due to installation issues. See https://github.com/sonible/VCTR/issues/86
@@ -29,8 +29,8 @@ jobs:
           #  ipp: ipp
 
           - runner: ubuntu-22.04
-            cc: gcc-12
-            cxx: g++-12
+            cc: gcc-11
+            cxx: g++-11
             ipp: ipp
 
           - runner: windows-2022
