@@ -240,8 +240,15 @@ public:
     //...
     
     // AVX Implementation
-    void prepareAVXEvaluation() const
-    requires has::prepareAVXEvaluation<SrcType>
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void prepareAVXEvaluation() const
+    requires has::prepareAVXEvaluation<SrcType> && Expression::CommonElement::isRealFloat
+    {
+        src.prepareAVXEvaluation();
+        singleSIMD.avx = Expression::AVX::broadcast (single);
+    }
+    
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") void prepareAVXEvaluation() const
+    requires has::prepareAVXEvaluation<SrcType> && Expression::CommonElement::isInt
     {
         src.prepareAVXEvaluation();
         singleSIMD.avx = Expression::AVX::broadcast (single);
@@ -260,7 +267,7 @@ public:
     }
     
     // SSE Implementation
-    void prepareSSEEvaluation() const
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void prepareSSEEvaluation() const
     requires has::prepareSSEEvaluation<SrcType>
     {
         src.prepareSSEEvaluation();
