@@ -244,8 +244,15 @@ Using alternative approaches to evaluate the expression</h1>
 <div class="line">    //...</div>
 <div class="line">    </div>
 <div class="line">    // AVX Implementation</div>
-<div class="line">    void prepareAVXEvaluation() const</div>
-<div class="line">    requires has::prepareAVXEvaluation&lt;SrcType&gt;</div>
+<div class="line">    VCTR_FORCEDINLINE VCTR_TARGET (&quot;avx&quot;) void prepareAVXEvaluation() const</div>
+<div class="line">    requires has::prepareAVXEvaluation&lt;SrcType&gt; &amp;&amp; Expression::CommonElement::isRealFloat</div>
+<div class="line">    {</div>
+<div class="line">        src.prepareAVXEvaluation();</div>
+<div class="line">        singleSIMD.avx = Expression::AVX::broadcast (single);</div>
+<div class="line">    }</div>
+<div class="line">    </div>
+<div class="line">    VCTR_FORCEDINLINE VCTR_TARGET (&quot;avx2&quot;) void prepareAVXEvaluation() const</div>
+<div class="line">    requires has::prepareAVXEvaluation&lt;SrcType&gt; &amp;&amp; Expression::CommonElement::isInt</div>
 <div class="line">    {</div>
 <div class="line">        src.prepareAVXEvaluation();</div>
 <div class="line">        singleSIMD.avx = Expression::AVX::broadcast (single);</div>
@@ -264,7 +271,7 @@ Using alternative approaches to evaluate the expression</h1>
 <div class="line">    }</div>
 <div class="line">    </div>
 <div class="line">    // SSE Implementation</div>
-<div class="line">    void prepareSSEEvaluation() const</div>
+<div class="line">    VCTR_FORCEDINLINE VCTR_TARGET (&quot;sse4.1&quot;) void prepareSSEEvaluation() const</div>
 <div class="line">    requires has::prepareSSEEvaluation&lt;SrcType&gt;</div>
 <div class="line">    {</div>
 <div class="line">        src.prepareSSEEvaluation();</div>

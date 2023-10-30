@@ -213,7 +213,7 @@ $(document).ready(function(){initNavTree('Multiply_8h_source.html',''); initResi
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="comment">//==============================================================================</span></div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="comment">// AVX Implementation</span></div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keywordtype">void</span> prepareAVXEvaluation() <span class="keyword">const</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    VCTR_FORCEDINLINE VCTR_TARGET (<span class="stringliteral">&quot;avx&quot;</span>) <span class="keywordtype">void</span> prepareAVXEvaluation() <span class="keyword">const</span></div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keyword">requires</span> <a class="code hl_concept" href="conceptvctr_1_1has_1_1prepareAVXEvaluation.html">has::prepareAVXEvaluation&lt;SrcType&gt;</a></div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    {</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        src.prepareAVXEvaluation();</div>
@@ -227,7 +227,7 @@ $(document).ready(function(){initNavTree('Multiply_8h_source.html',''); initResi
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    }</div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="comment">// SSE Implementation</span></div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="keywordtype">void</span> prepareSSEEvaluation() <span class="keyword">const</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    VCTR_FORCEDINLINE VCTR_TARGET (<span class="stringliteral">&quot;sse4.1&quot;</span>) <span class="keywordtype">void</span> prepareSSEEvaluation() <span class="keyword">const</span></div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <span class="keyword">requires</span> <a class="code hl_concept" href="conceptvctr_1_1has_1_1prepareSSEEvaluation.html">has::prepareSSEEvaluation&lt;SrcType&gt;</a></div>
 <div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    {</div>
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        src.prepareSSEEvaluation();</div>
@@ -287,7 +287,7 @@ $(document).ready(function(){initNavTree('Multiply_8h_source.html',''); initResi
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    <span class="comment">//==============================================================================</span></div>
 <div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    <span class="comment">// AVX Implementation</span></div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    <span class="keywordtype">void</span> prepareAVXEvaluation() <span class="keyword">const</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    VCTR_FORCEDINLINE VCTR_TARGET (<span class="stringliteral">&quot;avx&quot;</span>) <span class="keywordtype">void</span> prepareAVXEvaluation() <span class="keyword">const</span></div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    <span class="keyword">requires</span> <a class="code hl_concept" href="conceptvctr_1_1has_1_1prepareAVXEvaluation.html">has::prepareAVXEvaluation&lt;SrcType&gt;</a></div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    {</div>
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        src.prepareAVXEvaluation();</div>
@@ -301,7 +301,7 @@ $(document).ready(function(){initNavTree('Multiply_8h_source.html',''); initResi
 <div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    }</div>
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
 <div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    <span class="comment">// SSE Implementation</span></div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    <span class="keywordtype">void</span> prepareSSEEvaluation() <span class="keyword">const</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    VCTR_FORCEDINLINE VCTR_TARGET (<span class="stringliteral">&quot;sse4.1&quot;</span>) <span class="keywordtype">void</span> prepareSSEEvaluation() <span class="keyword">const</span></div>
 <div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    <span class="keyword">requires</span> <a class="code hl_concept" href="conceptvctr_1_1has_1_1prepareSSEEvaluation.html">has::prepareSSEEvaluation&lt;SrcType&gt;</a></div>
 <div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    {</div>
 <div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        src.prepareSSEEvaluation();</div>
