@@ -600,28 +600,44 @@ public:
         return it == rend() ? std::nullopt : std::optional<size_t> (std::distance (it, rend()) - 1);
     }
 
-    /** Returns an iterator to the first greatest element. */
+    /** Returns an iterator to the first greatest element.
+
+        Note: If you are only interested in the value of the max element, the max() function is a
+        more efficient alternative to that.
+     */
     [[nodiscard]] auto findMaxElement()
     requires std::totally_ordered<value_type>
     {
         return std::max_element (begin(), end());
     }
 
-    /** Returns an iterator to the first greatest element. */
+    /** Returns an iterator to the first greatest element.
+
+        Note: If you are only interested in the value of the max element, the max() function is a
+        more efficient alternative to that.
+     */
     [[nodiscard]] auto findMaxElement() const
     requires std::totally_ordered<value_type>
     {
         return std::max_element (begin(), end());
     }
 
-    /** Returns an iterator to the first smallest element. */
+    /** Returns an iterator to the first smallest element.
+
+        Note: If you are only interested in the value of the min element, the min() function is a
+        more efficient alternative to that.
+     */
     [[nodiscard]] auto findMinElement()
     requires std::totally_ordered<value_type>
     {
         return std::min_element (begin(), end());
     }
 
-    /** Returns an iterator to the first smallest element. */
+    /** Returns an iterator to the first smallest element.
+
+        Note: If you are only interested in the value of the min element, the min() function is a
+        more efficient alternative to that.
+     */
     [[nodiscard]] auto findMinElement() const
     requires std::totally_ordered<value_type>
     {

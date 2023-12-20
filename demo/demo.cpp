@@ -77,7 +77,38 @@ int main()
     // Looks good!
     std::cout << "x = \t[ " << x[0] << ", " << x[1] << ", " << x[2] << ", " << x[3] << " ]" << std::endl;
 
+    // We can transform the content of a container by applying a function to each element. In this case,
+    // we transform each numeric element into a std::string and append some custom string to it.
+    // The resulting Vector is of type vctr::Vector<std::string>
+    vctr::Vector s = vctr::transformedBy ([] (auto dB) { return std::to_string (dB) + "!"; }) << xSpan;
+
+    std::cout << "s = \t" << s << std::endl;
+
     delete[] x;
+
+    // The Vector class has convenient functions to modify the vector...
+    b.eraseFirstOccurrenceOf (6.0);
+
+    // ... and also forwards well known std::vector member functions
+    b.push_back (9.0);
+    b.push_back (10.0);
+
+    std::cout << "b = \t" << b << std::endl;
+
+    // The VCTR base class has a bunch of convenient member functions to find elements
+    auto max = a.max();
+    auto containsTen = a.contains (10);
+
+    std::cout << "max = " << max << std::endl;
+    std::cout << "contains ten = " << std::boolalpha << containsTen << std::endl;
+
+    // There are also member functions to perform reductions
+    auto sumOfSum = c.sum();
+    std::cout << "c.sum() = " << sumOfSum << std::endl;
+
+    // Reductions can also be expressed as expressions:
+    auto floatMean = vctr::mean << (vctr::transformedByStaticCastTo<float> << c) + 0.5f;
+    std::cout << "mean = " << floatMean << std::endl;
 
     return 0;
 }
