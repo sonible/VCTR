@@ -161,10 +161,10 @@ jobs:
         run: pip3 install ipp-static
         if: matrix.configs.ipp == 'ipp'
 
-      # VCTR_USE_IPP uses fake ternary operator
+      # VCTR_AUTOLINK_IPP uses fake ternary operator
       # More details here: https://github.com/actions/runner/issues/409#issuecomment-752775072
       - name: Configure CMake
-        run: cmake . -B build -G Ninja -D CMAKE_BUILD_TYPE=Release -D VCTR_BUILD_TEST=1 -D VCTR_USE_CONAN=1 -D VCTR_USE_IPP=${{ matrix.configs.ipp == 'ipp' && '1' || '0' }}
+        run: cmake . -B build -G Ninja -D CMAKE_BUILD_TYPE=Release -D VCTR_BUILD_TEST=1 -D VCTR_USE_CONAN=1 -D VCTR_AUTOLINK_IPP=${{ matrix.configs.ipp == 'ipp' && '1' || '0' }}
         env:
           CC: ${{ matrix.configs.cc }}
           CXX: ${{ matrix.configs.cxx }}
