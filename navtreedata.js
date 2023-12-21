@@ -25,25 +25,28 @@
 var NAVTREE =
 [
   [ "VCTR", "index.html", [
-    [ "Getting started", "index.html#autotoc_md11", [
-      [ "Dependencies and Requirements", "index.html#autotoc_md12", [
-        [ "Apple Accelerate", "index.html#autotoc_md13", null ],
-        [ "Intel IPP", "index.html#autotoc_md14", null ]
-      ] ],
-      [ "Manual Setup", "index.html#autotoc_md15", [
-        [ "JUCE", "index.html#autotoc_md16", null ]
-      ] ]
+    [ "What it is all about?", "index.html#autotoc_md11", [
+      [ "Containers and views", "index.html#autotoc_md12", null ],
+      [ "(Math) Expressions", "index.html#autotoc_md13", null ],
+      [ "Member functions", "index.html#autotoc_md14", null ],
+      [ "Passing VCTR types as function arguments", "index.html#autotoc_md15", null ]
     ] ],
-    [ "Contributing", "index.html#autotoc_md17", [
-      [ "Unit Tests", "index.html#autotoc_md18", [
-        [ "Installation via conan", "index.html#autotoc_md19", null ],
-        [ "Manual installation", "index.html#autotoc_md20", null ]
+    [ "Integrating VCTR into your project", "index.html#autotoc_md16", [
+      [ "Integration into CMake based projects", "index.html#autotoc_md17", null ],
+      [ "Dependencies and Requirements", "index.html#autotoc_md18", [
+        [ "Apple Accelerate", "index.html#autotoc_md19", null ],
+        [ "Intel IPP", "index.html#autotoc_md20", null ],
+        [ "GCE-Math", "index.html#autotoc_md21", null ]
       ] ],
-      [ "Project structure", "index.html#autotoc_md21", null ],
-      [ "Naming conventions", "index.html#autotoc_md22", null ],
-      [ "extent", "index.html#autotoc_md23", null ]
+      [ "Manual Setup", "index.html#autotoc_md22", null ]
     ] ],
-    [ "License information", "index.html#autotoc_md24", null ],
+    [ "Building unit tests and demo project", "index.html#autotoc_md23", null ],
+    [ "Contributing", "index.html#autotoc_md24", [
+      [ "Project structure", "index.html#autotoc_md25", null ],
+      [ "Naming conventions", "index.html#autotoc_md26", null ],
+      [ "extent", "index.html#autotoc_md27", null ]
+    ] ],
+    [ "License information", "index.html#autotoc_md28", null ],
     [ "Core Types", "group__Core.html", null ],
     [ "Vector Expressions", "group__Expressions.html", null ],
     [ "blockChannelAsSpan", "namespacevctr_1_1juce__helpers.html#a76d6fc48c137adf182f5310775a73d5e", null ],
