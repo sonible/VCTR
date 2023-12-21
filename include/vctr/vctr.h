@@ -87,9 +87,7 @@
 #endif
 
 #if VCTR_USE_IPP
-#include <ippcore.h>
-#include <ipps.h>
-#include <ippvm.h>
+#include <ipp.h>
 #endif
 
 #if VCTR_USE_GCEM
