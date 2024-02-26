@@ -128,15 +128,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a00c3591456164d1c5519782158d5c410"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1Array.html#a00c3591456164d1c5519782158d5c410">Array</a> (ElementType initialValue)</td></tr>
 <tr class="memdesc:a00c3591456164d1c5519782158d5c410"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> with all elements initialised to initialValue.  <br /></td></tr>
 <tr class="separator:a00c3591456164d1c5519782158d5c410"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16c8292d5f832e80ddb0b085b308ef30"><td class="memTemplParams" colspan="2">template&lt;std::convertible_to&lt; ElementType &gt; T&gt; <br />
+requires (extent == 1)</td></tr>
+<tr class="memitem:a16c8292d5f832e80ddb0b085b308ef30"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1Array.html#a16c8292d5f832e80ddb0b085b308ef30">Array</a> (T &amp;&amp;initialValue)</td></tr>
+<tr class="memdesc:a16c8292d5f832e80ddb0b085b308ef30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> with extent 1 from an initial value.  <br /></td></tr>
+<tr class="separator:a16c8292d5f832e80ddb0b085b308ef30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a219bef59c3f29f34b8635ea21009448e"><td class="memTemplParams" colspan="2">template&lt;is::suitableInitializerForElementType&lt; ElementType &gt;... T&gt; <br />
 requires (sizeof...(T) &gt; 1)</td></tr>
 <tr class="memitem:a219bef59c3f29f34b8635ea21009448e"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1Array.html#a219bef59c3f29f34b8635ea21009448e">Array</a> (T &amp;&amp;... initialValues)</td></tr>
 <tr class="memdesc:a219bef59c3f29f34b8635ea21009448e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> from a list of at least two initial values.  <br /></td></tr>
 <tr class="separator:a219bef59c3f29f34b8635ea21009448e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c97da10c2d733d014662cdea6af98b0"><td class="memTemplParams" colspan="2">template&lt;std::convertible_to&lt; ElementType &gt; T&gt; </td></tr>
-<tr class="memitem:a0c97da10c2d733d014662cdea6af98b0"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1Array.html#a0c97da10c2d733d014662cdea6af98b0">Array</a> (T &amp;&amp;initialValues)</td></tr>
-<tr class="memdesc:a0c97da10c2d733d014662cdea6af98b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> with extent 1 from an initial value.  <br /></td></tr>
-<tr class="separator:a0c97da10c2d733d014662cdea6af98b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12663c821da364018f0601094452e7ab"><td class="memTemplParams" colspan="2">template&lt;class OtherElementType , size_t otherSize&gt; </td></tr>
 <tr class="memitem:a12663c821da364018f0601094452e7ab"><td class="memTemplItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1Array.html#a12663c821da364018f0601094452e7ab">Array</a> (std::array&lt; OtherElementType, otherSize &gt; &amp;&amp;other)</td></tr>
 <tr class="memdesc:a12663c821da364018f0601094452e7ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> by moving a std::array into it.  <br /></td></tr>
@@ -603,8 +604,41 @@ template&lt;class ElementType , size_t extent, size_t storageExtent = detail::St
 
 </div>
 </div>
+<a id="a16c8292d5f832e80ddb0b085b308ef30" name="a16c8292d5f832e80ddb0b085b308ef30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16c8292d5f832e80ddb0b085b308ef30">&#9670;&#160;</a></span>Array() <span class="overload">[3/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ElementType , size_t extent, size_t storageExtent = detail::StorageExtent&lt;ElementType, extent&gt;::extent&gt; </div>
+<div class="memtemplate">
+template&lt;std::convertible_to&lt; ElementType &gt; T&gt; <br />
+requires (extent == 1)</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="classvctr_1_1Array.html">vctr::Array</a>&lt; ElementType, extent, storageExtent &gt;::Array </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;&#160;</td>
+          <td class="paramname"><em>initialValue</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates an <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> with extent 1 from an initial value. </p>
+
+</div>
+</div>
 <a id="a219bef59c3f29f34b8635ea21009448e" name="a219bef59c3f29f34b8635ea21009448e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a219bef59c3f29f34b8635ea21009448e">&#9670;&#160;</a></span>Array() <span class="overload">[3/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a219bef59c3f29f34b8635ea21009448e">&#9670;&#160;</a></span>Array() <span class="overload">[4/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -633,38 +667,6 @@ requires (sizeof...(T) &gt; 1)</div>
 </div><div class="memdoc">
 
 <p>Creates an <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> from a list of at least two initial values. </p>
-
-</div>
-</div>
-<a id="a0c97da10c2d733d014662cdea6af98b0" name="a0c97da10c2d733d014662cdea6af98b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c97da10c2d733d014662cdea6af98b0">&#9670;&#160;</a></span>Array() <span class="overload">[4/11]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class ElementType , size_t extent, size_t storageExtent = detail::StorageExtent&lt;ElementType, extent&gt;::extent&gt; </div>
-<div class="memtemplate">
-template&lt;std::convertible_to&lt; ElementType &gt; T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="classvctr_1_1Array.html">vctr::Array</a>&lt; ElementType, extent, storageExtent &gt;::Array </td>
-          <td>(</td>
-          <td class="paramtype">T &amp;&amp;&#160;</td>
-          <td class="paramname"><em>initialValues</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Creates an <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> with extent 1 from an initial value. </p>
 
 </div>
 </div>
