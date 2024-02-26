@@ -88,15 +88,17 @@ public:
         Vctr::storage.fill (initialValue);
     }
 
+    /** Creates an Array with extent 1 from an initial value. */
+    template <std::convertible_to<ElementType> T>
+    constexpr Array (T&& initialValue)
+    requires (extent == 1)
+        : Vctr (StdArrayType { initialValue }) {}
+
     /** Creates an Array from a list of at least two initial values. */
     template <is::suitableInitializerForElementType<ElementType>... T>
     requires (sizeof...(T) > 1)
     constexpr Array (T&&... initialValues) : Vctr (StdArrayType { std::forward<T> (initialValues)... })
     {}
-
-    /** Creates an Array with extent 1 from an initial value. */
-    template <std::convertible_to<ElementType> T>
-    constexpr Array (T&& initialValues) : Vctr (StdArrayType { initialValues }) {}
 
     /** Creates an Array by moving a std::array into it */
     template <class OtherElementType, size_t otherSize>
