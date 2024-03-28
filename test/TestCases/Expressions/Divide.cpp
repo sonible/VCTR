@@ -28,12 +28,11 @@
 #pragma warning(disable : 4146)
 #endif
 
-template <class T>
-T division (T a, T b) { return a / b; }
-
 TEMPLATE_PRODUCT_TEST_CASE ("Division", "[divide]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES_NO_ZEROS (10)
+
+    auto division = [] (ElementType a, ElementType b) { return a / b; };
 
     const auto c = srcC[0];
 
@@ -51,6 +50,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Division", "[divide]", (PlatformVectorOps, VCTR_NAT
 TEMPLATE_PRODUCT_TEST_CASE ("Divide in place", "[divide]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES_NO_ZEROS (10)
+
+    auto division = [] (ElementType a, ElementType b) { return a / b; };
 
     const auto c = srcC[0];
 
