@@ -22,19 +22,23 @@
 
 namespace vctr::detail
 {
-// clang-format off
 template <class T>
-struct IsNumber : std::bool_constant<std::is_arithmetic_v<T>> {};
+constexpr bool isNumber = std::is_arithmetic_v<T>;
 
 template <std::floating_point T>
-struct IsNumber<std::complex<T>> : std::true_type {};
+constexpr bool isNumber<std::complex<T>> = true;
 
 template <class T>
-struct IsComplex : std::false_type {};
+constexpr bool isComplex = false;
 
 template <std::floating_point T>
-struct IsComplex<std::complex<T>> : std::true_type {};
-// clang-format on
+constexpr bool isComplex<std::complex<T>> = true;
+
+template <class>
+constexpr bool isStdRatio = false;
+
+template <intmax_t n, intmax_t d>
+constexpr bool isStdRatio<std::ratio<n, d>> = true;
 } // namespace vctr::detail
 
 namespace vctr::is
@@ -42,7 +46,7 @@ namespace vctr::is
 
 /** Constrains a type to represent a real valued or std::complex number type */
 template <class T>
-concept number = detail::IsNumber<T>::value;
+concept number = detail::isNumber<T>;
 
 /** Constrains a type to represent a real valued integer number */
 template <class T>
@@ -80,11 +84,15 @@ concept realFloatNumber = std::is_floating_point_v<std::remove_cvref_t<T>>;
 
 /** Constrains a type to represent a complex valued floating point number (e.g. std::complex<float> or std::complex<double>) */
 template <class T>
-concept complexFloatNumber = detail::IsComplex<std::remove_cvref_t<T>>::value;
+concept complexFloatNumber = detail::isComplex<std::remove_cvref_t<T>>;
 
 /** Constrains a type to represent a real or complex valued floating point number */
 template <class T>
 concept realOrComplexFloatNumber = realFloatNumber<T> || complexFloatNumber<T>;
+
+/** Constrains a type to be any std::ratio. */
+template <class T>
+concept stdRatio = detail::isStdRatio<T>;
 
 /** Constrains a type to be of the type DisabledConstant */
 template <class T>

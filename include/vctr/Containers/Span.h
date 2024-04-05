@@ -181,6 +181,29 @@ public:
         Vctr::assignExpressionTemplate (expression);
     }
 
+    /** Casts this Span to a span of a different type by applyling a reinterpret cast to the data.
+
+        The size ratio between the source and the destination type multiplied by the source size
+        has to be an integer value without remainder.
+     */
+    template <class DstType>
+    constexpr auto castTo()
+    {
+        using SizeRatio = std::ratio<sizeof (DstType) / sizeof (ElementType)>;
+        auto* dstData = reinterpret_cast<DstType*> (Vctr::data());
+
+        if constexpr (extent == std::dynamic_extent)
+        {
+            auto dstSize = detail::expectNoRemainderMultiplyBy<SizeRatio> (Vctr::size());
+            return Span<DstType> (dstData, dstSize);
+        }
+        else
+        {
+            constexpr auto dstSize = detail::expectNoRemainderMultiplyBy<SizeRatio> (Vctr::size());
+            return Span<DstType, dstSize> (dstData, dstSize);
+        }
+    }
+
 private:
     //==============================================================================
     template <has::sizeAndData Container>
