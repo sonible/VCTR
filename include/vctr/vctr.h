@@ -59,6 +59,7 @@
 #include <numeric>
 #include <optional>
 #include <functional>
+#include <ratio>
 
 #ifdef jassert
 #define VCTR_ASSERT(e) jassert (e)
@@ -139,6 +140,7 @@ VCTR_END_IGNORE_WARNING_MSVC
 #include "Expressions/ExpressionTemplate.h"
 
 #include "Miscellaneous/Range.h"
+#include "Miscellaneous/StdRatioHelpers.h"
 
 #include "Containers/VctrBase.h"
 #include "Containers/Span.h"
