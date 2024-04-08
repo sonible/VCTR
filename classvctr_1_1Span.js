@@ -21,6 +21,7 @@ var classvctr_1_1Span =
     [ "backIdx", "classvctr_1_1Span.html#a8181b278900a8f16079dcde8750e21d5", null ],
     [ "begin", "classvctr_1_1Span.html#a4d62467d4d84cd6e7fd185f73cf24033", null ],
     [ "begin", "classvctr_1_1Span.html#ae72810409ab6153d55e6f9afb0743449", null ],
+    [ "castTo", "classvctr_1_1Span.html#aacc668dfe1d52b6f52af107d86ffad36", null ],
     [ "contains", "classvctr_1_1Span.html#aeca7364ca53cdea690f09329ccb89c36", null ],
     [ "contains", "classvctr_1_1Span.html#a08ae8625a2045e850b0a0162c1c7f3c3", null ],
     [ "copyFrom", "classvctr_1_1Span.html#a6a8d59c063990c037ff50a7a9e6b3749", null ],

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>VCTR: vctr::is::suitableForIppRealFloatBinaryVectorOp Concept Reference</title>
+<title>VCTR: vctr::is::stdRatio Concept Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -65,7 +65,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('conceptvctr_1_1is_1_1suitableForIppRealFloatBinaryVectorOp.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('conceptvctr_1_1is_1_1stdRatio.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -91,26 +91,24 @@ $(document).ready(function(){initNavTree('conceptvctr_1_1is_1_1suitableForIppRea
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">vctr::is::suitableForIppRealFloatBinaryVectorOp Concept Reference</div></div>
+  <div class="headertitle"><div class="title">vctr::is::stdRatio Concept Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>A combined concept to check if Intel IPP is a suitable option for a real valued floating point binary vector operation.  
-<a href="conceptvctr_1_1is_1_1suitableForIppRealFloatBinaryVectorOp.html#details">More...</a></p>
+<p>Constrains a type to be any std::ratio.  
+<a href="conceptvctr_1_1is_1_1stdRatio.html#details">More...</a></p>
 <h2 class="groupheader">Concept definition</h2>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> SrcA, <span class="keyword">class</span> SrcB, <span class="keyword">class</span> DstType, detail::PlatformVectorOpPreference pref detail::preferIfIppAndAccelerateAreAvailable&gt;</div>
-<div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptvctr_1_1is_1_1suitableForIppRealFloatBinaryVectorOp.html">vctr::is::suitableForIppRealFloatBinaryVectorOp</a> =  detail::isPreferredVectorOp&lt;pref&gt; &amp;&amp; Config::hasIPP &amp;&amp; <a class="code hl_concept" href="conceptvctr_1_1is_1_1suitableForBinaryVectorOp.html">suitableForBinaryVectorOp&lt;SrcA, SrcB, DstType&gt;</a> &amp;&amp; <a class="code hl_concept" href="conceptvctr_1_1is_1_1realFloatNumber.html">realFloatNumber&lt;DstType&gt;</a></div>
-<div class="ttc" id="aconceptvctr_1_1is_1_1realFloatNumber_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1realFloatNumber.html">vctr::is::realFloatNumber</a></div><div class="ttdoc">Constrains a type to represent a real valued floating point number.</div><div class="ttdef"><b>Definition:</b> NumericTypeConcepts.h:83</div></div>
-<div class="ttc" id="aconceptvctr_1_1is_1_1suitableForBinaryVectorOp_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1suitableForBinaryVectorOp.html">vctr::is::suitableForBinaryVectorOp</a></div><div class="ttdoc">Constrains two source types to be suitable for a an aliasing-free binary vector operation using platf...</div><div class="ttdef"><b>Definition:</b> ContainerAndExpressionConcepts.h:307</div></div>
-<div class="ttc" id="aconceptvctr_1_1is_1_1suitableForIppRealFloatBinaryVectorOp_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1suitableForIppRealFloatBinaryVectorOp.html">vctr::is::suitableForIppRealFloatBinaryVectorOp</a></div><div class="ttdoc">A combined concept to check if Intel IPP is a suitable option for a real valued floating point binary...</div><div class="ttdef"><b>Definition:</b> ContainerAndExpressionConcepts.h:328</div></div>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
+<div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptvctr_1_1is_1_1stdRatio.html">vctr::is::stdRatio</a> =  detail::isStdRatio&lt;T&gt;</div>
+<div class="ttc" id="aconceptvctr_1_1is_1_1stdRatio_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1stdRatio.html">vctr::is::stdRatio</a></div><div class="ttdoc">Constrains a type to be any std::ratio.</div><div class="ttdef"><b>Definition:</b> NumericTypeConcepts.h:95</div></div>
 </div><!-- fragment --><a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A combined concept to check if Intel IPP is a suitable option for a real valued floating point binary vector operation. </p>
+<div class="textblock"><p>Constrains a type to be any std::ratio. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespacevctr.html">vctr</a></li><li class="navelem"><b>is</b></li><li class="navelem"><a class="el" href="conceptvctr_1_1is_1_1suitableForIppRealFloatBinaryVectorOp.html">suitableForIppRealFloatBinaryVectorOp</a></li>
+    <li class="navelem"><a class="el" href="namespacevctr.html">vctr</a></li><li class="navelem"><b>is</b></li><li class="navelem"><a class="el" href="conceptvctr_1_1is_1_1stdRatio.html">stdRatio</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>

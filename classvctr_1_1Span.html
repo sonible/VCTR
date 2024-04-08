@@ -155,6 +155,10 @@ requires (n != std::dynamic_extent) (n == extent)</td></tr>
 <tr class="memitem:a11b3449c68d0e928d9ea4de27409c240"><td class="memTemplItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1Span.html#a11b3449c68d0e928d9ea4de27409c240">operator=</a> (const E &amp;expression)</td></tr>
 <tr class="memdesc:a11b3449c68d0e928d9ea4de27409c240"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns the result of an expression to this vector.  <br /></td></tr>
 <tr class="separator:a11b3449c68d0e928d9ea4de27409c240"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacc668dfe1d52b6f52af107d86ffad36"><td class="memTemplParams" colspan="2">template&lt;class DstType &gt; </td></tr>
+<tr class="memitem:aacc668dfe1d52b6f52af107d86ffad36"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1Span.html#aacc668dfe1d52b6f52af107d86ffad36">castTo</a> ()</td></tr>
+<tr class="memdesc:aacc668dfe1d52b6f52af107d86ffad36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Casts this <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> to a span of a different type by applyling a reinterpret cast to the data.  <br /></td></tr>
+<tr class="separator:aacc668dfe1d52b6f52af107d86ffad36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ec564aacdb2c8a90604e4fa142404ed"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#a0ec564aacdb2c8a90604e4fa142404ed">size</a> () const noexcept</td></tr>
 <tr class="memdesc:a0ec564aacdb2c8a90604e4fa142404ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of elements.  <br /></td></tr>
 <tr class="separator:a0ec564aacdb2c8a90604e4fa142404ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1185,6 +1189,38 @@ template&lt;class ElementType , class StorageType , size_t extent, class <a clas
 </div><div class="memdoc">
 
 <p>Returns a const iterator to the begin of the storage. </p>
+
+</div>
+</div>
+<a id="aacc668dfe1d52b6f52af107d86ffad36" name="aacc668dfe1d52b6f52af107d86ffad36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacc668dfe1d52b6f52af107d86ffad36">&#9670;&#160;</a></span>castTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ElementType , size_t extent = std::dynamic_extent, class <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a>  = StorageInfoWithMemberAlignment&lt;alignof (std::span&lt;ElementType, extent&gt;), StorageInfo&lt;std::span&lt;ElementType, extent&gt; &gt; &gt;&gt; </div>
+<div class="memtemplate">
+template&lt;class DstType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto <a class="el" href="classvctr_1_1Span.html">vctr::Span</a>&lt; ElementType, extent, <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a> &gt;::castTo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Casts this <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> to a span of a different type by applyling a reinterpret cast to the data. </p>
+<p>The size ratio between the source and the destination type multiplied by the source size has to be an integer value without remainder. </p>
 
 </div>
 </div>

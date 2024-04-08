@@ -5,6 +5,7 @@ var NAVTREEINDEX2 =
 "conceptvctr_1_1is_1_1signedIntNumber.html":[105,0,2,60],
 "conceptvctr_1_1is_1_1signedNumber.html":[105,0,2,59],
 "conceptvctr_1_1is_1_1stdArray.html":[105,0,2,7],
+"conceptvctr_1_1is_1_1stdRatio.html":[105,0,2,66],
 "conceptvctr_1_1is_1_1stdSpan.html":[105,0,2,8],
 "conceptvctr_1_1is_1_1stdTuple.html":[105,0,2,49],
 "conceptvctr_1_1is_1_1stdTupleWithTypes.html":[105,0,2,50],

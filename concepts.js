@@ -108,6 +108,7 @@ var concepts =
         [ "realFloatNumber", "conceptvctr_1_1is_1_1realFloatNumber.html", null ],
         [ "complexFloatNumber", "conceptvctr_1_1is_1_1complexFloatNumber.html", null ],
         [ "realOrComplexFloatNumber", "conceptvctr_1_1is_1_1realOrComplexFloatNumber.html", null ],
+        [ "stdRatio", "conceptvctr_1_1is_1_1stdRatio.html", null ],
         [ "disabledConstant", "conceptvctr_1_1is_1_1disabledConstant.html", null ],
         [ "powerOfTwoInt", "conceptvctr_1_1is_1_1powerOfTwoInt.html", null ]
       ] ]
