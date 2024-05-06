@@ -116,6 +116,7 @@ var classvctr_1_1Vector =
     [ "moveUnderlyingVector", "classvctr_1_1Vector.html#af7a96f4ea593adeef523923771615c4c", null ],
     [ "operator const StdVectorType &", "classvctr_1_1Vector.html#acefc323d674a4ed311f76affd72d0df6", null ],
     [ "operator std::vector< ElementType, OtherAllocator >", "classvctr_1_1Vector.html#a76c02120533daf85c9f05d32bb042533", null ],
+    [ "operator StdVectorType", "classvctr_1_1Vector.html#a83c36b88a8ae006731b0e5cdb2fbfd3f", null ],
     [ "operator StdVectorType &", "classvctr_1_1Vector.html#a48a20e8c2566d1a37fbf5573263ef0cd", null ],
     [ "operator*=", "classvctr_1_1Vector.html#af9420adec66c33c58a40ecad62c94fdf", null ],
     [ "operator*=", "classvctr_1_1Vector.html#a7d393bcae1044593f341499d7e3ff784", null ],

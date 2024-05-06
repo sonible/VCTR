@@ -145,6 +145,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acefc323d674a4ed311f76affd72d0df6"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1Vector.html#acefc323d674a4ed311f76affd72d0df6">operator const StdVectorType &amp;</a> () const</td></tr>
 <tr class="memdesc:acefc323d674a4ed311f76affd72d0df6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion operator shortcut to getUnderlyingVector.  <br /></td></tr>
 <tr class="separator:acefc323d674a4ed311f76affd72d0df6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83c36b88a8ae006731b0e5cdb2fbfd3f"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1Vector.html#a83c36b88a8ae006731b0e5cdb2fbfd3f">operator StdVectorType</a> () &amp;&amp;</td></tr>
+<tr class="memdesc:a83c36b88a8ae006731b0e5cdb2fbfd3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion operator shortcut to moveUnderlyingVector.  <br /></td></tr>
+<tr class="separator:a83c36b88a8ae006731b0e5cdb2fbfd3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76c02120533daf85c9f05d32bb042533"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1Vector.html#a76c02120533daf85c9f05d32bb042533">operator std::vector&lt; ElementType, OtherAllocator &gt;</a> () const</td></tr>
 <tr class="memdesc:a76c02120533daf85c9f05d32bb042533"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion operator that allows us to assign this <a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">Vector</a> to a std::vector with different allocator type.  <br /></td></tr>
 <tr class="separator:a76c02120533daf85c9f05d32bb042533"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -4012,6 +4015,33 @@ template&lt;class ElementType , class StorageType , size_t extent, class <a clas
 
 <p>Conversion operator that allows us to assign this <a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">Vector</a> to a std::vector with different allocator type. </p>
 <p>Note that values will be copied here and that the destination <a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">Vector</a> might allocate memory. </p>
+
+</div>
+</div>
+<a id="a83c36b88a8ae006731b0e5cdb2fbfd3f" name="a83c36b88a8ae006731b0e5cdb2fbfd3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83c36b88a8ae006731b0e5cdb2fbfd3f">&#9670;&#160;</a></span>operator StdVectorType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="classvctr_1_1Vector.html">vctr::Vector</a>&lt; ElementType, <a class="el" href="structvctr_1_1DefaultVectorAllocator.html">DefaultVectorAllocator</a>  &gt;::operator StdVectorType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> &amp;&amp;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Conversion operator shortcut to moveUnderlyingVector. </p>
 
 </div>
 </div>

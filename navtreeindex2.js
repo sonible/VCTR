@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"conceptvctr_1_1is_1_1realNumber.html":[105,0,2,62],
 "conceptvctr_1_1is_1_1realOrComplexFloatNumber.html":[105,0,2,65],
 "conceptvctr_1_1is_1_1reductionExpression.html":[105,0,2,41],
 "conceptvctr_1_1is_1_1signedIntNumber.html":[105,0,2,60],
