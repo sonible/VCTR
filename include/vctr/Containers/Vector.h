@@ -102,7 +102,7 @@ private:
     using Vctr = VctrBase<ElementType, StdVectorType, std::dynamic_extent>;
 
     template <class OtherAllocator>
-    static constexpr bool isDifferentAllocatorTypeWithSameValueType = (! std::is_same_v<Allocator<ElementType>, OtherAllocator>) &&std::is_same_v<ElementType, typename OtherAllocator::value_type>;
+    static constexpr bool isDifferentAllocatorTypeWithSameValueType = (! std::is_same_v<typename detail::UnderlyingAllocatorExtractor<Allocator<ElementType>>::Type, OtherAllocator>) && std::is_same_v<ElementType, typename OtherAllocator::value_type>;
 
     using ConstIterator = typename StdVectorType::const_iterator;
 
@@ -286,6 +286,9 @@ public:
 
     /** Conversion operator shortcut to getUnderlyingVector. */
     constexpr operator const StdVectorType&() const { return Vctr::storage; }
+
+    /** Conversion operator shortcut to moveUnderlyingVector. */
+    constexpr operator StdVectorType() && { return std::move (Vctr::storage); }
 
     /** Conversion operator that allows us to assign this Vector to a std::vector with different allocator
         type.
