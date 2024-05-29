@@ -157,7 +157,24 @@ constexpr void tryApplyingRuntimeArgsToSrc (const RuntimeArgs& args, Src& src)
         src.template iterateOverRuntimeArgChain<i> (args);
 }
 
+template <class A, class B, auto op>
+struct CommonVecExpressionType
+{
+    using type = decltype (op (std::declval<A>(), std::declval<B>()));
+};
+
+template <class A, std::common_with<A> B, auto op>
+struct CommonVecExpressionType<A, B, op> : std::common_type<A, B> {};
+
 } // namespace detail
+
+/** Used to figure out the value_type for binary vector-vector operations.
+
+    The op template should be a function that calls the binary operation implemented
+    by the expression.
+ */
+template <class A, class B, auto op>
+using CommonVecExpressionType = typename detail::CommonVecExpressionType<A, B, op>::type;
 
 } // namespace vctr
 
