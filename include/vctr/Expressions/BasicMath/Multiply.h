@@ -28,12 +28,15 @@ namespace vctr::expressions
 template <size_t extent, class SrcAType, class SrcBType>
 class MultiplyVectors : ExpressionTemplateBase
 {
+private:
+    static auto op (const ValueType<SrcAType>& a, const ValueType<SrcBType>& b) { return a * b; }
+
 public:
-    using value_type = std::common_type_t<ValueType<SrcAType>, ValueType<SrcBType>>;
+    using value_type = CommonVecExpressionType<ValueType<SrcAType>, ValueType<SrcBType>, op>;
 
     VCTR_COMMON_BINARY_VEC_VEC_EXPRESSION_MEMBERS (MultiplyVectors, srcA, srcB)
 
-    VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
+    VCTR_FORCEDINLINE constexpr auto operator[] (size_t i) const
     {
         return srcA[i] * srcB[i];
     }
