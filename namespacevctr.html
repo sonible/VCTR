@@ -210,6 +210,10 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a40c9f56937ddfca3c1b85f5f52627deb"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a> = <a class="el" href="structvctr_1_1ExpressionChainBuilderWithRuntimeArgs.html">ExpressionChainBuilderWithRuntimeArgs</a>&lt; ExpressionType, detail::RuntimeArgChain&lt; std::tuple&lt;&gt; &gt;, AdditionalCompileTimeParameters... &gt;</td></tr>
 <tr class="memdesc:a40c9f56937ddfca3c1b85f5f52627deb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenient typedef to create a simple expression chain builder instance for an expression template.  <br /></td></tr>
 <tr class="separator:a40c9f56937ddfca3c1b85f5f52627deb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8faf2b9cdab729f70118b612ce91f540"><td class="memTemplParams" colspan="2">template&lt;class A , class B , auto op&gt; </td></tr>
+<tr class="memitem:a8faf2b9cdab729f70118b612ce91f540"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a8faf2b9cdab729f70118b612ce91f540">CommonVecExpressionType</a> = typename detail::CommonVecExpressionType&lt; A, B, op &gt;::type</td></tr>
+<tr class="memdesc:a8faf2b9cdab729f70118b612ce91f540"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to figure out the value_type for binary vector-vector operations.  <br /></td></tr>
+<tr class="separator:a8faf2b9cdab729f70118b612ce91f540"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83a43fd917a646b18b60be7e88becc33"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a83a43fd917a646b18b60be7e88becc33"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a83a43fd917a646b18b60be7e88becc33">ValueType</a> = typename detail::ValueType&lt; std::remove_cvref_t&lt; T &gt; &gt;::Type</td></tr>
 <tr class="memdesc:a83a43fd917a646b18b60be7e88becc33"><td class="mdescLeft">&#160;</td><td class="mdescRight">If T is an expression template, it equals its return type, if it's a type that defines value_type as a public typedef, it equals value_type.  <br /></td></tr>
@@ -680,6 +684,25 @@ constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627d
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The main namespace of the VCTR project. </p>
 </div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="a8faf2b9cdab729f70118b612ce91f540" name="a8faf2b9cdab729f70118b612ce91f540"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8faf2b9cdab729f70118b612ce91f540">&#9670;&#160;</a></span>CommonVecExpressionType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class A , class B , auto op&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacevctr.html#a8faf2b9cdab729f70118b612ce91f540">vctr::CommonVecExpressionType</a> = typedef typename detail::CommonVecExpressionType&lt;A, B, op&gt;::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Used to figure out the value_type for binary vector-vector operations. </p>
+<p>The op template should be a function that calls the binary operation implemented by the expression. </p>
+
+</div>
+</div>
 <a id="ad3cbb6dc6bd6736802f5a7537b8dfb62" name="ad3cbb6dc6bd6736802f5a7537b8dfb62"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad3cbb6dc6bd6736802f5a7537b8dfb62">&#9670;&#160;</a></span>DataType</h2>
 

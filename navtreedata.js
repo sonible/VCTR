@@ -52,6 +52,7 @@ var NAVTREE =
     [ "blockChannelAsSpan", "namespacevctr_1_1juce__helpers.html#a76d6fc48c137adf182f5310775a73d5e", null ],
     [ "blockChannelAsSpanSIMDAligned", "namespacevctr_1_1juce__helpers.html#a413eb058cc5dffbc2ae6806c65db23ae", null ],
     [ "toSIMDRegister", "namespacevctr_1_1juce__helpers.html#a85dd049e6a77d065f231cf7ccc298c66", null ],
+    [ "CommonVecExpressionType", "namespacevctr.html#a8faf2b9cdab729f70118b612ce91f540", null ],
     [ "DataType", "namespacevctr.html#ad3cbb6dc6bd6736802f5a7537b8dfb62", null ],
     [ "ExpressionChainBuilder", "namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb", null ],
     [ "FloatType", "namespacevctr.html#aa10a74a826089c483c4eb7feb374f09f", null ],
