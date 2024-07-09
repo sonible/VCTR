@@ -189,7 +189,7 @@ public:
     template <class DstType>
     constexpr auto castTo()
     {
-        using SizeRatio = std::ratio<sizeof (DstType) / sizeof (ElementType)>;
+        using SizeRatio = std::ratio<sizeof (ElementType), sizeof (DstType)>;
         auto* dstData = reinterpret_cast<DstType*> (Vctr::data());
 
         if constexpr (extent == std::dynamic_extent)
