@@ -35,7 +35,7 @@ struct ReducedToLowestFormHelper
 
 /** Reduces a std::ratio to its lowest form */
 template <is::stdRatio Ratio>
-using ReducedToLowestForm = typename detail::ReducedToLowestFormHelper<Ratio>::Type;
+using ReducedToLowestForm = typename ReducedToLowestFormHelper<Ratio>::Type;
 
 /** Multiplies a std::ratio with an integer number.
 
@@ -47,7 +47,17 @@ constexpr auto multiplyBy (T valueToScale)
 {
     using R = ReducedToLowestForm<Ratio>;
     using IntType = std::make_signed_t<T>;
+    using DivType = decltype (std::div (std::declval<IntType>(), std::declval<IntType>()));
     auto res = IntType (valueToScale) * IntType (R::num);
+
+    if (std::is_constant_evaluated())
+    {
+        DivType d { 0, 0 };
+        d.quot = res / IntType (R::den);
+        d.rem = res % IntType (R::den);
+        return d;
+    }
+
     return std::div (res, IntType (R::den));
 }
 
@@ -68,7 +78,7 @@ constexpr T multiplyBy (T valueToScale)
 template <is::stdRatio Ratio, is::intNumber T>
 constexpr auto expectNoRemainderMultiplyBy (T valueToScale)
 {
-    auto res = multiplyBy <Ratio> (valueToScale);
+    auto res = multiplyBy<Ratio> (valueToScale);
     VCTR_ASSERT (res.rem == 0);
     return res.quot;
 }
