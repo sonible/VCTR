@@ -38,15 +38,17 @@ jobs:
             cxx: cl
             ipp: no_ipp
 
-          - runner: windows-2022
-            cc: clang-cl
-            cxx: clang-cl
-            ipp: no_ipp
+          # Trigonometric test hangs forever. See https://github.com/sonible/VCTR/issues/132
+          # - runner: windows-2022
+          #   cc: clang-cl
+          #   cxx: clang-cl
+          #   ipp: no_ipp
 
-          - runner: windows-2022
-            cc: clang
-            cxx: clang++
-            ipp: no_ipp
+          # Windows clang setups are not recognized by the currently used conan version
+          # - runner: windows-2022
+          #   cc: clang
+          #   cxx: clang++
+          #   ipp: no_ipp
 
           #   Not supported yet
           # - runner: windows-2022
@@ -59,15 +61,17 @@ jobs:
             cxx: cl
             ipp: ipp
 
-          - runner: windows-2022
-            cc: clang-cl
-            cxx: clang-cl
-            ipp: ipp
+          # Trigonometric test hangs forever. See https://github.com/sonible/VCTR/issues/132
+          # - runner: windows-2022
+          #   cc: clang-cl
+          #   cxx: clang-cl
+          #   ipp: ipp
 
-          - runner: windows-2022
-            cc: clang
-            cxx: clang++
-            ipp: ipp
+          # Windows clang setups are not recognized by the currently used conan version
+          # - runner: windows-2022
+          #   cc: clang
+          #   cxx: clang++
+          #   ipp: ipp
 
           #   Not supported yet
           # - runner: windows-2022
@@ -141,16 +145,16 @@ jobs:
 
       - name: (Linux) Install dependencies
       # Todo: Installing llvm 15 fails at the moment. See https://github.com/sonible/VCTR/issues/86 
-      # run: sudo apt-get install ninja-build && wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 15 all && pip3 install conan==1.59.0
-        run: sudo apt-get install ninja-build && pip3 install conan==1.59.0
+      # run: sudo apt-get install ninja-build && wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 15 all && pip3 install conan==1.64.0
+        run: sudo apt-get install ninja-build && pip3 install conan==1.64.0
         if: runner.os == 'Linux'
 
       - name: (macOS) Install dependencies
-        run: brew install ninja z3  && pip3 install conan==1.59.0
+        run: brew install ninja z3  && pip3 install conan==1.64.0
         if: runner.os == 'macOS'
 
       - name: (Windows) Install dependencies
-        run: choco install ninja -y && pip3 install conan==1.59.0
+        run: choco install ninja -y && pip3 install conan==1.64.0
         if: runner.os == 'Windows'
 
       - name: (Windows) Configure dev environment variables

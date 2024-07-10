@@ -23,12 +23,11 @@ if (VCTR_AUTOLINK_IPP)
 endif()
 
 if (VCTR_USE_CONAN)
-    if (NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-        # latest version 0.18.1 does not detect clang + windows setup
-        # see: https://github.com/conan-io/cmake-conan/issues/459
-        file (DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/0.17.0/conan.cmake" "${CMAKE_BINARY_DIR}/conan.cmake" TLS_VERIFY ON)
+    if (NOT EXISTS "${CMAKE_BINARY_DIR}/cmake-conan-develop/conan.cmake")
+        file (DOWNLOAD https://github.com/conan-io/cmake-conan/archive/refs/heads/develop.zip "${CMAKE_BINARY_DIR}/cmake-conan-develop.zip" TLS_VERIFY ON)
+        file (ARCHIVE_EXTRACT INPUT "${CMAKE_BINARY_DIR}/cmake-conan-develop.zip")
     endif()
-    include (${CMAKE_BINARY_DIR}/conan.cmake)
+    include (${CMAKE_BINARY_DIR}/cmake-conan-develop/conan.cmake)
 endif()
 
 if (APPLE)
