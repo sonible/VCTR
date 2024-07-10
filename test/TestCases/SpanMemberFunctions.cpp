@@ -44,3 +44,38 @@ TEST_CASE ("Assignment operator", "[SpanMemberFunctions]")
     strings = std::move (mv);
     REQUIRE_THAT (strings, vctr::Equals ({ "I", "love", "sonible" }));
 }
+
+TEST_CASE ("castTo", "[SpanMemberFunctions]")
+{
+    SECTION ("Static extent")
+    {
+        constexpr vctr::Array<int32_t, 32> a { 1 << 16 | 1 };
+
+        auto asInt16Fixed = vctr::Span (a).castTo<const int16_t>();
+        auto asInt64Fixed = vctr::Span (a).castTo<const int64_t>();
+
+        STATIC_REQUIRE (asInt16Fixed.size() == 64);
+        STATIC_REQUIRE (asInt64Fixed.size() == 16);
+
+        REQUIRE (asInt16Fixed.allElementsEqual (1));
+        REQUIRE (asInt64Fixed.allElementsEqual (1ll << 48  |  1ll << 32 | 1ll << 16 | 1ll));
+    }
+
+    SECTION ("Dynamic extent")
+    {
+        vctr::Vector<float> f (8);
+        vctr::Vector<std::complex<float>> cf (3);
+
+        auto asCplx = vctr::Span (f).castTo<std::complex<float>>();
+
+        REQUIRE (asCplx.size() == 4);
+        asCplx.assign ({ { 0.1f, 1.2f }, { 2.3f, 3.4f }, { 4.5f, 5.6f }, { 6.7f, 7.8f } });
+        REQUIRE_THAT (f, vctr::Equals ( { 0.1f, 1.2f, 2.3f, 3.4f, 4.5f, 5.6f, 6.7f, 7.8f }));
+
+        auto asFloat = vctr::Span (cf).castTo<float>();
+
+        REQUIRE (asFloat.size() == 6);
+        asFloat.assign ({ -0.1f, -1.2f, -2.3f, -3.4f, -4.5f, -5.6f });
+        REQUIRE_THAT (cf, vctr::Equals ( { std::complex (-0.1f, -1.2f), std::complex (-2.3f, -3.4f), std::complex (-4.5f, -5.6f) }));
+    }
+}
