@@ -36,7 +36,7 @@ struct Equals : Catch::Matchers::MatcherGenericBase
     template <class Vec>
     bool match (const Vec& vec) const
     {
-        if constexpr (is::number<SrcValueType>)
+        if constexpr (is::realFloatNumber<SrcValueType>)
         {
             return std::equal (vec.begin(), vec.end(), reference.begin(), reference.end(), [&] (auto a, auto b) { return a == Catch::Approx (b).margin (margin).epsilon (epsilon); });
         }
