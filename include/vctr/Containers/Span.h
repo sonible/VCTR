@@ -139,6 +139,19 @@ public:
         }
     }
 
+    /** Creates a Span with a static extent that views externally managed data, accessed by ptr. */
+    constexpr Span (ElementType* ptr)
+    requires (extent != std::dynamic_extent)
+        : Vctr (StdSpanType (ptr, extent))
+    {
+        if (Vctr::getStorageInfo().dataIsSIMDAligned)
+        {
+            // If you hit this assertion, you passed a StaticStorageInfo that specifies SIMD aligned
+            // memory, but it is not aligned. Required alignment is 32 byte on x64 and 16 byte on ARM.
+            VCTR_ASSERT (isPtrAligned (ptr));
+        }
+    }
+
     //==============================================================================
     // Operators
     //==============================================================================
