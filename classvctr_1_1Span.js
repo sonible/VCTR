@@ -4,6 +4,7 @@ var classvctr_1_1Span =
     [ "Span", "classvctr_1_1Span.html#a2e2fb386e5ab073187e657adb2406be9", null ],
     [ "Span", "classvctr_1_1Span.html#a9bb94b844c8ad76b16ef9bb599bfe5ce", null ],
     [ "Span", "classvctr_1_1Span.html#a6e9df6dfea3f44667f438f13542d8110", null ],
+    [ "Span", "classvctr_1_1Span.html#a9f1532d3ba9b578c2c0f1975840c2f4a", null ],
     [ "all", "classvctr_1_1Span.html#a4c0aa01c4581292b0c61510403841e83", null ],
     [ "allElementsAreFinite", "classvctr_1_1Span.html#aa3e8eb4d0bb4ef2a93441c79f680607c", null ],
     [ "allElementsAreFinite", "classvctr_1_1Span.html#a73ad88bbdf3ff0b9ae4aabbe5da92c54", null ],
