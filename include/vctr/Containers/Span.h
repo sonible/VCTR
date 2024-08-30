@@ -194,7 +194,11 @@ public:
         Vctr::assignExpressionTemplate (expression);
     }
 
-    /** Casts this Span to a span of a different type by applyling a reinterpret cast to the data.
+    /** Conversion operator to access the underlying std::span. */
+    operator const StdSpanType&() { return Vctr::storage; }
+
+    //==============================================================================
+    /** Casts this Span to a span of a different type by applying a reinterpret cast to the data.
 
         The size ratio between the source and the destination type multiplied by the source size
         has to be an integer value without remainder.
