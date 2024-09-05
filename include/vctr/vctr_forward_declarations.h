@@ -49,9 +49,15 @@ class AlignedAllocator;
 template <is::nonConst ElementType, template <class> class Allocator>
 class Vector;
 
+template <class OwnedElementType>
+class OwnedVector;
+
 template <class ElementType, size_t extent, size_t storageExtent>
 requires (extent != std::dynamic_extent && extent <= storageExtent)
 class Array;
+
+template <class OwnedElementType, size_t extent>
+class OwnedArray;
 
 template <class ElementType, size_t extent, class StorageInfoType>
 class Span;
