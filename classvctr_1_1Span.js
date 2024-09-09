@@ -75,6 +75,7 @@ var classvctr_1_1Span =
     [ "meanSquare", "classvctr_1_1Span.html#ae8380fd770f1c73e257bb644c9745af0", null ],
     [ "min", "classvctr_1_1Span.html#a3809aad3dbd44783fb9d8b4dbbd97207", null ],
     [ "minAbs", "classvctr_1_1Span.html#ac2e4d6969b97cb396af2d0a1f31b8b1d", null ],
+    [ "operator const StdSpanType &", "classvctr_1_1Span.html#a84ccdec306929aa94259b18e8eaf9859", null ],
     [ "operator*=", "classvctr_1_1Span.html#af9420adec66c33c58a40ecad62c94fdf", null ],
     [ "operator*=", "classvctr_1_1Span.html#a7d393bcae1044593f341499d7e3ff784", null ],
     [ "operator+=", "classvctr_1_1Span.html#a34e6342e4327a648e9b7cf5a2ab46b3d", null ],
