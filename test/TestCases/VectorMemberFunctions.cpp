@@ -226,6 +226,26 @@ TEST_CASE ("erase", "[VectorMemberFunctions]")
         REQUIRE_FALSE (v.eraseAllOccurrencesOf (1000));
         REQUIRE_FALSE (v.eraseAllOccurrencesIf ([] (auto) { return false; }));
     }
+
+    SECTION ("OwnedVector erase occurrence of address")
+    {
+        auto first = std::make_unique<int> (0);
+        auto second = std::make_unique<int> (1);
+        auto third = std::make_unique<int> (2);
+
+        auto* firstPtr = first.get();
+        auto* secondPtr = second.get();
+        auto* thirdPtr = third.get();
+
+        vctr::OwnedVector<int> ov { std::move (first), std::move (second), std::move (third) };
+
+        auto it = ov.eraseOccurrenceOf (secondPtr);
+
+        REQUIRE (**it == 2);
+
+        REQUIRE (ov[0].get() == firstPtr);
+        REQUIRE (ov[1].get() == thirdPtr);
+    }
 }
 
 TEST_CASE ("push_back", "[VectorMemberFunctions]")
