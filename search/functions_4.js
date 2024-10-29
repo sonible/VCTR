@@ -8,5 +8,6 @@ var searchData=
   ['erasealloccurrencesif_5',['eraseAllOccurrencesIf',['../classvctr_1_1Vector.html#a487ed47ceaac55bd0e633673bf8b6a27',1,'vctr::Vector']]],
   ['erasealloccurrencesof_6',['eraseAllOccurrencesOf',['../classvctr_1_1Vector.html#aebfff322866872974a2d7249720e5ae0',1,'vctr::Vector']]],
   ['erasefirstoccurrenceif_7',['eraseFirstOccurrenceIf',['../classvctr_1_1Vector.html#a73c843ed894a40acde5dbe4a46813dad',1,'vctr::Vector']]],
-  ['erasefirstoccurrenceof_8',['eraseFirstOccurrenceOf',['../classvctr_1_1Vector.html#ab4c52ecd0cfeceb21eaf37f8b6f36d01',1,'vctr::Vector']]]
+  ['erasefirstoccurrenceof_8',['eraseFirstOccurrenceOf',['../classvctr_1_1Vector.html#ab4c52ecd0cfeceb21eaf37f8b6f36d01',1,'vctr::Vector']]],
+  ['eraseoccurrenceof_9',['eraseOccurrenceOf',['../classvctr_1_1OwnedVector.html#a0e507c3453574c308afbb717576c53a7',1,'vctr::OwnedVector']]]
 ];

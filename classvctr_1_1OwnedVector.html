@@ -130,6 +130,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a81bf557594c6041c55649eb92901e274"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1OwnedVector.html#a81bf557594c6041c55649eb92901e274">OwnedVector</a> (Args &amp;&amp;... args)</td></tr>
 <tr class="memdesc:a81bf557594c6041c55649eb92901e274"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forwards every other constructor call to the base class constructor.  <br /></td></tr>
 <tr class="separator:a81bf557594c6041c55649eb92901e274"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e507c3453574c308afbb717576c53a7"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1OwnedVector.html#a0e507c3453574c308afbb717576c53a7">eraseOccurrenceOf</a> (const OwnedElementType *address)</td></tr>
+<tr class="memdesc:a0e507c3453574c308afbb717576c53a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erases the occurrence of an owned element with the given address and adjusts its size.  <br /></td></tr>
+<tr class="separator:a0e507c3453574c308afbb717576c53a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af232e22612aa17d3fc8eaeee4fec245a"><td class="memItemLeft" align="right" valign="top">constexpr StdVectorType &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1Vector.html#af232e22612aa17d3fc8eaeee4fec245a">getUnderlyingVector</a> ()</td></tr>
 <tr class="memdesc:af232e22612aa17d3fc8eaeee4fec245a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reference to the underlying storage.  <br /></td></tr>
 <tr class="separator:af232e22612aa17d3fc8eaeee4fec245a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1904,6 +1907,36 @@ template&lt;class ElementType , class StorageType , size_t extent, class <a clas
 </div><div class="memdoc">
 
 <p>Erases the first occurrence of value from this <a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">Vector</a> and adjusts its size. </p>
+
+</div>
+</div>
+<a id="a0e507c3453574c308afbb717576c53a7" name="a0e507c3453574c308afbb717576c53a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e507c3453574c308afbb717576c53a7">&#9670;&#160;</a></span>eraseOccurrenceOf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class OwnedElementType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto <a class="el" href="classvctr_1_1OwnedVector.html">vctr::OwnedVector</a>&lt; OwnedElementType &gt;::eraseOccurrenceOf </td>
+          <td>(</td>
+          <td class="paramtype">const OwnedElementType *&#160;</td>
+          <td class="paramname"><em>address</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Erases the occurrence of an owned element with the given address and adjusts its size. </p>
 
 </div>
 </div>

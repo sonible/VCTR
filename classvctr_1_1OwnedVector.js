@@ -42,6 +42,7 @@ var classvctr_1_1OwnedVector =
     [ "eraseAllOccurrencesOf", "classvctr_1_1OwnedVector.html#aebfff322866872974a2d7249720e5ae0", null ],
     [ "eraseFirstOccurrenceIf", "classvctr_1_1OwnedVector.html#a73c843ed894a40acde5dbe4a46813dad", null ],
     [ "eraseFirstOccurrenceOf", "classvctr_1_1OwnedVector.html#ab4c52ecd0cfeceb21eaf37f8b6f36d01", null ],
+    [ "eraseOccurrenceOf", "classvctr_1_1OwnedVector.html#a0e507c3453574c308afbb717576c53a7", null ],
     [ "fill", "classvctr_1_1OwnedVector.html#ad4a469facc53750163032618d7ec2751", null ],
     [ "fillLinspace", "classvctr_1_1OwnedVector.html#a13e42070dab5544e39faf3d372913c11", null ],
     [ "find", "classvctr_1_1OwnedVector.html#a3b32192ab7691ff8e24fe85937df8cfc", null ],
