@@ -33,7 +33,7 @@ jobs:
         run: doxygen-1.9.6/bin/doxygen
 
       - name: Save Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Documentation
           path: doxygen
