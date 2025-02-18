@@ -51,11 +51,28 @@ TEMPLATE_PRODUCT_TEST_CASE ("Imag", "[complex]", (PlatformVectorOps, VCTR_NATIVE
     const vctr::Vector imag = filter << vctr::imag << srcA;
     const vctr::Vector imagU = filter << vctr::imag << srcUnaligned;
 
-    // std::is_arithmetic is not true for complex values, so this checks if the return type is always imag valued, even for
+    // std::is_arithmetic is not true for complex values, so this checks if the return type is always real valued, even for
     // complex input
     static_assert (std::is_arithmetic_v<typename decltype (imag)::value_type>);
     static_assert (std::is_arithmetic_v<typename decltype (imagU)::value_type>);
 
     REQUIRE_THAT (imag, vctr::EqualsTransformedBy<getImagPart> (srcA));
     REQUIRE_THAT (imagU, vctr::EqualsTransformedBy<getImagPart> (srcUnaligned));
+}
+
+TEMPLATE_PRODUCT_TEST_CASE ("RealToComplex", "[complex]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
+{
+    VCTR_TEST_DEFINES (10)
+
+    const vctr::Vector cplx = filter << vctr::realToComplex << srcA;
+    const vctr::Vector cplxU = filter << vctr::realToComplex << srcUnaligned;
+    
+    static_assert (vctr::is::complexFloatNumber<typename decltype (cplx)::value_type>);
+    static_assert (vctr::is::complexFloatNumber<typename decltype (cplxU)::value_type>);
+
+    REQUIRE_THAT (srcA, vctr::EqualsTransformedBy<getRealPart> (cplx));
+    REQUIRE_THAT (srcUnaligned, vctr::EqualsTransformedBy<getRealPart> (cplxU));
+
+    REQUIRE (vctr::Vector (vctr::imag << cplx).allElementsEqual (ElementType (0)));
+    REQUIRE (vctr::Vector (vctr::imag << cplxU).allElementsEqual (ElementType (0)));
 }

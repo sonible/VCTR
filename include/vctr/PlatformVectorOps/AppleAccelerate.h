@@ -252,6 +252,7 @@ public:
 
     static void copyReal (const std::complex<float>* src, float* dst, int len) { cblas_scopy (len, reinterpret_cast<const float*> (src), 2, dst, 1); }
     static void copyImag (const std::complex<float>* src, float* dst, int len) { cblas_scopy (len, reinterpret_cast<const float*> (src) + 1, 2, dst, 1); }
+    static void copyRealToComplex (const float* src, std::complex<float>* dst, int len) { cblas_scopy (len, src, 2, reinterpret_cast<float*> (dst), 1); }
 };
 
 template <>
@@ -341,6 +342,7 @@ public:
 
     static void copyReal (const std::complex<double>* src, double* dst, int len) { cblas_dcopy (len, reinterpret_cast<const double*> (src), 2, dst, 1); }
     static void copyImag (const std::complex<double>* src, double* dst, int len) { cblas_dcopy (len, reinterpret_cast<const double*> (src) + 1, 2, dst, 1); }
+    static void copyRealToComplex (const double* src, std::complex<double>* dst, int len) { cblas_dcopy (len, src, 2, reinterpret_cast<double*> (dst), 1); }
 };
 
 #endif
