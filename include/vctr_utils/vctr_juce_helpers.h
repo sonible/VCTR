@@ -32,31 +32,35 @@
 namespace vctr::juce_helpers
 {
 
-/** Loads the first elements of src into a juce::SIMDRegister.
+/** Loads elements of src into a juce::SIMDRegister.
 
     Note: Only available if VCTR is used in a JUCE based project that uses the
     juce_dsp module.
 
-    This function expects that the number of elements in src is exactly equal
-    to juce::SIMDRegister<Src::value_type>::SIMDNumElements. Note that JUCE
-    chooses either AVX or SSE registers on x64 platforms, depending on the
+    This function expects that the number of elements in src is an integer
+    multiple of juce::SIMDRegister<Src::value_type>::SIMDNumElements. Note that
+    JUCE chooses either AVX or SSE registers on x64 platforms, depending on the
     AVX flags being passed to the compiler. In particular, this means that
-    the function could expect an 8 element float vector as source when built
-    with AVX flags while expecting a 4 element vector otherwise. So cross platform
-    compatibility is best when not building with AVX flags. Also note that
-    juce::dsp::SIMDRegister<double> does NOT wrap a float64x2_t type but some
-    fallback type at the time of writing, so this function won't work for doubles
-    on ARM.
+    the function could expect a multiple of 8 element float vector as source
+    when built with AVX flags while expecting a multiple of 4 element vector
+    otherwise. So cross-platform compatibility is best when not building with AVX
+    flags. Also note that juce::dsp::SIMDRegister<double> does NOT wrap a float64x2_t
+    type but some fallback type at the time of writing, so this function won't work
+    for doubles on ARM.
 
     If you want to be more explicit about the SIMD register type, consider using
     the explicit SIMD related member functions of VctrBase.
+
+    @param src: The container to read from
+    @param i:   The SIMD register index to read. The read data is at position
+                i * juce::SIMDRegister<Src::value_type>::SIMDNumElements
 
     @see VctrBase::getNeon
     @see VctrBase::getSSE
     @see VctrBase::getAVX
  */
 template <is::anyVctr Src>
-auto toSIMDRegister (const Src& src)
+auto toSIMDRegister (const Src& src, size_t i = 0)
 {
     using SIMDRegister = juce::dsp::SIMDRegister<typename Src::value_type>;
 
@@ -64,7 +68,7 @@ auto toSIMDRegister (const Src& src)
 
     if constexpr (Config::archARM)
     {
-        return SIMDRegister { src.getNeon (0).value };
+        return SIMDRegister { src.getNeon (i).value };
     }
     else
     {
@@ -72,10 +76,10 @@ auto toSIMDRegister (const Src& src)
 
         if constexpr (registerSize == 32)
         {
-            return SIMDRegister { src.getAVX (0).value };
+            return SIMDRegister { src.getAVX (i).value };
         }
 
-        return SIMDRegister { src.getSSE (0).value };
+        return SIMDRegister { src.getSSE (i).value };
     }
 }
 
@@ -114,6 +118,36 @@ auto blockChannelAsSpanSIMDAligned (const juce::dsp::AudioBlock<SampleType>& blo
 {
     auto numSamples = block.getNumSamples();
     return Span { block.getChannelPointer (channelIdx), numSamples, simdAlignedSpanStorageInfo<SampleType>() };
+}
+
+/** Returns a Span that views a single channel of a juce::AudioBuffer.
+
+    This allows you to operate on audio channels with all available VCTR features.
+    This overload internally calls AudioBuffer::getWritePointer as it works on a
+    non-const buffer reference.
+
+    @see blockChannelAsSpan
+ */
+template <class SampleType>
+auto audioBufferChannelAsSpan (juce::AudioBuffer<SampleType>& buffer, size_t channelIdx)
+{
+    auto numSamples = size_t (buffer.getNumSamples());
+    return Span { buffer.getWritePointer (int (channelIdx)), numSamples };
+}
+
+/** Returns a Span that views a single channel of a juce::AudioBuffer.
+
+    This allows you to operate on audio channels with all available VCTR features.
+    This overload internally calls AudioBuffer::getReadPointer as it works on a
+    const buffer reference.
+
+    @see blockChannelAsSpan
+ */
+template <class SampleType>
+auto audioBufferChannelAsSpan (const juce::AudioBuffer<SampleType>& buffer, size_t channelIdx)
+{
+    auto numSamples = size_t (buffer.getNumSamples());
+    return Span { buffer.getReadPointer (int (channelIdx)), numSamples };
 }
 
 }
