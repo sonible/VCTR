@@ -222,7 +222,7 @@ public types you can `#include <vctr/vctr_forward_declarations.h>` as a lightwei
 VCTR is using cutting-edge C++ library features and needs a recent compiler to work properly.
 It is currently tested with the following compilers:
 - Clang 15+
-- GCC 12+ (Linux only)
+- GCC 13+ (Linux only)
 - Visual Studio 2022+
 - XCode 14+
 
