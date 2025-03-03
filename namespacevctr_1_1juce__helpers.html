@@ -102,10 +102,10 @@ $(document).ready(function(){initNavTree('namespacevctr_1_1juce__helpers.html','
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a85dd049e6a77d065f231cf7ccc298c66"><td class="memTemplParams" colspan="2">template&lt;is::anyVctr Src&gt; </td></tr>
-<tr class="memitem:a85dd049e6a77d065f231cf7ccc298c66"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr_1_1juce__helpers.html#a85dd049e6a77d065f231cf7ccc298c66">toSIMDRegister</a> (const Src &amp;src)</td></tr>
-<tr class="memdesc:a85dd049e6a77d065f231cf7ccc298c66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads the first elements of src into a juce::SIMDRegister.  <br /></td></tr>
-<tr class="separator:a85dd049e6a77d065f231cf7ccc298c66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf38efd21d799da767096de9e8bd72cf"><td class="memTemplParams" colspan="2">template&lt;is::anyVctr Src&gt; </td></tr>
+<tr class="memitem:adf38efd21d799da767096de9e8bd72cf"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr_1_1juce__helpers.html#adf38efd21d799da767096de9e8bd72cf">toSIMDRegister</a> (const Src &amp;src, size_t i=0)</td></tr>
+<tr class="memdesc:adf38efd21d799da767096de9e8bd72cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads elements of src into a juce::SIMDRegister.  <br /></td></tr>
+<tr class="separator:adf38efd21d799da767096de9e8bd72cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76d6fc48c137adf182f5310775a73d5e"><td class="memTemplParams" colspan="2">template&lt;class SampleType &gt; </td></tr>
 <tr class="memitem:a76d6fc48c137adf182f5310775a73d5e"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr_1_1juce__helpers.html#a76d6fc48c137adf182f5310775a73d5e">blockChannelAsSpan</a> (const juce::dsp::AudioBlock&lt; SampleType &gt; &amp;block, size_t channelIdx)</td></tr>
 <tr class="memdesc:a76d6fc48c137adf182f5310775a73d5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> that views a single channel of a juce::dsp::AudioBlock.  <br /></td></tr>
@@ -114,11 +114,87 @@ Functions</h2></td></tr>
 <tr class="memitem:a413eb058cc5dffbc2ae6806c65db23ae"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr_1_1juce__helpers.html#a413eb058cc5dffbc2ae6806c65db23ae">blockChannelAsSpanSIMDAligned</a> (const juce::dsp::AudioBlock&lt; SampleType &gt; &amp;block, size_t channelIdx)</td></tr>
 <tr class="memdesc:a413eb058cc5dffbc2ae6806c65db23ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> that views a single channel of a juce::dsp::AudioBlock, expecting SIMD aligned memory.  <br /></td></tr>
 <tr class="separator:a413eb058cc5dffbc2ae6806c65db23ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebf8878280bd5c9528385e10f234430b"><td class="memTemplParams" colspan="2">template&lt;class SampleType &gt; </td></tr>
+<tr class="memitem:aebf8878280bd5c9528385e10f234430b"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr_1_1juce__helpers.html#aebf8878280bd5c9528385e10f234430b">audioBufferChannelAsSpan</a> (juce::AudioBuffer&lt; SampleType &gt; &amp;buffer, size_t channelIdx)</td></tr>
+<tr class="memdesc:aebf8878280bd5c9528385e10f234430b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> that views a single channel of a juce::AudioBuffer.  <br /></td></tr>
+<tr class="separator:aebf8878280bd5c9528385e10f234430b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8c17b88cbbe69c92e848c0ea483e960"><td class="memTemplParams" colspan="2">template&lt;class SampleType &gt; </td></tr>
+<tr class="memitem:ab8c17b88cbbe69c92e848c0ea483e960"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr_1_1juce__helpers.html#ab8c17b88cbbe69c92e848c0ea483e960">audioBufferChannelAsSpan</a> (const juce::AudioBuffer&lt; SampleType &gt; &amp;buffer, size_t channelIdx)</td></tr>
+<tr class="memdesc:ab8c17b88cbbe69c92e848c0ea483e960"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> that views a single channel of a juce::AudioBuffer.  <br /></td></tr>
+<tr class="separator:ab8c17b88cbbe69c92e848c0ea483e960"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Helper functions to integrate vctr into dsp code written with JUCE (<a href="https://github.com/juce-framework/JUCE">https://github.com/juce-framework/JUCE</a>). </p>
 <p>It requires that the project links against the JUCE dsp module. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="ab8c17b88cbbe69c92e848c0ea483e960" name="ab8c17b88cbbe69c92e848c0ea483e960"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8c17b88cbbe69c92e848c0ea483e960">&#9670;&#160;</a></span>audioBufferChannelAsSpan() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class SampleType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto vctr::juce_helpers::audioBufferChannelAsSpan </td>
+          <td>(</td>
+          <td class="paramtype">const juce::AudioBuffer&lt; SampleType &gt; &amp;&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>channelIdx</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> that views a single channel of a juce::AudioBuffer. </p>
+<p>This allows you to operate on audio channels with all available VCTR features. This overload internally calls AudioBuffer::getReadPointer as it works on a const buffer reference.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacevctr_1_1juce__helpers.html#a76d6fc48c137adf182f5310775a73d5e" title="Returns a Span that views a single channel of a juce::dsp::AudioBlock.">blockChannelAsSpan</a> </dd></dl>
+
+</div>
+</div>
+<a id="aebf8878280bd5c9528385e10f234430b" name="aebf8878280bd5c9528385e10f234430b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebf8878280bd5c9528385e10f234430b">&#9670;&#160;</a></span>audioBufferChannelAsSpan() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class SampleType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto vctr::juce_helpers::audioBufferChannelAsSpan </td>
+          <td>(</td>
+          <td class="paramtype">juce::AudioBuffer&lt; SampleType &gt; &amp;&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>channelIdx</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> that views a single channel of a juce::AudioBuffer. </p>
+<p>This allows you to operate on audio channels with all available VCTR features. This overload internally calls AudioBuffer::getWritePointer as it works on a non-const buffer reference.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacevctr_1_1juce__helpers.html#a76d6fc48c137adf182f5310775a73d5e" title="Returns a Span that views a single channel of a juce::dsp::AudioBlock.">blockChannelAsSpan</a> </dd></dl>
+
+</div>
+</div>
 <a id="a76d6fc48c137adf182f5310775a73d5e" name="a76d6fc48c137adf182f5310775a73d5e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a76d6fc48c137adf182f5310775a73d5e">&#9670;&#160;</a></span>blockChannelAsSpan()</h2>
 
@@ -188,8 +264,8 @@ template&lt;class SampleType &gt; </div>
 
 </div>
 </div>
-<a id="a85dd049e6a77d065f231cf7ccc298c66" name="a85dd049e6a77d065f231cf7ccc298c66"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a85dd049e6a77d065f231cf7ccc298c66">&#9670;&#160;</a></span>toSIMDRegister()</h2>
+<a id="adf38efd21d799da767096de9e8bd72cf" name="adf38efd21d799da767096de9e8bd72cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf38efd21d799da767096de9e8bd72cf">&#9670;&#160;</a></span>toSIMDRegister()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -200,16 +276,33 @@ template&lt;is::anyVctr Src&gt; </div>
           <td class="memname">auto vctr::juce_helpers::toSIMDRegister </td>
           <td>(</td>
           <td class="paramtype">const Src &amp;&#160;</td>
-          <td class="paramname"><em>src</em></td><td>)</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Loads the first elements of src into a juce::SIMDRegister. </p>
+<p>Loads elements of src into a juce::SIMDRegister. </p>
 <p>Note: Only available if VCTR is used in a JUCE based project that uses the juce_dsp module.</p>
-<p>This function expects that the number of elements in src is exactly equal to juce::SIMDRegister&lt;Src::value_type&gt;::SIMDNumElements. Note that JUCE chooses either AVX or SSE registers on x64 platforms, depending on the AVX flags being passed to the compiler. In particular, this means that the function could expect an 8 element float vector as source when built with AVX flags while expecting a 4 element vector otherwise. So cross platform compatibility is best when not building with AVX flags. Also note that juce::dsp::SIMDRegister&lt;double&gt; does NOT wrap a float64x2_t type but some fallback type at the time of writing, so this function won't work for doubles on ARM.</p>
+<p>This function expects that the number of elements in src is an integer multiple of juce::SIMDRegister&lt;Src::value_type&gt;::SIMDNumElements. Note that JUCE chooses either AVX or SSE registers on x64 platforms, depending on the AVX flags being passed to the compiler. In particular, this means that the function could expect a multiple of 8 element float vector as source when built with AVX flags while expecting a multiple of 4 element vector otherwise. So cross-platform compatibility is best when not building with AVX flags. Also note that juce::dsp::SIMDRegister&lt;double&gt; does NOT wrap a float64x2_t type but some fallback type at the time of writing, so this function won't work for doubles on ARM.</p>
 <p>If you want to be more explicit about the SIMD register type, consider using the explicit SIMD related member functions of <a class="el" href="classvctr_1_1VctrBase.html" title="The base class to all one dimensional containers and views in the VCTR project.">VctrBase</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td>The container to read from </td></tr>
+    <tr><td class="paramname">i</td><td>The SIMD register index to read. The read data is at position i * juce::SIMDRegister&lt;Src::value_type&gt;::SIMDNumElements</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classvctr_1_1VctrBase.html#a82baf69e22b816a5b14994c89889a138" title="Evaluates a certain expression in place on this vector, e.g.">VctrBase::getNeon</a> </dd>
 <dd>
 VctrBase::getSSE </dd>

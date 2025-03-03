@@ -49,9 +49,11 @@ var NAVTREE =
     [ "License information", "index.html#autotoc_md28", null ],
     [ "Core Types", "group__Core.html", null ],
     [ "Vector Expressions", "group__Expressions.html", null ],
+    [ "audioBufferChannelAsSpan", "namespacevctr_1_1juce__helpers.html#ab8c17b88cbbe69c92e848c0ea483e960", null ],
+    [ "audioBufferChannelAsSpan", "namespacevctr_1_1juce__helpers.html#aebf8878280bd5c9528385e10f234430b", null ],
     [ "blockChannelAsSpan", "namespacevctr_1_1juce__helpers.html#a76d6fc48c137adf182f5310775a73d5e", null ],
     [ "blockChannelAsSpanSIMDAligned", "namespacevctr_1_1juce__helpers.html#a413eb058cc5dffbc2ae6806c65db23ae", null ],
-    [ "toSIMDRegister", "namespacevctr_1_1juce__helpers.html#a85dd049e6a77d065f231cf7ccc298c66", null ],
+    [ "toSIMDRegister", "namespacevctr_1_1juce__helpers.html#adf38efd21d799da767096de9e8bd72cf", null ],
     [ "CommonVecExpressionType", "namespacevctr.html#a8faf2b9cdab729f70118b612ce91f540", null ],
     [ "DataType", "namespacevctr.html#ad3cbb6dc6bd6736802f5a7537b8dfb62", null ],
     [ "ExpressionChainBuilder", "namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb", null ],
@@ -134,6 +136,7 @@ var NAVTREE =
     [ "powConstantExponent", "group__Expressions.html#gadc712a3c1ecf10913b0b0be0d2e4f905", null ],
     [ "powerSpectrum", "group__Expressions.html#gaf5ec582bc24648aa5087f73f8eaeb651", null ],
     [ "real", "group__Expressions.html#gae4fc0dae0a600f82c768b555dcf6ea69", null ],
+    [ "realToComplex", "group__Expressions.html#gab6416b37ceb85eeb4b9f8bbe6c059e02", null ],
     [ "rms", "group__Expressions.html#ga461b990c1ec58299e9e7bb7ae367fd13", null ],
     [ "sin", "group__Expressions.html#ga179f04cf1507d218f7ed1dd4390af4a5", null ],
     [ "sinh", "group__Expressions.html#gae41920cbcbb09b4745423d71133bd457", null ],
@@ -178,7 +181,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classvctr_1_1OwnedVector.html#af232e22612aa17d3fc8eaeee4fec245a",
-"conceptvctr_1_1is_1_1realFloatNumber.html"
+"conceptvctr_1_1is_1_1rangeWithValueType.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

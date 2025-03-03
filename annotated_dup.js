@@ -50,6 +50,7 @@ var annotated_dup =
         [ "PowSingleExponent", "classvctr_1_1expressions_1_1PowSingleExponent.html", null ],
         [ "PowVectors", "classvctr_1_1expressions_1_1PowVectors.html", null ],
         [ "Real", "classvctr_1_1expressions_1_1Real.html", null ],
+        [ "RealToComplex", "classvctr_1_1expressions_1_1RealToComplex.html", null ],
         [ "RootMeanSquare", "classvctr_1_1expressions_1_1RootMeanSquare.html", null ],
         [ "Sin", "classvctr_1_1expressions_1_1Sin.html", null ],
         [ "Sinh", "classvctr_1_1expressions_1_1Sinh.html", null ],
