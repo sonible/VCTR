@@ -229,41 +229,41 @@ public:                                                                         
     Therefore all code following this macro will be in the public section if not explicitly specified
     differently.
  */
-#define VCTR_COMMON_BINARY_VEC_VEC_EXPRESSION_MEMBERS(ExpressionName, srcAName, srcBName)                                      \
-private:                                                                                                                       \
-    using Expression = ExpressionTypes<value_type, SrcAType, SrcBType>;                                                        \
-    using SrcAStorageInfoType = std::invoke_result_t<decltype (&std::remove_cvref_t<SrcAType>::getStorageInfo), SrcAType>;     \
-    using SrcBStorageInfoType = std::invoke_result_t<decltype (&std::remove_cvref_t<SrcBType>::getStorageInfo), SrcBType>;     \
-                                                                                                                               \
-    SrcAType srcAName;                                                                                                         \
-    SrcBType srcBName;                                                                                                         \
-    const CombinedStorageInfo<std::remove_cvref_t<SrcAStorageInfoType>, std::remove_cvref_t<SrcBStorageInfoType>> storageInfo; \
-                                                                                                                               \
-public:                                                                                                                        \
-    template <class SrcA, class SrcB>                                                                                          \
-    constexpr ExpressionName (SrcA&& a, SrcB&& b)                                                                              \
-      : srcAName (std::forward<SrcA> (a)),                                                                                     \
-        srcBName (std::forward<SrcB> (b)),                                                                                     \
-        storageInfo (srcAName.getStorageInfo(), srcBName.getStorageInfo())                                                     \
-    {}                                                                                                                         \
-                                                                                                                               \
-    constexpr const auto& getStorageInfo() const { return storageInfo; }                                                       \
-                                                                                                                               \
-    constexpr size_t size() const { return srcAName.size(); }                                                                  \
-                                                                                                                               \
-    constexpr bool isNotAliased (const void* dst) const                                                                        \
-    {                                                                                                                          \
-        if constexpr (is::expression<SrcAType> && is::anyVctr<SrcBType>)                                                       \
-        {                                                                                                                      \
-            return dst != srcBName.data();                                                                                     \
-        }                                                                                                                      \
-                                                                                                                               \
-        if constexpr (is::anyVctr<SrcAType> && is::expression<SrcBType>)                                                       \
-        {                                                                                                                      \
-            return dst != srcAName.data();                                                                                     \
-        }                                                                                                                      \
-                                                                                                                               \
-        return true;                                                                                                           \
+#define VCTR_COMMON_BINARY_VEC_VEC_EXPRESSION_MEMBERS(ExpressionName, srcAName, srcBName)                                              \
+private:                                                                                                                               \
+    using Expression = ExpressionTypes<value_type, SrcAType, SrcBType>;                                                                \
+    using SrcAStorageInfoType = std::invoke_result_t<decltype (&std::remove_cvref_t<SrcAType>::getStorageInfo), SrcAType>;             \
+    using SrcBStorageInfoType = std::invoke_result_t<decltype (&std::remove_cvref_t<SrcBType>::getStorageInfo), SrcBType>;             \
+                                                                                                                                       \
+    SrcAType srcAName;                                                                                                                 \
+    SrcBType srcBName;                                                                                                                 \
+    const ::vctr::CombinedStorageInfo<std::remove_cvref_t<SrcAStorageInfoType>, std::remove_cvref_t<SrcBStorageInfoType>> storageInfo; \
+                                                                                                                                       \
+public:                                                                                                                                \
+    template <class SrcA, class SrcB>                                                                                                  \
+    constexpr ExpressionName (SrcA&& a, SrcB&& b)                                                                                      \
+      : srcAName (std::forward<SrcA> (a)),                                                                                             \
+        srcBName (std::forward<SrcB> (b)),                                                                                             \
+        storageInfo (srcAName.getStorageInfo(), srcBName.getStorageInfo())                                                             \
+    {}                                                                                                                                 \
+                                                                                                                                       \
+    constexpr const auto& getStorageInfo() const { return storageInfo; }                                                               \
+                                                                                                                                       \
+    constexpr size_t size() const { return srcAName.size(); }                                                                          \
+                                                                                                                                       \
+    constexpr bool isNotAliased (const void* dst) const                                                                                \
+    {                                                                                                                                  \
+        if constexpr (is::expression<SrcAType> && is::anyVctr<SrcBType>)                                                               \
+        {                                                                                                                              \
+            return dst != srcBName.data();                                                                                             \
+        }                                                                                                                              \
+                                                                                                                                       \
+        if constexpr (is::anyVctr<SrcAType> && is::expression<SrcBType>)                                                               \
+        {                                                                                                                              \
+            return dst != srcAName.data();                                                                                             \
+        }                                                                                                                              \
+                                                                                                                                       \
+        return true;                                                                                                                   \
     }
 
 /** A helper macro to avoid repetitive boilerplate code when implementing a binary expression template class
@@ -300,58 +300,58 @@ public:                                                                         
     constexpr bool isNotAliased (const void* other) const { return srcVecName.isNotAliased (other); }
 
 /** Forwards prepareNeonEvaluation(), prepareAVXEvaluation() and prepareSSEEvaluation() if the SrcType supplies them. */
-#define VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS            \
-    void prepareNeonEvaluation() const                                                    \
-    requires has::prepareNeonEvaluation<SrcType>                                          \
-    {                                                                                     \
-        src.prepareNeonEvaluation();                                                      \
-    }                                                                                     \
-                                                                                          \
-    VCTR_FORCEDINLINE  VCTR_TARGET ("avx") void prepareAVXEvaluation() const              \
-    requires has::prepareAVXEvaluation<SrcType> && Expression::CommonElement::isRealFloat \
-    {                                                                                     \
-        src.prepareAVXEvaluation();                                                       \
-    }                                                                                     \
-                                                                                          \
-    VCTR_FORCEDINLINE  VCTR_TARGET ("avx2") void prepareAVXEvaluation() const             \
-    requires has::prepareAVXEvaluation<SrcType> && Expression::CommonElement::isInt       \
-    {                                                                                     \
-        src.prepareAVXEvaluation();                                                       \
-    }                                                                                     \
-                                                                                          \
-    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void prepareSSEEvaluation() const            \
-    requires has::prepareSSEEvaluation<SrcType>                                           \
-    {                                                                                     \
-        src.prepareSSEEvaluation();                                                       \
+#define VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS                    \
+    void prepareNeonEvaluation() const                                                            \
+    requires ::vctr::has::prepareNeonEvaluation<SrcType>                                          \
+    {                                                                                             \
+        src.prepareNeonEvaluation();                                                              \
+    }                                                                                             \
+                                                                                                  \
+    VCTR_FORCEDINLINE  VCTR_TARGET ("avx") void prepareAVXEvaluation() const                      \
+    requires ::vctr::has::prepareAVXEvaluation<SrcType> && Expression::CommonElement::isRealFloat \
+    {                                                                                             \
+        src.prepareAVXEvaluation();                                                               \
+    }                                                                                             \
+                                                                                                  \
+    VCTR_FORCEDINLINE  VCTR_TARGET ("avx2") void prepareAVXEvaluation() const                     \
+    requires ::vctr::has::prepareAVXEvaluation<SrcType> && Expression::CommonElement::isInt       \
+    {                                                                                             \
+        src.prepareAVXEvaluation();                                                               \
+    }                                                                                             \
+                                                                                                  \
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void prepareSSEEvaluation() const                    \
+    requires ::vctr::has::prepareSSEEvaluation<SrcType>                                           \
+    {                                                                                             \
+        src.prepareSSEEvaluation();                                                               \
     }
 
 /** Forwards prepareNeonEvaluation(), prepareAVXEvaluation() and prepareSSEEvaluation() if both source types supply them. */
-#define VCTR_FORWARD_PREPARE_SIMD_EVALUATION_BINARY_EXPRESSION_MEMBER_FUNCTIONS(srcAName, srcBName)                               \
-    void prepareNeonEvaluation() const                                                                                            \
-    requires has::prepareNeonEvaluation<SrcAType> && has::prepareNeonEvaluation<SrcBType>                                         \
-    {                                                                                                                             \
-        srcAName.prepareNeonEvaluation();                                                                                         \
-        srcBName.prepareNeonEvaluation();                                                                                         \
-    }                                                                                                                             \
-                                                                                                                                  \
-    VCTR_FORCEDINLINE  VCTR_TARGET ("avx") void prepareAVXEvaluation() const                                                      \
-    requires has::prepareAVXEvaluation<SrcAType> && has::prepareAVXEvaluation<SrcBType> && Expression::CommonElement::isRealFloat \
-    {                                                                                                                             \
-        srcAName.prepareAVXEvaluation();                                                                                          \
-        srcBName.prepareAVXEvaluation();                                                                                          \
-    }                                                                                                                             \
-                                                                                                                                  \
-    VCTR_FORCEDINLINE  VCTR_TARGET ("avx2") void prepareAVXEvaluation() const                                                     \
-    requires has::prepareAVXEvaluation<SrcAType> && has::prepareAVXEvaluation<SrcBType> && Expression::CommonElement::isInt       \
-    {                                                                                                                             \
-        srcAName.prepareAVXEvaluation();                                                                                          \
-        srcBName.prepareAVXEvaluation();                                                                                          \
-    }                                                                                                                             \
-                                                                                                                                  \
-    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void prepareSSEEvaluation() const                                                    \
-    requires has::prepareSSEEvaluation<SrcAType> && has::prepareSSEEvaluation<SrcBType>                                           \
-    {                                                                                                                             \
-        srcAName.prepareSSEEvaluation();                                                                                          \
-        srcBName.prepareSSEEvaluation();                                                                                          \
+#define VCTR_FORWARD_PREPARE_SIMD_EVALUATION_BINARY_EXPRESSION_MEMBER_FUNCTIONS(srcAName, srcBName)                                               \
+    void prepareNeonEvaluation() const                                                                                                            \
+    requires ::vctr::has::prepareNeonEvaluation<SrcAType> && ::vctr::has::prepareNeonEvaluation<SrcBType>                                         \
+    {                                                                                                                                             \
+        srcAName.prepareNeonEvaluation();                                                                                                         \
+        srcBName.prepareNeonEvaluation();                                                                                                         \
+    }                                                                                                                                             \
+                                                                                                                                                  \
+    VCTR_FORCEDINLINE  VCTR_TARGET ("avx") void prepareAVXEvaluation() const                                                                      \
+    requires ::vctr::has::prepareAVXEvaluation<SrcAType> && ::vctr::has::prepareAVXEvaluation<SrcBType> && Expression::CommonElement::isRealFloat \
+    {                                                                                                                                             \
+        srcAName.prepareAVXEvaluation();                                                                                                          \
+        srcBName.prepareAVXEvaluation();                                                                                                          \
+    }                                                                                                                                             \
+                                                                                                                                                  \
+    VCTR_FORCEDINLINE  VCTR_TARGET ("avx2") void prepareAVXEvaluation() const                                                                     \
+    requires ::vctr::has::prepareAVXEvaluation<SrcAType> && ::vctr::has::prepareAVXEvaluation<SrcBType> && Expression::CommonElement::isInt       \
+    {                                                                                                                                             \
+        srcAName.prepareAVXEvaluation();                                                                                                          \
+        srcBName.prepareAVXEvaluation();                                                                                                          \
+    }                                                                                                                                             \
+                                                                                                                                                  \
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void prepareSSEEvaluation() const                                                                    \
+    requires ::vctr::has::prepareSSEEvaluation<SrcAType> && ::vctr::has::prepareSSEEvaluation<SrcBType>                                           \
+    {                                                                                                                                             \
+        srcAName.prepareSSEEvaluation();                                                                                                          \
+        srcBName.prepareSSEEvaluation();                                                                                                          \
     }
 // clang-format on
