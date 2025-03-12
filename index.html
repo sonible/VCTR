@@ -292,7 +292,7 @@ Building unit tests and demo project</h1>
 <div class="line"># run the demo project</div>
 <div class="line">./build/demo/vctr_demo</div>
 </div><!-- fragment --><p>VCTR's unit tests, located in the <code>test</code> subfolder, are dependent on <a href="https://github.com/catchorg/Catch2">Catch2</a> and GCE-Math.</p>
-<p>The preferred method of installing the dependencies is using the C++ package manager <a href="https://github.com/conan-io/conan">conan</a>. If <code>conan</code> is available on your system, export the project using the <code>VCTR_USE_CONAN=1</code> and <code>VCTR_BUILD_TEST=1</code> options:</p>
+<p>The preferred method of installing the dependencies is using the C++ package manager <a href="https://github.com/conan-io/conan">conan</a>. If <code>conan</code> is available on your system, export the project with the cmake-conan integration from the git submodule <code>CMAKE_PROJECT_TOP_LEVEL_INCLUDES=ext/cmake-conan/conan_provider.cmake</code> and <code>VCTR_BUILD_TEST=1</code> options:</p>
 <div class="fragment"><div class="line"># conan is available via chocolatey, homebrew or pip3</div>
 <div class="line"> </div>
 <div class="line"># windows</div>
@@ -306,8 +306,11 @@ Building unit tests and demo project</h1>
 <div class="line"> </div>
 <div class="line"># in VCTR project root</div>
 <div class="line"> </div>
+<div class="line"># make sure git submodules are available</div>
+<div class="line">git submodule update --init --recursive</div>
+<div class="line"> </div>
 <div class="line"># export project and tests</div>
-<div class="line">cmake . -B build -D VCTR_USE_CONAN=1 -D VCTR_BUILD_TEST=1</div>
+<div class="line">cmake . -B build -D CMAKE_PROJECT_TOP_LEVEL_INCLUDES=ext/cmake-conan/conan_provider.cmake -D VCTR_BUILD_TEST=1</div>
 <div class="line"> </div>
 <div class="line"># build tests</div>
 <div class="line">cmake --build build/ --target vctr_test</div>
