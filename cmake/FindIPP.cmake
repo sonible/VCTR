@@ -58,8 +58,11 @@ find_library (IPPVM
         /usr/local/lib
     REQUIRED)
 
-add_library (ipp INTERFACE)
-target_include_directories (ipp INTERFACE ${IPP_ROOT_DIR}/include)
-target_link_libraries (ipp INTERFACE ${IPPS} ${IPPVM} ${IPPCORE})
-target_compile_definitions (ipp INTERFACE VCTR_USE_IPP=1)
+if (NOT TARGET ipp)
+    add_library (ipp INTERFACE)    
+    target_include_directories (ipp INTERFACE ${IPP_ROOT_DIR}/include)
+    target_link_libraries (ipp INTERFACE ${IPPS} ${IPPVM} ${IPPCORE})
+    target_compile_definitions (ipp INTERFACE VCTR_USE_IPP=1)
+endif()
+
 message (STATUS "Linking against IPP")
