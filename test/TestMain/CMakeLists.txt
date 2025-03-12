@@ -4,12 +4,6 @@ project (VCTR_TEST)
 
 # ================================================================================
 
-if (VCTR_USE_CONAN)
-        conan_cmake_configure (REQUIRES catch2/3.7.0 gcem/1.16.0 BUILD missing GENERATORS cmake_find_package)
-        conan_cmake_autodetect (settings)
-        conan_cmake_install (PATH_OR_REFERENCE . BUILD missing SETTINGS ${settings})
-        set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_BINARY_DIR})
-endif()
 find_package (Catch2 REQUIRED)
 find_package (gcem REQUIRED)
 
