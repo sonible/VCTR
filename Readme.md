@@ -310,7 +310,7 @@ VCTR's unit tests, located in the `test` subfolder, are dependent on [Catch2](ht
 GCE-Math. 
 
 The preferred method of installing the dependencies is using the C++ package manager [conan](https://github.com/conan-io/conan).
-If `conan` is available on your system, export the project using the `VCTR_USE_CONAN=1` and `VCTR_BUILD_TEST=1` options:
+If `conan` is available on your system, export the project with the cmake-conan integration from the git submodule `CMAKE_PROJECT_TOP_LEVEL_INCLUDES=ext/cmake-conan/conan_provider.cmake` and `VCTR_BUILD_TEST=1` options:
 
 ```bash
 # conan is available via chocolatey, homebrew or pip3
@@ -326,8 +326,11 @@ pip3 install conan
 
 # in VCTR project root
 
+# make sure git submodules are available
+git submodule update --init --recursive
+
 # export project and tests
-cmake . -B build -D VCTR_USE_CONAN=1 -D VCTR_BUILD_TEST=1
+cmake . -B build -D CMAKE_PROJECT_TOP_LEVEL_INCLUDES=ext/cmake-conan/conan_provider.cmake -D VCTR_BUILD_TEST=1
 
 # build tests
 cmake --build build/ --target vctr_test

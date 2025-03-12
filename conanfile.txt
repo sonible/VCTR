@@ -1,0 +1,3 @@
+[requires]
+catch2/3.7.0
+gcem/1.16.0
