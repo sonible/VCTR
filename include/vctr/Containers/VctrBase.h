@@ -454,11 +454,33 @@ public:
         return std::find (begin(), end(), valueToLookFor);
     }
 
+    /** Returns an iterator to the first element that holds a pointer that equals valueToLookFor or end() if none was found.
+
+        Only enabled if ElementType is a std::unique_ptr.
+    */
+    template <class Ptr>
+    constexpr auto find (const Ptr* ptrToLookFor)
+    requires is::uniquePtr<ElementType> && std::equality_comparable_with<typename ElementType::pointer, Ptr*>
+    {
+        return std::find_if (begin(), end(), [=] (auto& up) { return up.get() == ptrToLookFor; });
+    }
+
     /** Returns a const iterator to the first element that equals valueToLookFor or end() if none was found */
     template <std::equality_comparable_with<ElementType> T>
     constexpr auto find (const T& valueToLookFor) const
     {
         return std::find (begin(), end(), valueToLookFor);
+    }
+
+    /** Returns a const iterator to the first element that holds a pointer that equals valueToLookFor or end() if none was found.
+
+        Only enabled if ElementType is a std::unique_ptr.
+    */
+    template <class Ptr>
+    constexpr auto find (const Ptr* ptrToLookFor) const
+    requires is::uniquePtr<ElementType> && std::equality_comparable_with<typename ElementType::pointer, Ptr*>
+    {
+        return std::find_if (begin(), end(), [=] (auto& up) { return up.get() == ptrToLookFor; });
     }
 
     /** Returns a reverse iterator to the last element in this vector that equals valueToLookFor or rend() if none was found */
