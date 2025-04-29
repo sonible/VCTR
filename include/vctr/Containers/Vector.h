@@ -681,7 +681,8 @@ public:
     OwnedVector (Args&&... args) : VectorType (std::forward<Args> (args)...) {}
 
     /** Erases the occurrence of an owned element with the given address and adjusts its size. */
-    constexpr auto eraseOccurrenceOf (const OwnedElementType* address)
+    template <std::equality_comparable_with<OwnedElementType*> Ptr>
+    constexpr auto eraseOccurrenceOf (const Ptr address)
     {
         auto it = VectorType::findIf ([&] (auto& p) { return p.get() == address; });
         return it != VectorType::end() ? VectorType::erase (it) : it;
