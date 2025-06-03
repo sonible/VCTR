@@ -219,6 +219,15 @@ public:
         vDSP_zvmul (&sa, 2, &sb, 2, &d, 2, len, 1);
     }
 
+    static void multiplyAdd (const std::complex<float>* srcA, const std::complex<float>* srcB, const std::complex<float>* srcC, std::complex<float>* dst, size_t len)
+    {
+        auto sa = sp (srcA);
+        auto sb = sp (srcB);
+        auto sc = sp (srcC);
+        auto d = sp (dst);
+        vDSP_zvma (&sa, 2, &sb, 2, &sc, 2, &d, 2, len);
+    }
+
     static void div (const std::complex<float>* srcA, const std::complex<float>* srcB, std::complex<float>* dst, size_t len)
     {
         auto sa = sp (srcA);
@@ -307,6 +316,15 @@ public:
         auto sb = sp (srcB);
         auto d = sp (dst);
         vDSP_zvmulD (&sa, 2, &sb, 2, &d, 2, len, 1);
+    }
+
+    static void multiplyAdd (const std::complex<double>* srcA, const std::complex<double>* srcB, const std::complex<double>* srcC, std::complex<double>* dst, size_t len)
+    {
+        auto sa = sp (srcA);
+        auto sb = sp (srcB);
+        auto sc = sp (srcC);
+        auto d = sp (dst);
+        vDSP_zvmaD (&sa, 2, &sb, 2, &sc, 2, &d, 2, len);
     }
 
     static void div (const std::complex<double>* srcA, const std::complex<double>* srcB, std::complex<double>* dst, size_t len)
