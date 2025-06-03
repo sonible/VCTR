@@ -57,7 +57,7 @@ public:
 
 
     VCTR_FORCEDINLINE void evalVectorOpMultiplyAccumulate (value_type* dst) const
-    requires is::suitableForAccelerateRealFloatBinaryVectorOp<SrcAType, SrcBType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable> && is::anyVctr<SrcAType> && is::anyVctr<SrcBType>
+    requires is::suitableForAccelerateRealOrComplexComplexFloatBinaryVectorOp<SrcAType, SrcBType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable> && is::anyVctr<SrcAType> && is::anyVctr<SrcBType>
     {
         Expression::Accelerate::multiplyAdd (srcA.data(), srcB.data(), dst, dst, size());
     }
