@@ -24,7 +24,7 @@
 #include <string>
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEMPLATE_TEST_CASE ("Array Constructors", "[Array][Constructor]", float, int64_t, std::string)
+TEMPLATE_TEST_CASE ("Array Constructors", "[VCTR][Array][Constructor]", float, int64_t, std::string)
 {
     const auto v = UnitTestValues<TestType>::template vector<100, 0>();
     const auto a = UnitTestValues<TestType>::template array<100, 0>();
@@ -89,7 +89,7 @@ TEMPLATE_TEST_CASE ("Array Constructors", "[Array][Constructor]", float, int64_t
     REQUIRE_THAT (l, vctr::Equals (fromIterators));
 }
 
-TEST_CASE ("Array Constructor with initializer function", "[Array][Constructor]")
+TEST_CASE ("Array Constructor with initializer function", "[VCTR][Array][Constructor]")
 {
     auto floatInitializerFn = [] (size_t i) { return std::sqrt (float (i)); };
     auto identityInitializerFn = [] (size_t i) { return i; };
@@ -111,7 +111,7 @@ TEST_CASE ("Array Constructor with initializer function", "[Array][Constructor]"
     REQUIRE_THAT (s[2], Catch::Matchers::Equals ("2"));
 }
 
-TEST_CASE ("OwnedArray Constructors", "[Array][OwnedArray][Constructor]")
+TEST_CASE ("OwnedArray Constructors", "[VCTR][Array][OwnedArray][Constructor]")
 {
     auto* i1 = new int32_t (1);
     auto* i2 = new int32_t (2);

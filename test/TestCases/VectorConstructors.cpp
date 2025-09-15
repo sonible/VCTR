@@ -24,7 +24,7 @@
 #include <list>
 #include <string>
 
-TEMPLATE_TEST_CASE ("Vector Constructors", "[Vector][Constructor]", float, int64_t, std::string)
+TEMPLATE_TEST_CASE ("Vector Constructors", "[VCTR][Vector][Constructor]", float, int64_t, std::string)
 {
     const auto v = UnitTestValues<TestType>::template vector<100, 0>();
     const auto a = UnitTestValues<TestType>::template array<100, 0>();
@@ -73,7 +73,7 @@ TEMPLATE_TEST_CASE ("Vector Constructors", "[Vector][Constructor]", float, int64
     REQUIRE_THAT (l, vctr::Equals (fromIterators));
 }
 
-TEST_CASE ("Vector Constructor with single size_t argument", "[Vector][Constructor]")
+TEST_CASE ("Vector Constructor with single size_t argument", "[VCTR][Vector][Constructor]")
 {
     vctr::Vector singleElementInitializerList { size_t (2) };
     static_assert (std::same_as<size_t, decltype (singleElementInitializerList)::value_type>);
@@ -81,7 +81,7 @@ TEST_CASE ("Vector Constructor with single size_t argument", "[Vector][Construct
     REQUIRE (singleElementInitializerList[0] == 2);
 }
 
-TEST_CASE ("Vector Constructor with initializer function", "[Vector][Constructor]")
+TEST_CASE ("Vector Constructor with initializer function", "[VCTR][Vector][Constructor]")
 {
     auto floatInitializerFn = [] (size_t i) { return std::sqrt (float (i)); };
     auto identityInitializerFn = [] (size_t i) { return i; };
@@ -106,7 +106,7 @@ TEST_CASE ("Vector Constructor with initializer function", "[Vector][Constructor
     REQUIRE_THAT (s[2], Catch::Matchers::Equals ("2"));
 }
 
-TEST_CASE ("OwnedVector Constructors", "[Vector][OwnedVector][Constructor]")
+TEST_CASE ("OwnedVector Constructors", "[VCTR][Vector][OwnedVector][Constructor]")
 {
     auto* i1 = new int32_t (1);
     auto* i2 = new int32_t (2);

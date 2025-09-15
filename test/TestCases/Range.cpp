@@ -22,7 +22,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEMPLATE_TEST_CASE ("Range", "[range]", float, double, int)
+TEMPLATE_TEST_CASE ("Range", "[VCTR][range]", float, double, int)
 {
     auto a = UnitTestValues<TestType>::template array<2, 0>();
     a.sort();

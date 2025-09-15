@@ -25,7 +25,7 @@
 template <std::floating_point T>
 std::complex<T> conjugate (std::complex<T> v) { return std::conj (v); }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Conjugate", "[complex]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (std::complex<float>, std::complex<double>) )
+TEMPLATE_PRODUCT_TEST_CASE ("Conjugate", "[VCTR][complex]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES (10)
 

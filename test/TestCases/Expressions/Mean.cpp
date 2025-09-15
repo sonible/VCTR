@@ -22,7 +22,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEMPLATE_PRODUCT_TEST_CASE ("Mean", "[mean]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>, int32_t, int64_t, uint32_t, uint64_t) )
+TEMPLATE_PRODUCT_TEST_CASE ("Mean", "[VCTR][mean]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>, int32_t, int64_t, uint32_t, uint64_t) )
 {
     VCTR_TEST_DEFINES (10)
 
@@ -58,7 +58,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Mean", "[mean]", (PlatformVectorOps, VCTR_NATIVE_SI
     }
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("MeanSquare", "[meanSquare]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>, int32_t, int64_t, uint32_t, uint64_t) )
+TEMPLATE_PRODUCT_TEST_CASE ("MeanSquare", "[VCTR][meanSquare]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>, int32_t, int64_t, uint32_t, uint64_t) )
 {
     VCTR_TEST_DEFINES (10)
 
@@ -97,7 +97,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("MeanSquare", "[meanSquare]", (PlatformVectorOps, VC
     }
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("RMS", "[rms]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>) )
+TEMPLATE_PRODUCT_TEST_CASE ("RMS", "[VCTR][rms]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES (10)
 
