@@ -22,7 +22,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEST_CASE ("Assignment operator", "[SpanMemberFunctions]")
+TEST_CASE ("Assignment operator", "[VCTR][SpanMemberFunctions]")
 {
     std::array<int, 3> intStorage { 0 };
     vctr::Span ints (intStorage);
@@ -45,7 +45,7 @@ TEST_CASE ("Assignment operator", "[SpanMemberFunctions]")
     REQUIRE_THAT (strings, vctr::Equals ({ "I", "love", "sonible" }));
 }
 
-TEST_CASE ("castTo", "[SpanMemberFunctions]")
+TEST_CASE ("castTo", "[VCTR][SpanMemberFunctions]")
 {
     SECTION ("Static extent")
     {

@@ -22,7 +22,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEST_CASE ("detail::previousMultipleOf", "[internal]")
+TEST_CASE ("detail::previousMultipleOf", "[VCTR][internal]")
 {
     REQUIRE (vctr::detail::previousMultipleOf<2> (0) == 0);
     REQUIRE (vctr::detail::previousMultipleOf<2> (1) == 0);
@@ -37,7 +37,7 @@ TEST_CASE ("detail::previousMultipleOf", "[internal]")
     REQUIRE (vctr::detail::previousMultipleOf<128> (257) == 256);
 }
 
-TEST_CASE ("detail::nextMultipleOf", "[internal]")
+TEST_CASE ("detail::nextMultipleOf", "[VCTR][internal]")
 {
     REQUIRE (vctr::detail::nextMultipleOf<2> (0) == 0);
     REQUIRE (vctr::detail::nextMultipleOf<2> (1) == 2);

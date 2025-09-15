@@ -30,7 +30,7 @@ constexpr bool isStdVector = false;
 template <class T, class A>
 constexpr bool isStdVector<std::vector<T, A>> = true;
 
-TEMPLATE_TEST_CASE ("Accessing the underlying storage", "[VctrBaseMemberFunctions]", float, int, std::string)
+TEMPLATE_TEST_CASE ("Accessing the underlying storage", "[VCTR][VctrBaseMemberFunctions]", float, int, std::string)
 {
     auto vec = UnitTestValues<TestType>::template vector<10, 0>();
     const auto& constVec (vec);
@@ -62,7 +62,7 @@ TEMPLATE_TEST_CASE ("Accessing the underlying storage", "[VctrBaseMemberFunction
         REQUIRE (movedVec[i] == possiblyConverted[i]);
 }
 
-TEST_CASE ("Assignment operator", "[VectorMemberFunctions]")
+TEST_CASE ("Assignment operator", "[VCTR][VectorMemberFunctions]")
 {
     vctr::Vector<int> ints;
 
@@ -104,7 +104,7 @@ TEST_CASE ("Assignment operator", "[VectorMemberFunctions]")
     REQUIRE_THAT (strings, vctr::Equals ({ "I", "love", "sonible", "!" }));
 }
 
-TEST_CASE ("capacity, shrink_to_fit, reserve, clear", "[VectorMemberFunctions]")
+TEST_CASE ("capacity, shrink_to_fit, reserve, clear", "[VCTR][VectorMemberFunctions]")
 {
     auto v = UnitTestValues<int32_t>::template vector<100, 0>();
 
@@ -134,7 +134,7 @@ TEST_CASE ("capacity, shrink_to_fit, reserve, clear", "[VectorMemberFunctions]")
     */
 }
 
-TEST_CASE ("erase", "[VectorMemberFunctions]")
+TEST_CASE ("erase", "[VCTR][VectorMemberFunctions]")
 {
     vctr::Vector v { 0, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5 };
 
@@ -248,7 +248,7 @@ TEST_CASE ("erase", "[VectorMemberFunctions]")
     }
 }
 
-TEST_CASE ("push_back", "[VectorMemberFunctions]")
+TEST_CASE ("push_back", "[VCTR][VectorMemberFunctions]")
 {
     vctr::Vector<std::string> v;
 
@@ -268,7 +268,7 @@ TEST_CASE ("push_back", "[VectorMemberFunctions]")
     REQUIRE_THAT (b, vctr::Equals ({ true, false }));
 }
 
-TEST_CASE ("pop_back", "[VectorMemberFunctions]")
+TEST_CASE ("pop_back", "[VCTR][VectorMemberFunctions]")
 {
     vctr::Vector<std::string> v { "one", "two", "three", "four" };
 
@@ -279,7 +279,7 @@ TEST_CASE ("pop_back", "[VectorMemberFunctions]")
     REQUIRE_THAT (v, vctr::Equals ({ "one", "two", "three" }));
 }
 
-TEST_CASE ("emplace_back", "[VectorMemberFunctions]")
+TEST_CASE ("emplace_back", "[VCTR][VectorMemberFunctions]")
 {
     vctr::Vector<std::pair<std::string, int>> v;
 
@@ -290,7 +290,7 @@ TEST_CASE ("emplace_back", "[VectorMemberFunctions]")
     REQUIRE (v[0].second == 42);
 }
 
-TEST_CASE ("insert", "[VectorMemberFunctions]")
+TEST_CASE ("insert", "[VCTR][VectorMemberFunctions]")
 {
     vctr::Vector<std::string> v { "one", "two", "three", "four" };
 
@@ -467,7 +467,7 @@ TEST_CASE ("insert", "[VectorMemberFunctions]")
     }
 }
 
-TEST_CASE ("swap", "[VectorMemberFunctions]")
+TEST_CASE ("swap", "[VCTR][VectorMemberFunctions]")
 {
     std::initializer_list<int> a { 1, 2, 3, 4 };
     std::initializer_list<int> b { 9, 8, 7, 6 };

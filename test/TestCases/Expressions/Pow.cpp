@@ -46,7 +46,7 @@ template <int32_t exp> std::complex<float>  powerConstantExp (std::complex<float
 template <int32_t exp> std::complex<double> powerConstantExp (std::complex<double> base) { return std::pow (base, std::complex<double> (exp)); }
 // clang-format on
 
-TEMPLATE_PRODUCT_TEST_CASE ("Pow", "[pow]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, int64_t, std::complex<float>, std::complex<double>))
+TEMPLATE_PRODUCT_TEST_CASE ("Pow", "[VCTR][pow]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, int64_t, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (0, 15, 10)
 

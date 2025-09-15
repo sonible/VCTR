@@ -25,7 +25,7 @@
 #include <string>
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEMPLATE_TEST_CASE ("Vector with a std::pmr::polymorphic_allocator", "[Vector][Constructor]", float, int64_t, std::string)
+TEMPLATE_TEST_CASE ("Vector with a std::pmr::polymorphic_allocator", "[VCTR][Vector][Constructor]", float, int64_t, std::string)
 {
     const auto a = UnitTestValues<TestType>::template array<10, 0>();
 

@@ -28,7 +28,7 @@ T getRealPart (std::complex<T> src) { return src.real(); }
 template <std::floating_point T>
 T getImagPart (std::complex<T> src) { return src.imag(); }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Real", "[complex]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (std::complex<float>, std::complex<double>) )
+TEMPLATE_PRODUCT_TEST_CASE ("Real", "[VCTR][complex]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES (10)
 
@@ -44,7 +44,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Real", "[complex]", (PlatformVectorOps, VCTR_NATIVE
     REQUIRE_THAT (realU, vctr::EqualsTransformedBy<getRealPart> (srcUnaligned));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Imag", "[complex]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (std::complex<float>, std::complex<double>) )
+TEMPLATE_PRODUCT_TEST_CASE ("Imag", "[VCTR][complex]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES (10)
 
@@ -60,7 +60,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Imag", "[complex]", (PlatformVectorOps, VCTR_NATIVE
     REQUIRE_THAT (imagU, vctr::EqualsTransformedBy<getImagPart> (srcUnaligned));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("RealToComplex", "[complex]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
+TEMPLATE_PRODUCT_TEST_CASE ("RealToComplex", "[VCTR][complex]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
 {
     VCTR_TEST_DEFINES (10)
 

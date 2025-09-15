@@ -23,7 +23,7 @@
 #include <vctr_test_utils/vctr_test_common.h>
 #include <string>
 
-TEMPLATE_TEST_CASE ("Span Constructors", "[Span][Constructor]", float, int64_t, std::string)
+TEMPLATE_TEST_CASE ("Span Constructors", "[VCTR][Span][Constructor]", float, int64_t, std::string)
 {
     auto v = UnitTestValues<TestType>::template vector<100, 0>();
     const auto cv = UnitTestValues<TestType>::template vector<100, 0>();

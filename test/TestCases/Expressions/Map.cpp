@@ -40,7 +40,7 @@ T map (T val)
     return val;
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Map", "[expressions]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double))
+TEMPLATE_PRODUCT_TEST_CASE ("Map", "[VCTR][expressions]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double))
 {
     constexpr int srcValueMin = -52;
     constexpr int srcValueMax = 4000;
@@ -60,7 +60,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Map", "[expressions]", (PlatformVectorOps, VCTR_NAT
     REQUIRE_THAT (mapped1, (vctr::EqualsTransformedBy<map<srcValueMin, srcValueMax, dstValueMin, dstValueMax>> (srcA).withEpsilon (0.0001)));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("MapFrom0To1", "[expressions]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double))
+TEMPLATE_PRODUCT_TEST_CASE ("MapFrom0To1", "[VCTR][expressions]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double))
 {
     constexpr int srcValueMin = 0;
     constexpr int srcValueMax = 1;
@@ -80,7 +80,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("MapFrom0To1", "[expressions]", (PlatformVectorOps, 
     REQUIRE_THAT (mapped1, (vctr::EqualsTransformedBy<map<srcValueMin, srcValueMax, dstValueMin, dstValueMax>> (srcA).withEpsilon (0.0001)));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("MapTo0To1", "[expressions]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double))
+TEMPLATE_PRODUCT_TEST_CASE ("MapTo0To1", "[VCTR][expressions]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double))
 {
     constexpr int srcValueMin = -52;
     constexpr int srcValueMax = 4000;

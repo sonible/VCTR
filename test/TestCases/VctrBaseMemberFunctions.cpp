@@ -22,7 +22,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEST_CASE ("subSpan", "[VctrBaseMemberFunctions]")
+TEST_CASE ("subSpan", "[VCTR][VctrBaseMemberFunctions]")
 {
     auto v = UnitTestValues<int32_t>::template vector<100, 0>();
     auto a = UnitTestValues<int32_t>::template array<100, 1>();
@@ -182,7 +182,7 @@ TEST_CASE ("subSpan", "[VctrBaseMemberFunctions]")
     static_assert (cea[2] == ces2[1]);
 }
 
-TEST_CASE ("forEach", "[VctrBaseMemberFunctions]")
+TEST_CASE ("forEach", "[VCTR][VctrBaseMemberFunctions]")
 {
     const auto loremIpsum = UnitTestValues<std::string>::template array<4, 1>();
 
@@ -263,7 +263,7 @@ TEST_CASE ("forEach", "[VctrBaseMemberFunctions]")
     REQUIRE (sum1 == sum2);
 }
 
-TEST_CASE ("empty", "[VctrBaseMemberFunctions]")
+TEST_CASE ("empty", "[VCTR][VctrBaseMemberFunctions]")
 {
     auto a = UnitTestValues<int32_t>::template array<10, 2>();
     auto ae = vctr::Array<int32_t, 0>();
@@ -286,7 +286,7 @@ TEST_CASE ("empty", "[VctrBaseMemberFunctions]")
     REQUIRE (vctr::Span (v).empty());
 }
 
-TEST_CASE ("sizeInBytes", "[VctrBaseMemberFunctions]")
+TEST_CASE ("sizeInBytes", "[VCTR][VctrBaseMemberFunctions]")
 {
     auto v = UnitTestValues<int32_t>::template vector<100, 1>();
     auto a = UnitTestValues<int32_t>::template array<100, 2>();
@@ -302,7 +302,7 @@ TEST_CASE ("sizeInBytes", "[VctrBaseMemberFunctions]")
     REQUIRE (sizeOfSpanFromA == std::span (a).size_bytes());
 }
 
-TEST_CASE ("reverse, rotate", "[VctrBaseMemberFunctions]")
+TEST_CASE ("reverse, rotate", "[VCTR][VctrBaseMemberFunctions]")
 {
     auto loremIpsum = UnitTestValues<std::string>::template array<5, 1>();
 
@@ -321,7 +321,7 @@ TEST_CASE ("reverse, rotate", "[VctrBaseMemberFunctions]")
     REQUIRE (loremIpsum[4] == "sit");
 }
 
-TEST_CASE ("shift", "[VctrBaseMemberFunctions]")
+TEST_CASE ("shift", "[VCTR][VctrBaseMemberFunctions]")
 {
     vctr::Array a { 0, 1, 2, 3, 4 };
 
@@ -368,7 +368,7 @@ TEST_CASE ("shift", "[VctrBaseMemberFunctions]")
     }
 }
 
-TEST_CASE ("sort", "[VctrBaseMemberFunctions]")
+TEST_CASE ("sort", "[VCTR][VctrBaseMemberFunctions]")
 {
     vctr::Array numericalValues { -3, 10, 78, -24, 0 };
     REQUIRE_FALSE (numericalValues.elementsAreSorted());
@@ -381,7 +381,7 @@ TEST_CASE ("sort", "[VctrBaseMemberFunctions]")
     REQUIRE (characters == "/AccD");
 }
 
-TEST_CASE ("min and max element", "[VctrBaseMemberFunctions]")
+TEST_CASE ("min and max element", "[VCTR][VctrBaseMemberFunctions]")
 {
     const vctr::Array values { 2, 0, -4, 10, -4 };
 
@@ -391,7 +391,7 @@ TEST_CASE ("min and max element", "[VctrBaseMemberFunctions]")
     REQUIRE (values.indexOfMaxElement() == 3);
 }
 
-TEST_CASE ("firstValueGreaterThan", "[VctrBaseMemberFunctions]")
+TEST_CASE ("firstValueGreaterThan", "[VCTR][VctrBaseMemberFunctions]")
 {
     auto v = UnitTestValues<double>::template vector<100, 1>();
     v.sort();
@@ -414,7 +414,7 @@ TEST_CASE ("firstValueGreaterThan", "[VctrBaseMemberFunctions]")
     REQUIRE (v.firstValueGreaterThanOrEqualTo (200.0) == std::nullopt);
 }
 
-TEST_CASE ("assign", "[VctrBaseMemberFunctions]")
+TEST_CASE ("assign", "[VCTR][VctrBaseMemberFunctions]")
 {
     vctr::Vector<int> v (3, 42);
     REQUIRE (v.size() == 3);
@@ -430,7 +430,7 @@ TEST_CASE ("assign", "[VctrBaseMemberFunctions]")
     REQUIRE_THAT (v, vctr::Equals ({ 100, 101, 102, 103, 104 }));
 }
 
-TEST_CASE ("fill", "[VctrBaseMemberFunctions]")
+TEST_CASE ("fill", "[VCTR][VctrBaseMemberFunctions]")
 {
     constexpr int fillValue = 5;
 
@@ -443,7 +443,7 @@ TEST_CASE ("fill", "[VctrBaseMemberFunctions]")
     REQUIRE (b.allElementsEqual (fillValue));
 }
 
-TEST_CASE ("init", "[VctrBaseMemberFunctions]")
+TEST_CASE ("init", "[VCTR][VctrBaseMemberFunctions]")
 {
     constexpr int fillValue = 13;
 
@@ -464,7 +464,7 @@ TEST_CASE ("init", "[VctrBaseMemberFunctions]")
     }
 }
 
-TEMPLATE_TEST_CASE ("allElementsAreFinite", "[VctrBaseMemberFunctions]", float, double)
+TEMPLATE_TEST_CASE ("allElementsAreFinite", "[VCTR][VctrBaseMemberFunctions]", float, double)
 {
     vctr::Vector<TestType> real { 1.0f, -1.0f };
     REQUIRE (real.allElementsAreFinite());
@@ -479,7 +479,7 @@ TEMPLATE_TEST_CASE ("allElementsAreFinite", "[VctrBaseMemberFunctions]", float, 
     REQUIRE_FALSE (cplx.allElementsAreFinite());
 }
 
-TEMPLATE_TEST_CASE ("anyElementIsNaN", "[VctrBaseMemberFunctions]", float, double)
+TEMPLATE_TEST_CASE ("anyElementIsNaN", "[VCTR][VctrBaseMemberFunctions]", float, double)
 {
     vctr::Vector<TestType> real { 1.0f, -1.0f };
     REQUIRE_FALSE (real.anyElementIsNaN());
@@ -494,7 +494,7 @@ TEMPLATE_TEST_CASE ("anyElementIsNaN", "[VctrBaseMemberFunctions]", float, doubl
     REQUIRE (cplx.anyElementIsNaN());
 }
 
-TEMPLATE_TEST_CASE ("operator==", "[VctrBaseFreeFunctions]", float, uint64_t, std::string)
+TEMPLATE_TEST_CASE ("operator==", "[VCTR][VctrBaseFreeFunctions]", float, uint64_t, std::string)
 {
     auto a = UnitTestValues<TestType>::template array<100, 0>();
     vctr::Vector v (a);

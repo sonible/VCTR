@@ -22,7 +22,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEST_CASE ("Assignment operator", "[ArrayMemberFunctions]")
+TEST_CASE ("Assignment operator", "[VCTR][ArrayMemberFunctions]")
 {
     vctr::Array<int, 3> ints;
 

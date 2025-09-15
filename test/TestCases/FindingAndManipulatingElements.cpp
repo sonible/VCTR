@@ -22,7 +22,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEST_CASE ("find, findIf, findReverse, findIfReverse, contains, indexOf, indexIf", "[VctrBase][Finding and manipulating elements]")
+TEST_CASE ("find, findIf, findReverse, findIfReverse, contains, indexOf, indexIf", "[VCTR][VctrBase][Finding and manipulating elements]")
 {
     vctr::Array       a { 1, 2, 3, 4, 5, 4, 3, 2, 1, 0 };
     const vctr::Array b { 1, 2, 3, 4, 5, 4, 3, 2, 1, 0 };
@@ -82,7 +82,7 @@ TEST_CASE ("find, findIf, findReverse, findIfReverse, contains, indexOf, indexIf
     REQUIRE (d.indexIfReverse (beginsWith_a) == std::nullopt);
 }
 
-TEST_CASE ("count, countIf", "[VctrBase][Finding and manipulating elements]")
+TEST_CASE ("count, countIf", "[VCTR][VctrBase][Finding and manipulating elements]")
 {
     vctr::Array a { 1, 2, 3, 1, 2, 1, 1, 4 };
     const vctr::Array b { 1, 2, 3, 1, 2, 1, 1, 4 };
@@ -104,7 +104,7 @@ TEST_CASE ("count, countIf", "[VctrBase][Finding and manipulating elements]")
     REQUIRE (b.countIf ([] (auto v) { return v % 2 != 0; }) == 5);
 }
 
-TEST_CASE ("all, any, allElementsEqual", "[VctrBase][Finding and manipulating elements]")
+TEST_CASE ("all, any, allElementsEqual", "[VCTR][VctrBase][Finding and manipulating elements]")
 {
     const auto loremIpsum = UnitTestValues<std::string>::template array<10, 0>();
 

@@ -26,7 +26,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEMPLATE_TEST_CASE ("Element access functions", "[VctrBase][Element Access]", bool, float, int64_t, std::string)
+TEMPLATE_TEST_CASE ("Element access functions", "[VCTR][VctrBase][Element Access]", bool, float, int64_t, std::string)
 {
     constexpr size_t size = 100;
 
@@ -100,7 +100,7 @@ TEMPLATE_TEST_CASE ("Element access functions", "[VctrBase][Element Access]", bo
     REQUIRE (cs.back() == cvLast);
 }
 
-TEMPLATE_TEST_CASE ("Iterators", "[VctrBase][Iterators]", float, int64_t, std::string)
+TEMPLATE_TEST_CASE ("Iterators", "[VCTR][VctrBase][Iterators]", float, int64_t, std::string)
 {
     constexpr auto numElements = 5;
 
