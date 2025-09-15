@@ -39,11 +39,10 @@ jobs:
           #   cxx: cl
           #   ipp: no_ipp
 
-          # Trigonometric test hangs forever. See https://github.com/sonible/VCTR/issues/132
-          # - runner: windows-2022
-          #   cc: clang-cl
-          #   cxx: clang-cl
-          #   ipp: no_ipp
+          - runner: windows-2022
+            cc: clang-cl
+            cxx: clang-cl
+            ipp: no_ipp
 
           - runner: windows-2022
             cc: clang
@@ -62,11 +61,10 @@ jobs:
           #   cxx: cl
           #   ipp: ipp
 
-          # Trigonometric test hangs forever. See https://github.com/sonible/VCTR/issues/132
-          # - runner: windows-2022
-          #   cc: clang-cl
-          #   cxx: clang-cl
-          #   ipp: ipp
+          - runner: windows-2022
+            cc: clang-cl
+            cxx: clang-cl
+            ipp: ipp
 
           - runner: windows-2022
             cc: clang
