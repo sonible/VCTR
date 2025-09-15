@@ -77,6 +77,14 @@ public:
     {
         return Expression::AVX::mul (srcA.getAVX (i), srcB.getAVX (i));
     }
+
+    //==============================================================================
+    // NEON Implementation
+    NeonRegister<value_type> getNeon (size_t i) const
+    requires (archARM && has::getNeon<SrcAType> && has::getNeon<SrcBType> && Expression::allElementTypesSame && ! (Expression::CommonElement::isInt64 || Expression::CommonElement::isUint64))
+    {
+        return Expression::Neon::mul (srcA.getNeon (i), srcB.getNeon (i));
+    }
 };
 
 //==============================================================================

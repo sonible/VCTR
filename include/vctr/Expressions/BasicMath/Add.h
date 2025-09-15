@@ -78,6 +78,14 @@ public:
     {
         return Expression::SSE::add (srcA.getSSE (i), srcB.getSSE (i));
     }
+
+    //==============================================================================
+    // NEON Implementation
+    NeonRegister<value_type> getNeon (size_t i) const
+    requires (archARM && has::getNeon<SrcAType> && has::getNeon<SrcBType>)
+    {
+        return Expression::Neon::add (srcA.getNeon (i), srcB.getNeon (i));
+    }
 };
 
 //==============================================================================
