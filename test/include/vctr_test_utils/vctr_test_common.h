@@ -173,6 +173,13 @@ struct Neon
     using ElementType = T;
 };
 
+template <class T>
+struct AnySIMD
+{
+    static constexpr auto filter = vctr::useSIMD;
+    using ElementType = T;
+};
+
 #if VCTR_ARM
 #define VCTR_NATIVE_SIMD Neon
 #else
