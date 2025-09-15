@@ -33,10 +33,11 @@ jobs:
             cxx: g++-13
             ipp: ipp
 
-          - runner: windows-2022
-            cc: cl
-            cxx: cl
-            ipp: no_ipp
+          # MSVC currently fails to compile all the expression test cases: https://github.com/sonible/VCTR/issues/142
+          # - runner: windows-2022
+          #   cc: cl
+          #   cxx: cl
+          #   ipp: no_ipp
 
           # Trigonometric test hangs forever. See https://github.com/sonible/VCTR/issues/132
           # - runner: windows-2022
@@ -44,11 +45,10 @@ jobs:
           #   cxx: clang-cl
           #   ipp: no_ipp
 
-          # Windows clang setups are not recognized by the currently used conan version
-          # - runner: windows-2022
-          #   cc: clang
-          #   cxx: clang++
-          #   ipp: no_ipp
+          - runner: windows-2022
+            cc: clang
+            cxx: clang++
+            ipp: no_ipp
 
           #   Not supported yet
           # - runner: windows-2022
@@ -56,10 +56,11 @@ jobs:
           #   cxx: g++
           #   ipp: no_ipp
 
-          - runner: windows-2022
-            cc: cl
-            cxx: cl
-            ipp: ipp
+          # MSVC currently fails to compile all the expression test cases: https://github.com/sonible/VCTR/issues/142
+          # - runner: windows-2022
+          #   cc: cl
+          #   cxx: cl
+          #   ipp: ipp
 
           # Trigonometric test hangs forever. See https://github.com/sonible/VCTR/issues/132
           # - runner: windows-2022
@@ -67,11 +68,10 @@ jobs:
           #   cxx: clang-cl
           #   ipp: ipp
 
-          # Windows clang setups are not recognized by the currently used conan version
-          # - runner: windows-2022
-          #   cc: clang
-          #   cxx: clang++
-          #   ipp: ipp
+          - runner: windows-2022
+            cc: clang
+            cxx: clang++
+            ipp: ipp
 
           #   Not supported yet
           # - runner: windows-2022
