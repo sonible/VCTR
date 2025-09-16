@@ -7,6 +7,7 @@ var searchData=
   ['angle_4',['angle',['../group__Expressions.html#gacdade010cccd89cb91921e3e38c28c55',1,'vctr']]],
   ['asin_5',['asin',['../group__Expressions.html#ga429a6b58b01f054a80d007bc2a6cb7a5',1,'vctr']]],
   ['asinh_6',['asinh',['../group__Expressions.html#ga321147aab676531cb4af96f4b4f64d32',1,'vctr']]],
-  ['atan_7',['atan',['../group__Expressions.html#ga666c0848887d4feecc228569b1f7a678',1,'vctr']]],
-  ['atanh_8',['atanh',['../group__Expressions.html#ga9bec0884896ef9a38043781f9a6f7179',1,'vctr']]]
+  ['assertsimd_7',['assertSIMD',['../group__Expressions.html#gaf0e0357a0a5e857e11eee9228c2403cc',1,'vctr']]],
+  ['atan_8',['atan',['../group__Expressions.html#ga666c0848887d4feecc228569b1f7a678',1,'vctr']]],
+  ['atanh_9',['atanh',['../group__Expressions.html#ga9bec0884896ef9a38043781f9a6f7179',1,'vctr']]]
 ];

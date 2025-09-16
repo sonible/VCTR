@@ -252,6 +252,31 @@ $(document).ready(function(){initNavTree('group__Expressions.html',''); initResi
 
 </div>
 </div>
+<a id="gaf0e0357a0a5e857e11eee9228c2403cc" name="gaf0e0357a0a5e857e11eee9228c2403cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf0e0357a0a5e857e11eee9228c2403cc">&#9670;&#160;</a></span>assertSIMD</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1AssertSIMDFilter.html">expressions::AssertSIMDFilter</a>&gt; vctr::assertSIMD</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This filter inserts an assertion that will be hit in case that an expression is evaluated with anything but SIMD operations. </p>
+<p>This is mainly helpful to ensure that your explicit SIMD based expressions do not accidentally run differently. </p>
+
+</div>
+</div>
 <a id="ga666c0848887d4feecc228569b1f7a678" name="ga666c0848887d4feecc228569b1f7a678"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga666c0848887d4feecc228569b1f7a678">&#9670;&#160;</a></span>atan</h2>
 
@@ -1304,6 +1329,31 @@ template&lt;class DstType &gt; </div>
 
 <p>Filter expression to force platform vector operation based accelerated evaluation. </p>
 <p>This filter expression ensures that only platform vector operation based accelerated evaluation of the previous expression is possible. If evalNextVectorOpInExpressionChain is not available on the source, this will only forward the basic operator[] based interface. </p>
+
+</div>
+</div>
+<a id="gadc7a50d7c7d327c33db8a8c3c6ed7972" name="gadc7a50d7c7d327c33db8a8c3c6ed7972"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadc7a50d7c7d327c33db8a8c3c6ed7972">&#9670;&#160;</a></span>useSIMD</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1AnySIMDFilter.html">expressions::AnySIMDFilter</a>&gt; vctr::useSIMD</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This filter expression ensures that only SIMD based accelerated evaluation of the previous expression is possible. </p>
+<p>In other words, this blocks any platform vector ops evaluation. If neither getSSE, getAVX nor getNEON is available on the source, this will only forward the basic operator[] based interface. </p>
 
 </div>
 </div>

@@ -106,6 +106,7 @@ var NAVTREE =
     [ "angle", "group__Expressions.html#gacdade010cccd89cb91921e3e38c28c55", null ],
     [ "asin", "group__Expressions.html#ga429a6b58b01f054a80d007bc2a6cb7a5", null ],
     [ "asinh", "group__Expressions.html#ga321147aab676531cb4af96f4b4f64d32", null ],
+    [ "assertSIMD", "group__Expressions.html#gaf0e0357a0a5e857e11eee9228c2403cc", null ],
     [ "atan", "group__Expressions.html#ga666c0848887d4feecc228569b1f7a678", null ],
     [ "atanh", "group__Expressions.html#ga9bec0884896ef9a38043781f9a6f7179", null ],
     [ "clampByConstant", "group__Expressions.html#ga9b6f78c2a5e03e76bf2591297c281c4a", null ],
@@ -149,6 +150,7 @@ var NAVTREE =
     [ "useAVX", "group__Expressions.html#gaafbd0664a42572849269e06e66088f59", null ],
     [ "useNeon", "group__Expressions.html#gac92083dfec0ef5aeb23135c4fb64fe0c", null ],
     [ "usePlatformVectorOps", "group__Expressions.html#gacf53b60ebe32f078c6fc19ff9c96a2ef", null ],
+    [ "useSIMD", "group__Expressions.html#gadc7a50d7c7d327c33db8a8c3c6ed7972", null ],
     [ "useSSE", "group__Expressions.html#ga8e62756910834e1cdc1f0ec4227253aa", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
@@ -181,7 +183,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classvctr_1_1OwnedVector.html#af232e22612aa17d3fc8eaeee4fec245a",
-"conceptvctr_1_1is_1_1rangeWithValueType.html"
+"conceptvctr_1_1is_1_1powerOfTwoInt.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
