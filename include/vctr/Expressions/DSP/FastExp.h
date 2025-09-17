@@ -20,14 +20,13 @@
   ==============================================================================
 */
 
-#include <iostream>
-
 namespace vctr::expressions
 {
 
 //==============================================================================
 /** Calculates a fast approximation for the exp function. */
 template <size_t extent, class SrcType>
+requires is::realOrComplexFloatNumber<ValueType<SrcType>>
 class FastExp : ExpressionTemplateBase
 {
 public:
@@ -37,8 +36,7 @@ public:
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
-        std::cout << "sample processing: ";
-        return (value_type (1680) + src[i] * (value_type (840) + src[i] * (value_type (180) + src[i] * (value_type (20) + src[i])))) / (value_type (1680) + src[i] * (value_type (-840) + src[i] * (value_type (180) + src[i] * (value_type (-20) + src[i]))));
+        return (Const1680 + src[i] * (Const840 + src[i] * (Const180 + src[i] * (Const20 + src[i])))) / (Const1680 + src[i] * (ConstMinus840 + src[i] * (Const180 + src[i] * (ConstMinus20 + src[i]))));
     }
 
     //==============================================================================
@@ -46,21 +44,19 @@ public:
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") void prepareAVXEvaluation() const
     requires (has::prepareAVXEvaluation<SrcType> && Expression::CommonElement::isRealFloat)
     {
-        std::cout << "avx init: ";
         src.prepareAVXEvaluation();
 
-        SIMDConst20.avx = Expression::AVX::broadcast (value_type (20));
-        SIMDConst180.avx = Expression::AVX::broadcast (value_type (180));
-        SIMDConst840.avx = Expression::AVX::broadcast (value_type (840));
-        SIMDConst1680.avx = Expression::AVX::broadcast (value_type (1680));
-        SIMDConstMinus20.avx = Expression::AVX::broadcast (value_type (-20));
-        SIMDConstMinus840.avx = Expression::AVX::broadcast (value_type (-840));
+        SIMDConst20.avx = Expression::AVX::broadcast (Const20);
+        SIMDConst180.avx = Expression::AVX::broadcast (Const180);
+        SIMDConst840.avx = Expression::AVX::broadcast (Const840);
+        SIMDConst1680.avx = Expression::AVX::broadcast (Const1680);
+        SIMDConstMinus20.avx = Expression::AVX::broadcast (ConstMinus20);
+        SIMDConstMinus840.avx = Expression::AVX::broadcast (ConstMinus840);
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        std::cout << "avx processing: ";
         auto numerator = Expression::AVX::add (src.getAVX (i), SIMDConst20.avx);
         numerator = Expression::AVX::mul (numerator, src.getAVX (i));
         numerator = Expression::AVX::add (numerator, SIMDConst180.avx);
@@ -81,65 +77,23 @@ public:
     }
 
     //==============================================================================
-    // Neon Implementation
-    void prepareNeonEvaluation() const
-    requires (archARM && has::prepareNeonEvaluation<SrcType> && Expression::CommonElement::isRealFloat)
-    {
-        std::cout << "neon init: ";
-        src.prepareNeonEvaluation();
-
-        SIMDConst20.neon = Expression::Neon::broadcast (value_type (20));
-        SIMDConst180.neon = Expression::Neon::broadcast (value_type (180));
-        SIMDConst840.neon = Expression::Neon::broadcast (value_type (840));
-        SIMDConst1680.neon = Expression::Neon::broadcast (value_type (1680));
-        SIMDConstMinus20.neon = Expression::Neon::broadcast (value_type (-20));
-        SIMDConstMinus840.neon = Expression::Neon::broadcast (value_type (-840));
-    }
-
-    NeonRegister<value_type> getNeon (size_t i) const
-    requires (archARM && has::getNeon<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
-    {
-        std::cout << "neon processing: ";
-        auto numerator = Expression::Neon::add (src.getNeon (i), SIMDConst20.neon);
-        numerator = Expression::Neon::mul (numerator, src.getNeon (i));
-        numerator = Expression::Neon::add (numerator, SIMDConst180.neon);
-        numerator = Expression::Neon::mul (numerator, src.getNeon (i));
-        numerator = Expression::Neon::add (numerator, SIMDConst840.neon);
-        numerator = Expression::Neon::mul (numerator, src.getNeon (i));
-        numerator = Expression::Neon::add (numerator, SIMDConst1680.neon);
-
-        auto denominator = Expression::Neon::add (src.getNeon (i), SIMDConstMinus20.neon);
-        denominator = Expression::Neon::mul (denominator, src.getNeon (i));
-        denominator = Expression::Neon::add (denominator, SIMDConst180.neon);
-        denominator = Expression::Neon::mul (denominator, src.getNeon (i));
-        denominator = Expression::Neon::add (denominator, SIMDConstMinus840.neon);
-        denominator = Expression::Neon::mul (denominator, src.getNeon (i));
-        denominator = Expression::Neon::add (denominator, SIMDConst1680.neon);
-
-        // Neon doesn't implement division, so we need to do it manually
-        return Expression::Neon::div (numerator, denominator);
-    }
-
-    //==============================================================================
     // SSE Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void prepareSSEEvaluation() const
     requires (has::prepareSSEEvaluation<SrcType> && Expression::CommonElement::isRealFloat)
     {
-        std::cout << "sse init: ";
         src.prepareSSEEvaluation();
 
-        SIMDConst20.sse = Expression::SSE::broadcast (value_type (20));
-        SIMDConst180.sse = Expression::SSE::broadcast (value_type (180));
-        SIMDConst840.sse = Expression::SSE::broadcast (value_type (840));
-        SIMDConst1680.sse = Expression::SSE::broadcast (value_type (1680));
-        SIMDConstMinus20.sse = Expression::SSE::broadcast (value_type (-20));
-        SIMDConstMinus840.sse = Expression::SSE::broadcast (value_type (-840));
+        SIMDConst20.sse = Expression::SSE::broadcast (Const20);
+        SIMDConst180.sse = Expression::SSE::broadcast (Const180);
+        SIMDConst840.sse = Expression::SSE::broadcast (Const840);
+        SIMDConst1680.sse = Expression::SSE::broadcast (Const1680);
+        SIMDConstMinus20.sse = Expression::SSE::broadcast (ConstMinus20);
+        SIMDConstMinus840.sse = Expression::SSE::broadcast (ConstMinus840);
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        std::cout << "sse processing: ";
         auto numerator = Expression::SSE::add (src.getSSE (i), SIMDConst20.sse);
         numerator = Expression::SSE::mul (numerator, src.getSSE (i));
         numerator = Expression::SSE::add (numerator, SIMDConst180.sse);
@@ -159,7 +113,51 @@ public:
         return Expression::SSE::div (numerator, denominator);
     }
 
+    //==============================================================================
+    // Neon Implementation
+    void prepareNeonEvaluation() const
+    requires (archARM && has::prepareNeonEvaluation<SrcType> && Expression::CommonElement::isRealFloat)
+    {
+        src.prepareNeonEvaluation();
+
+        SIMDConst20.neon = Expression::Neon::broadcast (Const20);
+        SIMDConst180.neon = Expression::Neon::broadcast (Const180);
+        SIMDConst840.neon = Expression::Neon::broadcast (Const840);
+        SIMDConst1680.neon = Expression::Neon::broadcast (Const1680);
+        SIMDConstMinus20.neon = Expression::Neon::broadcast (ConstMinus20);
+        SIMDConstMinus840.neon = Expression::Neon::broadcast (ConstMinus840);
+    }
+
+    NeonRegister<value_type> getNeon (size_t i) const
+    requires (archARM && has::getNeon<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
+    {
+        auto numerator = Expression::Neon::add (src.getNeon (i), SIMDConst20.neon);
+        numerator = Expression::Neon::mul (numerator, src.getNeon (i));
+        numerator = Expression::Neon::add (numerator, SIMDConst180.neon);
+        numerator = Expression::Neon::mul (numerator, src.getNeon (i));
+        numerator = Expression::Neon::add (numerator, SIMDConst840.neon);
+        numerator = Expression::Neon::mul (numerator, src.getNeon (i));
+        numerator = Expression::Neon::add (numerator, SIMDConst1680.neon);
+
+        auto denominator = Expression::Neon::add (src.getNeon (i), SIMDConstMinus20.neon);
+        denominator = Expression::Neon::mul (denominator, src.getNeon (i));
+        denominator = Expression::Neon::add (denominator, SIMDConst180.neon);
+        denominator = Expression::Neon::mul (denominator, src.getNeon (i));
+        denominator = Expression::Neon::add (denominator, SIMDConstMinus840.neon);
+        denominator = Expression::Neon::mul (denominator, src.getNeon (i));
+        denominator = Expression::Neon::add (denominator, SIMDConst1680.neon);
+
+        return Expression::Neon::div (numerator, denominator);
+    }
+
 private:
+    static constexpr value_type Const20 = value_type (20);
+    static constexpr value_type Const180 = value_type (180);
+    static constexpr value_type Const840 = value_type (840);
+    static constexpr value_type Const1680 = value_type (1680);
+    static constexpr value_type ConstMinus20 = value_type (-20);
+    static constexpr value_type ConstMinus840 = value_type (-840);
+
     mutable SIMDRegisterUnion<Expression> SIMDConst20 {};
     mutable SIMDRegisterUnion<Expression> SIMDConst180 {};
     mutable SIMDRegisterUnion<Expression> SIMDConst840 {};

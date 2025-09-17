@@ -34,10 +34,12 @@ TEMPLATE_PRODUCT_TEST_CASE ("Addition", "[VCTR][add]", (PlatformVectorOps, VCTR_
     const vctr::Vector sum1 = filter << (c + srcA);
     const vctr::Vector sum2 = filter << (srcA + c);
     const vctr::Vector sum3 = filter << (srcA + srcB);
+    const vctr::Vector sum4 = vctr::addConstant<42> << srcA;
 
     REQUIRE_THAT (sum1, vctr::EqualsTransformedBy<addition> (srcA, c));
     REQUIRE_THAT (sum2, vctr::EqualsTransformedBy<addition> (srcA, c));
     REQUIRE_THAT (sum3, vctr::EqualsTransformedBy<addition> (srcA, srcB));
+    REQUIRE_THAT (sum4, vctr::EqualsTransformedBy<addition> (srcA, ElementType (42)));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Addition in place", "[VCTR][add]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
