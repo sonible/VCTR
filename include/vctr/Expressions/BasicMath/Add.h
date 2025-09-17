@@ -119,14 +119,14 @@ public:
 
     //==============================================================================
     // AVX Implementation
-    VCTR_FORCEDINLINE  VCTR_TARGET ("avx") void prepareAVXEvaluation() const
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void prepareAVXEvaluation() const
     requires has::prepareAVXEvaluation<SrcType> && Expression::CommonElement::isRealFloat
     {
         src.prepareAVXEvaluation();
         singleSIMD.avx = Expression::AVX::broadcast (single);
     }
 
-    VCTR_FORCEDINLINE  VCTR_TARGET ("avx2") void prepareAVXEvaluation() const
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") void prepareAVXEvaluation() const
     requires has::prepareAVXEvaluation<SrcType> && Expression::CommonElement::isInt
     {
         src.prepareAVXEvaluation();
@@ -161,6 +161,70 @@ public:
 
 private:
     mutable SIMDRegisterUnion<Expression> singleSIMD {};
+};
+
+//==============================================================================
+/** Adds a single compile time constant value to a vector like type. */
+template <size_t extent, class SrcType, is::constant ConstantType>
+class AddConstantToVec : ExpressionTemplateBase
+{
+public:
+    using value_type = ValueType<SrcType>;
+
+    static constexpr auto constant = value_type (ConstantType::value);
+
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (AddConstantToVec, src)
+
+    VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
+    {
+        return constant + src[i];
+    }
+
+    VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
+    requires is::suitableForAccelerateRealFloatVectorOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable>
+    {
+        Expression::Accelerate::add (src.evalNextVectorOpInExpressionChain (dst), constant, dst, size());
+        return dst;
+    }
+
+    VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
+    requires is::suitableForIppRealOrComplexFloatVectorOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
+    {
+        Expression::IPP::add (src.evalNextVectorOpInExpressionChain (dst), constant, dst, sizeToInt (size()));
+        return dst;
+    }
+
+    //==============================================================================
+    // AVX Implementation
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void prepareAVXEvaluation() const
+    requires has::prepareAVXEvaluation<SrcType>
+    {
+        src.prepareAVXEvaluation();
+        constantSIMD.avx = Expression::AVX::broadcast (constant);
+    }
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
+    requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
+    {
+        return Expression::AVX::add (constantSIMD.avx, src.getAVX (i));
+    }
+
+    // SSE Implementation
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void prepareSSEEvaluation() const
+    requires has::prepareSSEEvaluation<SrcType>
+    {
+        src.prepareSSEEvaluation();
+        constantSIMD.sse = Expression::SSE::broadcast (constant);
+    }
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
+    requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
+    {
+        return Expression::SSE::add (constantSIMD.sse, src.getSSE (i));
+    }
+
+private:
+    mutable SIMDRegisterUnion<Expression> constantSIMD {};
 };
 
 } // namespace vctr::expressions
@@ -200,5 +264,12 @@ constexpr auto operator+ (Src&& vec, typename std::remove_cvref_t<Src>::value_ty
 {
     return expressions::AddSingleToVec<extentOf<Src>, Src> (single, std::forward<Src> (vec));
 }
+
+/** Returns an expression that adds a compile time constant to a vector or expression source.
+
+    @ingroup Expressions
+ */
+template <auto constantValue>
+constexpr inline ExpressionChainBuilder<expressions::AddConstantToVec, Constant<constantValue>> addConstant;
 
 } // namespace vctr
