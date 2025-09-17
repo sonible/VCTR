@@ -64,8 +64,8 @@ struct AVXRegister<float>
     VCTR_TARGET ("avx") static AVXRegister div (AVXRegister a, AVXRegister b) { return { _mm256_div_ps (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_ps (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_ps (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_ps (a.value, b.value, c.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_ps (a.value, b.value, c.value) }; }
+    VCTR_TARGET ("fma") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_ps (a.value, b.value, c.value) }; }
+    VCTR_TARGET ("fma") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_ps (a.value, b.value, c.value) }; }
     // clang-format on
 };
 
@@ -102,8 +102,8 @@ struct AVXRegister<double>
     VCTR_TARGET ("avx") static AVXRegister div (AVXRegister a, AVXRegister b) { return { _mm256_div_pd (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_pd (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_pd (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_pd (a.value, b.value, c.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_pd (a.value, b.value, c.value) }; }
+    VCTR_TARGET ("fma") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_pd (a.value, b.value, c.value) }; }
+    VCTR_TARGET ("fma") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_pd (a.value, b.value, c.value) }; }
     // clang-format on
 };
 

@@ -66,7 +66,7 @@ public:
     VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS
 
     // AVX Implementation
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") AVXRegister<value_type> getAVX (size_t i) const
     requires archX64 && has::getAVX<SrcType> && Expression::CommonElement::isRealFloat
     {
         auto x = src.getAVX (i);

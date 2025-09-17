@@ -146,15 +146,19 @@
 namespace vctr
 {
 
-enum class CPUInstructionSet
+struct CPUInstructionSets
 {
-    sse4_1,
-    avx,
-    avx2,
+    uint16_t sse4_1 : 1;
 
-    neon,
+    uint16_t avx : 1;
 
-    fallback
+    // Note: CPUs that support AVX2 always support FMA and AVX
+    uint16_t avx2 : 1;
+
+    // Note: CPUs that support FMA always support AVX
+    uint16_t fma : 1;
+
+    uint16_t neon : 1;
 };
 
 #if VCTR_WINDOWS
@@ -237,43 +241,43 @@ private:
 };
 } // namespace detail
 
-inline CPUInstructionSet getHighestSupportedCPUInstructionSet()
+inline CPUInstructionSets getSupportedCPUInstructionSets()
 {
-    if (detail::X64InstructionSets::hasAVX2())
-        return CPUInstructionSet::avx2;
-
-    if (detail::X64InstructionSets::hasAVX())
-        return CPUInstructionSet::avx;
-
-    if (detail::X64InstructionSets::hasSSE41())
-        return CPUInstructionSet::sse4_1;
-
-    return CPUInstructionSet::fallback;
+    return {
+        .sse4_1 = detail::X64InstructionSets::hasSSE41(),
+        .avx = detail::X64InstructionSets::hasAVX(),
+        .avx2 = detail::X64InstructionSets::hasAVX2(),
+        .fma = detail::X64InstructionSets::hasFMA(),
+        .neon = false
+    };
 }
 
 #elif VCTR_ARM
 
-inline CPUInstructionSet getHighestSupportedCPUInstructionSet()
+constexpr CPUInstructionSets getSupportedCPUInstructionSets()
 {
-    return CPUInstructionSet::neon;
+    return {
+        .sse4_1 = false,
+        .avx = false,
+        .avx2 = false,
+        .fma = false,
+        .neon = true
+    };
 }
 
 #else
 
-inline CPUInstructionSet getHighestSupportedCPUInstructionSet()
+inline CPUInstructionSets getSupportedCPUInstructionSets()
 {
     __builtin_cpu_init();
 
-    if (__builtin_cpu_supports ("avx2"))
-        return CPUInstructionSet::avx2;
-
-    if (__builtin_cpu_supports ("avx"))
-        return CPUInstructionSet::avx;
-
-    if (__builtin_cpu_supports ("sse4.1"))
-        return CPUInstructionSet::sse4_1;
-
-    return CPUInstructionSet::fallback;
+    return {
+        .sse4_1 = __builtin_cpu_supports ("sse4.1"),
+        .avx = __builtin_cpu_supports ("avx"),
+        .avx2 = __builtin_cpu_supports ("avx2"),
+        .fma = __builtin_cpu_supports ("fma"),
+        .neon = false
+    };
 }
 
 #endif
@@ -292,11 +296,7 @@ consteval size_t trueCount()
 
 struct Config
 {
-    static const inline auto highestSupportedCPUInstructionSet = getHighestSupportedCPUInstructionSet();
-
-    static const inline auto supportsAVX2 = highestSupportedCPUInstructionSet == CPUInstructionSet::avx2;
-
-    static const inline auto supportsAVX = highestSupportedCPUInstructionSet == CPUInstructionSet::avx2 || highestSupportedCPUInstructionSet == CPUInstructionSet::avx;
+    static const inline auto supportedCPUInstructionSets = getSupportedCPUInstructionSets();
 
     //==============================================================================
     // Platform config

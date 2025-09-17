@@ -54,7 +54,7 @@ public:
         SIMDConstMinus840.avx = Expression::AVX::broadcast (ConstMinus840);
     }
 
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
         auto numerator = Expression::AVX::add (src.getAVX (i), SIMDConst20.avx);

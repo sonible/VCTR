@@ -80,7 +80,7 @@ public:
     }
 
     // AVX Implementation
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::CommonElement::isRealFloat)
     {
         static const auto avxSignBit = Expression::AVX::broadcast (typename Expression::CommonElement::Type (-0.0));
