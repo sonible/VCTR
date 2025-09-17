@@ -48,6 +48,7 @@ target_sources (vctr_test_cases INTERFACE
         TestCases/Expressions/SquareCube.cpp
         TestCases/Expressions/Transformation.cpp
         TestCases/Expressions/Trigonometric.cpp
+        TestCases/Expressions/FastExp.cpp
 
         TestCases/Generators/Linspace.cpp)
 
