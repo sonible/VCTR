@@ -307,7 +307,7 @@ public:                                                                         
         src.prepareNeonEvaluation();                                                              \
     }                                                                                             \
                                                                                                   \
-    VCTR_FORCEDINLINE  VCTR_TARGET ("avx") void prepareAVXEvaluation() const                      \
+    VCTR_FORCEDINLINE  VCTR_TARGET ("fma") void prepareAVXEvaluation() const                      \
     requires ::vctr::has::prepareAVXEvaluation<SrcType> && Expression::CommonElement::isRealFloat \
     {                                                                                             \
         src.prepareAVXEvaluation();                                                               \
@@ -334,7 +334,7 @@ public:                                                                         
         srcBName.prepareNeonEvaluation();                                                                                                         \
     }                                                                                                                                             \
                                                                                                                                                   \
-    VCTR_FORCEDINLINE  VCTR_TARGET ("avx") void prepareAVXEvaluation() const                                                                      \
+    VCTR_FORCEDINLINE  VCTR_TARGET ("fma") void prepareAVXEvaluation() const                                                                      \
     requires ::vctr::has::prepareAVXEvaluation<SrcAType> && ::vctr::has::prepareAVXEvaluation<SrcBType> && Expression::CommonElement::isRealFloat \
     {                                                                                                                                             \
         srcAName.prepareAVXEvaluation();                                                                                                          \

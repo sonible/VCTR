@@ -77,17 +77,8 @@ public:
         srcC.prepareNeonEvaluation();
     }
 
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx")
-    void prepareAVXEvaluation() const
-    requires ::vctr::has::prepareAVXEvaluation<SrcAType> && ::vctr::has::prepareAVXEvaluation<SrcBType> && ::vctr::has::prepareAVXEvaluation<SrcCType> && Expression::CommonElement::isRealFloat
-    {
-        srcA.prepareAVXEvaluation();
-        srcB.prepareAVXEvaluation();
-        srcC.prepareAVXEvaluation();
-    }
-
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") void prepareAVXEvaluation() const
-    requires ::vctr::has::prepareAVXEvaluation<SrcAType> && ::vctr::has::prepareAVXEvaluation<SrcBType> && ::vctr::has::prepareAVXEvaluation<SrcCType> && Expression::CommonElement::isInt
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") void prepareAVXEvaluation() const
+    requires ::vctr::has::prepareAVXEvaluation<SrcAType> && ::vctr::has::prepareAVXEvaluation<SrcBType> && ::vctr::has::prepareAVXEvaluation<SrcCType>
     {
         srcA.prepareAVXEvaluation();
         srcB.prepareAVXEvaluation();
@@ -103,7 +94,7 @@ public:
     }
 
     // AVX Implementation
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcAType> && has::getAVX<SrcBType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
         return Expression::AVX::fms (srcA.getAVX (i), srcB.getAVX (i), srcC.getAVX (i));

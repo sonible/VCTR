@@ -62,19 +62,19 @@ public:
             {
                 if constexpr (is::realFloatNumber<ValueType<Expression>>)
                 {
-                    if (Config::supportsAVX)
-                        return reduceAVX (e);
+                    if (Config::supportedCPUInstructionSets.fma)
+                        return reduceFMA (e);
                 }
                 else
                 {
-                    if (Config::supportsAVX2)
+                    if (Config::supportedCPUInstructionSets.avx2)
                         return reduceAVX2 (e);
                 }
             }
 
             if constexpr (has::reduceSSERegisterWise<Expression, ValueType<Expression>>)
             {
-                if (Config::highestSupportedCPUInstructionSet != CPUInstructionSet::fallback)
+                if (Config::supportedCPUInstructionSets.sse4_1)
                     return reduceSSE (e);
             }
         }
@@ -118,7 +118,7 @@ private:
     }
 
     template <is::reductionExpression Expression>
-    VCTR_TARGET ("avx") static auto reduceAVX (const Expression& e)
+    VCTR_TARGET ("fma") static auto reduceFMA (const Expression& e)
     requires Config::archX64
     {
         using VType = ValueType<Expression>;

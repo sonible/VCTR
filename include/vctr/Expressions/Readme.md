@@ -189,7 +189,7 @@ the expression:
 Intel architecture specific implementations have to be prefixed with the `VCTR_TARGET (<arch>)` macro to instruct
 the compiler to deliberately generate instructions for that instruction set, no matter what compiler flags are set. The
 calling side will do a runtime check if the corresponding functions are available at runtime. Valid values for `<arch>`
-are `"avx"`, `"avx2`" and `"sse4.1"`.
+are `"avx"`, `"fma"`, `"avx2"`" and `"sse4.1"`.
 
 In case implementations are only available or make sense for specific constraints, you can constrain them and possibly
 add multiple implementations for different types, e.g. like this
@@ -241,20 +241,13 @@ public:
     
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") void prepareAVXEvaluation() const
-    requires has::prepareAVXEvaluation<SrcType> && Expression::CommonElement::isRealFloat
-    {
-        src.prepareAVXEvaluation();
-        singleSIMD.avx = Expression::AVX::broadcast (single);
-    }
-    
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") void prepareAVXEvaluation() const
-    requires has::prepareAVXEvaluation<SrcType> && Expression::CommonElement::isInt
+    requires has::prepareAVXEvaluation<SrcType>
     {
         src.prepareAVXEvaluation();
         singleSIMD.avx = Expression::AVX::broadcast (single);
     }
 
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
         return Expression::AVX::add (singleSIMD.avx, src.getAVX (i));
@@ -403,7 +396,7 @@ When SIMD operations should be used, the required signature is
 ```c++
     VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister<value_type>& result, size_t i) const;
 
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const;
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const;
 
     VCTR_FORCEDINLINE VCTR_TARGET ("avx2") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const;
 

@@ -61,7 +61,7 @@ public:
         result = Expression::Neon::min (result, src.getNeon (i));
     }
 
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const
     requires Config::archX64 && has::getAVX<SrcType> && is::realFloatNumber<value_type>
     {
         result = Expression::AVX::min (result, src.getAVX (i));
@@ -135,7 +135,7 @@ public:
         result = Expression::Neon::min (result, src.getNeon (i));
     }
 
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const
     requires Config::archX64 && has::getAVX<SrcType> && is::realFloatNumber<value_type>
     {
         static const auto avxSignBit = Expression::AVX::broadcast (typename Expression::CommonElement::Type (-0.0));

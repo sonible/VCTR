@@ -1013,15 +1013,15 @@ protected:
             {
                 if constexpr (is::realFloatNumber<ElementType>)
                 {
-                    if (supportsAVX)
+                    if (supportedCPUInstructionSets.fma)
                     {
-                        assignExpressionTemplateAVX (e);
+                        assignExpressionTemplateFMA (e);
                         return;
                     }
                 }
                 else
                 {
-                    if (supportsAVX2)
+                    if (supportedCPUInstructionSets.avx2)
                     {
                         assignExpressionTemplateAVX2 (e);
                         return;
@@ -1031,7 +1031,7 @@ protected:
 
             if constexpr (has::getSSE<Expression>)
             {
-                if (highestSupportedCPUInstructionSet != CPUInstructionSet::fallback)
+                if (supportedCPUInstructionSets.sse4_1)
                 {
                     assignExpressionTemplateSSE4_1 (e);
                     return;
@@ -1112,8 +1112,8 @@ private:
     }
 
     template <class Expression>
-    VCTR_TARGET ("avx")
-    void assignExpressionTemplateAVX (const Expression& e)
+    VCTR_TARGET ("fma")
+    void assignExpressionTemplateFMA (const Expression& e)
     requires archX64
     {
         constexpr auto inc = AVXRegister<ElementType>::numElements;

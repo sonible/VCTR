@@ -62,7 +62,7 @@ public:
     //==============================================================================
     VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS
 
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && is::realFloatNumber<value_type>)
     {
         return src.getAVX (i);
@@ -120,7 +120,7 @@ public:
         return src.getSSE (i);
     }
 
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && is::realFloatNumber<value_type>)
     {
         return src.getAVX (i);
@@ -176,7 +176,7 @@ public:
         return src.getSSE (i);
     }
 
-    VCTR_FORCEDINLINE VCTR_TARGET ("avx") AVXRegister<value_type> getAVX (size_t i) const
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && is::realFloatNumber<value_type>)
     {
         return src.getAVX (i);
