@@ -179,6 +179,32 @@ $(document).ready(function(){initNavTree('group__Expressions.html',''); initResi
 
 </div>
 </div>
+<a id="ga1b75ff028956dd81c7539419ff894d21" name="ga1b75ff028956dd81c7539419ff894d21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1b75ff028956dd81c7539419ff894d21">&#9670;&#160;</a></span>addConstant</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;auto constantValue&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1AddConstantToVec.html">expressions::AddConstantToVec</a>, <a class="el" href="structvctr_1_1Constant.html">Constant</a>&lt;constantValue&gt; &gt; vctr::addConstant</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that adds a compile time constant to a vector or expression source. </p>
+
+</div>
+</div>
 <a id="gacdade010cccd89cb91921e3e38c28c55" name="gacdade010cccd89cb91921e3e38c28c55"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gacdade010cccd89cb91921e3e38c28c55">&#9670;&#160;</a></span>angle</h2>
 
@@ -581,6 +607,31 @@ template&lt;is::constant DecibelConstant&gt; </div>
 </div><div class="memdoc">
 
 <p>Computes e (Euler's number, 2.7182818...) raised to the source vector elements power. </p>
+
+</div>
+</div>
+<a id="ga07452e4928d888bdcadf45a6e6ea5473" name="ga07452e4928d888bdcadf45a6e6ea5473"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga07452e4928d888bdcadf45a6e6ea5473">&#9670;&#160;</a></span>fastExp</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1FastExp.html">expressions::FastExp</a>&gt; vctr::fastExp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A fast approximation of the exp function, using only basic algebraic operations in a continued fraction Padé approximation. </p>
+<p>Limit the input values to -6 &lt; x &lt; 4 for a reasonable approximation. </p>
 
 </div>
 </div>

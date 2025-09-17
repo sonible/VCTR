@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['sin_0',['sin',['../group__Expressions.html#ga179f04cf1507d218f7ed1dd4390af4a5',1,'vctr']]],
-  ['sinh_1',['sinh',['../group__Expressions.html#gae41920cbcbb09b4745423d71133bd457',1,'vctr']]],
-  ['sqrt_2',['sqrt',['../group__Expressions.html#ga9a6c2e6dc10d5648dd04d6412c376e76',1,'vctr']]],
-  ['square_3',['square',['../group__Expressions.html#gace331be21cfd6aa9705f5bc0e283e3f9',1,'vctr']]],
-  ['sum_4',['sum',['../group__Expressions.html#gab068809892f9c3e4f3db4eb1b11abf19',1,'vctr']]]
+  ['real_0',['real',['../group__Expressions.html#gae4fc0dae0a600f82c768b555dcf6ea69',1,'vctr']]],
+  ['realtocomplex_1',['realToComplex',['../group__Expressions.html#gab6416b37ceb85eeb4b9f8bbe6c059e02',1,'vctr']]],
+  ['rms_2',['rms',['../group__Expressions.html#ga461b990c1ec58299e9e7bb7ae367fd13',1,'vctr']]]
 ];

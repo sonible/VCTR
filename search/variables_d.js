@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['useavx_0',['useAVX',['../group__Expressions.html#gaafbd0664a42572849269e06e66088f59',1,'vctr']]],
-  ['useneon_1',['useNeon',['../group__Expressions.html#gac92083dfec0ef5aeb23135c4fb64fe0c',1,'vctr']]],
-  ['useplatformvectorops_2',['usePlatformVectorOps',['../group__Expressions.html#gacf53b60ebe32f078c6fc19ff9c96a2ef',1,'vctr']]],
-  ['usesimd_3',['useSIMD',['../group__Expressions.html#gadc7a50d7c7d327c33db8a8c3c6ed7972',1,'vctr']]],
-  ['usesse_4',['useSSE',['../group__Expressions.html#ga8e62756910834e1cdc1f0ec4227253aa',1,'vctr']]]
+  ['tan_0',['tan',['../group__Expressions.html#ga8b82fa61931a8f399094c5f9d96305b7',1,'vctr']]],
+  ['tanh_1',['tanh',['../group__Expressions.html#gafe4e6979458e366c27117a7c163eef06',1,'vctr']]],
+  ['transformedbystaticcastto_2',['transformedByStaticCastTo',['../group__Expressions.html#ga4afc0df5c9d66209b0dec9f4db0515da',1,'vctr']]]
 ];

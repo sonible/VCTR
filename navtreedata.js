@@ -103,6 +103,7 @@ var NAVTREE =
     [ "abs", "group__Expressions.html#gac4fac892235effd8638c99018b7ab32f", null ],
     [ "acos", "group__Expressions.html#ga778493aa5f46f4a688de257b299c8d92", null ],
     [ "acosh", "group__Expressions.html#ga45af1bb62e14a9d6aa8380346c030c8e", null ],
+    [ "addConstant", "group__Expressions.html#ga1b75ff028956dd81c7539419ff894d21", null ],
     [ "angle", "group__Expressions.html#gacdade010cccd89cb91921e3e38c28c55", null ],
     [ "asin", "group__Expressions.html#ga429a6b58b01f054a80d007bc2a6cb7a5", null ],
     [ "asinh", "group__Expressions.html#ga321147aab676531cb4af96f4b4f64d32", null ],
@@ -120,6 +121,7 @@ var NAVTREE =
     [ "dontUseAcceleration", "group__Expressions.html#ga4346d69140e0367d58e03e85c69f7310", null ],
     [ "exp", "group__Expressions.html#ga33d306c075bd8585ee89ab456de95557", null ],
     [ "extentOf", "namespacevctr.html#a0e2879d4e781cb85ff0ae8cf4f1deefd", null ],
+    [ "fastExp", "group__Expressions.html#ga07452e4928d888bdcadf45a6e6ea5473", null ],
     [ "imag", "group__Expressions.html#ga4d940e2110b6323e22d993d3b1e5a63d", null ],
     [ "ln", "group__Expressions.html#ga66fa77725b3684fd045c771c27b7dbac", null ],
     [ "log10", "group__Expressions.html#ga0fd49babf82a9c443081e134f86ee1fc", null ],
@@ -183,7 +185,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classvctr_1_1OwnedVector.html#af232e22612aa17d3fc8eaeee4fec245a",
-"conceptvctr_1_1is_1_1powerOfTwoInt.html"
+"conceptvctr_1_1is_1_1number.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

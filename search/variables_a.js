@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['real_0',['real',['../group__Expressions.html#gae4fc0dae0a600f82c768b555dcf6ea69',1,'vctr']]],
-  ['realtocomplex_1',['realToComplex',['../group__Expressions.html#gab6416b37ceb85eeb4b9f8bbe6c059e02',1,'vctr']]],
-  ['rms_2',['rms',['../group__Expressions.html#ga461b990c1ec58299e9e7bb7ae367fd13',1,'vctr']]]
+  ['powconstantbase_0',['powConstantBase',['../group__Expressions.html#ga3b6d257bb352c945c76cae98c730a28b',1,'vctr']]],
+  ['powconstantexponent_1',['powConstantExponent',['../group__Expressions.html#gadc712a3c1ecf10913b0b0be0d2e4f905',1,'vctr']]],
+  ['powerspectrum_2',['powerSpectrum',['../group__Expressions.html#gaf5ec582bc24648aa5087f73f8eaeb651',1,'vctr']]]
 ];
