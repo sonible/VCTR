@@ -57,6 +57,7 @@ struct NeonRegister<float>
     // Math
     static NeonRegister abs (NeonRegister x)                 { return { vabsq_f32 (x.value) }; }
     static NeonRegister mul (NeonRegister a, NeonRegister b) { return { vmulq_f32 (a.value, b.value) }; }
+    static NeonRegister div (NeonRegister a, NeonRegister b) { return { vdivq_f32 (a.value, b.value) }; }
     static NeonRegister add (NeonRegister a, NeonRegister b) { return { vaddq_f32 (a.value, b.value) }; }
     static NeonRegister sub (NeonRegister a, NeonRegister b) { return { vsubq_f32 (a.value, b.value) }; }
     static NeonRegister max (NeonRegister a, NeonRegister b) { return { vmaxq_f32 (a.value, b.value) }; }
@@ -90,6 +91,7 @@ struct NeonRegister<double>
     // Math
     static NeonRegister abs (NeonRegister x)                 { return { vabsq_f64 (x.value) }; }
     static NeonRegister mul (NeonRegister a, NeonRegister b) { return { vmulq_f64 (a.value, b.value) }; }
+    static NeonRegister div (NeonRegister a, NeonRegister b) { return { vdivq_f64 (a.value, b.value) }; }
     static NeonRegister add (NeonRegister a, NeonRegister b) { return { vaddq_f64 (a.value, b.value) }; }
     static NeonRegister sub (NeonRegister a, NeonRegister b) { return { vsubq_f64 (a.value, b.value) }; }
     static NeonRegister max (NeonRegister a, NeonRegister b) { return { vmaxq_f64 (a.value, b.value) }; }
