@@ -62,6 +62,8 @@ struct NeonRegister<float>
     static NeonRegister sub (NeonRegister a, NeonRegister b) { return { vsubq_f32 (a.value, b.value) }; }
     static NeonRegister max (NeonRegister a, NeonRegister b) { return { vmaxq_f32 (a.value, b.value) }; }
     static NeonRegister min (NeonRegister a, NeonRegister b) { return { vminq_f32 (a.value, b.value) }; }
+    static NeonRegister fma (NeonRegister a, NeonRegister b, NeonRegister c) { return { vfmaq_f32 (c.value, a.value, b.value) }; }
+    static NeonRegister fms (NeonRegister a, NeonRegister b, NeonRegister c) { return { vfmsq_f32 (c.value, a.value, b.value) }; }
     // clang-format on
 };
 
@@ -96,6 +98,8 @@ struct NeonRegister<double>
     static NeonRegister sub (NeonRegister a, NeonRegister b) { return { vsubq_f64 (a.value, b.value) }; }
     static NeonRegister max (NeonRegister a, NeonRegister b) { return { vmaxq_f64 (a.value, b.value) }; }
     static NeonRegister min (NeonRegister a, NeonRegister b) { return { vminq_f64 (a.value, b.value) }; }
+    static NeonRegister fma (NeonRegister a, NeonRegister b, NeonRegister c) { return { vfmaq_f64 (c.value, a.value, b.value) }; }
+    static NeonRegister fms (NeonRegister a, NeonRegister b, NeonRegister c) { return { vfmsq_f64 (c.value, a.value, b.value) }; }
     // clang-format on
 };
 

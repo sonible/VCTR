@@ -193,12 +193,12 @@ template <class T>
 concept constexprStorageInfo = requires (const T&) { detail::ConstexprStorageInfoChecker<T::dataIsSIMDAligned, T::hasSIMDExtendedStorage>(); };
 }
 
-template <class InfoA, class InfoB>
+template <class First, class... Others>
 struct CombinedStorageInfo
 {
-    CombinedStorageInfo (const InfoA& a, const InfoB& b)
-        : dataIsSIMDAligned (a.dataIsSIMDAligned && b.dataIsSIMDAligned),
-          hasSIMDExtendedStorage (a.hasSIMDExtendedStorage && b.hasSIMDExtendedStorage)
+    CombinedStorageInfo (const First& first, const Others&... others)
+        : dataIsSIMDAligned (first.dataIsSIMDAligned && (others.dataIsSIMDAligned && ...)),
+          hasSIMDExtendedStorage (first.hasSIMDExtendedStorage && (others.hasSIMDExtendedStorage && ...))
     {}
 
     bool dataIsSIMDAligned;
@@ -206,14 +206,14 @@ struct CombinedStorageInfo
     bool hasSIMDExtendedStorage;
 };
 
-template <is::constexprStorageInfo InfoA, is::constexprStorageInfo InfoB>
-struct CombinedStorageInfo<InfoA, InfoB>
+template <is::constexprStorageInfo First, is::constexprStorageInfo... Others>
+struct CombinedStorageInfo<First, Others...>
 {
-    constexpr CombinedStorageInfo (const InfoA&, const InfoB&) {}
+    constexpr CombinedStorageInfo (const First&, const Others&...) {}
 
-    static constexpr bool dataIsSIMDAligned = InfoA::dataIsSIMDAligned && InfoB::dataIsSIMDAligned;
+    static constexpr bool dataIsSIMDAligned = First::dataIsSIMDAligned && (Others::dataIsSIMDAligned && ...);
 
-    static constexpr bool hasSIMDExtendedStorage = InfoA::hasSIMDExtendedStorage && InfoB::hasSIMDExtendedStorage;
+    static constexpr bool hasSIMDExtendedStorage = First::hasSIMDExtendedStorage && (Others::hasSIMDExtendedStorage && ...);
 };
 
 } // namespace vctr

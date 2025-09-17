@@ -38,6 +38,7 @@ target_sources (vctr_test_cases INTERFACE
         TestCases/Expressions/Max.cpp
         TestCases/Expressions/Mean.cpp
         TestCases/Expressions/Min.cpp
+        TestCases/Expressions/MultiplyAccumulate.cpp
         TestCases/Expressions/NormalizeSum.cpp
         TestCases/Expressions/Pow.cpp
         TestCases/Expressions/PowerSpectrum.cpp

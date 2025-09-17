@@ -167,6 +167,8 @@ VCTR_END_IGNORE_WARNING_MSVC
 #include "Expressions/BasicMath/Add.h"
 #include "Expressions/BasicMath/Subtract.h"
 #include "Expressions/BasicMath/Multiply.h"
+#include "Expressions/BasicMath/MultiplyAccumulate.h"
+#include "Expressions/BasicMath/MultiplySubtract.h"
 #include "Expressions/BasicMath/Divide.h"
 #include "Expressions/BasicMath/Max.h"
 #include "Expressions/BasicMath/Min.h"
