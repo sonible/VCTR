@@ -64,6 +64,8 @@ struct AVXRegister<float>
     VCTR_TARGET ("avx") static AVXRegister div (AVXRegister a, AVXRegister b) { return { _mm256_div_ps (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_ps (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_ps (a.value, b.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_ps (a.value, b.value, c.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_ps (a.value, b.value, c.value) }; }
     // clang-format on
 };
 
@@ -80,7 +82,7 @@ struct AVXRegister<double>
     // clang-format off
     VCTR_TARGET ("avx") static AVXRegister loadUnaligned (const double* d)                              { return { _mm256_loadu_pd (d) }; }
     VCTR_TARGET ("avx") static AVXRegister loadAligned   (const double* d)                              { return { _mm256_load_pd (d) }; }
-    VCTR_TARGET ("avx") static AVXRegister broadcast     (double x) { return                            { _mm256_broadcast_sd (&x) }; }
+    VCTR_TARGET ("avx") static AVXRegister broadcast     (double x)                                     { return { _mm256_broadcast_sd (&x) }; }
     VCTR_TARGET ("avx") static AVXRegister fromSSE       (SSERegister<double> a, SSERegister<double> b) { return { _mm256_set_m128d (a.value, b.value) }; }
 
     //==============================================================================
@@ -100,6 +102,8 @@ struct AVXRegister<double>
     VCTR_TARGET ("avx") static AVXRegister div (AVXRegister a, AVXRegister b) { return { _mm256_div_pd (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_pd (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_pd (a.value, b.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_pd (a.value, b.value, c.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_pd (a.value, b.value, c.value) }; }
     // clang-format on
 };
 

@@ -230,20 +230,23 @@ using StorageInfoType = typename detail::StorageInfoType<std::remove_cvref_t<T>>
 template <has::size T>
 constexpr size_t extentOf = detail::Extent<std::remove_cvref_t<T>>::value;
 
-/** Returns std::dynamic_extent in case both sources specify a dynamic extent.
-    Throws in case both sources specify a non-matching non-dynamic extent.
+/** Returns std::dynamic_extent in case all the sources specify a dynamic extent.
     Returns the non-dynamic extent found otherwise.
+
+    Note: This helper assumes, that you know that all sources have a common size.
+          If in doubt, use assertCommonSize to verify that.
  */
-template <class A, class B>
+template <class First, class... Other>
 consteval size_t getCommonExtent()
 {
-    if constexpr (extentOf<A> == std::dynamic_extent && extentOf<B> == std::dynamic_extent)
-        return std::dynamic_extent;
+    if constexpr (extentOf<First> == std::dynamic_extent) {
+        if constexpr (sizeof... (Other) == 0)
+            return std::dynamic_extent;
+        else
+            return getCommonExtent<Other...>();
+    }
 
-    if constexpr (extentOf<A> != std::dynamic_extent && extentOf<B> != std::dynamic_extent && extentOf<A> != extentOf<B>)
-        throw std::logic_error ("A and B both define different non-dynamic extents");
-
-    return extentOf<A> != std::dynamic_extent ? extentOf<A> : extentOf<B>;
+    return extentOf<First>;
 }
 
 /** Ensures that both sources have the same size. In case they both specify a non-dynamic extent,
@@ -259,6 +262,24 @@ constexpr void assertCommonSize ([[maybe_unused]] const A& a, [[maybe_unused]] c
     else
     {
         static_assert (extentOf<A> == extentOf<B>);
+    }
+}
+
+/** Ensures that all three sources have the same size. In case they all specify a non-dynamic extent,
+    this will be a compile-time static_assert, otherwise it will perform a runtime assert comparing the sizes.
+ */
+    template <class A, class B, class C>
+    constexpr void assertCommonSize ([[maybe_unused]] const A& a, [[maybe_unused]] const B& b, [[maybe_unused]] const C& c)
+{
+    if constexpr (extentOf<A> == std::dynamic_extent || extentOf<B> == std::dynamic_extent || extentOf<C> == std::dynamic_extent)
+    {
+        VCTR_ASSERT (a.size() == b.size());
+        VCTR_ASSERT (a.size() == c.size());
+    }
+    else
+    {
+        static_assert (extentOf<A> == extentOf<B>);
+        static_assert (extentOf<A> == extentOf<C>);
     }
 }
 
