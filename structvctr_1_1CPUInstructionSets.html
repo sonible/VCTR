@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>VCTR: vctr::CombinedStorageInfo&lt; InfoA, InfoB &gt; Struct Template Reference</title>
+<title>VCTR: vctr::CPUInstructionSets Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -65,7 +65,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('structvctr_1_1CombinedStorageInfo_3_01InfoA_00_01InfoB_01_4.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('structvctr_1_1CPUInstructionSets.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -92,37 +92,39 @@ $(document).ready(function(){initNavTree('structvctr_1_1CombinedStorageInfo_3_01
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="structvctr_1_1CombinedStorageInfo_3_01InfoA_00_01InfoB_01_4-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">vctr::CombinedStorageInfo&lt; InfoA, InfoB &gt; Struct Template Reference</div></div>
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="structvctr_1_1CPUInstructionSets-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">vctr::CPUInstructionSets Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:ad3775808bcc19db26b74770d72e7e291"><td class="memItemLeft" align="right" valign="top"><a id="ad3775808bcc19db26b74770d72e7e291" name="ad3775808bcc19db26b74770d72e7e291"></a>
-constexpr&#160;</td><td class="memItemRight" valign="bottom"><b>CombinedStorageInfo</b> (const InfoA &amp;, const InfoB &amp;)</td></tr>
-<tr class="separator:ad3775808bcc19db26b74770d72e7e291"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:ab63032574f68aa534aa55a80aba16610"><td class="memItemLeft" align="right" valign="top"><a id="ab63032574f68aa534aa55a80aba16610" name="ab63032574f68aa534aa55a80aba16610"></a>
-static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>dataIsSIMDAligned</b> = InfoA::dataIsSIMDAligned &amp;&amp; InfoB::dataIsSIMDAligned</td></tr>
-<tr class="separator:ab63032574f68aa534aa55a80aba16610"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d575e0e611d0ce510bb2564a8af1fa3"><td class="memItemLeft" align="right" valign="top"><a id="a5d575e0e611d0ce510bb2564a8af1fa3" name="a5d575e0e611d0ce510bb2564a8af1fa3"></a>
-static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasSIMDExtendedStorage</b> = InfoA::hasSIMDExtendedStorage &amp;&amp; InfoB::hasSIMDExtendedStorage</td></tr>
-<tr class="separator:a5d575e0e611d0ce510bb2564a8af1fa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:af2d7951d827197fd4ce48d4d53b1a1be"><td class="memItemLeft" align="right" valign="top"><a id="af2d7951d827197fd4ce48d4d53b1a1be" name="af2d7951d827197fd4ce48d4d53b1a1be"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>sse4_1</b>: 1</td></tr>
+<tr class="separator:af2d7951d827197fd4ce48d4d53b1a1be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b7e0ead9f765e1bc16903716adb71ae"><td class="memItemLeft" align="right" valign="top"><a id="a8b7e0ead9f765e1bc16903716adb71ae" name="a8b7e0ead9f765e1bc16903716adb71ae"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>avx</b>: 1</td></tr>
+<tr class="separator:a8b7e0ead9f765e1bc16903716adb71ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa3fa2375fbbb9bf4a04dbc7fbafbabd"><td class="memItemLeft" align="right" valign="top"><a id="aaa3fa2375fbbb9bf4a04dbc7fbafbabd" name="aaa3fa2375fbbb9bf4a04dbc7fbafbabd"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>avx2</b>: 1</td></tr>
+<tr class="separator:aaa3fa2375fbbb9bf4a04dbc7fbafbabd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22df46c8bd6efa6ef94a2cfb681be15f"><td class="memItemLeft" align="right" valign="top"><a id="a22df46c8bd6efa6ef94a2cfb681be15f" name="a22df46c8bd6efa6ef94a2cfb681be15f"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>fma</b>: 1</td></tr>
+<tr class="separator:a22df46c8bd6efa6ef94a2cfb681be15f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13b18fcfe0c7749647da8dd65f16ea90"><td class="memItemLeft" align="right" valign="top"><a id="a13b18fcfe0c7749647da8dd65f16ea90" name="a13b18fcfe0c7749647da8dd65f16ea90"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>neon</b>: 1</td></tr>
+<tr class="separator:a13b18fcfe0c7749647da8dd65f16ea90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/vctr/SIMD/<a class="el" href="SIMDHelpers_8h_source.html">SIMDHelpers.h</a></li>
+<li>include/vctr/Miscellaneous/<a class="el" href="Config_8h_source.html">Config.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespacevctr.html">vctr</a></li><li class="navelem"><a class="el" href="structvctr_1_1CombinedStorageInfo_3_01InfoA_00_01InfoB_01_4.html">CombinedStorageInfo&lt; InfoA, InfoB &gt;</a></li>
+    <li class="navelem"><a class="el" href="namespacevctr.html">vctr</a></li><li class="navelem"><a class="el" href="structvctr_1_1CPUInstructionSets.html">CPUInstructionSets</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>

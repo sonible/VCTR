@@ -162,7 +162,7 @@ $(document).ready(function(){initNavTree('Square_8h_source.html',''); initResiza
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="comment">// AVX Implementation</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    VCTR_FORCEDINLINE VCTR_TARGET (<span class="stringliteral">&quot;avx&quot;</span>) <a class="code hl_struct" href="structvctr_1_1AVXRegister.html">AVXRegister&lt;value_type&gt;</a> getAVX (<span class="keywordtype">size_t</span> i) <span class="keyword">const</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    VCTR_FORCEDINLINE VCTR_TARGET (<span class="stringliteral">&quot;fma&quot;</span>) <a class="code hl_struct" href="structvctr_1_1AVXRegister.html">AVXRegister&lt;value_type&gt;</a> getAVX (<span class="keywordtype">size_t</span> i) <span class="keyword">const</span></div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keyword">requires</span> archX64 &amp;&amp; <a class="code hl_concept" href="conceptvctr_1_1has_1_1getAVX.html">has::getAVX&lt;SrcType&gt;</a> &amp;&amp; Expression::CommonElement::isRealFloat</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    {</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keyword">auto</span> x = src.getAVX (i);</div>

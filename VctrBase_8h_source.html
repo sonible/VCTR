@@ -847,15 +847,15 @@ $(document).ready(function(){initNavTree('VctrBase_8h_source.html',''); initResi
 <div class="line"><a id="l01013" name="l01013"></a><span class="lineno"> 1013</span>            {</div>
 <div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>                <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (is::realFloatNumber&lt;ElementType&gt;)</div>
 <div class="line"><a id="l01015" name="l01015"></a><span class="lineno"> 1015</span>                {</div>
-<div class="line"><a id="l01016" name="l01016"></a><span class="lineno"> 1016</span>                    <span class="keywordflow">if</span> (supportsAVX)</div>
+<div class="line"><a id="l01016" name="l01016"></a><span class="lineno"> 1016</span>                    <span class="keywordflow">if</span> (supportedCPUInstructionSets.fma)</div>
 <div class="line"><a id="l01017" name="l01017"></a><span class="lineno"> 1017</span>                    {</div>
-<div class="line"><a id="l01018" name="l01018"></a><span class="lineno"> 1018</span>                        assignExpressionTemplateAVX (e);</div>
+<div class="line"><a id="l01018" name="l01018"></a><span class="lineno"> 1018</span>                        assignExpressionTemplateFMA (e);</div>
 <div class="line"><a id="l01019" name="l01019"></a><span class="lineno"> 1019</span>                        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l01020" name="l01020"></a><span class="lineno"> 1020</span>                    }</div>
 <div class="line"><a id="l01021" name="l01021"></a><span class="lineno"> 1021</span>                }</div>
 <div class="line"><a id="l01022" name="l01022"></a><span class="lineno"> 1022</span>                <span class="keywordflow">else</span></div>
 <div class="line"><a id="l01023" name="l01023"></a><span class="lineno"> 1023</span>                {</div>
-<div class="line"><a id="l01024" name="l01024"></a><span class="lineno"> 1024</span>                    <span class="keywordflow">if</span> (supportsAVX2)</div>
+<div class="line"><a id="l01024" name="l01024"></a><span class="lineno"> 1024</span>                    <span class="keywordflow">if</span> (supportedCPUInstructionSets.avx2)</div>
 <div class="line"><a id="l01025" name="l01025"></a><span class="lineno"> 1025</span>                    {</div>
 <div class="line"><a id="l01026" name="l01026"></a><span class="lineno"> 1026</span>                        assignExpressionTemplateAVX2 (e);</div>
 <div class="line"><a id="l01027" name="l01027"></a><span class="lineno"> 1027</span>                        <span class="keywordflow">return</span>;</div>
@@ -865,7 +865,7 @@ $(document).ready(function(){initNavTree('VctrBase_8h_source.html',''); initResi
 <div class="line"><a id="l01031" name="l01031"></a><span class="lineno"> 1031</span> </div>
 <div class="line"><a id="l01032" name="l01032"></a><span class="lineno"> 1032</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (has::getSSE&lt;Expression&gt;)</div>
 <div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span>            {</div>
-<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span>                <span class="keywordflow">if</span> (highestSupportedCPUInstructionSet != CPUInstructionSet::fallback)</div>
+<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span>                <span class="keywordflow">if</span> (supportedCPUInstructionSets.sse4_1)</div>
 <div class="line"><a id="l01035" name="l01035"></a><span class="lineno"> 1035</span>                {</div>
 <div class="line"><a id="l01036" name="l01036"></a><span class="lineno"> 1036</span>                    assignExpressionTemplateSSE4_1 (e);</div>
 <div class="line"><a id="l01037" name="l01037"></a><span class="lineno"> 1037</span>                    <span class="keywordflow">return</span>;</div>
@@ -945,8 +945,8 @@ $(document).ready(function(){initNavTree('VctrBase_8h_source.html',''); initResi
 <div class="line"><a id="l01112" name="l01112"></a><span class="lineno"> 1112</span>    }</div>
 <div class="line"><a id="l01113" name="l01113"></a><span class="lineno"> 1113</span> </div>
 <div class="line"><a id="l01114" name="l01114"></a><span class="lineno"> 1114</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> Expression&gt;</div>
-<div class="line"><a id="l01115" name="l01115"></a><span class="lineno"> 1115</span>    VCTR_TARGET (<span class="stringliteral">&quot;avx&quot;</span>)</div>
-<div class="line"><a id="l01116" name="l01116"></a><span class="lineno"> 1116</span>    void assignExpressionTemplateAVX (const Expression&amp; e)</div>
+<div class="line"><a id="l01115" name="l01115"></a><span class="lineno"> 1115</span>    VCTR_TARGET (<span class="stringliteral">&quot;fma&quot;</span>)</div>
+<div class="line"><a id="l01116" name="l01116"></a><span class="lineno"> 1116</span>    void assignExpressionTemplateFMA (const Expression&amp; e)</div>
 <div class="line"><a id="l01117" name="l01117"></a><span class="lineno"> 1117</span>    requires archX64</div>
 <div class="line"><a id="l01118" name="l01118"></a><span class="lineno"> 1118</span>    {</div>
 <div class="line"><a id="l01119" name="l01119"></a><span class="lineno"> 1119</span>        <span class="keyword">constexpr</span> <span class="keyword">auto</span> inc = AVXRegister&lt;ElementType&gt;::numElements;</div>
@@ -1164,9 +1164,9 @@ $(document).ready(function(){initNavTree('VctrBase_8h_source.html',''); initResi
 <div class="ttc" id="anamespacevctr_html"><div class="ttname"><a href="namespacevctr.html">vctr</a></div><div class="ttdoc">The main namespace of the VCTR project.</div><div class="ttdef"><b>Definition:</b> Array.h:24</div></div>
 <div class="ttc" id="anamespacevctr_html_a222cc9e4338c24b2f0751c132503ce3a"><div class="ttname"><a href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">vctr::StorageInfoType</a></div><div class="ttdeci">typename detail::StorageInfoType&lt; std::remove_cvref_t&lt; T &gt; &gt;::Type StorageInfoType</div><div class="ttdoc">If t is a type derived from VctrBase, this will equal the return value of T::getStorageInfo,...</div><div class="ttdef"><b>Definition:</b> Traits.h:227</div></div>
 <div class="ttc" id="anamespacevctr_html_af90149542071c83fddeb04c75e9cfd3a"><div class="ttname"><a href="namespacevctr.html#af90149542071c83fddeb04c75e9cfd3a">vctr::operator==</a></div><div class="ttdeci">constexpr bool operator==(const Lhs &amp;lhs, const Rhs &amp;rhs)</div><div class="ttdoc">Compares lhs and rhs for equality.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:1230</div></div>
-<div class="ttc" id="astructvctr_1_1Config_html"><div class="ttname"><a href="structvctr_1_1Config.html">vctr::Config</a></div><div class="ttdef"><b>Definition:</b> Config.h:294</div></div>
+<div class="ttc" id="astructvctr_1_1Config_html"><div class="ttname"><a href="structvctr_1_1Config.html">vctr::Config</a></div><div class="ttdef"><b>Definition:</b> Config.h:298</div></div>
 <div class="ttc" id="astructvctr_1_1NeonRegister_html"><div class="ttname"><a href="structvctr_1_1NeonRegister.html">vctr::NeonRegister</a></div><div class="ttdef"><b>Definition:</b> NeonRegister.h:28</div></div>
-<div class="ttc" id="astructvctr_1_1RequireConstexpr_html"><div class="ttname"><a href="structvctr_1_1RequireConstexpr.html">vctr::RequireConstexpr</a></div><div class="ttdoc">A helper struct intended to check if a value is a constexpr.</div><div class="ttdef"><b>Definition:</b> Traits.h:279</div></div>
+<div class="ttc" id="astructvctr_1_1RequireConstexpr_html"><div class="ttname"><a href="structvctr_1_1RequireConstexpr.html">vctr::RequireConstexpr</a></div><div class="ttdoc">A helper struct intended to check if a value is a constexpr.</div><div class="ttdef"><b>Definition:</b> Traits.h:300</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

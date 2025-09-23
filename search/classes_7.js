@@ -9,7 +9,9 @@ var searchData=
   ['meansquare_6',['MeanSquare',['../classvctr_1_1expressions_1_1MeanSquare.html',1,'vctr::expressions']]],
   ['min_7',['Min',['../classvctr_1_1expressions_1_1Min.html',1,'vctr::expressions']]],
   ['minabs_8',['MinAbs',['../classvctr_1_1expressions_1_1MinAbs.html',1,'vctr::expressions']]],
-  ['multiplyvecbyconstant_9',['MultiplyVecByConstant',['../classvctr_1_1expressions_1_1MultiplyVecByConstant.html',1,'vctr::expressions']]],
-  ['multiplyvecbysingle_10',['MultiplyVecBySingle',['../classvctr_1_1expressions_1_1MultiplyVecBySingle.html',1,'vctr::expressions']]],
-  ['multiplyvectors_11',['MultiplyVectors',['../classvctr_1_1expressions_1_1MultiplyVectors.html',1,'vctr::expressions']]]
+  ['multiplyaccumulatevectors_9',['MultiplyAccumulateVectors',['../classvctr_1_1expressions_1_1MultiplyAccumulateVectors.html',1,'vctr::expressions']]],
+  ['multiplysubtractvectors_10',['MultiplySubtractVectors',['../classvctr_1_1expressions_1_1MultiplySubtractVectors.html',1,'vctr::expressions']]],
+  ['multiplyvecbyconstant_11',['MultiplyVecByConstant',['../classvctr_1_1expressions_1_1MultiplyVecByConstant.html',1,'vctr::expressions']]],
+  ['multiplyvecbysingle_12',['MultiplyVecBySingle',['../classvctr_1_1expressions_1_1MultiplyVecBySingle.html',1,'vctr::expressions']]],
+  ['multiplyvectors_13',['MultiplyVectors',['../classvctr_1_1expressions_1_1MultiplyVectors.html',1,'vctr::expressions']]]
 ];

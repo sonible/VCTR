@@ -148,19 +148,19 @@ $(document).ready(function(){initNavTree('ReductionExpression_8h_source.html',''
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            {</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (<a class="code hl_concept" href="conceptvctr_1_1is_1_1realFloatNumber.html">is::realFloatNumber&lt;ValueType&lt;Expression&gt;</a>&gt;)</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                {</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                    <span class="keywordflow">if</span> (Config::supportsAVX)</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                        <span class="keywordflow">return</span> reduceAVX (e);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                    <span class="keywordflow">if</span> (Config::supportedCPUInstructionSets.fma)</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                        <span class="keywordflow">return</span> reduceFMA (e);</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                }</div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                {</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                    <span class="keywordflow">if</span> (Config::supportsAVX2)</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                    <span class="keywordflow">if</span> (Config::supportedCPUInstructionSets.avx2)</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                        <span class="keywordflow">return</span> reduceAVX2 (e);</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                }</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            }</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (<a class="code hl_concept" href="conceptvctr_1_1has_1_1reduceSSERegisterWise.html">has::reduceSSERegisterWise&lt;Expression, ValueType&lt;Expression&gt;</a>&gt;)</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            {</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                <span class="keywordflow">if</span> (Config::highestSupportedCPUInstructionSet != CPUInstructionSet::fallback)</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                <span class="keywordflow">if</span> (Config::supportedCPUInstructionSets.sse4_1)</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                    <span class="keywordflow">return</span> reduceSSE (e);</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            }</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        }</div>
@@ -204,7 +204,7 @@ $(document).ready(function(){initNavTree('ReductionExpression_8h_source.html',''
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    }</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keyword">template</span> &lt;is::reductionExpression Expression&gt;</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    VCTR_TARGET (<span class="stringliteral">&quot;avx&quot;</span>) static auto reduceAVX (const Expression&amp; e)</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    VCTR_TARGET (<span class="stringliteral">&quot;fma&quot;</span>) static auto reduceFMA (const Expression&amp; e)</div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    requires Config::archX64</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    {</div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keyword">using </span>VType = ValueType&lt;Expression&gt;;</div>
@@ -302,7 +302,7 @@ $(document).ready(function(){initNavTree('ReductionExpression_8h_source.html',''
 <div class="ttc" id="anamespacevctr_html"><div class="ttname"><a href="namespacevctr.html">vctr</a></div><div class="ttdoc">The main namespace of the VCTR project.</div><div class="ttdef"><b>Definition:</b> Array.h:24</div></div>
 <div class="ttc" id="anamespacevctr_html_a83a43fd917a646b18b60be7e88becc33"><div class="ttname"><a href="namespacevctr.html#a83a43fd917a646b18b60be7e88becc33">vctr::ValueType</a></div><div class="ttdeci">typename detail::ValueType&lt; std::remove_cvref_t&lt; T &gt; &gt;::Type ValueType</div><div class="ttdoc">If T is an expression template, it equals its return type, if it's a type that defines value_type as ...</div><div class="ttdef"><b>Definition:</b> Traits.h:201</div></div>
 <div class="ttc" id="astructvctr_1_1AVXRegister_html"><div class="ttname"><a href="structvctr_1_1AVXRegister.html">vctr::AVXRegister</a></div><div class="ttdef"><b>Definition:</b> AVXRegister.h:28</div></div>
-<div class="ttc" id="astructvctr_1_1Config_html"><div class="ttname"><a href="structvctr_1_1Config.html">vctr::Config</a></div><div class="ttdef"><b>Definition:</b> Config.h:294</div></div>
+<div class="ttc" id="astructvctr_1_1Config_html"><div class="ttname"><a href="structvctr_1_1Config.html">vctr::Config</a></div><div class="ttdef"><b>Definition:</b> Config.h:298</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

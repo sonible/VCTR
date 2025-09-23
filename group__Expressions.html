@@ -1727,6 +1727,102 @@ template&lt;is::realFloatNumber T&gt; </div>
 
 </div>
 </div>
+<a id="ga820b75d2fcb9c18915ce358c4029af93" name="ga820b75d2fcb9c18915ce358c4029af93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga820b75d2fcb9c18915ce358c4029af93">&#9670;&#160;</a></span>multiplyAccumulate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class SrcAType , class SrcBType , class SrcCType &gt; <br />
+requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcCType&gt;&gt;)</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::multiplyAccumulate </td>
+          <td>(</td>
+          <td class="paramtype">SrcAType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SrcBType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SrcCType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the multiply-accumulate operation (a * b) + c. </p>
+<p>This is usually faster than evaluating these operations individually as it exploits special hardware instructions. Prefer this for performance critical DSP implementations. </p>
+
+</div>
+</div>
+<a id="ga8af8d6a5ae5a924f83ddea9f4e9815f2" name="ga8af8d6a5ae5a924f83ddea9f4e9815f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8af8d6a5ae5a924f83ddea9f4e9815f2">&#9670;&#160;</a></span>multiplySubtract()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class SrcAType , class SrcBType , class SrcCType &gt; <br />
+requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcCType&gt;&gt;)</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::multiplySubtract </td>
+          <td>(</td>
+          <td class="paramtype">SrcAType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SrcBType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SrcCType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the multiply-subtract operation c - (a * b). </p>
+<p>This is usually faster than evaluating these operations individually as it exploits special hardware instructions. Prefer this for performance critical DSP implementations. </p>
+
+</div>
+</div>
 <a id="ga381264b52d81641d1e0e7fba44b95b33" name="ga381264b52d81641d1e0e7fba44b95b33"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga381264b52d81641d1e0e7fba44b95b33">&#9670;&#160;</a></span>operator*() <span class="overload">[1/3]</span></h2>
 

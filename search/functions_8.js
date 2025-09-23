@@ -5,7 +5,7 @@ var searchData=
   ['makesimdalignedspan_2',['makeSimdAlignedSpan',['../namespacevctr.html#a946767da5d097bc029825bba6c2a2595',1,'vctr::makeSimdAlignedSpan(ElementType *data)'],['../namespacevctr.html#a5e7c9ccef500aff1ca7881f2e1904408',1,'vctr::makeSimdAlignedSpan(ElementType *data, size_t size)']]],
   ['maketemplateexpressionchainbuilderwithruntimeargs_3',['makeTemplateExpressionChainBuilderWithRuntimeArgs',['../namespacevctr.html#a340fb7574b2f7707e6f86ca65fd2ccbb',1,'vctr']]],
   ['makevector_4',['makeVector',['../structvctr_1_1generators_1_1Linspace.html#a9735aaf58e597e96326381451aad97ec',1,'vctr::generators::Linspace::makeVector(ElementType start, ElementType stop, size_t num, bool includeEnd=true)'],['../structvctr_1_1generators_1_1Linspace.html#ada090fbbb01bc911a696036d31e24a5c',1,'vctr::generators::Linspace::makeVector(ElementType start, ElementType stop, bool includeEnd=true)']]],
-  ['map_5',['map',['../group__Expressions.html#ga1bb32794f6c515e3ea8043483bf1dcc9',1,'vctr::map(T srcValueRangeStart, T srcValueRangeEnd, T dstValueRangeStart, T dstValueRangeEnd)'],['../group__Expressions.html#gacaebe8e635121b4a8a143abb74bf9fc1',1,'vctr::map(RangeType &amp;&amp;srcValueRange, RangeType &amp;&amp;dstValueRange)']]],
+  ['map_5',['map',['../group__Expressions.html#gacaebe8e635121b4a8a143abb74bf9fc1',1,'vctr::map(RangeType &amp;&amp;srcValueRange, RangeType &amp;&amp;dstValueRange)'],['../group__Expressions.html#ga1bb32794f6c515e3ea8043483bf1dcc9',1,'vctr::map(T srcValueRangeStart, T srcValueRangeEnd, T dstValueRangeStart, T dstValueRangeEnd)']]],
   ['mapfrom0to1_6',['mapFrom0To1',['../group__Expressions.html#gab3ac5d8df8839be733d06d9272d7cd25',1,'vctr::mapFrom0To1(T dstValueRangeStart, T dstValueRangeEnd)'],['../group__Expressions.html#ga243c68d6c931db606b95fd580f53faec',1,'vctr::mapFrom0To1(RangeType &amp;&amp;dstValueRange)']]],
   ['mapto0to1_7',['mapTo0To1',['../group__Expressions.html#ga039f6eeff0c66a878832646d69ee05c8',1,'vctr::mapTo0To1(T srcValueRangeStart, T srcValueRangeEnd)'],['../group__Expressions.html#gab4384c06fb1d554d76f83643447159e5',1,'vctr::mapTo0To1(RangeType &amp;&amp;srcValueRange)']]],
   ['max_8',['max',['../classvctr_1_1VctrBase.html#ac30ee026df44d26087f2b2e5242daabd',1,'vctr::VctrBase']]],
@@ -15,5 +15,7 @@ var searchData=
   ['meansquare_12',['meanSquare',['../classvctr_1_1VctrBase.html#ae8380fd770f1c73e257bb644c9745af0',1,'vctr::VctrBase']]],
   ['min_13',['min',['../classvctr_1_1VctrBase.html#a3809aad3dbd44783fb9d8b4dbbd97207',1,'vctr::VctrBase']]],
   ['minabs_14',['minAbs',['../classvctr_1_1VctrBase.html#ac2e4d6969b97cb396af2d0a1f31b8b1d',1,'vctr::VctrBase']]],
-  ['moveunderlyingvector_15',['moveUnderlyingVector',['../classvctr_1_1Vector.html#af7a96f4ea593adeef523923771615c4c',1,'vctr::Vector']]]
+  ['moveunderlyingvector_15',['moveUnderlyingVector',['../classvctr_1_1Vector.html#af7a96f4ea593adeef523923771615c4c',1,'vctr::Vector']]],
+  ['multiplyaccumulate_16',['multiplyAccumulate',['../group__Expressions.html#ga820b75d2fcb9c18915ce358c4029af93',1,'vctr']]],
+  ['multiplysubtract_17',['multiplySubtract',['../group__Expressions.html#ga8af8d6a5ae5a924f83ddea9f4e9815f2',1,'vctr']]]
 ];

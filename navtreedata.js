@@ -63,6 +63,7 @@ var NAVTREE =
     [ "StorageInfoType", "namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a", null ],
     [ "ValueType", "namespacevctr.html#a83a43fd917a646b18b60be7e88becc33", null ],
     [ "assertCommonSize", "namespacevctr.html#a530eaa0685b6027bcdd79a4ac9a47fda", null ],
+    [ "assertCommonSize", "namespacevctr.html#a1a5389ec30d6584c69157514e7a98602", null ],
     [ "clamp", "group__Expressions.html#gadb6fc764c304eda32439875e7b50d485", null ],
     [ "clampHigh", "group__Expressions.html#gaa42cf0dd0e425bad94a420c9ac6805c7", null ],
     [ "clampLow", "group__Expressions.html#ga69329f63042f587f726465da4ef612d8", null ],
@@ -80,6 +81,8 @@ var NAVTREE =
     [ "mapFrom0To1", "group__Expressions.html#gab3ac5d8df8839be733d06d9272d7cd25", null ],
     [ "mapTo0To1", "group__Expressions.html#gab4384c06fb1d554d76f83643447159e5", null ],
     [ "mapTo0To1", "group__Expressions.html#ga039f6eeff0c66a878832646d69ee05c8", null ],
+    [ "multiplyAccumulate", "group__Expressions.html#ga820b75d2fcb9c18915ce358c4029af93", null ],
+    [ "multiplySubtract", "group__Expressions.html#ga8af8d6a5ae5a924f83ddea9f4e9815f2", null ],
     [ "operator*", "group__Expressions.html#ga381264b52d81641d1e0e7fba44b95b33", null ],
     [ "operator*", "group__Expressions.html#gace45c99e6906fb1273db0cfb3ec4fd01", null ],
     [ "operator*", "group__Expressions.html#ga5c66069ba0f2ac2876104893c73a4521", null ],
@@ -185,7 +188,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classvctr_1_1OwnedVector.html#af232e22612aa17d3fc8eaeee4fec245a",
-"conceptvctr_1_1is_1_1number.html"
+"conceptvctr_1_1is_1_1noPointer.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

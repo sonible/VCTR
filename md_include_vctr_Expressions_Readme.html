@@ -215,154 +215,219 @@ Using alternative approaches to evaluate the expression</h1>
 <li>Neon: Implement <code>NeonRegister&lt;value_type&gt; getNeon (size_t i) const</code> for suitable types. Make sure to require at least <code>archARM &amp;&amp; has::getNeon&lt;SrcType&gt;</code></li>
 <li>Platform specific vector operations (Intel IPP, Apple Accelerate, etc). See dedicated section below.</li>
 </ul>
-<p>Intel architecture specific implementations have to be prefixed with the <code>VCTR_TARGET (&lt;arch&gt;)</code> macro to instruct the compiler to deliberately generate instructions for that instruction set, no matter what compiler flags are set. The calling side will do a runtime check if the corresponding functions are available at runtime. Valid values for <code>&lt;arch&gt;</code> are <code>"avx"</code>, <code>"avx2&lt;/tt&gt;" and `"sse4.1"`.</code></p>
-<p><code>In case implementations are only available or make sense for specific constraints, you can constrain them and possibly add multiple implementations for different types, e.g. like this</code></p>
-<p><code></p><div class="fragment"><div class="line"> {C++}</div>
-<div class="line">VCTR_FORCEDINLINE VCTR_TARGET (&quot;sse4.1&quot;) SSERegister&lt;value_type&gt; getSSE (size_t i) const</div>
-<div class="line">requires (archX64 &amp;&amp; has::getSSE&lt;SrcType&gt; &amp;&amp; is::realFloatNumber&lt;SrcElementType&gt;)</div>
-<div class="line">{</div>
-<div class="line">    static const auto sseSignBit = SSESrcType::broadcast (SrcElementType (-0.0));</div>
-<div class="line"> </div>
-<div class="line">    return SSERetType::andNot (sseSignBit, src.getSSE (i));</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line">VCTR_FORCEDINLINE VCTR_TARGET (&quot;sse4.1&quot;) SSERegister&lt;value_type&gt; getSSE (size_t i) const</div>
-<div class="line">requires (archX64 &amp;&amp; has::getSSE&lt;SrcType&gt; &amp;&amp; std::same_as&lt;int32_t, value_type&gt;)</div>
-<div class="line">{</div>
-<div class="line">    return SSERetType::abs (src.getSSE (i));</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line">VCTR_FORCEDINLINE VCTR_TARGET (&quot;sse4.1&quot;) SSERegister&lt;value_type&gt; getSSE (size_t i) const</div>
-<div class="line">requires (archX64 &amp;&amp; has::getSSE&lt;SrcType&gt; &amp;&amp; is::unsignedIntNumber&lt;value_type&gt;)</div>
-<div class="line">{</div>
-<div class="line">    return src.getSSE (i); // unsigned integers are always positive</div>
-<div class="line">}</div>
-</div><!-- fragment --><p></code></p>
-<p><code>Here we see some explicit overloads for floating point values, int32 values and unsigned integers. For int64, there is no straightforward abs function in SSE 4.1 so we don't implement it. Calling abs on an int64 vector might fall back to the default <code>operator[]</code> implementation then. When assigning the expression, the implementation tries its best to choose the most promising strategy for the given architecture it runs on, so it's a good idea to implement multiple possibilities.</code></p>
-<p><code>Some SIMD based evaluations can gain performance by storing constants to a SIMD register once before looping over the registers. These temporary registers are managed as private <code>mutable</code> member variables in the expression class. They are mutable since expressions are usually passed as const reference to the destination container that evaluates them, and they are used as temporary working buffer only. Since multithreaded expression evaluation is not supported, this is safe. To avoid the need of declaring individual variables per register type which will never be used simultaneously, we can use the <code>SIMDRegisterUnion</code> union template which contains a Neon, an AVX and an SSE register. To initialize the values in the register before the SIMD evaluation starts, the expression has to expose a <code>prepare&lt;arch&gt;Evaluation</code> function with <code>&lt;arch&gt;</code> being one of <code>Neon</code>, <code>AVX</code> and <code>SSE</code> for every evaluation function that it implements. Even if the expression does not make use of that feature, it has to forward those functions to the source expressions. To avoid a lot of boilerplate code, the <code>VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS</code> and <code>VCTR_FORWARD_PREPARE_SIMD_EVALUATION_BINARY_EXPRESSION_MEMBER_FUNCTIONS</code> macros can be used. A manual implementation can look like this, taking an expression that sums a SIMD register with a scalar value: </p><div class="fragment"><div class="line"> {C++}</div>
-<div class="line">public:</div>
-<div class="line">    //...</div>
-<div class="line">    </div>
-<div class="line">    // AVX Implementation</div>
-<div class="line">    VCTR_FORCEDINLINE VCTR_TARGET (&quot;avx&quot;) void prepareAVXEvaluation() const</div>
-<div class="line">    requires has::prepareAVXEvaluation&lt;SrcType&gt; &amp;&amp; Expression::CommonElement::isRealFloat</div>
-<div class="line">    {</div>
-<div class="line">        src.prepareAVXEvaluation();</div>
-<div class="line">        singleSIMD.avx = Expression::AVX::broadcast (single);</div>
-<div class="line">    }</div>
-<div class="line">    </div>
-<div class="line">    VCTR_FORCEDINLINE VCTR_TARGET (&quot;avx2&quot;) void prepareAVXEvaluation() const</div>
-<div class="line">    requires has::prepareAVXEvaluation&lt;SrcType&gt; &amp;&amp; Expression::CommonElement::isInt</div>
-<div class="line">    {</div>
-<div class="line">        src.prepareAVXEvaluation();</div>
-<div class="line">        singleSIMD.avx = Expression::AVX::broadcast (single);</div>
-<div class="line">    }</div>
-<div class="line"> </div>
-<div class="line">    VCTR_FORCEDINLINE VCTR_TARGET (&quot;avx&quot;) AVXRegister&lt;value_type&gt; getAVX (size_t i) const</div>
-<div class="line">    requires (archX64 &amp;&amp; has::getAVX&lt;SrcType&gt; &amp;&amp; Expression::allElementTypesSame &amp;&amp; Expression::CommonElement::isRealFloat)</div>
-<div class="line">    {</div>
-<div class="line">        return Expression::AVX::add (singleSIMD.avx, src.getAVX (i));</div>
-<div class="line">    }</div>
-<div class="line"> </div>
-<div class="line">    VCTR_FORCEDINLINE VCTR_TARGET (&quot;avx2&quot;) AVXRegister&lt;value_type&gt; getAVX (size_t i) const</div>
-<div class="line">    requires (archX64 &amp;&amp; has::getAVX&lt;SrcType&gt; &amp;&amp; Expression::allElementTypesSame &amp;&amp; Expression::CommonElement::isInt)</div>
-<div class="line">    {</div>
-<div class="line">        return Expression::AVX::add (singleSIMD.avx, src.getAVX (i));</div>
-<div class="line">    }</div>
-<div class="line">    </div>
-<div class="line">    // SSE Implementation</div>
-<div class="line">    VCTR_FORCEDINLINE VCTR_TARGET (&quot;sse4.1&quot;) void prepareSSEEvaluation() const</div>
-<div class="line">    requires has::prepareSSEEvaluation&lt;SrcType&gt;</div>
-<div class="line">    {</div>
-<div class="line">        src.prepareSSEEvaluation();</div>
-<div class="line">        singleSIMD.sse = Expression::SSE::broadcast (single);</div>
-<div class="line">    }</div>
-<div class="line">    </div>
-<div class="line">    VCTR_FORCEDINLINE VCTR_TARGET (&quot;sse4.1&quot;) SSERegister&lt;value_type&gt; getSSE (size_t i) const</div>
-<div class="line">    requires (archX64 &amp;&amp; has::getSSE&lt;SrcType&gt; &amp;&amp; Expression::allElementTypesSame)</div>
-<div class="line">    {</div>
-<div class="line">        return Expression::SSE::add (singleSIMD.sse, src.getSSE (i));</div>
-<div class="line">    }</div>
-<div class="line"> </div>
-<div class="line">private:</div>
-<div class="line">    mutable SIMDRegisterUnion&lt;Expression&gt; singleSIMD {};</div>
-</div><!-- fragment --><p></code></p>
-<p><code>Note: Don't forget the default initialization braces for your <code>SIMDRegisterUnion</code> member(s), otherwise the expression class won't work in a constexpr context.</code></p>
-<p><code></code></p>
-<h1><a class="anchor" id="autotoc_md4"></a>
-Platform Specific Vector Operations</h1>
-<p><code> In many cases, highly optimized vector operation libraries like Intel IPP or Apple Accelerate outperform our handwritten SIMD code. We can also use them to execute our expressions. To do so, we need to implement <code>evalNextVectorOpInExpressionChain</code>. Let's have a look of the <code>Abs</code> template again to see how it's used:</code></p>
-<p><code></p><div class="fragment"><div class="line"> {C++}</div>
-<div class="line">VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const</div>
-<div class="line">requires (platformApple &amp;&amp; has::evalNextVectorOpInExpressionChain&lt;SrcType, value_type&gt; &amp;&amp; is::realFloatNumber&lt;value_type&gt;)</div>
-<div class="line">{</div>
-<div class="line">    AccelerateRetType::abs (src.evalNextVectorOpInExpressionChain (dst), dst, int (size()));</div>
-<div class="line">    return dst;</div>
-<div class="line">}</div>
-</div><!-- fragment --><p></code></p>
-<p><code><code>evalNextVectorOpInExpressionChain</code> takes a destination memory location as argument and returns a source memory location. The returned pointer is the memory that the next expression should read from. The argument is the memory that we write our expression result to. When we assign an expression to a Vector, it will pass the vectors' storage as argument to <code>evalNextVectorOpInExpressionChain</code>. This way we are able to write the expression result directly into the destination memory. A usual expression template should return the destination memory, making chained expression work in place on the destination memory. <code>VctrBase</code> is the only class that returns its <code>data</code> pointer from <code>evalNextVectorOpInExpressionChain</code>, so if the source is a vector, the first expression will perform an out-of-place operation from the source memory into the destination memory.</code></p>
-<p><code>As we write to the destination memory directly, there can be cases where we need the destination vector as a source vector while evaluating the expression. Take this one for an example: ` a = a + <a class="el" href="group__Expressions.html#gac4fac892235effd8638c99018b7ab32f" title="Computes the absolute value of the source values.">vctr::abs</a> (b); <code> With the implementation strategy described above, the template would first call</code>evalNextVectorOpInExpressionChain<code>on the</code>abs (b)<code>expression, take the memory of</code>b<code>as source and write the result into the memory of</code>a<code>. Then it would perform the addition between the result of that computation and</code>a<code>. But wait, at that point, we already replaced the value of</code>a<code>with the result of</code>abs (b)<code>. We have an aliasing problem here. To overcome this problem, we need </code>isNotAliased<code>. It takes the destination memory as argument and returns false in case it detects a case of aliasing. As aliasing is only a problem of binary expressions, unary expressions should simply forward the</code>isNotAliased<code>call as a </code>constexpr` function. Binary expressions should do a check like this:</code></p>
-<p><code></p><div class="fragment"><div class="line"> {C++}</div>
-<div class="line">constexpr bool isNotAliased (const void* dst) const</div>
-<div class="line">{</div>
-<div class="line">    if constexpr (is::expression&lt;SrcAType&gt; &amp;&amp; is::anyVctr&lt;SrcBType&gt;)</div>
-<div class="line">    {</div>
-<div class="line">        return dst != srcB.data();</div>
-<div class="line">    }</div>
-<div class="line"> </div>
-<div class="line">    if constexpr (is::anyVctr&lt;SrcAType&gt; &amp;&amp; is::expression&lt;SrcBType&gt;)</div>
-<div class="line">    {</div>
-<div class="line">        return dst != srcA.data();</div>
-<div class="line">    }</div>
-<div class="line"> </div>
-<div class="line">    return true;</div>
-<div class="line">}</div>
-</div><!-- fragment --><p></code></p>
-<p><code><code>isNotAliased</code> is also implemented in the <code>VCTR_COMMON_..._EXPRESSION_MEMBERS</code> macros, so you should not need to take care of that yourself.</code></p>
-<p><code>As evaluating a binary expression with two expressions as sources can never work with our <code>evalNextVectorOpInExpressionChain</code> implementation strategy as it would need an intermediate buffer that we want to avoid at all costs, binary expressions should always be constrained by the <code>is::suitableForBinaryEvalVectorOp</code> concept.</code></p>
-<p><code></code></p>
-<h1><a class="anchor" id="autotoc_md5"></a>
-Reduction expressions</h1>
-<p><code> While the expressions discussed above are used to transform a source vector into a destination vector, reduction expressions reduce a source vector into a single reduction result value. Examples are e.g. a vector sum or finding the maximum value in a vector. They use the same class template signature and also define an <code>ExpressionChainBuilder</code> instance but their member functions look different. Futhermore, an expression chain terminated by a reduction expression is not evaluated lazily when assigned to a destination but are evaluated right away and returns the computed single value.</code></p>
-<p><code>The most basic reduction expression template implementation must look like that:</code></p>
-<p><code></p><div class="fragment"><div class="line"> {C++}</div>
-<div class="line">template &lt;size_t extent, class SrcType&gt;</div>
-<div class="line">class MyExpression : ExpressionTemplateBase</div>
-<div class="line">{</div>
-<div class="line">public:</div>
-<div class="line">    using value_type = ValueType&lt;SrcType&gt;;</div>
-<div class="line">    </div>
-<div class="line">    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (MyExpression, src)</div>
-<div class="line"> </div>
-<div class="line">    static constexpr value_type reductionResultInitValue = std::numeric_limits&lt;value_type&gt;::min();</div>
-<div class="line"> </div>
-<div class="line">    VCTR_FORCEDINLINE constexpr void reduceElementWise (value_type&amp; result, size_t i) const</div>
-<div class="line">    {</div>
-<div class="line">        result = someComputation (result, src[i]);</div>
-<div class="line">    }</div>
-<div class="line">    </div>
-<div class="line">    template &lt;size_t n&gt;</div>
-<div class="line">    VCTR_FORCEDINLINE static constexpr value_type finalizeReduction (const std::array&lt;value_type, n&gt;&amp; subResults)</div>
-<div class="line">    {</div>
-<div class="line">        return finalComputationOnSubResults (subResults);</div>
-<div class="line">    }</div>
-<div class="line">};</div>
-</div><!-- fragment --><p></code></p>
-<p><code>The calling code will create a <code>std::array&lt;value_type, 1&gt;</code> variable which is initialised to <code>reductionResultInitValue</code>. The single array value is then passed to <code>reduceElementWise</code> which is called in a loop over all source elements. After all elements have been processed, the array is passed to <code>finalizeReduction</code> which is expected to perform final computations. While in this case the array will only hold a single element, it can hold multiple sub results in other scenarios discussed below.</code></p>
-<p><code>When platform specific vector operations should be used, the required signature is </p><div class="fragment"><div class="line"> {c++}</div>
-<div class="line">value_type reduceVectorOp() const</div>
-</div><!-- fragment --><p></code></p>
-<p><code>This usually requires, that the source type supplies direct access to the <code>data()</code> pointer and is likely not suitable when chained expressions are used, as there is no scratch buffer to write the previous expression results to. Better constrain your implementation according to that, using e.g. the <code><a class="el" href="conceptvctr_1_1has_1_1data.html" title="Constrains a type to have a member function data() const.">vctr::has::data</a></code> concept.</code></p>
-<p><code>When SIMD operations should be used, the required signature is </p><div class="fragment"><div class="line">{c++}</div>
-<div class="line">   VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister&lt;value_type&gt;&amp; result, size_t i) const;</div>
-<div class="line"> </div>
-<div class="line">   VCTR_FORCEDINLINE VCTR_TARGET (&quot;avx&quot;) void reduceAVXRegisterWise (AVXRegister&lt;value_type&gt;&amp; result, size_t i) const;</div>
-<div class="line"> </div>
-<div class="line">   VCTR_FORCEDINLINE VCTR_TARGET (&quot;avx2&quot;) void reduceAVXRegisterWise (AVXRegister&lt;value_type&gt;&amp; result, size_t i) const;</div>
-<div class="line"> </div>
-<div class="line">   VCTR_FORCEDINLINE VCTR_TARGET (&quot;sse4.1&quot;) void reduceSSERegisterWise (SSERegister&lt;value_type&gt;&amp; result, size_t i) const;</div>
-</div><!-- fragment --><p></code></p>
-<p><code>They basically work the same as the element-wise implementations but they evaluate a whole SIMD register at a time. Possible residual elements are then evaluated using a scalar loop in the calling code. This leads to a SIMD register and a single scalar value as sub-results, which are passed to <code>finalizeReduction</code> for a last final reduction step. </code></p>
+<p>Intel architecture specific implementations have to be prefixed with the <code>VCTR_TARGET (&lt;arch&gt;)</code> macro to instruct the compiler to deliberately generate instructions for that instruction set, no matter what compiler flags are set. The calling side will do a runtime check if the corresponding functions are available at runtime. Valid values for <code>&lt;arch&gt;</code> are <code>"avx"</code>, <code>"fma"</code>, <code>"avx2"</code>" and `"sse4.1"`.
+
+In case implementations are only available or make sense for specific constraints, you can constrain them and possibly
+add multiple implementations for different types, e.g. like this
+
+@icode {C++}
+VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister&lt;value_type&gt; getSSE (size_t i) const
+requires (archX64 &amp;&amp; has::getSSE&lt;SrcType&gt; &amp;&amp; is::realFloatNumber&lt;SrcElementType&gt;)
+{
+    static const auto sseSignBit = SSESrcType::broadcast (SrcElementType (-0.0));
+
+    return SSERetType::andNot (sseSignBit, src.getSSE (i));
+}
+
+VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister&lt;value_type&gt; getSSE (size_t i) const
+requires (archX64 &amp;&amp; has::getSSE&lt;SrcType&gt; &amp;&amp; std::same_as&lt;int32_t, value_type&gt;)
+{
+    return SSERetType::abs (src.getSSE (i));
+}
+
+VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister&lt;value_type&gt; getSSE (size_t i) const
+requires (archX64 &amp;&amp; has::getSSE&lt;SrcType&gt; &amp;&amp; is::unsignedIntNumber&lt;value_type&gt;)
+{
+    return src.getSSE (i); // unsigned integers are always positive
+}
+@endicode
+
+Here we see some explicit overloads for floating point values, int32 values and unsigned integers. For int64, there
+is no straightforward abs function in SSE 4.1 so we don't implement it. Calling abs on an int64 vector might fall back
+to the default &lt;tt&gt;operator[]&lt;/tt&gt; implementation then. When assigning the expression, the implementation tries its best to
+choose the most promising strategy for the given architecture it runs on, so it's a good idea to implement multiple
+possibilities.
+
+Some SIMD based evaluations can gain performance by storing constants to a SIMD register once before looping over
+the registers. These temporary registers are managed as private &lt;tt&gt;mutable&lt;/tt&gt; member variables in the expression class.
+They are mutable since expressions are usually passed as const reference to the destination container that evaluates
+them, and they are used as temporary working buffer only. Since multithreaded expression evaluation is not supported,
+this is safe. To avoid the need of declaring individual variables per register type which will never be used
+simultaneously, we can use the &lt;tt&gt;SIMDRegisterUnion&lt;/tt&gt; union template which contains a Neon, an AVX and an SSE register.
+To initialize the values in the register before the SIMD evaluation starts, the expression has to expose a 
+&lt;tt&gt;prepare\&lt;arch\&gt;Evaluation&lt;/tt&gt; function with &lt;tt&gt;\&lt;arch\&gt;&lt;/tt&gt; being one of &lt;tt&gt;Neon&lt;/tt&gt;, &lt;tt&gt;AVX&lt;/tt&gt; and &lt;tt&gt;SSE&lt;/tt&gt; for every evaluation function
+that it implements. Even if the expression does not make use of that feature, it has to forward those functions to 
+the source expressions. To avoid a lot of boilerplate code, the 
+&lt;tt&gt;VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS&lt;/tt&gt; and 
+&lt;tt&gt;VCTR_FORWARD_PREPARE_SIMD_EVALUATION_BINARY_EXPRESSION_MEMBER_FUNCTIONS&lt;/tt&gt; macros can be used. A manual implementation
+can look like this, taking an expression that sums a SIMD register with a scalar value:
+@icode {C++}
+public:
+    //...
+    
+    // AVX Implementation
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void prepareAVXEvaluation() const
+    requires has::prepareAVXEvaluation&lt;SrcType&gt;
+    {
+        src.prepareAVXEvaluation();
+        singleSIMD.avx = Expression::AVX::broadcast (single);
+    }
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") AVXRegister&lt;value_type&gt; getAVX (size_t i) const
+    requires (archX64 &amp;&amp; has::getAVX&lt;SrcType&gt; &amp;&amp; Expression::allElementTypesSame &amp;&amp; Expression::CommonElement::isRealFloat)
+    {
+        return Expression::AVX::add (singleSIMD.avx, src.getAVX (i));
+    }
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") AVXRegister&lt;value_type&gt; getAVX (size_t i) const
+    requires (archX64 &amp;&amp; has::getAVX&lt;SrcType&gt; &amp;&amp; Expression::allElementTypesSame &amp;&amp; Expression::CommonElement::isInt)
+    {
+        return Expression::AVX::add (singleSIMD.avx, src.getAVX (i));
+    }
+    
+    // SSE Implementation
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void prepareSSEEvaluation() const
+    requires has::prepareSSEEvaluation&lt;SrcType&gt;
+    {
+        src.prepareSSEEvaluation();
+        singleSIMD.sse = Expression::SSE::broadcast (single);
+    }
+    
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister&lt;value_type&gt; getSSE (size_t i) const
+    requires (archX64 &amp;&amp; has::getSSE&lt;SrcType&gt; &amp;&amp; Expression::allElementTypesSame)
+    {
+        return Expression::SSE::add (singleSIMD.sse, src.getSSE (i));
+    }
+
+private:
+    mutable SIMDRegisterUnion&lt;Expression&gt; singleSIMD {};
+@endicode
+
+Note: Don't forget the default initialization braces for your &lt;tt&gt;SIMDRegisterUnion&lt;/tt&gt; member(s), otherwise the expression 
+class won't work in a constexpr context.
+
+@section autotoc_md4 Platform Specific Vector Operations
+
+In many cases, highly optimized vector operation libraries like Intel IPP or Apple Accelerate outperform our
+handwritten SIMD code. We can also use them to execute our expressions. To do so, we need to implement 
+&lt;tt&gt;evalNextVectorOpInExpressionChain&lt;/tt&gt;. Let's have a look of the &lt;tt&gt;Abs&lt;/tt&gt; template again to see how it's used:
+
+@icode {C++}
+VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
+requires (platformApple &amp;&amp; has::evalNextVectorOpInExpressionChain&lt;SrcType, value_type&gt; &amp;&amp; is::realFloatNumber&lt;value_type&gt;)
+{
+    AccelerateRetType::abs (src.evalNextVectorOpInExpressionChain (dst), dst, int (size()));
+    return dst;
+}
+@endicode
+
+&lt;tt&gt;evalNextVectorOpInExpressionChain&lt;/tt&gt; takes a destination memory location as argument and returns a source memory
+location. The returned pointer is the memory that the next expression should read from. The argument is the memory that
+we write our expression result to. When we assign an expression to a Vector, it will pass the vectors' storage as
+argument to &lt;tt&gt;evalNextVectorOpInExpressionChain&lt;/tt&gt;. This way we are able to write the expression result directly into the
+destination memory. A usual expression template should return the destination memory, making chained expression work in
+place on the destination memory. &lt;tt&gt;VctrBase&lt;/tt&gt; is the only class that returns its &lt;tt&gt;data&lt;/tt&gt; pointer from
+&lt;tt&gt;evalNextVectorOpInExpressionChain&lt;/tt&gt;, so if the source is a vector, the first expression will perform an out-of-place
+operation from the source memory into the destination memory.
+
+As we write to the destination memory directly, there can be cases where we need the destination vector as a source
+vector while evaluating the expression. Take this one for an example:
+`
+a = a + vctr::abs (b);
+&lt;tt&gt;
+With the implementation strategy described above, the template would first call&lt;/tt&gt;evalNextVectorOpInExpressionChain&lt;tt&gt;on
+the&lt;/tt&gt;abs (b)&lt;tt&gt;expression, take the memory of&lt;/tt&gt;b&lt;tt&gt;as source and write the result into the memory of&lt;/tt&gt;a&lt;tt&gt;. Then it would
+perform the addition between the result of that computation and&lt;/tt&gt;a&lt;tt&gt;. But wait, at that point, we already replaced the
+value of&lt;/tt&gt;a&lt;tt&gt;with the result of&lt;/tt&gt;abs (b)&lt;tt&gt;. We have an aliasing problem here. To overcome this problem, we need
+&lt;/tt&gt;isNotAliased&lt;tt&gt;. It takes the destination memory as argument and returns false in case it detects a case of aliasing. As
+aliasing is only a problem of binary expressions, unary expressions should simply forward the&lt;/tt&gt;isNotAliased&lt;tt&gt;call as a
+&lt;/tt&gt;constexpr` function. Binary expressions should do a check like this:
+
+@icode {C++}
+constexpr bool isNotAliased (const void* dst) const
+{
+    if constexpr (is::expression&lt;SrcAType&gt; &amp;&amp; is::anyVctr&lt;SrcBType&gt;)
+    {
+        return dst != srcB.data();
+    }
+
+    if constexpr (is::anyVctr&lt;SrcAType&gt; &amp;&amp; is::expression&lt;SrcBType&gt;)
+    {
+        return dst != srcA.data();
+    }
+
+    return true;
+}
+@endicode
+
+&lt;tt&gt;isNotAliased&lt;/tt&gt; is also implemented in the &lt;tt&gt;VCTR_COMMON_..._EXPRESSION_MEMBERS&lt;/tt&gt; macros, so you should not need to take
+care of that yourself.
+
+As evaluating a binary expression with two expressions as sources can never work with our
+&lt;tt&gt;evalNextVectorOpInExpressionChain&lt;/tt&gt; implementation strategy as it would need an intermediate buffer that we want to
+avoid at all costs, binary expressions should always be constrained by the &lt;tt&gt;is::suitableForBinaryEvalVectorOp&lt;/tt&gt; concept.
+
+@section autotoc_md5 Reduction expressions
+
+While the expressions discussed above are used to transform a source vector into a destination vector, reduction
+expressions reduce a source vector into a single reduction result value. Examples are e.g. a vector sum or finding
+the maximum value in a vector. They use the same class template signature and also define an &lt;tt&gt;ExpressionChainBuilder&lt;/tt&gt;
+instance but their member functions look different. Futhermore, an expression chain terminated by a reduction expression
+is not evaluated lazily when assigned to a destination but are evaluated right away and returns the computed single 
+value.
+
+The most basic reduction expression template implementation must look like that:
+
+@icode {C++}
+template &lt;size_t extent, class SrcType&gt;
+class MyExpression : ExpressionTemplateBase
+{
+public:
+    using value_type = ValueType&lt;SrcType&gt;;
+    
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (MyExpression, src)
+
+    static constexpr value_type reductionResultInitValue = std::numeric_limits&lt;value_type&gt;::min();
+
+    VCTR_FORCEDINLINE constexpr void reduceElementWise (value_type&amp; result, size_t i) const
+    {
+        result = someComputation (result, src[i]);
+    }
+    
+    template &lt;size_t n&gt;
+    VCTR_FORCEDINLINE static constexpr value_type finalizeReduction (const std::array&lt;value_type, n&gt;&amp; subResults)
+    {
+        return finalComputationOnSubResults (subResults);
+    }
+};
+@endicode
+
+The calling code will create a &lt;tt&gt;std::array\&lt;value_type, 1\&gt;&lt;/tt&gt; variable which is initialised to &lt;tt&gt;reductionResultInitValue&lt;/tt&gt;.
+The single array value is then passed to &lt;tt&gt;reduceElementWise&lt;/tt&gt; which is called in a loop over all source elements. After
+all elements have been processed, the array is passed to &lt;tt&gt;finalizeReduction&lt;/tt&gt; which is expected to perform final
+computations. While in this case the array will only hold a single element, it can hold multiple sub results in other
+scenarios discussed below.
+
+When platform specific vector operations should be used, the required signature is
+@icode {c++}
+value_type reduceVectorOp() const
+@endicode
+
+This usually requires, that the source type supplies direct access to the &lt;tt&gt;data()&lt;/tt&gt; pointer and is 
+likely not suitable when chained expressions are used, as there is no scratch buffer to write the
+previous expression results to. Better constrain your implementation according to that, using e.g.
+the &lt;tt&gt;vctr::has::data&lt;/tt&gt; concept.
+
+When SIMD operations should be used, the required signature is
+@icode {c++}
+    VCTR_FORCEDINLINE void reduceNeonRegisterWise (NeonRegister&lt;value_type&gt;&amp; result, size_t i) const;
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") void reduceAVXRegisterWise (AVXRegister&lt;value_type&gt;&amp; result, size_t i) const;
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") void reduceAVXRegisterWise (AVXRegister&lt;value_type&gt;&amp; result, size_t i) const;
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void reduceSSERegisterWise (SSERegister&lt;value_type&gt;&amp; result, size_t i) const; </p>
+<p>They basically work the same as the element-wise implementations but they evaluate a whole SIMD register at a time. Possible residual elements are then evaluated using a scalar loop in the calling code. This leads to a SIMD register and a single scalar value as sub-results, which are passed to <code>finalizeReduction</code> for a last final reduction step. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

@@ -3,8 +3,9 @@ var hierarchy =
     [ "vctr::AlignedAllocator< ElementType, alignmentInBytes >", "classvctr_1_1AlignedAllocator.html", null ],
     [ "vctr::AVXRegister< T >", "structvctr_1_1AVXRegister.html", null ],
     [ "vctr::AVXRegister< typename CommonSrcElement::Type >", "structvctr_1_1AVXRegister.html", null ],
-    [ "vctr::CombinedStorageInfo< InfoA, InfoB >", "structvctr_1_1CombinedStorageInfo.html", null ],
-    [ "vctr::CombinedStorageInfo< InfoA, InfoB >", "structvctr_1_1CombinedStorageInfo_3_01InfoA_00_01InfoB_01_4.html", null ],
+    [ "vctr::CombinedStorageInfo< First, Others >", "structvctr_1_1CombinedStorageInfo.html", null ],
+    [ "vctr::CombinedStorageInfo< First, Others... >", "structvctr_1_1CombinedStorageInfo_3_01First_00_01Others_8_8_8_01_4.html", null ],
+    [ "vctr::CombinedStorageInfo< std::remove_cvref_t< SrcAStorageInfoType >, std::remove_cvref_t< SrcBStorageInfoType >, std::remove_cvref_t< SrcCStorageInfoType > >", "structvctr_1_1CombinedStorageInfo.html", null ],
     [ "vctr::Config", "structvctr_1_1Config.html", [
       [ "vctr::VctrBase< ElementType, std::span< ElementType, std::dynamic_extent >, std::dynamic_extent, StorageInfoWithMemberAlignment< alignof(std::span< ElementType, std::dynamic_extent >), StorageInfo< std::span< ElementType, std::dynamic_extent > > > >", "classvctr_1_1VctrBase.html", null ],
       [ "vctr::ExpressionTemplateBase", "structvctr_1_1ExpressionTemplateBase.html", [
@@ -46,6 +47,8 @@ var hierarchy =
         [ "vctr::expressions::MeanSquare< extent, SrcType >", "classvctr_1_1expressions_1_1MeanSquare.html", null ],
         [ "vctr::expressions::Min< extent, SrcType >", "classvctr_1_1expressions_1_1Min.html", null ],
         [ "vctr::expressions::MinAbs< extent, SrcType >", "classvctr_1_1expressions_1_1MinAbs.html", null ],
+        [ "vctr::expressions::MultiplyAccumulateVectors< extent, SrcAType, SrcBType, SrcCType >", "classvctr_1_1expressions_1_1MultiplyAccumulateVectors.html", null ],
+        [ "vctr::expressions::MultiplySubtractVectors< extent, SrcAType, SrcBType, SrcCType >", "classvctr_1_1expressions_1_1MultiplySubtractVectors.html", null ],
         [ "vctr::expressions::MultiplyVecByConstant< extent, SrcType, ConstantType >", "classvctr_1_1expressions_1_1MultiplyVecByConstant.html", null ],
         [ "vctr::expressions::MultiplyVecBySingle< extent, SrcType >", "classvctr_1_1expressions_1_1MultiplyVecBySingle.html", null ],
         [ "vctr::expressions::MultiplyVectors< extent, SrcAType, SrcBType >", "classvctr_1_1expressions_1_1MultiplyVectors.html", null ],
@@ -96,6 +99,7 @@ var hierarchy =
       [ "vctr::dBFS", "structvctr_1_1dBFS.html", null ],
       [ "vctr::dBVoltage", "structvctr_1_1dBVoltage.html", null ]
     ] ],
+    [ "vctr::CPUInstructionSets", "structvctr_1_1CPUInstructionSets.html", null ],
     [ "vctr::DefaultVectorAllocator< ElementType >", "structvctr_1_1DefaultVectorAllocator.html", null ],
     [ "vctr::DefaultVectorAllocator< ElementType >", "structvctr_1_1DefaultVectorAllocator_3_01ElementType_01_4.html", null ],
     [ "vctr::DisabledConstant", "structvctr_1_1DisabledConstant.html", null ],

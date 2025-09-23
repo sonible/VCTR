@@ -95,7 +95,6 @@ $(document).ready(function(){initNavTree('namespacevctr.html',''); initResizable
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">vctr Namespace Reference</div></div>
@@ -123,12 +122,14 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1CombinedStorageInfo.html">CombinedStorageInfo</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1CombinedStorageInfo_3_01InfoA_00_01InfoB_01_4.html">CombinedStorageInfo&lt; InfoA, InfoB &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1CombinedStorageInfo_3_01First_00_01Others_8_8_8_01_4.html">CombinedStorageInfo&lt; First, Others... &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1Config.html">Config</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1Constant.html">Constant</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A simple helper struct to pass a constant as argument wrapped in a struct with a single public static constexpr member variable named value.  <a href="structvctr_1_1Constant.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1CPUInstructionSets.html">CPUInstructionSets</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1dBFS.html">dBFS</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decibel constant dbFS to be passed to dbToMag or magToDb.  <a href="structvctr_1_1dBFS.html#details">More...</a><br /></td></tr>
@@ -234,19 +235,6 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a222cc9e4338c24b2f0751c132503ce3a"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a> = typename detail::StorageInfoType&lt; std::remove_cvref_t&lt; T &gt; &gt;::Type</td></tr>
 <tr class="memdesc:a222cc9e4338c24b2f0751c132503ce3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">If t is a type derived from <a class="el" href="classvctr_1_1VctrBase.html" title="The base class to all one dimensional containers and views in the VCTR project.">VctrBase</a>, this will equal the return value of T::getStorageInfo, otherwise this will be StorageInfo&lt;T&gt;.  <br /></td></tr>
 <tr class="separator:a222cc9e4338c24b2f0751c132503ce3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a49c8e2687aa55e0477e6aff04c3c543b"><td class="memItemLeft" align="right" valign="top"><a id="a49c8e2687aa55e0477e6aff04c3c543b" name="a49c8e2687aa55e0477e6aff04c3c543b"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>CPUInstructionSet</b> { <br />
-&#160;&#160;<b>sse4_1</b>
-, <b>avx</b>
-, <b>avx2</b>
-, <b>neon</b>
-, <br />
-&#160;&#160;<b>fallback</b>
-<br />
- }</td></tr>
-<tr class="separator:a49c8e2687aa55e0477e6aff04c3c543b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -371,6 +359,16 @@ requires is::anyVctrOrExpression&lt;Src&gt;</td></tr>
 <tr class="memitem:ga381264b52d81641d1e0e7fba44b95b33"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga381264b52d81641d1e0e7fba44b95b33">operator*</a> (Src &amp;&amp;vec, typename std::remove_cvref_t&lt; Src &gt;::value_type single)</td></tr>
 <tr class="memdesc:ga381264b52d81641d1e0e7fba44b95b33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that multiplies a vector or expression source with a single value.  <br /></td></tr>
 <tr class="separator:ga381264b52d81641d1e0e7fba44b95b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga820b75d2fcb9c18915ce358c4029af93"><td class="memTemplParams" colspan="2">template&lt;class SrcAType , class SrcBType , class SrcCType &gt; <br />
+requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcCType&gt;&gt;)</td></tr>
+<tr class="memitem:ga820b75d2fcb9c18915ce358c4029af93"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga820b75d2fcb9c18915ce358c4029af93">multiplyAccumulate</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b, SrcCType &amp;&amp;c)</td></tr>
+<tr class="memdesc:ga820b75d2fcb9c18915ce358c4029af93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the multiply-accumulate operation (a * b) + c.  <br /></td></tr>
+<tr class="separator:ga820b75d2fcb9c18915ce358c4029af93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8af8d6a5ae5a924f83ddea9f4e9815f2"><td class="memTemplParams" colspan="2">template&lt;class SrcAType , class SrcBType , class SrcCType &gt; <br />
+requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcCType&gt;&gt;)</td></tr>
+<tr class="memitem:ga8af8d6a5ae5a924f83ddea9f4e9815f2"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga8af8d6a5ae5a924f83ddea9f4e9815f2">multiplySubtract</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b, SrcCType &amp;&amp;c)</td></tr>
+<tr class="memdesc:ga8af8d6a5ae5a924f83ddea9f4e9815f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the multiply-subtract operation c - (a * b).  <br /></td></tr>
+<tr class="separator:ga8af8d6a5ae5a924f83ddea9f4e9815f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9174be97e2f8cdaa08c40b5b5f24628b"><td class="memTemplParams" colspan="2">template&lt;class SrcAType , class SrcBType &gt; <br />
 requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt;)</td></tr>
 <tr class="memitem:ga9174be97e2f8cdaa08c40b5b5f24628b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga9174be97e2f8cdaa08c40b5b5f24628b">operator-</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b)</td></tr>
@@ -440,9 +438,9 @@ requires (sizeof... (RuntimeArgs) &gt; 0)</td></tr>
 template&lt;class ElementType , size_t alignmentInBytesLHS, size_t alignmentInBytesRHS&gt; </td></tr>
 <tr class="memitem:ae5f802c4dd64e90f68dd2d09991468ae"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classvctr_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; ElementType, alignmentInBytesLHS &gt; &amp;, const <a class="el" href="classvctr_1_1AlignedAllocator.html">AlignedAllocator</a>&lt; ElementType, alignmentInBytesRHS &gt; &amp;)</td></tr>
 <tr class="separator:ae5f802c4dd64e90f68dd2d09991468ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9984ebcd310f07bbcc64d91a8b00e18"><td class="memItemLeft" align="right" valign="top"><a id="aa9984ebcd310f07bbcc64d91a8b00e18" name="aa9984ebcd310f07bbcc64d91a8b00e18"></a>
-CPUInstructionSet&#160;</td><td class="memItemRight" valign="bottom"><b>getHighestSupportedCPUInstructionSet</b> ()</td></tr>
-<tr class="separator:aa9984ebcd310f07bbcc64d91a8b00e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a0e42decb7ea740d4cb76b4fd875148"><td class="memItemLeft" align="right" valign="top"><a id="a4a0e42decb7ea740d4cb76b4fd875148" name="a4a0e42decb7ea740d4cb76b4fd875148"></a>
+<a class="el" href="structvctr_1_1CPUInstructionSets.html">CPUInstructionSets</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getSupportedCPUInstructionSets</b> ()</td></tr>
+<tr class="separator:a4a0e42decb7ea740d4cb76b4fd875148"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1653c21c7d273148258da4ce3ff4f376"><td class="memTemplParams" colspan="2"><a id="a1653c21c7d273148258da4ce3ff4f376" name="a1653c21c7d273148258da4ce3ff4f376"></a>
 template&lt;is::anyVctrOrExpression V&gt; </td></tr>
 <tr class="memitem:a1653c21c7d273148258da4ce3ff4f376"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;s, const V &amp;vec)</td></tr>
@@ -454,14 +452,18 @@ template&lt;is::anyVctrOrExpression V&gt; </td></tr>
 <tr class="memitem:a47672a92dc631509f9b7cf1e5d01d9aa"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a47672a92dc631509f9b7cf1e5d01d9aa">isPtrAligned</a> (const void *ptr)</td></tr>
 <tr class="memdesc:a47672a92dc631509f9b7cf1e5d01d9aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to check if a pointer is aligned to the required alignment value.  <br /></td></tr>
 <tr class="separator:a47672a92dc631509f9b7cf1e5d01d9aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50b3b641de5cbcac59ad5c852df70929"><td class="memTemplParams" colspan="2">template&lt;class A , class B &gt; </td></tr>
+<tr class="memitem:a50b3b641de5cbcac59ad5c852df70929"><td class="memTemplParams" colspan="2">template&lt;class First , class... Other&gt; </td></tr>
 <tr class="memitem:a50b3b641de5cbcac59ad5c852df70929"><td class="memTemplItemLeft" align="right" valign="top">consteval size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a50b3b641de5cbcac59ad5c852df70929">getCommonExtent</a> ()</td></tr>
-<tr class="memdesc:a50b3b641de5cbcac59ad5c852df70929"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns std::dynamic_extent in case both sources specify a dynamic extent.  <br /></td></tr>
+<tr class="memdesc:a50b3b641de5cbcac59ad5c852df70929"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns std::dynamic_extent in case all the sources specify a dynamic extent.  <br /></td></tr>
 <tr class="separator:a50b3b641de5cbcac59ad5c852df70929"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a530eaa0685b6027bcdd79a4ac9a47fda"><td class="memTemplParams" colspan="2">template&lt;class A , class B &gt; </td></tr>
 <tr class="memitem:a530eaa0685b6027bcdd79a4ac9a47fda"><td class="memTemplItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a530eaa0685b6027bcdd79a4ac9a47fda">assertCommonSize</a> (const A &amp;a, const B &amp;b)</td></tr>
 <tr class="memdesc:a530eaa0685b6027bcdd79a4ac9a47fda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensures that both sources have the same size.  <br /></td></tr>
 <tr class="separator:a530eaa0685b6027bcdd79a4ac9a47fda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a5389ec30d6584c69157514e7a98602"><td class="memTemplParams" colspan="2">template&lt;class A , class B , class C &gt; </td></tr>
+<tr class="memitem:a1a5389ec30d6584c69157514e7a98602"><td class="memTemplItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a1a5389ec30d6584c69157514e7a98602">assertCommonSize</a> (const A &amp;a, const B &amp;b, const C &amp;c)</td></tr>
+<tr class="memdesc:a1a5389ec30d6584c69157514e7a98602"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensures that all three sources have the same size.  <br /></td></tr>
+<tr class="separator:a1a5389ec30d6584c69157514e7a98602"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49c06d6ad88e0ec58063d553c7f15bca"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a49c06d6ad88e0ec58063d553c7f15bca"><td class="memTemplItemLeft" align="right" valign="top">consteval std::string_view&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a49c06d6ad88e0ec58063d553c7f15bca">typeName</a> ()</td></tr>
 <tr class="memdesc:a49c06d6ad88e0ec58063d553c7f15bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string containing the templates type name.  <br /></td></tr>
@@ -855,7 +857,7 @@ template&lt;class T &gt; </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a530eaa0685b6027bcdd79a4ac9a47fda" name="a530eaa0685b6027bcdd79a4ac9a47fda"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a530eaa0685b6027bcdd79a4ac9a47fda">&#9670;&#160;</a></span>assertCommonSize()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a530eaa0685b6027bcdd79a4ac9a47fda">&#9670;&#160;</a></span>assertCommonSize() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -892,6 +894,53 @@ template&lt;class A , class B &gt; </div>
 
 <p>Ensures that both sources have the same size. </p>
 <p>In case they both specify a non-dynamic extent, this will be a compile-time static_assert, otherwise it will perform a runtime assert comparing the sizes. </p>
+
+</div>
+</div>
+<a id="a1a5389ec30d6584c69157514e7a98602" name="a1a5389ec30d6584c69157514e7a98602"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a5389ec30d6584c69157514e7a98602">&#9670;&#160;</a></span>assertCommonSize() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class A , class B , class C &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr void vctr::assertCommonSize </td>
+          <td>(</td>
+          <td class="paramtype">const A &amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const B &amp;&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const C &amp;&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ensures that all three sources have the same size. </p>
+<p>In case they all specify a non-dynamic extent, this will be a compile-time static_assert, otherwise it will perform a runtime assert comparing the sizes. </p>
 
 </div>
 </div>
@@ -943,7 +992,7 @@ template&lt;class R , class ArgA , class ArgB , R(*)(ArgA, ArgB) fn&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class A , class B &gt; </div>
+template&lt;class First , class... Other&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">consteval size_t vctr::getCommonExtent </td>
@@ -954,8 +1003,9 @@ template&lt;class A , class B &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Returns std::dynamic_extent in case both sources specify a dynamic extent. </p>
-<p>Throws in case both sources specify a non-matching non-dynamic extent. Returns the non-dynamic extent found otherwise. </p>
+<p>Returns std::dynamic_extent in case all the sources specify a dynamic extent. </p>
+<p>Returns the non-dynamic extent found otherwise.</p>
+<p>Note: This helper assumes, that you know that all sources have a common size. If in doubt, use assertCommonSize to verify that. </p>
 
 </div>
 </div>

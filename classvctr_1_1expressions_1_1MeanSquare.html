@@ -131,9 +131,9 @@ VCTR_FORCEDINLINE value_type&#160;</td><td class="memItemRight" valign="bottom">
 <tr class="memitem:aabf65aa5adb509947f75e6eaa7465571"><td class="memItemLeft" align="right" valign="top"><a id="aabf65aa5adb509947f75e6eaa7465571" name="aabf65aa5adb509947f75e6eaa7465571"></a>
 VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS VCTR_FORCEDINLINE void&#160;</td><td class="memItemRight" valign="bottom"><b>reduceNeonRegisterWise</b> (<a class="el" href="structvctr_1_1NeonRegister.html">NeonRegister</a>&lt; value_type &gt; &amp;result, size_t i) const</td></tr>
 <tr class="separator:aabf65aa5adb509947f75e6eaa7465571"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b4d9a7ec4d6cad9bd8146db967c5171"><td class="memItemLeft" align="right" valign="top"><a id="a2b4d9a7ec4d6cad9bd8146db967c5171" name="a2b4d9a7ec4d6cad9bd8146db967c5171"></a>
-VCTR_FORCEDINLINE&#160;</td><td class="memItemRight" valign="bottom"><b>VCTR_TARGET</b> (&quot;avx&quot;) void reduceAVXRegisterWise(<a class="el" href="structvctr_1_1AVXRegister.html">AVXRegister</a>&lt; value_type &gt; &amp;result</td></tr>
-<tr class="separator:a2b4d9a7ec4d6cad9bd8146db967c5171"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a822482e4a1d04e074df01e521766116c"><td class="memItemLeft" align="right" valign="top"><a id="a822482e4a1d04e074df01e521766116c" name="a822482e4a1d04e074df01e521766116c"></a>
+VCTR_FORCEDINLINE&#160;</td><td class="memItemRight" valign="bottom"><b>VCTR_TARGET</b> (&quot;fma&quot;) void reduceAVXRegisterWise(<a class="el" href="structvctr_1_1AVXRegister.html">AVXRegister</a>&lt; value_type &gt; &amp;result</td></tr>
+<tr class="separator:a822482e4a1d04e074df01e521766116c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a0ec9bb70855053458d8f9342c0b29c"><td class="memItemLeft" align="right" valign="top"><a id="a9a0ec9bb70855053458d8f9342c0b29c" name="a9a0ec9bb70855053458d8f9342c0b29c"></a>
 VCTR_FORCEDINLINE&#160;</td><td class="memItemRight" valign="bottom"><b>VCTR_TARGET</b> (&quot;sse4.1&quot;) void reduceSSERegisterWise(<a class="el" href="structvctr_1_1SSERegister.html">SSERegister</a>&lt; value_type &gt; &amp;result</td></tr>
 <tr class="separator:a9a0ec9bb70855053458d8f9342c0b29c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,15 +156,9 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:a4b36f833947cee3d3cecd9d6eca9b1b3"><td class="memItemLeft" align="right" valign="top"><a id="a4b36f833947cee3d3cecd9d6eca9b1b3" name="a4b36f833947cee3d3cecd9d6eca9b1b3"></a>
 static constexpr value_type&#160;</td><td class="memItemRight" valign="bottom"><b>reductionResultInitValue</b> = 0</td></tr>
 <tr class="separator:a4b36f833947cee3d3cecd9d6eca9b1b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3025ffe11d93eb7adaea2cba6a034e4e"><td class="memItemLeft" align="right" valign="top"><a id="a3025ffe11d93eb7adaea2cba6a034e4e" name="a3025ffe11d93eb7adaea2cba6a034e4e"></a>
-static const auto&#160;</td><td class="memItemRight" valign="bottom"><b>highestSupportedCPUInstructionSet</b> = getHighestSupportedCPUInstructionSet()</td></tr>
-<tr class="separator:a3025ffe11d93eb7adaea2cba6a034e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acab2829d7c8abc5ec537b1fe8017542f"><td class="memItemLeft" align="right" valign="top"><a id="acab2829d7c8abc5ec537b1fe8017542f" name="acab2829d7c8abc5ec537b1fe8017542f"></a>
-static const auto&#160;</td><td class="memItemRight" valign="bottom"><b>supportsAVX2</b> = highestSupportedCPUInstructionSet == CPUInstructionSet::avx2</td></tr>
-<tr class="separator:acab2829d7c8abc5ec537b1fe8017542f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a630c3a68a64c127117a034be04590a86"><td class="memItemLeft" align="right" valign="top"><a id="a630c3a68a64c127117a034be04590a86" name="a630c3a68a64c127117a034be04590a86"></a>
-static const auto&#160;</td><td class="memItemRight" valign="bottom"><b>supportsAVX</b> = highestSupportedCPUInstructionSet == CPUInstructionSet::avx2 || highestSupportedCPUInstructionSet == CPUInstructionSet::avx</td></tr>
-<tr class="separator:a630c3a68a64c127117a034be04590a86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a572bf9306d1364ce18352d6f221d41f9"><td class="memItemLeft" align="right" valign="top"><a id="a572bf9306d1364ce18352d6f221d41f9" name="a572bf9306d1364ce18352d6f221d41f9"></a>
+static const auto&#160;</td><td class="memItemRight" valign="bottom"><b>supportedCPUInstructionSets</b> = getSupportedCPUInstructionSets()</td></tr>
+<tr class="separator:a572bf9306d1364ce18352d6f221d41f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69142d11cd737e8f3687533ff17f9ca6"><td class="memItemLeft" align="right" valign="top"><a id="a69142d11cd737e8f3687533ff17f9ca6" name="a69142d11cd737e8f3687533ff17f9ca6"></a>
 static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>platformWindows</b> = VCTR_WINDOWS</td></tr>
 <tr class="separator:a69142d11cd737e8f3687533ff17f9ca6"><td class="memSeparator" colspan="2">&#160;</td></tr>

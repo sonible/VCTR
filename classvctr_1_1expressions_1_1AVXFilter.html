@@ -121,24 +121,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9655cacffbbce798e58a89f4f6145fd5"><td class="memItemLeft" align="right" valign="top"><a id="a9655cacffbbce798e58a89f4f6145fd5" name="a9655cacffbbce798e58a89f4f6145fd5"></a>
 VCTR_FORCEDINLINE constexpr value_type&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (size_t i) const</td></tr>
 <tr class="separator:a9655cacffbbce798e58a89f4f6145fd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6eea0172839304ec6ba40179b4e36ec9"><td class="memItemLeft" align="right" valign="top"><a id="a6eea0172839304ec6ba40179b4e36ec9" name="a6eea0172839304ec6ba40179b4e36ec9"></a>
-VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS VCTR_FORCEDINLINE&#160;</td><td class="memItemRight" valign="bottom"><b>VCTR_TARGET</b> (&quot;avx&quot;) <a class="el" href="structvctr_1_1AVXRegister.html">AVXRegister</a>&lt; value_type &gt; getAVX(size_t i) const</td></tr>
-<tr class="separator:a6eea0172839304ec6ba40179b4e36ec9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a336a931bdcb9cfe931ebfc7c30aa65e2"><td class="memItemLeft" align="right" valign="top"><a id="a336a931bdcb9cfe931ebfc7c30aa65e2" name="a336a931bdcb9cfe931ebfc7c30aa65e2"></a>
+VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS VCTR_FORCEDINLINE&#160;</td><td class="memItemRight" valign="bottom"><b>VCTR_TARGET</b> (&quot;fma&quot;) <a class="el" href="structvctr_1_1AVXRegister.html">AVXRegister</a>&lt; value_type &gt; getAVX(size_t i) const</td></tr>
+<tr class="separator:a336a931bdcb9cfe931ebfc7c30aa65e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6468ba878b5621e23f4c55020b21beb"><td class="memItemLeft" align="right" valign="top"><a id="ac6468ba878b5621e23f4c55020b21beb" name="ac6468ba878b5621e23f4c55020b21beb"></a>
 VCTR_FORCEDINLINE&#160;</td><td class="memItemRight" valign="bottom"><b>VCTR_TARGET</b> (&quot;avx2&quot;) <a class="el" href="structvctr_1_1AVXRegister.html">AVXRegister</a>&lt; value_type &gt; getAVX(size_t i) const</td></tr>
 <tr class="separator:ac6468ba878b5621e23f4c55020b21beb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a3025ffe11d93eb7adaea2cba6a034e4e"><td class="memItemLeft" align="right" valign="top"><a id="a3025ffe11d93eb7adaea2cba6a034e4e" name="a3025ffe11d93eb7adaea2cba6a034e4e"></a>
-static const auto&#160;</td><td class="memItemRight" valign="bottom"><b>highestSupportedCPUInstructionSet</b> = getHighestSupportedCPUInstructionSet()</td></tr>
-<tr class="separator:a3025ffe11d93eb7adaea2cba6a034e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acab2829d7c8abc5ec537b1fe8017542f"><td class="memItemLeft" align="right" valign="top"><a id="acab2829d7c8abc5ec537b1fe8017542f" name="acab2829d7c8abc5ec537b1fe8017542f"></a>
-static const auto&#160;</td><td class="memItemRight" valign="bottom"><b>supportsAVX2</b> = highestSupportedCPUInstructionSet == CPUInstructionSet::avx2</td></tr>
-<tr class="separator:acab2829d7c8abc5ec537b1fe8017542f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a630c3a68a64c127117a034be04590a86"><td class="memItemLeft" align="right" valign="top"><a id="a630c3a68a64c127117a034be04590a86" name="a630c3a68a64c127117a034be04590a86"></a>
-static const auto&#160;</td><td class="memItemRight" valign="bottom"><b>supportsAVX</b> = highestSupportedCPUInstructionSet == CPUInstructionSet::avx2 || highestSupportedCPUInstructionSet == CPUInstructionSet::avx</td></tr>
-<tr class="separator:a630c3a68a64c127117a034be04590a86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a572bf9306d1364ce18352d6f221d41f9"><td class="memItemLeft" align="right" valign="top"><a id="a572bf9306d1364ce18352d6f221d41f9" name="a572bf9306d1364ce18352d6f221d41f9"></a>
+static const auto&#160;</td><td class="memItemRight" valign="bottom"><b>supportedCPUInstructionSets</b> = getSupportedCPUInstructionSets()</td></tr>
+<tr class="separator:a572bf9306d1364ce18352d6f221d41f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69142d11cd737e8f3687533ff17f9ca6"><td class="memItemLeft" align="right" valign="top"><a id="a69142d11cd737e8f3687533ff17f9ca6" name="a69142d11cd737e8f3687533ff17f9ca6"></a>
 static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>platformWindows</b> = VCTR_WINDOWS</td></tr>
 <tr class="separator:a69142d11cd737e8f3687533ff17f9ca6"><td class="memSeparator" colspan="2">&#160;</td></tr>
