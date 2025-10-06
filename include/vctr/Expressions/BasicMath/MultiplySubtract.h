@@ -77,7 +77,7 @@ public:
         srcC.prepareNeonEvaluation();
     }
 
-    VCTR_FORCEDINLINE VCTR_TARGET ("fma") void prepareAVXEvaluation() const
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void prepareAVXEvaluation() const
     requires ::vctr::has::prepareAVXEvaluation<SrcAType> && ::vctr::has::prepareAVXEvaluation<SrcBType> && ::vctr::has::prepareAVXEvaluation<SrcCType>
     {
         srcA.prepareAVXEvaluation();
