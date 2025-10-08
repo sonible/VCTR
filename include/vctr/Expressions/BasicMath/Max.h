@@ -140,7 +140,7 @@ public:
     {
         static const auto avxSignBit = Expression::AVX::broadcast (typename Expression::CommonElement::Type (-0.0));
 
-        result = Expression::AVX::max (result, Expression::AVX::andNot (avxSignBit, src.getAVX (i)));
+        result = Expression::AVX::max (result, Expression::AVX::bitwiseAndNot (avxSignBit, src.getAVX (i)));
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("avx2") void reduceAVXRegisterWise (AVXRegister<value_type>& result, size_t i) const
@@ -160,7 +160,7 @@ public:
     {
         static const auto sseSignBit = Expression::SSE::broadcast (typename Expression::CommonElement::Type (-0.0));
 
-        result = Expression::SSE::max (result, Expression::SSE::andNot (sseSignBit, src.getSSE (i)));
+        result = Expression::SSE::max (result, Expression::SSE::bitwiseAndNot (sseSignBit, src.getSSE (i)));
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void reduceSSERegisterWise (SSERegister<value_type>& result, size_t i) const
