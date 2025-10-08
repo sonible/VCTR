@@ -85,7 +85,7 @@ public:
     {
         static const auto avxSignBit = Expression::AVX::broadcast (typename Expression::CommonElement::Type (-0.0));
 
-        return Expression::AVX::andNot (avxSignBit, src.getAVX (i));
+        return Expression::AVX::bitwiseAndNot (avxSignBit, src.getAVX (i));
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("avx2") AVXRegister<value_type> getAVX (size_t i) const
@@ -106,7 +106,7 @@ public:
     {
         static const auto sseSignBit = Expression::SSE::broadcast (typename Expression::CommonElement::Type (-0.0));
 
-        return Expression::SSE::andNot (sseSignBit, src.getSSE (i));
+        return Expression::SSE::bitwiseAndNot (sseSignBit, src.getSSE (i));
     }
 
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const

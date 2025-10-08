@@ -31,6 +31,28 @@ struct NeonRegister
 
 #if VCTR_ARM
 
+namespace detail
+{
+
+// clang-format off
+template <CompareOp, class>
+struct NeonCompare {};
+
+template <> struct NeonCompare<CompareOp::less, float>            { static auto cmp (float32x4_t a, float32x4_t b) { return vcltq_f32 (a, b); } };
+template <> struct NeonCompare<CompareOp::less, double>           { static auto cmp (float64x2_t a, float64x2_t b) { return vcltq_f64 (a, b); } };
+template <> struct NeonCompare<CompareOp::lessOrEqual, float>     { static auto cmp (float32x4_t a, float32x4_t b) { return vcleq_f32 (a, b); } };
+template <> struct NeonCompare<CompareOp::lessOrEqual, double>    { static auto cmp (float64x2_t a, float64x2_t b) { return vcleq_f64 (a, b); } };
+template <> struct NeonCompare<CompareOp::greater, float>         { static auto cmp (float32x4_t a, float32x4_t b) { return vcgtq_f32 (a, b); } };
+template <> struct NeonCompare<CompareOp::greater, double>        { static auto cmp (float64x2_t a, float64x2_t b) { return vcgtq_f64 (a, b); } };
+template <> struct NeonCompare<CompareOp::greaterOrEqual, float>  { static auto cmp (float32x4_t a, float32x4_t b) { return vcgeq_f32 (a, b); } };
+template <> struct NeonCompare<CompareOp::greaterOrEqual, double> { static auto cmp (float64x2_t a, float64x2_t b) { return vcgeq_f64 (a, b); } };
+template <> struct NeonCompare<CompareOp::equal, float>           { static auto cmp (float32x4_t a, float32x4_t b) { return vceqq_f32 (a, b); } };
+template <> struct NeonCompare<CompareOp::equal, double>          { static auto cmp (float64x2_t a, float64x2_t b) { return vceqq_f64 (a, b); } };
+template <> struct NeonCompare<CompareOp::notEqual, float>        { static auto cmp (float32x4_t a, float32x4_t b) { return vmvnq_u32 (vceqq_f32 (a, b)); } };
+template <> struct NeonCompare<CompareOp::notEqual, double>       { static auto cmp (float64x2_t a, float64x2_t b) { return vreinterpretq_u64_u32 (vmvnq_u32 (vreinterpretq_u32_u64 (vceqq_f64 (a, b)))); } };
+// clang-format on
+}
+
 template <>
 struct NeonRegister<float>
 {
@@ -50,8 +72,15 @@ struct NeonRegister<float>
     void store (float* d) const { vst1q_f32 (d, value); }
 
     //==============================================================================
+    // Generate Compare Masks
+    template <CompareOp op>
+    static NeonRegister compare (NeonRegister a, NeonRegister b) { return { vreinterpretq_f32_u32 (detail::NeonCompare<op, float>::cmp (a.value, b.value)) }; }
+
+    //==============================================================================
     // Bit Operations
-    static NeonRegister andNot (NeonRegister a, NeonRegister b) { return { vreinterpretq_f32_u32 (vandq_u32 (vreinterpretq_u32_f32 (a.value), vreinterpretq_u32_f32 (b.value))) }; }
+    static NeonRegister bitwiseAndNot (NeonRegister a, NeonRegister b)                    { return { vreinterpretq_f32_u32 (vandq_u32 (vmvnq_u32 (vreinterpretq_u32_f32 (a.value)), vreinterpretq_u32_f32 (b.value))) }; }
+    static NeonRegister bitwiseAnd    (NeonRegister a, NeonRegister b)                    { return { vreinterpretq_f32_u32 (vandq_u32 (vreinterpretq_u32_f32 (a.value), vreinterpretq_u32_f32 (b.value))) }; }
+    static NeonRegister bitwiseBlend  (NeonRegister a, NeonRegister b, NeonRegister mask) { return { vbslq_f32 (vreinterpretq_u32_f32 (mask.value), b.value, a.value) }; }
 
     //==============================================================================
     // Math
@@ -86,8 +115,15 @@ struct NeonRegister<double>
     void store (double* d) const { vst1q_f64 (d, value); }
 
     //==============================================================================
+    // Generate Compare Masks
+    template <CompareOp op>
+    static NeonRegister compare (NeonRegister a, NeonRegister b) { return { vreinterpretq_f64_u64 (detail::NeonCompare<op, double>::cmp (a.value, b.value)) }; }
+
+    //==============================================================================
     // Bit Operations
-    static NeonRegister andNot (NeonRegister a, NeonRegister b) { return { vreinterpretq_f64_u64 (vandq_u64 (vreinterpretq_u64_f64 (a.value), vreinterpretq_u64_f64 (b.value))) }; }
+    static NeonRegister bitwiseAndNot (NeonRegister a, NeonRegister b)                    { return { vreinterpretq_f64_u32 (vandq_u32 (vmvnq_u32 (vreinterpretq_u32_f64 (a.value)), vreinterpretq_u32_f64 (b.value))) }; }
+    static NeonRegister bitwiseAnd    (NeonRegister a, NeonRegister b)                    { return { vreinterpretq_f64_u32 (vandq_u32 (vreinterpretq_u32_f64 (a.value), vreinterpretq_u32_f64 (b.value))) }; }
+    static NeonRegister bitwiseBlend  (NeonRegister a, NeonRegister b, NeonRegister mask) { return { vbslq_f64 (vreinterpretq_u64_f64 (mask.value), b.value, a.value) }; }
 
     //==============================================================================
     // Math

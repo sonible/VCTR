@@ -30,7 +30,6 @@ struct AVXRegister
 };
 
 #if VCTR_X64
-
 template <>
 struct AVXRegister<float>
 {
@@ -53,8 +52,15 @@ struct AVXRegister<float>
     VCTR_TARGET ("avx") void storeAligned   (float* d) const { _mm256_store_ps  (d, value); }
 
     //==============================================================================
+    // Generate Compare Masks
+    template <CompareOp Op>
+    VCTR_TARGET ("avx") static AVXRegister compare (AVXRegister a, AVXRegister b) { return { _mm256_cmp_ps (a.value, b.value, int (Op)) }; }
+
+    //==============================================================================
     // Bit Operations
-    VCTR_TARGET ("avx") static AVXRegister andNot (AVXRegister a, AVXRegister b) { return { _mm256_andnot_ps (a.value, b.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister bitwiseAndNot (AVXRegister a, AVXRegister b) { return { _mm256_andnot_ps (a.value, b.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_ps (a.value, b.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister bitwiseBlend (AVXRegister a, AVXRegister b, AVXRegister mask) { return { _mm256_blendv_ps (a.value, b.value, mask.value) }; }
 
     //==============================================================================
     // Math
@@ -66,6 +72,7 @@ struct AVXRegister<float>
     VCTR_TARGET ("avx") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_ps (a.value, b.value) }; }
     VCTR_TARGET ("fma") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_ps (a.value, b.value, c.value) }; }
     VCTR_TARGET ("fma") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_ps (a.value, b.value, c.value) }; }
+
     // clang-format on
 };
 
@@ -91,8 +98,15 @@ struct AVXRegister<double>
     VCTR_TARGET ("avx") void storeAligned   (double* d) const { _mm256_store_pd (d, value); }
 
     //==============================================================================
+    // Generate Compare Masks
+    template <CompareOp Op>
+    VCTR_TARGET ("avx") static AVXRegister compare (AVXRegister a, AVXRegister b) { return { _mm256_cmp_pd (a.value, b.value, int (Op)) }; }
+
+    //==============================================================================
     // Bit Operations
-    VCTR_TARGET ("avx") static AVXRegister andNot (AVXRegister a, AVXRegister b) { return { _mm256_andnot_pd (a.value, b.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister bitwiseAndNot (AVXRegister a, AVXRegister b) { return { _mm256_andnot_pd (a.value, b.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_pd (a.value, b.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister bitwiseBlend (AVXRegister a, AVXRegister b, AVXRegister mask) { return { _mm256_blendv_pd (a.value, b.value, mask.value) }; }
 
     //==============================================================================
     // Math

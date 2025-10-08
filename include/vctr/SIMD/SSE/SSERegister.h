@@ -53,7 +53,7 @@ struct SSERegister<float>
 
     //==============================================================================
     // Bit Operations
-    VCTR_TARGET ("sse4.1") static SSERegister andNot (SSERegister a, SSERegister b) { return { _mm_andnot_ps (a.value, b.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister bitwiseAndNot (SSERegister a, SSERegister b) { return { _mm_andnot_ps (a.value, b.value) }; }
 
     //==============================================================================
     // Math
@@ -88,7 +88,7 @@ struct SSERegister<double>
 
     //==============================================================================
     // Bit Operations
-    VCTR_TARGET ("sse4.1") static SSERegister andNot (SSERegister a, SSERegister b) { return { _mm_andnot_pd (a.value, b.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister bitwiseAndNot (SSERegister a, SSERegister b) { return { _mm_andnot_pd (a.value, b.value) }; }
 
     //==============================================================================
     // Math
