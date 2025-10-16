@@ -215,7 +215,8 @@ public:
     template <size_t startIdx, size_t numElements>
     constexpr auto subSpan()
     {
-        VCTR_ASSERT (int64_t (size()) - int64_t (startIdx) >= int64_t (numElements));
+        VCTR_ASSERT (startIdx < size());
+        VCTR_ASSERT (startIdx + numElements <= size());
         return constCorrectSpan<numElements> (data() + startIdx, numElements);
     }
 
@@ -226,7 +227,8 @@ public:
     template <size_t startIdx, size_t numElements>
     constexpr auto subSpan() const
     {
-        VCTR_ASSERT (int64_t (size()) - int64_t (startIdx) >= int64_t (numElements));
+        VCTR_ASSERT (startIdx < size());
+        VCTR_ASSERT (startIdx + numElements <= size());
         return constCorrectSpan<numElements> (data() + startIdx, numElements);
     }
 
@@ -236,7 +238,8 @@ public:
      */
     constexpr auto subSpan (size_t startIdx, size_t numElements)
     {
-        VCTR_ASSERT (int64_t (size()) - int64_t (startIdx) >= int64_t (numElements));
+        VCTR_ASSERT (startIdx < size());
+        VCTR_ASSERT (startIdx + numElements <= size());
         return constCorrectSpan<std::dynamic_extent> (data() + startIdx, numElements);
     }
 
@@ -246,7 +249,8 @@ public:
      */
     constexpr auto subSpan (size_t startIdx, size_t numElements) const
     {
-        VCTR_ASSERT (int64_t (size()) - int64_t (startIdx) >= int64_t (numElements));
+        VCTR_ASSERT (startIdx < size());
+        VCTR_ASSERT (startIdx + numElements <= size());
         return constCorrectSpan<std::dynamic_extent> (data() + startIdx, numElements);
     }
 
