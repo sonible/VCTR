@@ -157,6 +157,7 @@ struct AVX
 {
     static constexpr auto filter = vctr::useAVX;
     using ElementType = T;
+    using RegisterType = vctr::AVXRegister<T>;
 };
 
 template <class T>
@@ -164,6 +165,7 @@ struct SSE
 {
     static constexpr auto filter = vctr::useSSE;
     using ElementType = T;
+    using RegisterType = vctr::SSERegister<T>;
 };
 
 template <class T>
@@ -171,6 +173,7 @@ struct Neon
 {
     static constexpr auto filter = vctr::useNeon;
     using ElementType = T;
+    using RegisterType = vctr::NeonRegister<T>;
 };
 
 template <class T>
