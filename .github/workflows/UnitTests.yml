@@ -11,22 +11,20 @@ jobs:
     strategy:
       matrix:
         configs:
-          # Linux clang 15 runners are temporarily disabled due to installation issues. See https://github.com/sonible/VCTR/issues/86
-          # - runner: ubuntu-22.04
-          #  cc: clang-15
-          #  cxx: clang++-15
-          #  ipp: no_ipp
+          - runner: ubuntu-22.04
+            cc: clang-15
+            cxx: clang++-15
+            ipp: no_ipp
 
           - runner: ubuntu-24.04
             cc: gcc-13
             cxx: g++-13
             ipp: no_ipp
 
-          # Linux clang 15 runners are temporarily disabled due to installation issues. See https://github.com/sonible/VCTR/issues/86
-          # - runner: ubuntu-22.04
-          #  cc: clang-15
-          #  cxx: clang++-15
-          #  ipp: ipp
+          - runner: ubuntu-22.04
+            cc: clang-15
+            cxx: clang++-15
+            ipp: ipp
 
           - runner: ubuntu-24.04
             cc: gcc-13
@@ -113,8 +111,6 @@ jobs:
           python-version: '3.11'
 
       - name: (Linux) Install dependencies
-      # Todo: Installing llvm 15 fails at the moment. See https://github.com/sonible/VCTR/issues/86 
-      # run: sudo apt-get install ninja-build && wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 15 all && pip3 install conan
         run: sudo apt-get install ninja-build && pip3 install conan
         if: runner.os == 'Linux'
 
