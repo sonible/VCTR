@@ -181,7 +181,7 @@ $(document).ready(function(){initNavTree('Abs_8h_source.html',''); initResizable
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    {</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">auto</span> avxSignBit = Expression::AVX::broadcast (<span class="keyword">typename</span> Expression::CommonElement::Type (-0.0));</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keywordflow">return</span> Expression::AVX::andNot (avxSignBit, src.getAVX (i));</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keywordflow">return</span> Expression::AVX::bitwiseAndNot (src.getAVX (i), avxSignBit);</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    }</div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    VCTR_FORCEDINLINE VCTR_TARGET (<span class="stringliteral">&quot;avx2&quot;</span>) <a class="code hl_struct" href="structvctr_1_1AVXRegister.html">AVXRegister&lt;value_type&gt;</a> getAVX (<span class="keywordtype">size_t</span> i) <span class="keyword">const</span></div>
@@ -202,7 +202,7 @@ $(document).ready(function(){initNavTree('Abs_8h_source.html',''); initResizable
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    {</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">auto</span> sseSignBit = Expression::SSE::broadcast (<span class="keyword">typename</span> Expression::CommonElement::Type (-0.0));</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordflow">return</span> Expression::SSE::andNot (sseSignBit, src.getSSE (i));</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordflow">return</span> Expression::SSE::bitwiseAndNot (src.getSSE (i), sseSignBit);</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    }</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    VCTR_FORCEDINLINE VCTR_TARGET (<span class="stringliteral">&quot;sse4.1&quot;</span>) <a class="code hl_struct" href="structvctr_1_1SSERegister.html">SSERegister&lt;value_type&gt;</a> getSSE (<span class="keywordtype">size_t</span> i) <span class="keyword">const</span></div>

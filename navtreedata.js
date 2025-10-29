@@ -62,6 +62,14 @@ var NAVTREE =
     [ "SpanStorageInfo", "namespacevctr.html#ad74ae35c2844e5e4e79889b55a82f21f", null ],
     [ "StorageInfoType", "namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a", null ],
     [ "ValueType", "namespacevctr.html#a83a43fd917a646b18b60be7e88becc33", null ],
+    [ "CompareOp", "namespacevctr.html#a8a46a9dbd17d34124d497e189e22c2b8", [
+      [ "less", "namespacevctr.html#a8a46a9dbd17d34124d497e189e22c2b8ae37e8d912e8f7b8f9b5ef9452ba47ff1", null ],
+      [ "lessOrEqual", "namespacevctr.html#a8a46a9dbd17d34124d497e189e22c2b8a132bbce596e8a2890a3169a69b974df1", null ],
+      [ "greater", "namespacevctr.html#a8a46a9dbd17d34124d497e189e22c2b8a7b8dc4fb0fb55fc8eb69ff080c45ed7e", null ],
+      [ "greaterOrEqual", "namespacevctr.html#a8a46a9dbd17d34124d497e189e22c2b8a983fffc48fe482979946425745c8c26c", null ],
+      [ "equal", "namespacevctr.html#a8a46a9dbd17d34124d497e189e22c2b8a465289687a70db7aa7217cc240c29f0f", null ],
+      [ "notEqual", "namespacevctr.html#a8a46a9dbd17d34124d497e189e22c2b8a80bfff5241ffe1f0c9eb31d4e01a3581", null ]
+    ] ],
     [ "assertCommonSize", "namespacevctr.html#a530eaa0685b6027bcdd79a4ac9a47fda", null ],
     [ "assertCommonSize", "namespacevctr.html#a1a5389ec30d6584c69157514e7a98602", null ],
     [ "clamp", "group__Expressions.html#gadb6fc764c304eda32439875e7b50d485", null ],

@@ -226,7 +226,7 @@ requires (archX64 &amp;&amp; has::getSSE&lt;SrcType&gt; &amp;&amp; is::realFloat
 {
     static const auto sseSignBit = SSESrcType::broadcast (SrcElementType (-0.0));
 
-    return SSERetType::andNot (sseSignBit, src.getSSE (i));
+    return SSERetType::bitwiseAndNot (src.getSSE (i), sseSignBit);
 }
 
 VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister&lt;value_type&gt; getSSE (size_t i) const

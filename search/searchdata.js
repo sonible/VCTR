@@ -6,9 +6,10 @@ var indexSectionsWithContent =
   3: "abcdefgimoprstv",
   4: "acdefhilmnprstu",
   5: "acdefinrsv",
-  6: "ce",
-  7: "hpv",
-  8: "v"
+  6: "c",
+  7: "ce",
+  8: "hpv",
+  9: "v"
 };
 
 var indexSectionNames =
@@ -19,9 +20,10 @@ var indexSectionNames =
   3: "functions",
   4: "variables",
   5: "typedefs",
-  6: "groups",
-  7: "pages",
-  8: "concepts"
+  6: "enums",
+  7: "groups",
+  8: "pages",
+  9: "concepts"
 };
 
 var indexSectionLabels =
@@ -32,8 +34,9 @@ var indexSectionLabels =
   3: "Functions",
   4: "Variables",
   5: "Typedefs",
-  6: "Modules",
-  7: "Pages",
-  8: "Concepts"
+  6: "Enumerations",
+  7: "Modules",
+  8: "Pages",
+  9: "Concepts"
 };
 
