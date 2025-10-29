@@ -58,7 +58,8 @@ struct AVXRegister<float>
 
     //==============================================================================
     // Bit Operations
-    VCTR_TARGET ("avx") static AVXRegister bitwiseAndNot (AVXRegister a, AVXRegister b) { return { _mm256_andnot_ps (a.value, b.value) }; }
+    /** Evaluates a & (! b) - so b is negated. */
+    VCTR_TARGET ("avx") static AVXRegister bitwiseAndNot (AVXRegister a, AVXRegister b) { return { _mm256_andnot_ps (b.value, a.value) }; }
     VCTR_TARGET ("avx") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_ps (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister bitwiseBlend (AVXRegister a, AVXRegister b, AVXRegister mask) { return { _mm256_blendv_ps (a.value, b.value, mask.value) }; }
 
@@ -104,7 +105,8 @@ struct AVXRegister<double>
 
     //==============================================================================
     // Bit Operations
-    VCTR_TARGET ("avx") static AVXRegister bitwiseAndNot (AVXRegister a, AVXRegister b) { return { _mm256_andnot_pd (a.value, b.value) }; }
+    /** Evaluates a & (! b) - so b is negated. */
+    VCTR_TARGET ("avx") static AVXRegister bitwiseAndNot (AVXRegister a, AVXRegister b) { return { _mm256_andnot_pd (b.value, a.value) }; }
     VCTR_TARGET ("avx") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_pd (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister bitwiseBlend (AVXRegister a, AVXRegister b, AVXRegister mask) { return { _mm256_blendv_pd (a.value, b.value, mask.value) }; }
 

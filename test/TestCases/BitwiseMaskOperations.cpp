@@ -114,7 +114,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("BitwiseMaskOperations", "[VCTR][RegisterTypes][Bitw
 
         // perform other bitwise operations
         const auto bitAnd = RegisterType<T>::bitwiseAnd (a, mask);
-        const auto bitAndNot = RegisterType<T>::bitwiseAndNot (mask, a); // careful: First argument is negated, not the second one!
+        const auto bitAndNot = RegisterType<T>::bitwiseAndNot (a, mask);
         const auto bitBlend = RegisterType<T>::bitwiseBlend (a, b, mask);
 
         // restore registers to vectors
