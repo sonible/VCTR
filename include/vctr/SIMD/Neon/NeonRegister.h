@@ -78,7 +78,8 @@ struct NeonRegister<float>
 
     //==============================================================================
     // Bit Operations
-    static NeonRegister bitwiseAndNot (NeonRegister a, NeonRegister b)                    { return { vreinterpretq_f32_u32 (vandq_u32 (vmvnq_u32 (vreinterpretq_u32_f32 (a.value)), vreinterpretq_u32_f32 (b.value))) }; }
+    /** Evaluates a & (! b) - so b is negated. */
+    static NeonRegister bitwiseAndNot (NeonRegister a, NeonRegister b)                    { return { vreinterpretq_f32_u32 (vandq_u32 (vreinterpretq_u32_f32 (a.value), vmvnq_u32 (vreinterpretq_u32_f32 (b.value)))) }; }
     static NeonRegister bitwiseAnd    (NeonRegister a, NeonRegister b)                    { return { vreinterpretq_f32_u32 (vandq_u32 (vreinterpretq_u32_f32 (a.value), vreinterpretq_u32_f32 (b.value))) }; }
     static NeonRegister bitwiseBlend  (NeonRegister a, NeonRegister b, NeonRegister mask) { return { vbslq_f32 (vreinterpretq_u32_f32 (mask.value), b.value, a.value) }; }
 
@@ -121,7 +122,8 @@ struct NeonRegister<double>
 
     //==============================================================================
     // Bit Operations
-    static NeonRegister bitwiseAndNot (NeonRegister a, NeonRegister b)                    { return { vreinterpretq_f64_u32 (vandq_u32 (vmvnq_u32 (vreinterpretq_u32_f64 (a.value)), vreinterpretq_u32_f64 (b.value))) }; }
+    /** Evaluates a & (! b) - so b is negated. */
+    static NeonRegister bitwiseAndNot (NeonRegister a, NeonRegister b)                    { return { vreinterpretq_f64_u32 (vandq_u32 (vreinterpretq_u32_f64 (a.value), vmvnq_u32 (vreinterpretq_u32_f64 (b.value)))) }; }
     static NeonRegister bitwiseAnd    (NeonRegister a, NeonRegister b)                    { return { vreinterpretq_f64_u32 (vandq_u32 (vreinterpretq_u32_f64 (a.value), vreinterpretq_u32_f64 (b.value))) }; }
     static NeonRegister bitwiseBlend  (NeonRegister a, NeonRegister b, NeonRegister mask) { return { vbslq_f64 (vreinterpretq_u64_f64 (mask.value), b.value, a.value) }; }
 
