@@ -73,15 +73,19 @@ struct CompareOpHelper<std::not_equal_to<T>>
 #if VCTR_ARM
 template <class T>
 using RegisterType = vctr::NeonRegister<T>;
-#else
+#elif VCTR_X64
 template <class T>
 using RegisterType = vctr::AVXRegister<T>;
-#if VCTR_GCC
+
 // In contrast to other test cases where we test higher level VCTR functions, we call register member functions directly here.
 // All the AVX functions are attributed with __attribute__ ((target ("avx"))). Directly taking the return value of those functions
-// here leads to issues with GCC obviously not using the correct calling conventions when compiling the test case without explicitly
-// setting the AVX target. This pragma enables it for the entire translation unit
+// here leads to issues with GCC/clang obviously not using the correct calling conventions when compiling the test case without
+// explicitly setting the AVX target. This pragma enables it for the entire translation unit
+#if VCTR_GCC
 #pragma GCC target ("avx")
+#endif
+#if VCTR_CLANG
+#pragma clang attribute push (__attribute__((target("avx"))), apply_to=function)
 #endif
 #endif
 
@@ -158,3 +162,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("BitwiseMaskOperations", "[VCTR][RegisterTypes][Bitw
         }
     }
 }
+
+#if VCTR_X64 && VCTR_CLANG
+#pragma clang attribute pop
+#endif
