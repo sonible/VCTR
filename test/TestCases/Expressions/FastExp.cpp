@@ -28,6 +28,9 @@ T stdExp (T v) { return std::exp (v); }
 template <vctr::is::realFloatNumber T>
 T stdExp2 (T v) { return std::exp2 (v); }
 
+template <vctr::is::realFloatNumber T>
+T stdLog2 (T v) { return std::log2 (v); }
+
 template <vctr::is::realOrComplexFloatNumber T>
 T fastExp (T v) { return (T (1680) + v * (T (840) + v * (T (180) + v * (T (20) + v)))) / (T (1680) + v * (T (-840) + v * (T (180) + v * (T (-20) + v)))); }
 
@@ -66,4 +69,15 @@ TEMPLATE_PRODUCT_TEST_CASE ("FastExp2 vs. StdExp2", "[VCTR][expressions][fastExp
 
     CHECK_THAT (res, vctr::EqualsTransformedBy<stdExp2> (srcA).withEpsilon (5.04e-5));
     CHECK_THAT (resU, vctr::EqualsTransformedBy<stdExp2> (srcUnaligned).withEpsilon (5.04e-5));
+}
+
+TEMPLATE_PRODUCT_TEST_CASE ("FastLog2 vs. StdLog2", "[VCTR][expressions][fastExp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float) )
+{
+    VCTR_TEST_DEFINES_IN_RANGE (0, 126, 10)
+
+    const vctr::Vector res = filter << vctr::fastLog2 << srcA;
+    const vctr::Vector resU = filter << vctr::fastLog2 << srcUnaligned;
+
+    CHECK_THAT (res, vctr::EqualsTransformedBy<stdLog2> (srcA).withEpsilon (2.0e-2));
+    CHECK_THAT (resU, vctr::EqualsTransformedBy<stdLog2> (srcUnaligned).withEpsilon (2.0e-2));
 }
