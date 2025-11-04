@@ -41,45 +41,45 @@ struct AVXRegister<float>
     //==============================================================================
     // Loading
     // clang-format off
-    VCTR_TARGET ("avx") static AVXRegister loadUnaligned (const float* d)                             { return { _mm256_loadu_ps (d) }; }
-    VCTR_TARGET ("avx") static AVXRegister loadAligned   (const float* d)                             { return { _mm256_load_ps (d) }; }
-    VCTR_TARGET ("avx") static AVXRegister broadcast     (float x)                                    { return { _mm256_broadcast_ss (&x) }; }
-    VCTR_TARGET ("avx") static AVXRegister fromSSE       (SSERegister<float> a, SSERegister<float> b) { return { _mm256_set_m128 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister loadUnaligned (const float* d)                             { return { _mm256_loadu_ps (d) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister loadAligned   (const float* d)                             { return { _mm256_load_ps (d) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister broadcast     (float x)                                    { return { _mm256_broadcast_ss (&x) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister fromSSE       (SSERegister<float> a, SSERegister<float> b) { return { _mm256_set_m128 (a.value, b.value) }; }
 
     //==============================================================================
     // Storing
-    VCTR_TARGET ("avx") void storeUnaligned (float* d) const { _mm256_storeu_ps (d, value); }
-    VCTR_TARGET ("avx") void storeAligned   (float* d) const { _mm256_store_ps  (d, value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void storeUnaligned (float* d) const { _mm256_storeu_ps (d, value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void storeAligned   (float* d) const { _mm256_store_ps  (d, value); }
 
     //==============================================================================
     // Generate Compare Masks
     template <CompareOp Op>
-    VCTR_TARGET ("avx") static AVXRegister compare (AVXRegister a, AVXRegister b) { return { _mm256_cmp_ps (a.value, b.value, int (Op)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister compare (AVXRegister a, AVXRegister b) { return { _mm256_cmp_ps (a.value, b.value, int (Op)) }; }
 
     //==============================================================================
     // Bit Operations
     /** Evaluates a & (! b) - so b is negated. */
-    VCTR_TARGET ("avx") static AVXRegister bitwiseAndNot (AVXRegister a, AVXRegister b) { return { _mm256_andnot_ps (b.value, a.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_ps (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister bitwiseBlend (AVXRegister a, AVXRegister b, AVXRegister mask) { return { _mm256_blendv_ps (a.value, b.value, mask.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister bitwiseAndNot (AVXRegister a, AVXRegister b) { return { _mm256_andnot_ps (b.value, a.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_ps (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister bitwiseBlend (AVXRegister a, AVXRegister b, AVXRegister mask) { return { _mm256_blendv_ps (a.value, b.value, mask.value) }; }
 
     //==============================================================================
     // Math
-    VCTR_TARGET ("avx") static AVXRegister floor (AVXRegister x)              { return { _mm256_floor_ps (x.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister ceil (AVXRegister x)               { return { _mm256_ceil_ps (x.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister mul (AVXRegister a, AVXRegister b) { return { _mm256_mul_ps (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_ps (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_ps (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister div (AVXRegister a, AVXRegister b) { return { _mm256_div_ps (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_ps (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_ps (a.value, b.value) }; }
-    VCTR_TARGET ("fma") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_ps (a.value, b.value, c.value) }; }
-    VCTR_TARGET ("fma") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_ps (a.value, b.value, c.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister floor (AVXRegister x)              { return { _mm256_floor_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister ceil (AVXRegister x)               { return { _mm256_ceil_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister mul (AVXRegister a, AVXRegister b) { return { _mm256_mul_ps (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_ps (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_ps (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister div (AVXRegister a, AVXRegister b) { return { _mm256_div_ps (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_ps (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_ps (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_ps (a.value, b.value, c.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_ps (a.value, b.value, c.value) }; }
 
     //==============================================================================
     // Type conversion
-    VCTR_TARGET ("avx") static AVXRegister<int32_t> convertToInt (AVXRegister x);
-    VCTR_TARGET ("avx") static AVXRegister<int32_t> reinterpretAsInt (AVXRegister x);
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister<int32_t> convertToInt (AVXRegister x);
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister<int32_t> reinterpretAsInt (AVXRegister x);
     // clang-format on
 };
 
@@ -94,45 +94,45 @@ struct AVXRegister<double>
     //==============================================================================
     // Loading
     // clang-format off
-    VCTR_TARGET ("avx") static AVXRegister loadUnaligned (const double* d)                              { return { _mm256_loadu_pd (d) }; }
-    VCTR_TARGET ("avx") static AVXRegister loadAligned   (const double* d)                              { return { _mm256_load_pd (d) }; }
-    VCTR_TARGET ("avx") static AVXRegister broadcast     (double x)                                     { return { _mm256_broadcast_sd (&x) }; }
-    VCTR_TARGET ("avx") static AVXRegister fromSSE       (SSERegister<double> a, SSERegister<double> b) { return { _mm256_set_m128d (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister loadUnaligned (const double* d)                              { return { _mm256_loadu_pd (d) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister loadAligned   (const double* d)                              { return { _mm256_load_pd (d) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister broadcast     (double x)                                     { return { _mm256_broadcast_sd (&x) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister fromSSE       (SSERegister<double> a, SSERegister<double> b) { return { _mm256_set_m128d (a.value, b.value) }; }
 
     //==============================================================================
     // Storing
-    VCTR_TARGET ("avx") void storeUnaligned (double* d) const { _mm256_storeu_pd (d, value); }
-    VCTR_TARGET ("avx") void storeAligned   (double* d) const { _mm256_store_pd (d, value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void storeUnaligned (double* d) const { _mm256_storeu_pd (d, value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void storeAligned   (double* d) const { _mm256_store_pd (d, value); }
 
     //==============================================================================
     // Generate Compare Masks
     template <CompareOp Op>
-    VCTR_TARGET ("avx") static AVXRegister compare (AVXRegister a, AVXRegister b) { return { _mm256_cmp_pd (a.value, b.value, int (Op)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister compare (AVXRegister a, AVXRegister b) { return { _mm256_cmp_pd (a.value, b.value, int (Op)) }; }
 
     //==============================================================================
     // Bit Operations
     /** Evaluates a & (! b) - so b is negated. */
-    VCTR_TARGET ("avx") static AVXRegister bitwiseAndNot (AVXRegister a, AVXRegister b) { return { _mm256_andnot_pd (b.value, a.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_pd (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister bitwiseBlend (AVXRegister a, AVXRegister b, AVXRegister mask) { return { _mm256_blendv_pd (a.value, b.value, mask.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister bitwiseAndNot (AVXRegister a, AVXRegister b) { return { _mm256_andnot_pd (b.value, a.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_pd (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister bitwiseBlend (AVXRegister a, AVXRegister b, AVXRegister mask) { return { _mm256_blendv_pd (a.value, b.value, mask.value) }; }
 
     //==============================================================================
     // Math
-    VCTR_TARGET ("avx") static AVXRegister floor (AVXRegister x)              { return { _mm256_floor_pd (x.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister ceil (AVXRegister x)               { return { _mm256_ceil_pd (x.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister mul (AVXRegister a, AVXRegister b) { return { _mm256_mul_pd (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_pd (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_pd (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister div (AVXRegister a, AVXRegister b) { return { _mm256_div_pd (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_pd (a.value, b.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_pd (a.value, b.value) }; }
-    VCTR_TARGET ("fma") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_pd (a.value, b.value, c.value) }; }
-    VCTR_TARGET ("fma") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_pd (a.value, b.value, c.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister floor (AVXRegister x)              { return { _mm256_floor_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister ceil (AVXRegister x)               { return { _mm256_ceil_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister mul (AVXRegister a, AVXRegister b) { return { _mm256_mul_pd (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_pd (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_pd (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister div (AVXRegister a, AVXRegister b) { return { _mm256_div_pd (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_pd (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_pd (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_pd (a.value, b.value, c.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_pd (a.value, b.value, c.value) }; }
 
     //==============================================================================
     // Type conversion
-    VCTR_TARGET ("avx512vl") VCTR_TARGET ("avx512dq") static AVXRegister<int64_t> convertToInt (AVXRegister x);
-    VCTR_TARGET ("avx") static AVXRegister<int64_t> reinterpretAsInt (AVXRegister x);
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx512vl") VCTR_TARGET ("avx512dq") static AVXRegister<int64_t> convertToInt (AVXRegister x);
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister<int64_t> reinterpretAsInt (AVXRegister x);
     // clang-format on
 };
 
@@ -147,37 +147,37 @@ struct AVXRegister<int32_t>
     //==============================================================================
     // Loading
     // clang-format off
-    VCTR_TARGET ("avx") static AVXRegister loadUnaligned (const int32_t* d)                               { return { _mm256_loadu_si256 (reinterpret_cast<const __m256i*> (d)) }; }
-    VCTR_TARGET ("avx") static AVXRegister loadAligned   (const int32_t* d)                               { return { _mm256_load_si256 (reinterpret_cast<const __m256i*> (d)) }; }
-    VCTR_TARGET ("avx") static AVXRegister broadcast     (int32_t x)                                      { return { _mm256_set1_epi32 (x) }; }
-    VCTR_TARGET ("avx") static AVXRegister fromSSE       (SSERegister<int32_t> a, SSERegister<int32_t> b) { return { _mm256_set_m128i (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister loadUnaligned (const int32_t* d)                               { return { _mm256_loadu_si256 (reinterpret_cast<const __m256i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister loadAligned   (const int32_t* d)                               { return { _mm256_load_si256 (reinterpret_cast<const __m256i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister broadcast     (int32_t x)                                      { return { _mm256_set1_epi32 (x) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister fromSSE       (SSERegister<int32_t> a, SSERegister<int32_t> b) { return { _mm256_set_m128i (a.value, b.value) }; }
 
     //==============================================================================
     // Storing
-    VCTR_TARGET ("avx") void storeUnaligned (int32_t* d) const { _mm256_storeu_si256 (reinterpret_cast<__m256i*> (d), value); }
-    VCTR_TARGET ("avx") void storeAligned   (int32_t* d) const { _mm256_store_si256  (reinterpret_cast<__m256i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void storeUnaligned (int32_t* d) const { _mm256_storeu_si256 (reinterpret_cast<__m256i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void storeAligned   (int32_t* d) const { _mm256_store_si256  (reinterpret_cast<__m256i*> (d), value); }
 
     //==============================================================================
     // Bit Operations
-    VCTR_TARGET ("avx2") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_si256 (a.value, b.value) }; }
-    VCTR_TARGET ("avx2") static AVXRegister bitwiseOr (AVXRegister a, AVXRegister b) { return { _mm256_or_si256 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_si256 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister bitwiseOr (AVXRegister a, AVXRegister b) { return { _mm256_or_si256 (a.value, b.value) }; }
     // These are non AVX2 variants that might be used in functions that are not targeted AVX2 at the expense of slightly worse performance
-    VCTR_TARGET ("avx") static AVXRegister bitwiseAndLegacy (AVXRegister a, AVXRegister b) { return { _mm256_castps_si256 (_mm256_and_ps (_mm256_castsi256_ps (a.value), _mm256_castsi256_ps (b.value))) }; }
-    VCTR_TARGET ("avx") static AVXRegister bitwiseOrLegacy (AVXRegister a, AVXRegister b) { return { _mm256_castps_si256 (_mm256_or_ps (_mm256_castsi256_ps (a.value), _mm256_castsi256_ps (b.value))) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister bitwiseAndLegacy (AVXRegister a, AVXRegister b) { return { _mm256_castps_si256 (_mm256_and_ps (_mm256_castsi256_ps (a.value), _mm256_castsi256_ps (b.value))) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister bitwiseOrLegacy (AVXRegister a, AVXRegister b) { return { _mm256_castps_si256 (_mm256_or_ps (_mm256_castsi256_ps (a.value), _mm256_castsi256_ps (b.value))) }; }
 
 
     //==============================================================================
     // Math
-    VCTR_TARGET ("avx2") static AVXRegister abs (AVXRegister x)                { return { _mm256_abs_epi32 (x.value) }; }
-    VCTR_TARGET ("avx2") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_epi32 (a.value, b.value) }; }
-    VCTR_TARGET ("avx2") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_epi32 (a.value, b.value) }; }
-    VCTR_TARGET ("avx2") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_epi32 (a.value, b.value) }; }
-    VCTR_TARGET ("avx2") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_epi32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister abs (AVXRegister x)                { return { _mm256_abs_epi32 (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_epi32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_epi32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_epi32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_epi32 (a.value, b.value) }; }
 
     //==============================================================================
     // Type conversion
-    VCTR_TARGET ("avx") static AVXRegister<float> convertToFp (AVXRegister x)     { return { _mm256_cvtepi32_ps (x.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister<float> reinterpretAsFp (AVXRegister x) { return { _mm256_castsi256_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister<float> convertToFp (AVXRegister x)     { return { _mm256_cvtepi32_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister<float> reinterpretAsFp (AVXRegister x) { return { _mm256_castsi256_ps (x.value) }; }
     // clang-format on
 };
 
@@ -192,25 +192,25 @@ struct AVXRegister<uint32_t>
     //==============================================================================
     // Loading
     // clang-format off
-    VCTR_TARGET ("avx") static AVXRegister loadUnaligned (const uint32_t* d)                                { return { _mm256_loadu_si256 (reinterpret_cast<const __m256i*> (d)) }; }
-    VCTR_TARGET ("avx") static AVXRegister loadAligned   (const uint32_t* d)                                { return { _mm256_load_si256 (reinterpret_cast<const __m256i*> (d)) }; }
-    VCTR_TARGET ("avx") static AVXRegister broadcast     (uint32_t x)                                       { return { _mm256_set1_epi32 ((int32_t) x) }; }
-    VCTR_TARGET ("avx") static AVXRegister fromSSE       (SSERegister<uint32_t> a, SSERegister<uint32_t> b) { return { _mm256_set_m128i (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister loadUnaligned (const uint32_t* d)                                { return { _mm256_loadu_si256 (reinterpret_cast<const __m256i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister loadAligned   (const uint32_t* d)                                { return { _mm256_load_si256 (reinterpret_cast<const __m256i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister broadcast     (uint32_t x)                                       { return { _mm256_set1_epi32 ((int32_t) x) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister fromSSE       (SSERegister<uint32_t> a, SSERegister<uint32_t> b) { return { _mm256_set_m128i (a.value, b.value) }; }
 
     //==============================================================================
     // Storing
-    VCTR_TARGET ("avx") void storeUnaligned (uint32_t* d) const { _mm256_storeu_si256 (reinterpret_cast<__m256i*> (d), value); }
-    VCTR_TARGET ("avx") void storeAligned   (uint32_t* d) const { _mm256_store_si256  (reinterpret_cast<__m256i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void storeUnaligned (uint32_t* d) const { _mm256_storeu_si256 (reinterpret_cast<__m256i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void storeAligned   (uint32_t* d) const { _mm256_store_si256  (reinterpret_cast<__m256i*> (d), value); }
 
     //==============================================================================
     // Bit Operations
 
     //==============================================================================
     // Math
-    VCTR_TARGET ("avx2") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_epi32 (a.value, b.value) }; }
-    VCTR_TARGET ("avx2") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_epi32 (a.value, b.value) }; }
-    VCTR_TARGET ("avx2") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_epu32 (a.value, b.value) }; }
-    VCTR_TARGET ("avx2") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_epu32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_epi32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_epi32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_epu32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_epu32 (a.value, b.value) }; }
     // clang-format on
 };
 
@@ -225,33 +225,33 @@ struct AVXRegister<int64_t>
     //==============================================================================
     // Loading
     // clang-format off
-    VCTR_TARGET ("avx") static AVXRegister loadUnaligned (const int64_t* d)                               { return { _mm256_loadu_si256 (reinterpret_cast<const __m256i*> (d)) }; }
-    VCTR_TARGET ("avx") static AVXRegister loadAligned   (const int64_t* d)                               { return { _mm256_load_si256 (reinterpret_cast<const __m256i*> (d)) }; }
-    VCTR_TARGET ("avx") static AVXRegister broadcast     (int64_t x)                                      { return { _mm256_set1_epi64x (x) }; }
-    VCTR_TARGET ("avx") static AVXRegister fromSSE       (SSERegister<int64_t> a, SSERegister<int64_t> b) { return { _mm256_set_m128i (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister loadUnaligned (const int64_t* d)                               { return { _mm256_loadu_si256 (reinterpret_cast<const __m256i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister loadAligned   (const int64_t* d)                               { return { _mm256_load_si256 (reinterpret_cast<const __m256i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister broadcast     (int64_t x)                                      { return { _mm256_set1_epi64x (x) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister fromSSE       (SSERegister<int64_t> a, SSERegister<int64_t> b) { return { _mm256_set_m128i (a.value, b.value) }; }
 
     //==============================================================================
     // Storing
-    VCTR_TARGET ("avx") void storeUnaligned (int64_t* d) const { _mm256_storeu_si256 (reinterpret_cast<__m256i*> (d), value); }
-    VCTR_TARGET ("avx") void storeAligned   (int64_t* d) const { _mm256_store_si256  (reinterpret_cast<__m256i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void storeUnaligned (int64_t* d) const { _mm256_storeu_si256 (reinterpret_cast<__m256i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void storeAligned   (int64_t* d) const { _mm256_store_si256  (reinterpret_cast<__m256i*> (d), value); }
 
     //==============================================================================
     // Bit Operations
-    VCTR_TARGET ("avx2") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_si256 (a.value, b.value) }; }
-    VCTR_TARGET ("avx2") static AVXRegister bitwiseOr (AVXRegister a, AVXRegister b) { return { _mm256_or_si256 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_si256 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister bitwiseOr (AVXRegister a, AVXRegister b) { return { _mm256_or_si256 (a.value, b.value) }; }
     // These are non AVX2 variants that might be used in functions that are not targeted AVX2 at the expense of slightly worse performance
-    VCTR_TARGET ("avx") static AVXRegister bitwiseAndLegacy (AVXRegister a, AVXRegister b) { return { _mm256_castpd_si256 (_mm256_and_pd (_mm256_castsi256_pd (a.value), _mm256_castsi256_pd (b.value))) }; }
-    VCTR_TARGET ("avx") static AVXRegister bitwiseOrLegacy (AVXRegister a, AVXRegister b) { return { _mm256_castpd_si256 (_mm256_or_pd (_mm256_castsi256_pd (a.value), _mm256_castsi256_pd (b.value))) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister bitwiseAndLegacy (AVXRegister a, AVXRegister b) { return { _mm256_castpd_si256 (_mm256_and_pd (_mm256_castsi256_pd (a.value), _mm256_castsi256_pd (b.value))) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister bitwiseOrLegacy (AVXRegister a, AVXRegister b) { return { _mm256_castpd_si256 (_mm256_or_pd (_mm256_castsi256_pd (a.value), _mm256_castsi256_pd (b.value))) }; }
 
     //==============================================================================
     // Math
-    VCTR_TARGET ("avx2") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_epi64 (a.value, b.value) }; }
-    VCTR_TARGET ("avx2") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_epi64 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_epi64 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_epi64 (a.value, b.value) }; }
 
     //==============================================================================
     // Type conversion
-    VCTR_TARGET ("avx") static AVXRegister<double> convertToFp (AVXRegister x)     { return { _mm256_cvtepi64_pd (x.value) }; }
-    VCTR_TARGET ("avx") static AVXRegister<double> reinterpretAsFp (AVXRegister x) { return { _mm256_castsi256_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister<double> convertToFp (AVXRegister x)     { return { _mm256_cvtepi64_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister<double> reinterpretAsFp (AVXRegister x) { return { _mm256_castsi256_pd (x.value) }; }
     // clang-format on
 };
 
@@ -266,23 +266,23 @@ struct AVXRegister<uint64_t>
     //==============================================================================
     // Loading
     // clang-format off
-    VCTR_TARGET ("avx") static AVXRegister loadUnaligned (const uint64_t* d)                                { return { _mm256_loadu_si256 (reinterpret_cast<const __m256i*> (d)) }; }
-    VCTR_TARGET ("avx") static AVXRegister loadAligned   (const uint64_t* d)                                { return { _mm256_load_si256 (reinterpret_cast<const __m256i*> (d)) }; }
-    VCTR_TARGET ("avx") static AVXRegister broadcast     (uint64_t x)                                       { return { _mm256_set1_epi64x ((int64_t) x) }; }
-    VCTR_TARGET ("avx") static AVXRegister fromSSE       (SSERegister<uint64_t> a, SSERegister<uint64_t> b) { return { _mm256_set_m128i (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister loadUnaligned (const uint64_t* d)                                { return { _mm256_loadu_si256 (reinterpret_cast<const __m256i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister loadAligned   (const uint64_t* d)                                { return { _mm256_load_si256 (reinterpret_cast<const __m256i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister broadcast     (uint64_t x)                                       { return { _mm256_set1_epi64x ((int64_t) x) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister fromSSE       (SSERegister<uint64_t> a, SSERegister<uint64_t> b) { return { _mm256_set_m128i (a.value, b.value) }; }
 
     //==============================================================================
     // Storing
-    VCTR_TARGET ("avx") void storeUnaligned (uint64_t* d) const { _mm256_storeu_si256 (reinterpret_cast<__m256i*> (d), value); }
-    VCTR_TARGET ("avx") void storeAligned   (uint64_t* d) const { _mm256_store_si256  (reinterpret_cast<__m256i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void storeUnaligned (uint64_t* d) const { _mm256_storeu_si256 (reinterpret_cast<__m256i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void storeAligned   (uint64_t* d) const { _mm256_store_si256  (reinterpret_cast<__m256i*> (d), value); }
 
     //==============================================================================
     // Bit Operations
 
     //==============================================================================
     // Math
-    VCTR_TARGET ("avx2") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_epi64 (a.value, b.value) }; }
-    VCTR_TARGET ("avx2") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_epi64 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_epi64 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx2") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_epi64 (a.value, b.value) }; }
     // clang-format on
 };
 

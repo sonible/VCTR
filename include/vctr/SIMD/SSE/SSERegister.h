@@ -42,35 +42,35 @@ struct SSERegister<float>
     //==============================================================================
     // Loading
     // clang-format off
-    VCTR_TARGET ("sse4.1") static SSERegister loadUnaligned (const float* d)  { return { _mm_loadu_ps (d) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister loadAligned   (const float* d)  { return { _mm_load_ps (d) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister broadcast     (float x)         { return { _mm_load1_ps (&x) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister loadUnaligned (const float* d)  { return { _mm_loadu_ps (d) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister loadAligned   (const float* d)  { return { _mm_load_ps (d) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister broadcast     (float x)         { return { _mm_load1_ps (&x) }; }
 
     //==============================================================================
     // Storing
-    VCTR_TARGET ("sse4.1") void storeUnaligned (float* d) const { _mm_storeu_ps (d, value); }
-    VCTR_TARGET ("sse4.1") void storeAligned   (float* d) const { _mm_store_ps (d, value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void storeUnaligned (float* d) const { _mm_storeu_ps (d, value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void storeAligned   (float* d) const { _mm_store_ps (d, value); }
 
     //==============================================================================
     // Bit Operations
     /** Evaluates a & (! b) - so b is negated. */
-    VCTR_TARGET ("sse4.1") static SSERegister bitwiseAndNot (SSERegister a, SSERegister b) { return { _mm_andnot_ps (b.value, a.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister bitwiseAndNot (SSERegister a, SSERegister b) { return { _mm_andnot_ps (b.value, a.value) }; }
 
     //==============================================================================
     // Math
-    VCTR_TARGET ("sse4.1") static SSERegister floor (SSERegister x)              { return { _mm_floor_ps (x.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister ceil (SSERegister x)               { return { _mm_ceil_ps (x.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister mul (SSERegister a, SSERegister b) { return { _mm_mul_ps (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister div (SSERegister a, SSERegister b) { return { _mm_div_ps (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_ps (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_ps (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_ps (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_ps (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister floor (SSERegister x)              { return { _mm_floor_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister ceil (SSERegister x)               { return { _mm_ceil_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister mul (SSERegister a, SSERegister b) { return { _mm_mul_ps (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister div (SSERegister a, SSERegister b) { return { _mm_div_ps (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_ps (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_ps (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_ps (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_ps (a.value, b.value) }; }
 
     //==============================================================================
     // Type conversion
-    VCTR_TARGET ("sse4.1") static SSERegister<int32_t> convertToInt (SSERegister x);
-    VCTR_TARGET ("sse4.1") static SSERegister<int32_t> reinterpretAsInt (SSERegister x);
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister<int32_t> convertToInt (SSERegister x);
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister<int32_t> reinterpretAsInt (SSERegister x);
     // clang-format on
 };
 
@@ -85,35 +85,35 @@ struct SSERegister<double>
     //==============================================================================
     // Loading
     // clang-format off
-    VCTR_TARGET ("sse4.1") static SSERegister loadUnaligned (const double* d)  { return { _mm_loadu_pd (d) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister loadAligned   (const double* d)  { return { _mm_load_pd (d) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister broadcast     (double x)         { return { _mm_load1_pd (&x) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister loadUnaligned (const double* d)  { return { _mm_loadu_pd (d) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister loadAligned   (const double* d)  { return { _mm_load_pd (d) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister broadcast     (double x)         { return { _mm_load1_pd (&x) }; }
 
     //==============================================================================
     // Storing
-    VCTR_TARGET ("sse4.1") void storeUnaligned (double* d) const { _mm_storeu_pd (d, value); }
-    VCTR_TARGET ("sse4.1") void storeAligned   (double* d) const { _mm_store_pd (d, value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void storeUnaligned (double* d) const { _mm_storeu_pd (d, value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void storeAligned   (double* d) const { _mm_store_pd (d, value); }
 
     //==============================================================================
     // Bit Operations
     /** Evaluates a & (! b) - so b is negated. */
-    VCTR_TARGET ("sse4.1") static SSERegister bitwiseAndNot (SSERegister a, SSERegister b) { return { _mm_andnot_pd (b.value, a.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister bitwiseAndNot (SSERegister a, SSERegister b) { return { _mm_andnot_pd (b.value, a.value) }; }
 
     //==============================================================================
     // Math
-    VCTR_TARGET ("sse4.1") static SSERegister floor (SSERegister x)              { return { _mm_floor_pd (x.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister ceil (SSERegister x)               { return { _mm_ceil_pd (x.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister mul (SSERegister a, SSERegister b) { return { _mm_mul_pd (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister div (SSERegister a, SSERegister b) { return { _mm_div_pd (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_pd (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_pd (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_pd (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_pd (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister floor (SSERegister x)              { return { _mm_floor_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister ceil (SSERegister x)               { return { _mm_ceil_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister mul (SSERegister a, SSERegister b) { return { _mm_mul_pd (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister div (SSERegister a, SSERegister b) { return { _mm_div_pd (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_pd (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_pd (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_pd (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_pd (a.value, b.value) }; }
 
     //==============================================================================
     // Type conversion
-    VCTR_TARGET ("avx512vl") VCTR_TARGET ("avx512dq") static SSERegister<int64_t> convertToInt (SSERegister x);
-    VCTR_TARGET ("sse4.1") static SSERegister<int64_t> reinterpretAsInt (SSERegister x);
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx512vl") VCTR_TARGET ("avx512dq") static SSERegister<int64_t> convertToInt (SSERegister x);
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister<int64_t> reinterpretAsInt (SSERegister x);
     // clang-format on
 };
 
@@ -128,32 +128,32 @@ struct SSERegister<int32_t>
     //==============================================================================
     // Loading
     // clang-format off
-    VCTR_TARGET ("sse4.1") static SSERegister loadUnaligned (const int32_t* d)  { return { _mm_loadu_si128 (reinterpret_cast<const __m128i*> (d)) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister loadAligned   (const int32_t* d)  { return { _mm_load_si128 (reinterpret_cast<const __m128i*> (d)) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister broadcast     (int32_t x)         { return { _mm_set1_epi32 (x) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister loadUnaligned (const int32_t* d)  { return { _mm_loadu_si128 (reinterpret_cast<const __m128i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister loadAligned   (const int32_t* d)  { return { _mm_load_si128 (reinterpret_cast<const __m128i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister broadcast     (int32_t x)         { return { _mm_set1_epi32 (x) }; }
 
     //==============================================================================
     // Storing
-    VCTR_TARGET ("sse4.1") void storeUnaligned (int32_t* d) const { _mm_storeu_si128 (reinterpret_cast<__m128i*> (d), value); }
-    VCTR_TARGET ("sse4.1") void storeAligned (int32_t* d)   const { _mm_store_si128 (reinterpret_cast<__m128i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void storeUnaligned (int32_t* d) const { _mm_storeu_si128 (reinterpret_cast<__m128i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void storeAligned (int32_t* d)   const { _mm_store_si128 (reinterpret_cast<__m128i*> (d), value); }
 
     //==============================================================================
     // Bit Operations
-    VCTR_TARGET ("sse4.1") static SSERegister bitwiseAnd (SSERegister a, SSERegister b) { return { _mm_castps_si128 (_mm_and_ps (_mm_castsi128_ps (a.value), _mm_castsi128_ps (b.value))) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister bitwiseOr (SSERegister a, SSERegister b) { return { _mm_castps_si128 (_mm_or_ps (_mm_castsi128_ps (a.value), _mm_castsi128_ps (b.value))) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister bitwiseAnd (SSERegister a, SSERegister b) { return { _mm_castps_si128 (_mm_and_ps (_mm_castsi128_ps (a.value), _mm_castsi128_ps (b.value))) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister bitwiseOr (SSERegister a, SSERegister b) { return { _mm_castps_si128 (_mm_or_ps (_mm_castsi128_ps (a.value), _mm_castsi128_ps (b.value))) }; }
 
     //==============================================================================
     // Math
-    VCTR_TARGET ("sse4.1") static SSERegister abs (SSERegister x)                { return { _mm_abs_epi32 (x.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_epi32 (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_epi32 (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_epi32 (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_epi32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister abs (SSERegister x)                { return { _mm_abs_epi32 (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_epi32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_epi32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_epi32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_epi32 (a.value, b.value) }; }
 
     //==============================================================================
     // Type conversion
-    VCTR_TARGET ("sse4.1") static SSERegister<float> convertToFp (SSERegister x)     { return { _mm_cvtepi32_ps (x.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister<float> reinterpretAsFp (SSERegister x) { return { _mm_castsi128_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister<float> convertToFp (SSERegister x)     { return { _mm_cvtepi32_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister<float> reinterpretAsFp (SSERegister x) { return { _mm_castsi128_ps (x.value) }; }
     // clang-format on
 };
 
@@ -168,24 +168,24 @@ struct SSERegister<uint32_t>
     //==============================================================================
     // Loading
     // clang-format off
-    VCTR_TARGET ("sse4.1") static SSERegister loadUnaligned (const uint32_t* d)  { return { _mm_loadu_si128 (reinterpret_cast<const __m128i*> (d)) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister loadAligned   (const uint32_t* d)  { return { _mm_load_si128 (reinterpret_cast<const __m128i*> (d)) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister broadcast     (uint32_t x)         { return { _mm_set1_epi32 ((int32_t) x) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister loadUnaligned (const uint32_t* d)  { return { _mm_loadu_si128 (reinterpret_cast<const __m128i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister loadAligned   (const uint32_t* d)  { return { _mm_load_si128 (reinterpret_cast<const __m128i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister broadcast     (uint32_t x)         { return { _mm_set1_epi32 ((int32_t) x) }; }
 
     //==============================================================================
     // Storing
-    VCTR_TARGET ("sse4.1") void storeUnaligned (uint32_t* d) const { _mm_storeu_si128 (reinterpret_cast<__m128i*> (d), value); }
-    VCTR_TARGET ("sse4.1") void storeAligned (uint32_t* d)   const { _mm_store_si128 (reinterpret_cast<__m128i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void storeUnaligned (uint32_t* d) const { _mm_storeu_si128 (reinterpret_cast<__m128i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void storeAligned (uint32_t* d)   const { _mm_store_si128 (reinterpret_cast<__m128i*> (d), value); }
 
     //==============================================================================
     // Bit Operations
 
     //==============================================================================
     // Math
-    VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_epi32 (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_epi32 (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_epu32 (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_epu32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_epi32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_epi32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_epu32 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_epu32 (a.value, b.value) }; }
     // clang-format on
 };
 
@@ -200,29 +200,29 @@ struct SSERegister<int64_t>
     //==============================================================================
     // Loading
     // clang-format off
-    VCTR_TARGET ("sse4.1") static SSERegister loadUnaligned (const int64_t* d)  { return { _mm_loadu_si128 (reinterpret_cast<const __m128i*> (d)) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister loadAligned   (const int64_t* d)  { return { _mm_load_si128 (reinterpret_cast<const __m128i*> (d)) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister broadcast     (int64_t x)         { return { _mm_set1_epi64x (x) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister loadUnaligned (const int64_t* d)  { return { _mm_loadu_si128 (reinterpret_cast<const __m128i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister loadAligned   (const int64_t* d)  { return { _mm_load_si128 (reinterpret_cast<const __m128i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister broadcast     (int64_t x)         { return { _mm_set1_epi64x (x) }; }
 
     //==============================================================================
     // Storing
-    VCTR_TARGET ("sse4.1") void storeUnaligned (int64_t* d) const { _mm_storeu_si128 (reinterpret_cast<__m128i*> (d), value); }
-    VCTR_TARGET ("sse4.1") void storeAligned (int64_t* d)   const { _mm_store_si128 (reinterpret_cast<__m128i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void storeUnaligned (int64_t* d) const { _mm_storeu_si128 (reinterpret_cast<__m128i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void storeAligned (int64_t* d)   const { _mm_store_si128 (reinterpret_cast<__m128i*> (d), value); }
 
     //==============================================================================
     // Bit Operations
-    VCTR_TARGET ("sse4.1") static SSERegister bitwiseAnd (SSERegister a, SSERegister b) { return { _mm_castpd_si128 (_mm_and_pd (_mm_castsi128_pd (a.value), _mm_castsi128_pd (b.value))) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister bitwiseOr (SSERegister a, SSERegister b) { return { _mm_castpd_si128 (_mm_or_pd (_mm_castsi128_pd (a.value), _mm_castsi128_pd (b.value))) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister bitwiseAnd (SSERegister a, SSERegister b) { return { _mm_castpd_si128 (_mm_and_pd (_mm_castsi128_pd (a.value), _mm_castsi128_pd (b.value))) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister bitwiseOr (SSERegister a, SSERegister b) { return { _mm_castpd_si128 (_mm_or_pd (_mm_castsi128_pd (a.value), _mm_castsi128_pd (b.value))) }; }
 
     //==============================================================================
     // Math
-    VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_epi64 (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_epi64 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_epi64 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_epi64 (a.value, b.value) }; }
 
     //==============================================================================
     // Type conversion
-    VCTR_TARGET ("sse4.1") static SSERegister<double> convertToFp (SSERegister x)     { return { _mm_cvtepi64_pd (x.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister<double> reinterpretAsFp (SSERegister x) { return { _mm_castsi128_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister<double> convertToFp (SSERegister x)     { return { _mm_cvtepi64_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister<double> reinterpretAsFp (SSERegister x) { return { _mm_castsi128_pd (x.value) }; }
     // clang-format on
 };
 
@@ -237,22 +237,22 @@ struct SSERegister<uint64_t>
     //==============================================================================
     // Loading
     // clang-format off
-    VCTR_TARGET ("sse4.1") static SSERegister loadUnaligned (const uint64_t* d)  { return { _mm_loadu_si128 (reinterpret_cast<const __m128i*> (d)) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister loadAligned   (const uint64_t* d)  { return { _mm_load_si128 (reinterpret_cast<const __m128i*> (d)) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister broadcast     (uint64_t x)         { return { _mm_set1_epi64x ((int64_t) x) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister loadUnaligned (const uint64_t* d)  { return { _mm_loadu_si128 (reinterpret_cast<const __m128i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister loadAligned   (const uint64_t* d)  { return { _mm_load_si128 (reinterpret_cast<const __m128i*> (d)) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister broadcast     (uint64_t x)         { return { _mm_set1_epi64x ((int64_t) x) }; }
 
     //==============================================================================
     // Storing
-    VCTR_TARGET ("sse4.1") void storeUnaligned (uint64_t* d) const { _mm_storeu_si128 (reinterpret_cast<__m128i*> (d), value); }
-    VCTR_TARGET ("sse4.1") void storeAligned (uint64_t* d)   const { _mm_store_si128 (reinterpret_cast<__m128i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void storeUnaligned (uint64_t* d) const { _mm_storeu_si128 (reinterpret_cast<__m128i*> (d), value); }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void storeAligned (uint64_t* d)   const { _mm_store_si128 (reinterpret_cast<__m128i*> (d), value); }
 
     //==============================================================================
     // Bit Operations
 
     //==============================================================================
     // Math
-    VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_epi64 (a.value, b.value) }; }
-    VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_epi64 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_epi64 (a.value, b.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_epi64 (a.value, b.value) }; }
     // clang-format on
 };
 
