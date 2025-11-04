@@ -110,7 +110,7 @@ struct UnaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
         std::transform (reference.begin(), reference.end(), refResult.begin(), transformingFn);
 
         std::ostringstream os;
-        os << "Equals: " << vctr::functionName<RetValueType, SrcValueType, transformingFn>() << " (" << reference << ") = " << refResult;
+        os << "\nEquals: " << vctr::functionName<RetValueType, SrcValueType, transformingFn>() << " (" << reference << ")\n = " << refResult;
         return os.str();
     }
 
@@ -166,8 +166,8 @@ struct BinaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
         std::transform (referenceA.begin(), referenceA.end(), referenceB.begin(), refResult.begin(), transformingFn);
 
         std::ostringstream os;
-        os << "Equals: " << vctr::functionName<RetValueType, SrcValueType, SrcValueType, transformingFn>() << " (" << referenceA
-           << ", " << referenceB << ") = " << refResult;
+        os << "\nEquals: " << vctr::functionName<RetValueType, SrcValueType, SrcValueType, transformingFn>() << " (" << referenceA
+           << ", " << referenceB << ")\n = " << refResult;
         return os.str();
     }
 
@@ -231,14 +231,14 @@ struct BinaryScalarEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBas
         std::transform (referenceVec.begin(), referenceVec.end(), refResult.begin(), fnWithBoundScalar);
 
         std::ostringstream os;
-        os << "Equals: " << vctr::functionName<ValueType, ValueType, ValueType, transformingFn>() << " (";
+        os << "\nEquals: " << vctr::functionName<ValueType, ValueType, ValueType, transformingFn>() << " (";
 
         if (scalarBeforeVec)
             os << referenceScalar << ", " << referenceVec;
         else
             os << referenceVec << ", " << referenceScalar;
 
-        os << ") = " << refResult;
+        os << ")\n = " << refResult;
 
         return os.str();
     }
