@@ -58,12 +58,19 @@ struct SSERegister<float>
 
     //==============================================================================
     // Math
+    VCTR_TARGET ("sse4.1") static SSERegister floor (SSERegister x)              { return { _mm_floor_ps (x.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister ceil (SSERegister x)               { return { _mm_ceil_ps (x.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister mul (SSERegister a, SSERegister b) { return { _mm_mul_ps (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister div (SSERegister a, SSERegister b) { return { _mm_div_ps (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_ps (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_ps (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_ps (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_ps (a.value, b.value) }; }
+
+    //==============================================================================
+    // Type conversion
+    VCTR_TARGET ("sse4.1") static SSERegister<int32_t> convertToInt (SSERegister x);
+    VCTR_TARGET ("sse4.1") static SSERegister<int32_t> reinterpretAsInt (SSERegister x);
     // clang-format on
 };
 
@@ -94,12 +101,19 @@ struct SSERegister<double>
 
     //==============================================================================
     // Math
+    VCTR_TARGET ("sse4.1") static SSERegister floor (SSERegister x)              { return { _mm_floor_pd (x.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister ceil (SSERegister x)               { return { _mm_ceil_pd (x.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister mul (SSERegister a, SSERegister b) { return { _mm_mul_pd (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister div (SSERegister a, SSERegister b) { return { _mm_div_pd (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_pd (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_pd (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_pd (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_pd (a.value, b.value) }; }
+
+    //==============================================================================
+    // Type conversion
+    VCTR_TARGET ("avx512vl") VCTR_TARGET ("avx512dq") static SSERegister<int64_t> convertToInt (SSERegister x);
+    VCTR_TARGET ("sse4.1") static SSERegister<int64_t> reinterpretAsInt (SSERegister x);
     // clang-format on
 };
 
@@ -125,6 +139,8 @@ struct SSERegister<int32_t>
 
     //==============================================================================
     // Bit Operations
+    VCTR_TARGET ("sse4.1") static SSERegister bitwiseAnd (SSERegister a, SSERegister b) { return { _mm_castps_si128 (_mm_and_ps (_mm_castsi128_ps (a.value), _mm_castsi128_ps (b.value))) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister bitwiseOr (SSERegister a, SSERegister b) { return { _mm_castps_si128 (_mm_or_ps (_mm_castsi128_ps (a.value), _mm_castsi128_ps (b.value))) }; }
 
     //==============================================================================
     // Math
@@ -133,6 +149,11 @@ struct SSERegister<int32_t>
     VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_epi32 (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_epi32 (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_epi32 (a.value, b.value) }; }
+
+    //==============================================================================
+    // Type conversion
+    VCTR_TARGET ("sse4.1") static SSERegister<float> convertToFp (SSERegister x)     { return { _mm_cvtepi32_ps (x.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister<float> reinterpretAsFp (SSERegister x) { return { _mm_castsi128_ps (x.value) }; }
     // clang-format on
 };
 
@@ -190,11 +211,18 @@ struct SSERegister<int64_t>
 
     //==============================================================================
     // Bit Operations
+    VCTR_TARGET ("sse4.1") static SSERegister bitwiseAnd (SSERegister a, SSERegister b) { return { _mm_castpd_si128 (_mm_and_pd (_mm_castsi128_pd (a.value), _mm_castsi128_pd (b.value))) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister bitwiseOr (SSERegister a, SSERegister b) { return { _mm_castpd_si128 (_mm_or_pd (_mm_castsi128_pd (a.value), _mm_castsi128_pd (b.value))) }; }
 
     //==============================================================================
     // Math
     VCTR_TARGET ("sse4.1") static SSERegister add (SSERegister a, SSERegister b) { return { _mm_add_epi64 (a.value, b.value) }; }
     VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_epi64 (a.value, b.value) }; }
+
+    //==============================================================================
+    // Type conversion
+    VCTR_TARGET ("sse4.1") static SSERegister<double> convertToFp (SSERegister x)     { return { _mm_cvtepi64_pd (x.value) }; }
+    VCTR_TARGET ("sse4.1") static SSERegister<double> reinterpretAsFp (SSERegister x) { return { _mm_castsi128_pd (x.value) }; }
     // clang-format on
 };
 
@@ -227,6 +255,11 @@ struct SSERegister<uint64_t>
     VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_epi64 (a.value, b.value) }; }
     // clang-format on
 };
+
+inline SSERegister<int32_t> SSERegister<float>::convertToInt (SSERegister x)      { return { _mm_cvtps_epi32 (x.value) }; }
+inline SSERegister<int32_t> SSERegister<float>::reinterpretAsInt (SSERegister x)  { return { _mm_castps_si128 (x.value) }; }
+inline SSERegister<int64_t> SSERegister<double>::convertToInt (SSERegister x)     { return { _mm_cvtpd_epi64 (x.value) }; }
+inline SSERegister<int64_t> SSERegister<double>::reinterpretAsInt (SSERegister x) { return { _mm_castpd_si128 (x.value) }; }
 
 #endif
 
