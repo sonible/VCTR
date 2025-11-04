@@ -204,6 +204,20 @@ public:
     }
 
     //==============================================================================
+    // NEON Implementation
+    VCTR_FORCEDINLINE void prepareNeonEvaluation() const
+    requires has::prepareNeonEvaluation<SrcType>
+    {
+        src.prepareNeonEvaluation();
+        constantSIMD.neon = Expression::Neon::broadcast (constant);
+    }
+
+    VCTR_FORCEDINLINE NeonRegister<value_type> getNeon (size_t i) const
+    requires (archARM && has::getNeon<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
+    {
+        return Expression::Neon::mul (constantSIMD.neon, src.getNeon (i));
+    }
+
     // AVX Implementation
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") void prepareAVXEvaluation() const
     requires has::prepareAVXEvaluation<SrcType>
