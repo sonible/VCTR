@@ -204,6 +204,7 @@ VCTR_END_IGNORE_WARNING_MSVC
 #include "Expressions/Trigonometric/Atanh.h"
 
 #include "Expressions/DSP/FastExp.h"
+#include "Expressions/DSP/FastLog.h"
 #include "Expressions/DSP/Decibels.h"
 
 #include "Generators/Linspace.h"
