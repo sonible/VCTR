@@ -65,6 +65,8 @@ struct AVXRegister<float>
 
     //==============================================================================
     // Math
+    VCTR_TARGET ("avx") static AVXRegister floor (AVXRegister x)              { return { _mm256_floor_ps (x.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister ceil (AVXRegister x)               { return { _mm256_ceil_ps (x.value) }; }
     VCTR_TARGET ("avx") static AVXRegister mul (AVXRegister a, AVXRegister b) { return { _mm256_mul_ps (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_ps (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_ps (a.value, b.value) }; }
@@ -74,6 +76,10 @@ struct AVXRegister<float>
     VCTR_TARGET ("fma") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_ps (a.value, b.value, c.value) }; }
     VCTR_TARGET ("fma") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_ps (a.value, b.value, c.value) }; }
 
+    //==============================================================================
+    // Type conversion
+    VCTR_TARGET ("avx") static AVXRegister<int32_t> convertToInt (AVXRegister x);
+    VCTR_TARGET ("avx") static AVXRegister<int32_t> reinterpretAsInt (AVXRegister x);
     // clang-format on
 };
 
@@ -112,6 +118,8 @@ struct AVXRegister<double>
 
     //==============================================================================
     // Math
+    VCTR_TARGET ("avx") static AVXRegister floor (AVXRegister x)              { return { _mm256_floor_pd (x.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister ceil (AVXRegister x)               { return { _mm256_ceil_pd (x.value) }; }
     VCTR_TARGET ("avx") static AVXRegister mul (AVXRegister a, AVXRegister b) { return { _mm256_mul_pd (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_pd (a.value, b.value) }; }
     VCTR_TARGET ("avx") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_pd (a.value, b.value) }; }
@@ -120,6 +128,11 @@ struct AVXRegister<double>
     VCTR_TARGET ("avx") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_pd (a.value, b.value) }; }
     VCTR_TARGET ("fma") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_pd (a.value, b.value, c.value) }; }
     VCTR_TARGET ("fma") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_pd (a.value, b.value, c.value) }; }
+
+    //==============================================================================
+    // Type conversion
+    VCTR_TARGET ("avx512vl") VCTR_TARGET ("avx512dq") static AVXRegister<int64_t> convertToInt (AVXRegister x);
+    VCTR_TARGET ("avx") static AVXRegister<int64_t> reinterpretAsInt (AVXRegister x);
     // clang-format on
 };
 
@@ -146,6 +159,12 @@ struct AVXRegister<int32_t>
 
     //==============================================================================
     // Bit Operations
+    VCTR_TARGET ("avx2") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_si256 (a.value, b.value) }; }
+    VCTR_TARGET ("avx2") static AVXRegister bitwiseOr (AVXRegister a, AVXRegister b) { return { _mm256_or_si256 (a.value, b.value) }; }
+    // These are non AVX2 variants that might be used in functions that are not targeted AVX2 at the expense of slightly worse performance
+    VCTR_TARGET ("avx") static AVXRegister bitwiseAndLegacy (AVXRegister a, AVXRegister b) { return { _mm256_castps_si256 (_mm256_and_ps (_mm256_castsi256_ps (a.value), _mm256_castsi256_ps (b.value))) }; }
+    VCTR_TARGET ("avx") static AVXRegister bitwiseOrLegacy (AVXRegister a, AVXRegister b) { return { _mm256_castps_si256 (_mm256_or_ps (_mm256_castsi256_ps (a.value), _mm256_castsi256_ps (b.value))) }; }
+
 
     //==============================================================================
     // Math
@@ -154,6 +173,11 @@ struct AVXRegister<int32_t>
     VCTR_TARGET ("avx2") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_epi32 (a.value, b.value) }; }
     VCTR_TARGET ("avx2") static AVXRegister max (AVXRegister a, AVXRegister b) { return { _mm256_max_epi32 (a.value, b.value) }; }
     VCTR_TARGET ("avx2") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_epi32 (a.value, b.value) }; }
+
+    //==============================================================================
+    // Type conversion
+    VCTR_TARGET ("avx") static AVXRegister<float> convertToFp (AVXRegister x)     { return { _mm256_cvtepi32_ps (x.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister<float> reinterpretAsFp (AVXRegister x) { return { _mm256_castsi256_ps (x.value) }; }
     // clang-format on
 };
 
@@ -213,11 +237,21 @@ struct AVXRegister<int64_t>
 
     //==============================================================================
     // Bit Operations
+    VCTR_TARGET ("avx2") static AVXRegister bitwiseAnd (AVXRegister a, AVXRegister b) { return { _mm256_and_si256 (a.value, b.value) }; }
+    VCTR_TARGET ("avx2") static AVXRegister bitwiseOr (AVXRegister a, AVXRegister b) { return { _mm256_or_si256 (a.value, b.value) }; }
+    // These are non AVX2 variants that might be used in functions that are not targeted AVX2 at the expense of slightly worse performance
+    VCTR_TARGET ("avx") static AVXRegister bitwiseAndLegacy (AVXRegister a, AVXRegister b) { return { _mm256_castpd_si256 (_mm256_and_pd (_mm256_castsi256_pd (a.value), _mm256_castsi256_pd (b.value))) }; }
+    VCTR_TARGET ("avx") static AVXRegister bitwiseOrLegacy (AVXRegister a, AVXRegister b) { return { _mm256_castpd_si256 (_mm256_or_pd (_mm256_castsi256_pd (a.value), _mm256_castsi256_pd (b.value))) }; }
 
     //==============================================================================
     // Math
     VCTR_TARGET ("avx2") static AVXRegister add (AVXRegister a, AVXRegister b) { return { _mm256_add_epi64 (a.value, b.value) }; }
     VCTR_TARGET ("avx2") static AVXRegister sub (AVXRegister a, AVXRegister b) { return { _mm256_sub_epi64 (a.value, b.value) }; }
+
+    //==============================================================================
+    // Type conversion
+    VCTR_TARGET ("avx") static AVXRegister<double> convertToFp (AVXRegister x)     { return { _mm256_cvtepi64_pd (x.value) }; }
+    VCTR_TARGET ("avx") static AVXRegister<double> reinterpretAsFp (AVXRegister x) { return { _mm256_castsi256_pd (x.value) }; }
     // clang-format on
 };
 
@@ -252,6 +286,10 @@ struct AVXRegister<uint64_t>
     // clang-format on
 };
 
+inline AVXRegister<int32_t> AVXRegister<float>::convertToInt (AVXRegister x)      { return { _mm256_cvtps_epi32 (x.value) }; }
+inline AVXRegister<int32_t> AVXRegister<float>::reinterpretAsInt (AVXRegister x)  { return { _mm256_castps_si256 (x.value) }; }
+inline AVXRegister<int64_t> AVXRegister<double>::convertToInt (AVXRegister x)      { return { _mm256_cvtpd_epi64 (x.value) }; }
+inline AVXRegister<int64_t> AVXRegister<double>::reinterpretAsInt (AVXRegister x)  { return { _mm256_castpd_si256 (x.value) }; }
 #endif
 
 } // namespace vctr
