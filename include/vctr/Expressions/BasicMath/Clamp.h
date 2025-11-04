@@ -147,6 +147,90 @@ public:
     }
 
     //==============================================================================
+    // AVX Implementation
+    VCTR_FORCEDINLINE VCTR_TARGET ("avx") void prepareAVXEvaluation() const
+    requires (has::prepareAVXEvaluation<SrcType> && Expression::CommonElement::isRealFloat)
+    {
+        src.prepareAVXEvaluation();
+
+        if constexpr (clampLow)
+            lowerBoundSIMD.avx = Expression::AVX::broadcast (lowerBound);
+
+        if constexpr (clampHigh)
+            upperBoundSIMD.avx = Expression::AVX::broadcast (upperBound);
+    }
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") AVXRegister<value_type> getAVX (size_t i) const
+    requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
+    {
+        auto x = src.getAVX (i);
+
+        if constexpr (clampLow)
+            x = Expression::AVX::max (lowerBoundSIMD.avx, x);
+
+        if constexpr (clampHigh)
+            x = Expression::AVX::min (x, upperBoundSIMD.avx);
+
+        return x;
+    }
+
+    //==============================================================================
+    // SSE Implementation
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") void prepareSSEEvaluation() const
+    requires (has::prepareSSEEvaluation<SrcType> && Expression::CommonElement::isRealFloat)
+    {
+        src.prepareSSEEvaluation();
+
+        if constexpr (clampLow)
+            lowerBoundSIMD.sse = Expression::SSE::broadcast (lowerBound);
+
+        if constexpr (clampHigh)
+            upperBoundSIMD.sse = Expression::SSE::broadcast (upperBound);
+    }
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
+    requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
+    {
+        auto x = src.getSSE (i);
+
+        if constexpr (clampLow)
+            x = Expression::SSE::max (lowerBoundSIMD.sse, x);
+
+        if constexpr (clampHigh)
+            x = Expression::SSE::min (x, upperBoundSIMD.sse);
+
+        return x;
+    }
+
+    //==============================================================================
+    // Neon Implementation
+    void prepareNeonEvaluation() const
+    requires (archARM && has::prepareNeonEvaluation<SrcType> && Expression::CommonElement::isRealFloat)
+    {
+        src.prepareNeonEvaluation();
+
+        if constexpr (clampLow)
+            lowerBoundSIMD.neon = Expression::Neon::broadcast (lowerBound);
+
+        if constexpr (clampHigh)
+            upperBoundSIMD.neon = Expression::Neon::broadcast (upperBound);
+    }
+
+    NeonRegister<value_type> getNeon (size_t i) const
+    requires (archARM && has::getNeon<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
+    {
+        auto x = src.getNeon (i);
+
+        if constexpr (clampLow)
+            x = Expression::Neon::max (lowerBoundSIMD.neon, x);
+
+        if constexpr (clampHigh)
+            x = Expression::Neon::min (x, upperBoundSIMD.neon);
+
+        return x;
+    }
+
+    //==============================================================================
     // Platform Vector Operation Implementation
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
     requires is::suitableForAccelerateRealFloatVectorOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable>
@@ -181,6 +265,10 @@ public:
 
         return dst;
     }
+
+private:
+    mutable SIMDRegisterUnion<Expression> upperBoundSIMD;
+    mutable SIMDRegisterUnion<Expression> lowerBoundSIMD;
 };
 
 } // namespace vctr::expressions
