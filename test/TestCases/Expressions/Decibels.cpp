@@ -62,3 +62,37 @@ TEMPLATE_PRODUCT_TEST_CASE ("Decibels", "[VCTR][Decibels]", (PlatformVectorOps, 
 
     // clang-format on
 }
+
+TEMPLATE_PRODUCT_TEST_CASE ("Fast decibel approximations", "[VCTR][Decibels]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float) )
+{
+    VCTR_TEST_DEFINES_WITH_TRAILING_ZERO_IN_RANGE (0, 2, 10)
+
+    // clang-format off
+    const vctr::Vector dBFS     = filter << vctr::fastMagToDb<vctr::dBFS> << srcD;
+    const vctr::Vector dBFSU    = filter << vctr::fastMagToDb<vctr::dBFS> << srcUnaligned;
+    const vctr::Vector dBPower  = filter << vctr::fastMagToDb<vctr::dBPower> << srcD;
+    const vctr::Vector dBPowerU = filter << vctr::fastMagToDb<vctr::dBPower> << srcUnaligned;
+
+    REQUIRE_THAT (dBFS,     vctr::EqualsTransformedBy<magToDbFS> (srcD).withEpsilon (0.005));
+    REQUIRE_THAT (dBFSU,    vctr::EqualsTransformedBy<magToDbFS> (srcUnaligned).withEpsilon (0.005));
+    REQUIRE_THAT (dBPower,  vctr::EqualsTransformedBy<magToDbPower> (srcD).withEpsilon (0.005));
+    REQUIRE_THAT (dBPowerU, vctr::EqualsTransformedBy<magToDbPower> (srcUnaligned).withEpsilon (0.005));
+
+    // The last source element is a magnitude of 0. This should result in the default minimum dB value which is -100
+    REQUIRE (dBFS[9]     == ElementType (-100));
+    REQUIRE (dBFSU[8]    == ElementType (-100));
+    REQUIRE (dBPower[9]  == ElementType (-100));
+    REQUIRE (dBPowerU[8] == ElementType (-100));
+    // clang-format on
+
+    // Transforming back to linear values should result in the original values
+    const vctr::Vector magFS     = filter << vctr::fastDbToMag<vctr::dBFS> << dBFS;
+    const vctr::Vector magFSU    = filter << vctr::fastDbToMag<vctr::dBFS> << dBFS.template subSpan<1>();
+    const vctr::Vector magPower  = filter << vctr::fastDbToMag<vctr::dBPower> << dBPower;
+    const vctr::Vector magPowerU = filter << vctr::fastDbToMag<vctr::dBPower> << dBPower.template subSpan<1>();
+
+    REQUIRE_THAT (magFS,     vctr::Equals (srcD).withMargin (0.005));
+    REQUIRE_THAT (magFSU,    vctr::Equals (srcUnaligned).withMargin (0.005));
+    REQUIRE_THAT (magPower,  vctr::Equals (srcD).withMargin (0.005));
+    REQUIRE_THAT (magPowerU, vctr::Equals (srcUnaligned).withMargin (0.005));
+}

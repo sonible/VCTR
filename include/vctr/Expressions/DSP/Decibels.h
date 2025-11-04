@@ -28,6 +28,19 @@ struct InvertedConstant
     static constexpr double value = 1.0 / double (C::value);
 };
 
+#if VCTR_USE_GCEM
+template <is::constant C>
+struct Log10ToLog2Constant
+{
+    static constexpr double value = double (C::value) / gcem::log2 (10.0);
+};
+
+template <is::constant C>
+struct InvertedLog10ToLog2Constant
+{
+    static constexpr double value = gcem::log2 (10.0) / double (C::value);
+};
+#endif
 } // namespace vctr::detail
 
 namespace vctr::expressions
@@ -45,8 +58,24 @@ template <size_t extent, class SrcType, class DecibelConstant>
 using DBToMag = PowConstantBase<extent,
                                 MultiplyVecByConstant<extent,
                                                       SrcType,
-                                                      detail::InvertedConstant<DecibelConstant>>,
+                                                      ::vctr::detail::InvertedConstant<DecibelConstant>>,
                                 Constant<10>>;
+
+#if VCTR_USE_GCEM
+template <size_t extent, class SrcType, class DecibelConstant, class MinDb>
+using FastMagToDb = ClampByConstant<extent,
+                                    MultiplyVecByConstant<extent,
+                                                          FastLog2<extent, SrcType>,
+                                                          ::vctr::detail::Log10ToLog2Constant<DecibelConstant>>,
+                                    MinDb,
+                                    DisabledConstant>;
+
+template <size_t extent, class SrcType, class DecibelConstant>
+using FastDbToMag = FastExp2<extent,
+                             MultiplyVecByConstant<extent,
+                                                   SrcType,
+                                                   ::vctr::detail::InvertedLog10ToLog2Constant<DecibelConstant>>>;
+#endif
 
 } // namespace vctr::expressions
 
@@ -95,5 +124,37 @@ constexpr inline ExpressionChainBuilderWithRuntimeArgs<expressions::MagToDb, det
  */
 template <is::constant DecibelConstant>
 constexpr inline ExpressionChainBuilderWithRuntimeArgs<expressions::DBToMag, detail::RuntimeArgChain<std::tuple<>, std::tuple<>, std::tuple<>>, DecibelConstant> dbToMag;
+
+#if VCTR_USE_GCEM
+/** Converts the source magnitude into a decibel representation using fast approximations.
+
+    The calculation is max (constant * log2 (src * log2 (10)), minDb), with constant being either 20 for dBFS or
+    dBVoltage (the typical value when dealing with digital audio amplitudes) or 10 for dBPower. The log2 function
+    is evaluated using the fastLog2 expression implementation, leading to an approximately 7x faster calculation
+    compared to the usual magToDb expression at the expense of some numerical precision.
+
+   @tparam DecibelConstant: Either vctr::dBFS, vctr::dBVoltage or vctr::dBPower.
+   @tparam minDb: The lower threshold for the resulting dB value and thus the value for a magnitude of 0.
+
+   @ingroup Expressions
+ */
+template <is::constant DecibelConstant, auto minDb = -100>
+constexpr inline ExpressionChainBuilderWithRuntimeArgs<expressions::FastMagToDb, detail::RuntimeArgChain<std::tuple<>, std::tuple<>, std::tuple<>>, DecibelConstant, Constant<minDb>> fastMagToDb;
+
+/** Converts the source decibel values into their magnitude representation using fast approximations.
+
+    The calculation is pow (2, src * (log2 (10) / constant), with constant being either 20 for dBFS or dBVoltage
+    (the typical value when dealing with digital audio amplitudes) or 10 for dBPower. The evaluation of 2 raised
+    to the power of src * (log2 (10) / constant is evaluated using the fastExp2 expression implementation, leading to
+    an approximately 5x faster calculation compared to the usual dbToMag expression at the expense of some numerical
+    precision.
+
+   @tparam DecibelConstant: Either vctr::dBFS, vctr::dBVoltage or vctr::dBPower.
+
+   @ingroup Expressions
+ */
+template <is::constant DecibelConstant>
+constexpr inline ExpressionChainBuilderWithRuntimeArgs<expressions::FastDbToMag, detail::RuntimeArgChain<std::tuple<>, std::tuple<>, std::tuple<>>, DecibelConstant> fastDbToMag;
+#endif
 
 } // namespace vctr
