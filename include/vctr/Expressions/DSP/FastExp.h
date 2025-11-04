@@ -57,20 +57,22 @@ public:
     VCTR_FORCEDINLINE VCTR_TARGET ("fma") AVXRegister<value_type> getAVX (size_t i) const
     requires (archX64 && has::getAVX<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        auto numerator = Expression::AVX::add (src.getAVX (i), SIMDConst20.avx);
-        numerator = Expression::AVX::mul (numerator, src.getAVX (i));
+        const auto in = src.getAVX (i);
+
+        auto numerator = Expression::AVX::add (in, SIMDConst20.avx);
+        numerator = Expression::AVX::mul (numerator, in);
         numerator = Expression::AVX::add (numerator, SIMDConst180.avx);
-        numerator = Expression::AVX::mul (numerator, src.getAVX (i));
+        numerator = Expression::AVX::mul (numerator, in);
         numerator = Expression::AVX::add (numerator, SIMDConst840.avx);
-        numerator = Expression::AVX::mul (numerator, src.getAVX (i));
+        numerator = Expression::AVX::mul (numerator, in);
         numerator = Expression::AVX::add (numerator, SIMDConst1680.avx);
 
-        auto denominator = Expression::AVX::add (src.getAVX (i), SIMDConstMinus20.avx);
-        denominator = Expression::AVX::mul (denominator, src.getAVX (i));
+        auto denominator = Expression::AVX::add (in, SIMDConstMinus20.avx);
+        denominator = Expression::AVX::mul (denominator, in);
         denominator = Expression::AVX::add (denominator, SIMDConst180.avx);
-        denominator = Expression::AVX::mul (denominator, src.getAVX (i));
+        denominator = Expression::AVX::mul (denominator, in);
         denominator = Expression::AVX::add (denominator, SIMDConstMinus840.avx);
-        denominator = Expression::AVX::mul (denominator, src.getAVX (i));
+        denominator = Expression::AVX::mul (denominator, in);
         denominator = Expression::AVX::add (denominator, SIMDConst1680.avx);
 
         return Expression::AVX::div (numerator, denominator);
@@ -94,20 +96,22 @@ public:
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
     requires (archX64 && has::getSSE<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        auto numerator = Expression::SSE::add (src.getSSE (i), SIMDConst20.sse);
-        numerator = Expression::SSE::mul (numerator, src.getSSE (i));
+        const auto in = src.getSSE (i);
+
+        auto numerator = Expression::SSE::add (in, SIMDConst20.sse);
+        numerator = Expression::SSE::mul (numerator, in);
         numerator = Expression::SSE::add (numerator, SIMDConst180.sse);
-        numerator = Expression::SSE::mul (numerator, src.getSSE (i));
+        numerator = Expression::SSE::mul (numerator, in);
         numerator = Expression::SSE::add (numerator, SIMDConst840.sse);
-        numerator = Expression::SSE::mul (numerator, src.getSSE (i));
+        numerator = Expression::SSE::mul (numerator, in);
         numerator = Expression::SSE::add (numerator, SIMDConst1680.sse);
 
-        auto denominator = Expression::SSE::add (src.getSSE (i), SIMDConstMinus20.sse);
-        denominator = Expression::SSE::mul (denominator, src.getSSE (i));
+        auto denominator = Expression::SSE::add (in, SIMDConstMinus20.sse);
+        denominator = Expression::SSE::mul (denominator, in);
         denominator = Expression::SSE::add (denominator, SIMDConst180.sse);
-        denominator = Expression::SSE::mul (denominator, src.getSSE (i));
+        denominator = Expression::SSE::mul (denominator, in);
         denominator = Expression::SSE::add (denominator, SIMDConstMinus840.sse);
-        denominator = Expression::SSE::mul (denominator, src.getSSE (i));
+        denominator = Expression::SSE::mul (denominator, in);
         denominator = Expression::SSE::add (denominator, SIMDConst1680.sse);
 
         return Expression::SSE::div (numerator, denominator);
@@ -131,20 +135,22 @@ public:
     NeonRegister<value_type> getNeon (size_t i) const
     requires (archARM && has::getNeon<SrcType> && Expression::allElementTypesSame && Expression::CommonElement::isRealFloat)
     {
-        auto numerator = Expression::Neon::add (src.getNeon (i), SIMDConst20.neon);
-        numerator = Expression::Neon::mul (numerator, src.getNeon (i));
+        const auto in = src.getNeon (i);
+
+        auto numerator = Expression::Neon::add (in, SIMDConst20.neon);
+        numerator = Expression::Neon::mul (numerator, in);
         numerator = Expression::Neon::add (numerator, SIMDConst180.neon);
-        numerator = Expression::Neon::mul (numerator, src.getNeon (i));
+        numerator = Expression::Neon::mul (numerator, in);
         numerator = Expression::Neon::add (numerator, SIMDConst840.neon);
-        numerator = Expression::Neon::mul (numerator, src.getNeon (i));
+        numerator = Expression::Neon::mul (numerator, in);
         numerator = Expression::Neon::add (numerator, SIMDConst1680.neon);
 
-        auto denominator = Expression::Neon::add (src.getNeon (i), SIMDConstMinus20.neon);
-        denominator = Expression::Neon::mul (denominator, src.getNeon (i));
+        auto denominator = Expression::Neon::add (in, SIMDConstMinus20.neon);
+        denominator = Expression::Neon::mul (denominator, in);
         denominator = Expression::Neon::add (denominator, SIMDConst180.neon);
-        denominator = Expression::Neon::mul (denominator, src.getNeon (i));
+        denominator = Expression::Neon::mul (denominator, in);
         denominator = Expression::Neon::add (denominator, SIMDConstMinus840.neon);
-        denominator = Expression::Neon::mul (denominator, src.getNeon (i));
+        denominator = Expression::Neon::mul (denominator, in);
         denominator = Expression::Neon::add (denominator, SIMDConst1680.neon);
 
         return Expression::Neon::div (numerator, denominator);
