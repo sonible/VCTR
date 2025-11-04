@@ -86,6 +86,8 @@ struct NeonRegister<float>
     //==============================================================================
     // Math
     static NeonRegister abs (NeonRegister x)                 { return { vabsq_f32 (x.value) }; }
+    static NeonRegister floor (NeonRegister x)               { return { vrndmq_f32 (x.value) }; }
+    static NeonRegister ceil (NeonRegister x)                { return { vrndpq_f32 (x.value) }; }
     static NeonRegister mul (NeonRegister a, NeonRegister b) { return { vmulq_f32 (a.value, b.value) }; }
     static NeonRegister div (NeonRegister a, NeonRegister b) { return { vdivq_f32 (a.value, b.value) }; }
     static NeonRegister add (NeonRegister a, NeonRegister b) { return { vaddq_f32 (a.value, b.value) }; }
@@ -94,6 +96,11 @@ struct NeonRegister<float>
     static NeonRegister min (NeonRegister a, NeonRegister b) { return { vminq_f32 (a.value, b.value) }; }
     static NeonRegister fma (NeonRegister a, NeonRegister b, NeonRegister c) { return { vfmaq_f32 (c.value, a.value, b.value) }; }
     static NeonRegister fms (NeonRegister a, NeonRegister b, NeonRegister c) { return { vfmsq_f32 (c.value, a.value, b.value) }; }
+
+    //==============================================================================
+    // Type conversion
+    static NeonRegister<int32_t> convertToInt (NeonRegister x);
+    static NeonRegister<int32_t> reinterpretAsInt (NeonRegister x);
     // clang-format on
 };
 
@@ -130,6 +137,8 @@ struct NeonRegister<double>
     //==============================================================================
     // Math
     static NeonRegister abs (NeonRegister x)                 { return { vabsq_f64 (x.value) }; }
+    static NeonRegister floor (NeonRegister x)               { return { vrndmq_f64 (x.value) }; }
+    static NeonRegister ceil (NeonRegister x)                { return { vrndpq_f64 (x.value) }; }
     static NeonRegister mul (NeonRegister a, NeonRegister b) { return { vmulq_f64 (a.value, b.value) }; }
     static NeonRegister div (NeonRegister a, NeonRegister b) { return { vdivq_f64 (a.value, b.value) }; }
     static NeonRegister add (NeonRegister a, NeonRegister b) { return { vaddq_f64 (a.value, b.value) }; }
@@ -138,6 +147,11 @@ struct NeonRegister<double>
     static NeonRegister min (NeonRegister a, NeonRegister b) { return { vminq_f64 (a.value, b.value) }; }
     static NeonRegister fma (NeonRegister a, NeonRegister b, NeonRegister c) { return { vfmaq_f64 (c.value, a.value, b.value) }; }
     static NeonRegister fms (NeonRegister a, NeonRegister b, NeonRegister c) { return { vfmsq_f64 (c.value, a.value, b.value) }; }
+
+    //==============================================================================
+    // Type conversion
+    static NeonRegister<int64_t> convertToInt (NeonRegister x);
+    static NeonRegister<int64_t> reinterpretAsInt (NeonRegister x);
     // clang-format on
 };
 
@@ -161,6 +175,8 @@ struct NeonRegister<int32_t>
 
     //==============================================================================
     // Bit Operations
+    static NeonRegister bitwiseAnd (NeonRegister a, NeonRegister b) { return { vandq_s32 (a.value, b.value) }; }
+    static NeonRegister bitwiseOr  (NeonRegister a, NeonRegister b) { return { vorrq_s32 (a.value, b.value) }; }
 
     //==============================================================================
     // Math
@@ -170,6 +186,11 @@ struct NeonRegister<int32_t>
     static NeonRegister sub (NeonRegister a, NeonRegister b) { return { vsubq_s32 (a.value, b.value) }; }
     static NeonRegister max (NeonRegister a, NeonRegister b) { return { vmaxq_s32 (a.value, b.value) }; }
     static NeonRegister min (NeonRegister a, NeonRegister b) { return { vminq_s32 (a.value, b.value) }; }
+
+    //==============================================================================
+    // Type conversion
+    static NeonRegister<float> convertToFp (NeonRegister x)     { return { vcvtq_f32_s32 (x.value) }; }
+    static NeonRegister<float> reinterpretAsFp (NeonRegister x) { return { vreinterpretq_f32_s32 (x.value) }; }
     // clang-format on
 };
 
@@ -193,6 +214,8 @@ struct NeonRegister<uint32_t>
 
     //==============================================================================
     // Bit Operations
+    static NeonRegister bitwiseAnd (NeonRegister a, NeonRegister b) { return { vandq_u32 (a.value, b.value) }; }
+    static NeonRegister bitwiseOr  (NeonRegister a, NeonRegister b) { return { vorrq_u32 (a.value, b.value) }; }
 
     //==============================================================================
     // Math
@@ -224,12 +247,19 @@ struct NeonRegister<int64_t>
 
     //==============================================================================
     // Bit Operations
+    static NeonRegister bitwiseAnd (NeonRegister a, NeonRegister b) { return { vandq_s64 (a.value, b.value) }; }
+    static NeonRegister bitwiseOr  (NeonRegister a, NeonRegister b) { return { vorrq_s64 (a.value, b.value) }; }
 
     //==============================================================================
     // Math
     static NeonRegister abs (NeonRegister x)                 { return { vabsq_s64 (x.value) }; }
     static NeonRegister add (NeonRegister a, NeonRegister b) { return { vaddq_s64 (a.value, b.value) }; }
     static NeonRegister sub (NeonRegister a, NeonRegister b) { return { vsubq_s64 (a.value, b.value) }; }
+
+    //==============================================================================
+    // Type conversion
+    static NeonRegister<double> convertToFp (NeonRegister x)     { return { vcvtq_f64_s64 (x.value) }; }
+    static NeonRegister<double> reinterpretAsFp (NeonRegister x) { return { vreinterpretq_f64_s64 (x.value) }; }
     // clang-format on
 };
 
@@ -253,6 +283,8 @@ struct NeonRegister<uint64_t>
 
     //==============================================================================
     // Bit Operations
+    static NeonRegister bitwiseAnd (NeonRegister a, NeonRegister b) { return { vandq_u64 (a.value, b.value) }; }
+    static NeonRegister bitwiseOr  (NeonRegister a, NeonRegister b) { return { vorrq_u64 (a.value, b.value) }; }
 
     //==============================================================================
     // Math
@@ -260,6 +292,11 @@ struct NeonRegister<uint64_t>
     static NeonRegister sub (NeonRegister a, NeonRegister b) { return { vsubq_u64 (a.value, b.value) }; }
     // clang-format on
 };
+
+inline NeonRegister<int32_t> NeonRegister<float>::convertToInt (NeonRegister<float> x)       { return { vcvtq_s32_f32 (x.value) }; }
+inline NeonRegister<int32_t> NeonRegister<float>::reinterpretAsInt (NeonRegister<float> x)   { return { vreinterpretq_s32_f32 (x.value) }; }
+inline NeonRegister<int64_t> NeonRegister<double>::convertToInt (NeonRegister<double> x)     { return { vcvtq_s64_f64 (x.value) }; }
+inline NeonRegister<int64_t> NeonRegister<double>::reinterpretAsInt (NeonRegister<double> x) { return { vreinterpretq_s64_f64 (x.value) }; }
 
 #endif
 
