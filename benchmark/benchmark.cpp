@@ -30,6 +30,7 @@ int main (int argc, char** argv) { return Catch::Session().run (argc, argv); }
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #include <chrono>
+#include <vctr_test_utils/vctr_test_common.h>
 
 // ===============================================================
 TEST_CASE ("Decibels")
@@ -187,4 +188,30 @@ TEST_CASE ("Multiplication")
             return notAccelerated();
         };
     }
+}
+
+TEST_CASE ("Precise vs fast decibel benchmarks",  "[VCTR][Decibels]")
+{
+    auto srcMag16 = UnitTestValues<float>::array<16, 0, 0, 2> (false, true);
+    auto srcDb16 = UnitTestValues<float>::array<16, 0, -100, 10> (false, true);
+
+    BENCHMARK ("Precise magToDb")
+    {
+        return vctr::Array (vctr::magToDb<vctr::dBFS> << srcMag16);
+    };
+
+    BENCHMARK ("Fast magToDb")
+    {
+        return vctr::Array (vctr::fastMagToDb<vctr::dBFS> << srcMag16);
+    };
+
+    BENCHMARK ("Precise dbToMag")
+    {
+        return vctr::Array (vctr::dbToMag<vctr::dBFS> << srcDb16);
+    };
+
+    BENCHMARK ("Fast dbToMag")
+    {
+        return vctr::Array (vctr::fastDbToMag<vctr::dBFS> << srcDb16);
+    };
 }

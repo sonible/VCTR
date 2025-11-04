@@ -20,6 +20,7 @@
   ==============================================================================
 */
 
+#include <catch2/benchmark/catch_benchmark.hpp>
 #include <vctr_test_utils/vctr_test_common.h>
 
 // clang-format off
