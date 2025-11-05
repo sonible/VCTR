@@ -34,6 +34,8 @@ var hierarchy =
         [ "vctr::expressions::DivideVectors< extent, SrcAType, SrcBType >", "classvctr_1_1expressions_1_1DivideVectors.html", null ],
         [ "vctr::expressions::Exp< extent, SrcType >", "classvctr_1_1expressions_1_1Exp.html", null ],
         [ "vctr::expressions::FastExp< extent, SrcType >", "classvctr_1_1expressions_1_1FastExp.html", null ],
+        [ "vctr::expressions::FastExp2< extent, SrcType >", "classvctr_1_1expressions_1_1FastExp2.html", null ],
+        [ "vctr::expressions::FastLog2< extent, SrcType >", "classvctr_1_1expressions_1_1FastLog2.html", null ],
         [ "vctr::expressions::Imag< extent, SrcType >", "classvctr_1_1expressions_1_1Imag.html", null ],
         [ "vctr::expressions::Ln< extent, SrcType >", "classvctr_1_1expressions_1_1Ln.html", null ],
         [ "vctr::expressions::Log10< extent, SrcType >", "classvctr_1_1expressions_1_1Log10.html", null ],

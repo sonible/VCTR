@@ -133,6 +133,8 @@ var NAVTREE =
     [ "exp", "group__Expressions.html#ga33d306c075bd8585ee89ab456de95557", null ],
     [ "extentOf", "namespacevctr.html#a0e2879d4e781cb85ff0ae8cf4f1deefd", null ],
     [ "fastExp", "group__Expressions.html#ga07452e4928d888bdcadf45a6e6ea5473", null ],
+    [ "fastExp2", "group__Expressions.html#ga1079fb06966ca5084f9b2fc5641d05ff", null ],
+    [ "fastLog2", "group__Expressions.html#ga2397abd76d4474d25ea021a591ff663c", null ],
     [ "imag", "group__Expressions.html#ga4d940e2110b6323e22d993d3b1e5a63d", null ],
     [ "ln", "group__Expressions.html#ga66fa77725b3684fd045c771c27b7dbac", null ],
     [ "log10", "group__Expressions.html#ga0fd49babf82a9c443081e134f86ee1fc", null ],
@@ -196,7 +198,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classvctr_1_1OwnedVector.html#af232e22612aa17d3fc8eaeee4fec245a",
-"conceptvctr_1_1is_1_1noPointer.html"
+"conceptvctr_1_1is_1_1intNumber.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

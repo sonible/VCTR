@@ -635,6 +635,58 @@ template&lt;is::constant DecibelConstant&gt; </div>
 
 </div>
 </div>
+<a id="ga1079fb06966ca5084f9b2fc5641d05ff" name="ga1079fb06966ca5084f9b2fc5641d05ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1079fb06966ca5084f9b2fc5641d05ff">&#9670;&#160;</a></span>fastExp2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1FastExp2.html">expressions::FastExp2</a>&gt; vctr::fastExp2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A fast approximation of the exp2 function (e.g. </p>
+<p>2 raised to the source elements) exploiting some low level details of the binary representation of floating point values.</p>
+<p>Limit the input values to -126 &lt; x &lt; 128 for 32 bit float and -1022.0 &lt; x &lt; 2024 for 64 bit double for a reasonable approximation which should not exceed a relative error of 5.04e-5. </p>
+
+</div>
+</div>
+<a id="ga2397abd76d4474d25ea021a591ff663c" name="ga2397abd76d4474d25ea021a591ff663c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2397abd76d4474d25ea021a591ff663c">&#9670;&#160;</a></span>fastLog2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1FastLog2.html">expressions::FastLog2</a>&gt; vctr::fastLog2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A fast approximation of the log2 function (e.g. </p>
+<p>2 raised to the source elements) exploiting some low level details of the binary representation of floating point values.</p>
+<p>Limit the input values to -126 &lt; x &lt; 128 for 32 bit float and -1022.0 &lt; x &lt; 2024 for 64 bit double for a reasonable approximation which should not exceed a relative error of 5.04e-5. </p>
+
+</div>
+</div>
 <a id="ga4d940e2110b6323e22d993d3b1e5a63d" name="ga4d940e2110b6323e22d993d3b1e5a63d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga4d940e2110b6323e22d993d3b1e5a63d">&#9670;&#160;</a></span>imag</h2>
 

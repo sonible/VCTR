@@ -27,6 +27,8 @@ var annotated_dup =
         [ "DivideVectors", "classvctr_1_1expressions_1_1DivideVectors.html", null ],
         [ "Exp", "classvctr_1_1expressions_1_1Exp.html", null ],
         [ "FastExp", "classvctr_1_1expressions_1_1FastExp.html", null ],
+        [ "FastExp2", "classvctr_1_1expressions_1_1FastExp2.html", null ],
+        [ "FastLog2", "classvctr_1_1expressions_1_1FastLog2.html", null ],
         [ "Imag", "classvctr_1_1expressions_1_1Imag.html", null ],
         [ "Ln", "classvctr_1_1expressions_1_1Ln.html", null ],
         [ "Log10", "classvctr_1_1expressions_1_1Log10.html", null ],
