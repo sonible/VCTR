@@ -141,6 +141,7 @@ VCTR_END_IGNORE_WARNING_MSVC
 
 #include "Miscellaneous/Range.h"
 #include "Miscellaneous/StdRatioHelpers.h"
+#include "Miscellaneous/BitCast.h"
 
 #include "Containers/VctrBase.h"
 #include "Containers/Span.h"
