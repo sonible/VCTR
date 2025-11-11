@@ -96,7 +96,7 @@ struct ExpressionChainingHelper
 };
 } // namespace detail
 
-/** A simple helper struct to pass a constant as argument wrapped in a struct with a single public
+/** A helper struct to pass a constant as argument wrapped in a struct with a single public
     static constexpr member variable named value.
  */
 template <auto constantValue>
@@ -104,6 +104,27 @@ struct Constant
 {
     static constexpr auto value = constantValue;
 };
+
+/** Evaluates the return value of getStart called on the constant reference template argument and
+    wraps that in a struct with a single public static constexpr member variable named value.
+ */
+template <const auto& range>
+requires is::range<decltype (range)>
+struct ConstantRangeStart
+{
+    static constexpr auto value = range.getStart();
+};
+
+/** Evaluates the return value of getEnd called on the constant reference template argument and
+    wraps that in a struct with a single public static constexpr member variable named value.
+ */
+template <const auto& range>
+requires is::range<decltype (range)>
+struct ConstantRangeEnd
+{
+    static constexpr auto value = range.getEnd();
+};
+
 
 /** A helper struct to indicate that a constant template should be considered disabled */
 struct DisabledConstant
