@@ -70,8 +70,22 @@ TEMPLATE_PRODUCT_TEST_CASE ("ClampLow", "[VCTR][clamp]", (PlatformVectorOps, VCT
 
     SECTION ("clamp")
     {
-        const vctr::Vector res = filter << vctr::clamp (ElementType (-10), ElementType (2)) << srcA;
-        REQUIRE_THAT (res, (vctr::EqualsTransformedBy<clamp<-10, 2>> (srcA)));
+        const vctr::Range range { ElementType (-10), ElementType (2) };
+
+        // Testing the lower/upper bound overload
+        const vctr::Vector resLowerUpper = filter << vctr::clamp (range.getStart(), range.getEnd()) << srcA;
+        REQUIRE_THAT (resLowerUpper, (vctr::EqualsTransformedBy<clamp<-10, 2>> (srcA)));
+
+        // Testing the overload that takes a range
+        const vctr::Vector resRange = filter << vctr::clamp (range) << srcA;
+        REQUIRE_THAT (resRange, (vctr::EqualsTransformedBy<clamp<-10, 2>> (srcA)));
+    }
+
+    SECTION ("clampToRange")
+    {
+        static constexpr vctr::Range range { ElementType (-1), ElementType (9) };
+        const vctr::Vector res = filter << vctr::clampToRange<range> << srcA;
+        REQUIRE_THAT (res, (vctr::EqualsTransformedBy<clamp<-1, 9>> (srcA)));
     }
 
     SECTION ("concatenation with multiplication")

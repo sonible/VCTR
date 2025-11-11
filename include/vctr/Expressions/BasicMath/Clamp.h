@@ -315,6 +315,18 @@ constexpr auto clamp (T lowerBound, T upperBound)
     return makeExpressionChainBuilderWithRuntimeArgs<expressions::ClampLowHigh> (lowerBound, upperBound);
 }
 
+/** Ensures that the elements are within the range.
+
+    This version takes runtime computed values. If compile time fix constants suit your needs,
+    consider clampByRange.
+
+    @ingroup Expressions
+ */
+template <is::range Range>
+constexpr auto clamp (const Range& range)
+{
+    return makeExpressionChainBuilderWithRuntimeArgs<expressions::ClampLowHigh> (range.getStart(), range.getEnd());
+}
 
 
 /** Ensures that the elements are not lower than lowerBound.
@@ -349,5 +361,13 @@ constexpr inline ExpressionChainBuilder<expressions::ClampByConstant, DisabledCo
  */
 template <auto lowerBound, auto upperBound>
 constexpr inline ExpressionChainBuilder<expressions::ClampByConstant, Constant<lowerBound>, Constant<upperBound>> clampByConstant;
+
+/** Ensures that the elements are within the range.
+
+    @ingroup Expressions
+ */
+template <const auto& range>
+requires is::range<decltype (range)>
+constexpr inline ExpressionChainBuilder<expressions::ClampByConstant, ConstantRangeStart<range>, ConstantRangeEnd<range>> clampToRange;
 
 } // namespace vctr
