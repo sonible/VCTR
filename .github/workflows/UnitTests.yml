@@ -81,17 +81,14 @@ jobs:
             cxx: clang++
             ipp: no_ipp
 
-          # macos-13 is x86_64
-          # Todo: macos-13 runners run into std::pmr related runtime linker problems when building with non-brew llvm
-          # Todo: Should actually be $(brew --prefix llvm@15) but actions fails to resolve that when used here
-          - runner: macos-13
-            cc: /usr/local/opt/llvm@15/bin/clang
-            cxx: /usr/local/opt/llvm@15/bin/clang++
+          - runner: macos-15-intel
+            cc: clang
+            cxx: clang++
             ipp: no_ipp
 
-          - runner: macos-13
-            cc: /usr/local/opt/llvm@15/bin/clang
-            cxx: /usr/local/opt/llvm@15/bin/clang++
+          - runner: macos-15-intel
+            cc: clang
+            cxx: clang++
             ipp: ipp
 
       fail-fast: false
