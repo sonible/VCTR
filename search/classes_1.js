@@ -10,8 +10,10 @@ var searchData=
   ['constant_7',['Constant',['../structvctr_1_1Constant.html',1,'vctr']]],
   ['constant_3c_2010_20_3e_8',['Constant&lt; 10 &gt;',['../structvctr_1_1Constant.html',1,'vctr']]],
   ['constant_3c_2020_20_3e_9',['Constant&lt; 20 &gt;',['../structvctr_1_1Constant.html',1,'vctr']]],
-  ['cos_10',['Cos',['../classvctr_1_1expressions_1_1Cos.html',1,'vctr::expressions']]],
-  ['cosh_11',['Cosh',['../classvctr_1_1expressions_1_1Cosh.html',1,'vctr::expressions']]],
-  ['cpuinstructionsets_12',['CPUInstructionSets',['../structvctr_1_1CPUInstructionSets.html',1,'vctr']]],
-  ['cube_13',['Cube',['../classvctr_1_1expressions_1_1Cube.html',1,'vctr::expressions']]]
+  ['constantrangeend_10',['ConstantRangeEnd',['../structvctr_1_1ConstantRangeEnd.html',1,'vctr']]],
+  ['constantrangestart_11',['ConstantRangeStart',['../structvctr_1_1ConstantRangeStart.html',1,'vctr']]],
+  ['cos_12',['Cos',['../classvctr_1_1expressions_1_1Cos.html',1,'vctr::expressions']]],
+  ['cosh_13',['Cosh',['../classvctr_1_1expressions_1_1Cosh.html',1,'vctr::expressions']]],
+  ['cpuinstructionsets_14',['CPUInstructionSets',['../structvctr_1_1CPUInstructionSets.html',1,'vctr']]],
+  ['cube_15',['Cube',['../classvctr_1_1expressions_1_1Cube.html',1,'vctr::expressions']]]
 ];

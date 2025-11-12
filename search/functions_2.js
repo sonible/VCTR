@@ -2,7 +2,7 @@ var searchData=
 [
   ['capacity_0',['capacity',['../classvctr_1_1Vector.html#aa44807f8a6e6c21fe0e662fd0488f9dc',1,'vctr::Vector']]],
   ['castto_1',['castTo',['../classvctr_1_1Span.html#aacc668dfe1d52b6f52af107d86ffad36',1,'vctr::Span']]],
-  ['clamp_2',['clamp',['../group__Expressions.html#gadb6fc764c304eda32439875e7b50d485',1,'vctr']]],
+  ['clamp_2',['clamp',['../group__Expressions.html#gadb6fc764c304eda32439875e7b50d485',1,'vctr::clamp(T lowerBound, T upperBound)'],['../group__Expressions.html#gaaf1a3c4c35795a26299da79e77fc9ea7',1,'vctr::clamp(const Range &amp;range)']]],
   ['clamphigh_3',['clampHigh',['../group__Expressions.html#gaa42cf0dd0e425bad94a420c9ac6805c7',1,'vctr']]],
   ['clamplow_4',['clampLow',['../group__Expressions.html#ga69329f63042f587f726465da4ef612d8',1,'vctr']]],
   ['clear_5',['clear',['../classvctr_1_1Vector.html#ae86b97eadfbd8d9001b242badb20dbbd',1,'vctr::Vector']]],

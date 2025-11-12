@@ -432,6 +432,32 @@ template&lt;auto lowerBound&gt; </div>
 
 </div>
 </div>
+<a id="gac570bfee18c5d6d4fd11ea41b186e35e" name="gac570bfee18c5d6d4fd11ea41b186e35e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac570bfee18c5d6d4fd11ea41b186e35e">&#9670;&#160;</a></span>clampToRange</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;const auto &amp; range&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1ClampByConstant.html">expressions::ClampByConstant</a>, <a class="el" href="structvctr_1_1ConstantRangeStart.html">ConstantRangeStart</a>&lt;range&gt;, <a class="el" href="structvctr_1_1ConstantRangeEnd.html">ConstantRangeEnd</a>&lt;range&gt; &gt; vctr::clampToRange</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ensures that the elements are within the range. </p>
+
+</div>
+</div>
 <a id="gaf2cab54fe8d56b64f2cea0d1f2b44529" name="gaf2cab54fe8d56b64f2cea0d1f2b44529"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaf2cab54fe8d56b64f2cea0d1f2b44529">&#9670;&#160;</a></span>conjugate</h2>
 
@@ -1486,8 +1512,39 @@ template&lt;class DstType &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="gaaf1a3c4c35795a26299da79e77fc9ea7" name="gaaf1a3c4c35795a26299da79e77fc9ea7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaf1a3c4c35795a26299da79e77fc9ea7">&#9670;&#160;</a></span>clamp() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::range Range&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::clamp </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classvctr_1_1Range.html">Range</a> &amp;&#160;</td>
+          <td class="paramname"><em>range</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ensures that the elements are within the range. </p>
+<p>This version takes runtime computed values. If compile time fix constants suit your needs, consider clampByRange. </p>
+
+</div>
+</div>
 <a id="gadb6fc764c304eda32439875e7b50d485" name="gadb6fc764c304eda32439875e7b50d485"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gadb6fc764c304eda32439875e7b50d485">&#9670;&#160;</a></span>clamp()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#gadb6fc764c304eda32439875e7b50d485">&#9670;&#160;</a></span>clamp() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

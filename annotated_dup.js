@@ -84,6 +84,8 @@ var annotated_dup =
       [ "CombinedStorageInfo< First, Others... >", "structvctr_1_1CombinedStorageInfo_3_01First_00_01Others_8_8_8_01_4.html", null ],
       [ "Config", "structvctr_1_1Config.html", null ],
       [ "Constant", "structvctr_1_1Constant.html", null ],
+      [ "ConstantRangeEnd", "structvctr_1_1ConstantRangeEnd.html", null ],
+      [ "ConstantRangeStart", "structvctr_1_1ConstantRangeStart.html", null ],
       [ "CPUInstructionSets", "structvctr_1_1CPUInstructionSets.html", null ],
       [ "dBFS", "structvctr_1_1dBFS.html", null ],
       [ "dBPower", "structvctr_1_1dBPower.html", null ],

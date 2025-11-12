@@ -101,6 +101,8 @@ var hierarchy =
       [ "vctr::dBFS", "structvctr_1_1dBFS.html", null ],
       [ "vctr::dBVoltage", "structvctr_1_1dBVoltage.html", null ]
     ] ],
+    [ "vctr::ConstantRangeEnd< range >", "structvctr_1_1ConstantRangeEnd.html", null ],
+    [ "vctr::ConstantRangeStart< range >", "structvctr_1_1ConstantRangeStart.html", null ],
     [ "vctr::CPUInstructionSets", "structvctr_1_1CPUInstructionSets.html", null ],
     [ "vctr::DefaultVectorAllocator< ElementType >", "structvctr_1_1DefaultVectorAllocator.html", null ],
     [ "vctr::DefaultVectorAllocator< ElementType >", "structvctr_1_1DefaultVectorAllocator_3_01ElementType_01_4.html", null ],
