@@ -39,9 +39,11 @@ jobs:
           path: doxygen
           
       - name: Deploy to GitHub Pages (if on develop or main branch)
-        if: ${{ github.ref_name == 'develop' }}
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ github.token }}
+          token: ${{ github.token }}
           branch: gh-pages
           folder: doxygen/html
+
+      - name: Check deployment status
+        run: echo $deployment_status 
