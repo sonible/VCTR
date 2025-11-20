@@ -10,5 +10,3 @@ conan_release/
 .vscode/
 build-*/
 benchmark/results/
-
-doxygen*/
