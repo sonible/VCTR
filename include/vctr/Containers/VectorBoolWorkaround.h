@@ -51,6 +51,14 @@ private:
     static const bool* toBool (const std::byte* ptr)     { return reinterpret_cast<const bool*> (ptr); }
 
 public:
+    constexpr VectorBoolWorkaround (size_t size)
+        : StdVectorType (size)
+    {}
+
+    constexpr VectorBoolWorkaround (size_t size, bool value)
+        : StdVectorType (size, std::byte (value))
+    {}
+
     constexpr VectorBoolWorkaround (std::initializer_list<bool> il)
     {
         StdVectorType::reserve (il.size());
