@@ -80,6 +80,15 @@ public:
         auto x = src.getSSE (i);
         return Expression::SSE::mul (x, x);
     }
+
+    //==============================================================================
+    // NEON Implementation
+    NeonRegister<value_type> getNeon (size_t i) const
+    requires archARM && has::getNeon<SrcType> && Expression::CommonElement::isRealFloat
+    {
+        auto x = src.getNeon (i);
+        return Expression::Neon::mul (x, x);
+    }
 };
 
 } // namespace vctr::expressions
