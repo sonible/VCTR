@@ -32,7 +32,7 @@
   name:               VCTR
   description:        A powerful C++ 20 wrapper around your favourite standard library containers.
   website:            https://github.com/sonible/vctr
-  license:            MIT
+  license:            LGPLv3
   minimumCppStandard: 20
   dependencies:
   OSXFrameworks:      Accelerate
