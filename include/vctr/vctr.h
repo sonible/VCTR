@@ -158,6 +158,7 @@ VCTR_END_IGNORE_WARNING_MSVC
 
 #include "Expressions/Generic/Map.h"
 #include "Expressions/Generic/TransformedBy.h"
+#include "Expressions/Generic/TransformedByDynamicCast.h"
 #include "Expressions/Generic/TransformedByStaticCast.h"
 
 #include "Expressions/BasicMath/Abs.h"
