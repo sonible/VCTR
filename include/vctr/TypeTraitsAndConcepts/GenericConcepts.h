@@ -87,7 +87,7 @@ concept triviallyCopyable = std::is_trivially_copyable_v<T>;
 template <class T>
 concept nonConst = ! std::is_const_v<T>;
 
-/** Constrains a type to be a pointer of a reference to a pointer */
+/** Constrains a type to be a pointer or a reference to a pointer */
 template <class T>
 concept pointer = std::is_pointer_v<std::remove_cvref_t<T>>;
 
@@ -98,6 +98,10 @@ concept noPointer = ! std::is_pointer_v<std::remove_cvref_t<T>>;
 /** Constrains the type to be any instance of std::unique_ptr */
 template <class T>
 concept uniquePtr = detail::IsStdUniquePtr<T>::value;
+
+/** Constrains a type to be an lvalue reference */
+template <class T>
+concept lvalueReference = std::is_lvalue_reference_v<T>;
 
 /** Constrains the type to be any instance of std::tuple */
 template <class T>

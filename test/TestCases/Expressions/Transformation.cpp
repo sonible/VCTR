@@ -31,6 +31,51 @@ double toDoublePlus1 (T in) { return static_cast<double> (in + T (1)); }
 template <vctr::is::realNumber T>
 std::string toStringPlus1 (T in) { return std::to_string (in + T (1)); }
 
+TEST_CASE ("TransformedByDynamicCast", "[VCTR][transformation]")
+{
+    struct A
+    {
+        virtual ~A() = default;
+        int a;
+    };
+
+    struct B
+    {
+        virtual ~B() = default;
+        int b;
+    };
+
+    struct C : A, B
+    {
+        C (int x, int y)
+        {
+            a = x;
+            b = y;
+        }
+
+        ~C() override = default;
+    };
+
+    vctr::Array<B*, 2> bs { new C (1, 2), new C (3, 4) };
+
+    vctr::Array aPtrs = vctr::transformedByDynamicCastTo<A*> << bs;
+    vctr::Array aVals = vctr::transformedByStaticCastTo<A> << vctr::transformedByDynamicCastTo<A&> << vctr::transformedBy ([] (B* b)-> B& { return *b; }) << bs;
+
+    // The cast should have succeeded for all
+    REQUIRE (aPtrs.all ([] (A* a) { return a != nullptr; }));
+
+    REQUIRE (aPtrs[0]->a == 1);
+    REQUIRE (aPtrs[1]->a == 3);
+    REQUIRE (aVals[0].a == 1);
+    REQUIRE (aVals[1].a == 3);
+
+    // This cast should fail. Suppress assertion outputs for that case
+    vctr::Array invalid = vctr::transformedByDynamicCastTo<std::string*, false> << bs;
+    REQUIRE (invalid.allElementsEqual (nullptr));
+
+    bs.forEach ([] (B* b) { delete b; });
+}
+
 TEMPLATE_PRODUCT_TEST_CASE ("TransformedByStaticCast", "[VCTR][transformation]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int16_t, int32_t, int64_t))
 {
     VCTR_TEST_DEFINES (10)
