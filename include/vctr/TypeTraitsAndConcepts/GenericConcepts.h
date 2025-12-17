@@ -66,12 +66,6 @@ struct IsStdUniquePtr : std::false_type {};
 
 template <class T, class D>
 struct IsStdUniquePtr<std::unique_ptr<T, D>> : std::true_type {};
-
-template <class T>
-struct IsStdTuple : std::false_type {};
-
-template <class... T>
-struct IsStdTuple<std::tuple<T...>> : std::true_type {};
 // clang-format on
 
 } // namespace vctr::detail
@@ -103,9 +97,13 @@ concept uniquePtr = detail::IsStdUniquePtr<T>::value;
 template <class T>
 concept lvalueReference = std::is_lvalue_reference_v<T>;
 
+/** Constrains the type to be any instance of std::pair */
+template <class T>
+concept stdPair = requires (T& t) { [] <class A, class B> (std::pair<A, B>&) {} (t); };
+
 /** Constrains the type to be any instance of std::tuple */
 template <class T>
-concept stdTuple = detail::IsStdTuple<T>::value;
+concept stdTuple = requires (T& t) { [] <class... Ts> (std::tuple<Ts...>&) {} (t); };
 
 template <class T, class... TupleTypes>
 concept stdTupleWithTypes = std::same_as<T, std::tuple<TupleTypes...>>;

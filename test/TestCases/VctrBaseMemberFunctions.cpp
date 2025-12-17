@@ -494,6 +494,41 @@ TEMPLATE_TEST_CASE ("anyElementIsNaN", "[VCTR][VctrBaseMemberFunctions]", float,
     REQUIRE (cplx.anyElementIsNaN());
 }
 
+TEST_CASE ("toStdMap", "[VCTR][VctrBaseMemberFunctions]")
+{
+    vctr::Vector<std::pair<int, std::string>> pairs { { 1, "one" }, { 2, "two" }, { 3, "three_appended_with_a_long_string_to_avoid_small_string_optimization" } };
+    auto pairsSub = pairs.subSpan<1>();
+
+    // Deliberately moving here to check if moving a view results in leaving the source intact
+    auto subMap = std::move (pairsSub).toStdMap();
+
+    // Check if the generated map is correct
+    REQUIRE_FALSE (subMap.contains (1));
+    REQUIRE (subMap.contains (2));
+    REQUIRE (subMap.contains (3));
+    REQUIRE (subMap[2] == "two");
+    REQUIRE (subMap[3] == "three_appended_with_a_long_string_to_avoid_small_string_optimization");
+    REQUIRE (subMap.size() == 2);
+
+    // Check if the original values stayed valid. There is no guarantee that a string is empty after
+    // moving but it's likely that this is at least the case after moving a long string, so this test
+    // tries to catch that kind of mistake
+    const auto& [key, value] = pairs.back();
+    REQUIRE (key == 3);
+    REQUIRE (value == "three_appended_with_a_long_string_to_avoid_small_string_optimization");
+
+    // This time we expect the move iterator to be used
+    auto map = std::move (pairs).toStdMap();
+
+    REQUIRE (map.contains (1));
+    REQUIRE (map.contains (2));
+    REQUIRE (map.contains (3));
+    REQUIRE (map[1] == "one");
+    REQUIRE (map[2] == "two");
+    REQUIRE (map[3] == "three_appended_with_a_long_string_to_avoid_small_string_optimization");
+    REQUIRE (map.size() == 3);
+}
+
 TEMPLATE_TEST_CASE ("operator==", "[VCTR][VctrBaseFreeFunctions]", float, uint64_t, std::string)
 {
     auto a = UnitTestValues<TestType>::template array<100, 0>();

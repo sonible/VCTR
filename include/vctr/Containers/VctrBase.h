@@ -931,6 +931,23 @@ public:
     /** Returns true if any real or imaginary part of an element is NaN. */
     constexpr bool anyElementIsNaN() requires is::complexFloatNumber<ElementType>;
 
+    //==============================================================================
+    // Conversion operators
+    //==============================================================================
+    /** If value_type is std::pair, this converts the content into a std::map with pair::first_type being the key and pair::second_type the value. */
+    constexpr auto toStdMap() &&
+    requires is::stdPair<value_type> && (! is::view<StorageType>)
+    {
+        return std::map<typename value_type::first_type, typename value_type::second_type> { std::make_move_iterator (begin()), std::make_move_iterator (end()) };
+    }
+
+    /** If value_type is std::pair, this converts the content into a std::map with pair::first_type being the key and pair::second_type the value. */
+    constexpr auto toStdMap() const &
+    requires is::stdPair<value_type>
+    {
+        return std::map<typename value_type::first_type, typename value_type::second_type> { begin(), end() };
+    }
+
 protected:
     //==============================================================================
     constexpr VctrBase()
