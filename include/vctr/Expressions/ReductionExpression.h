@@ -20,6 +20,15 @@
   ==============================================================================
 */
 
+// This concept is placed here due to dependencies on concepts found in both the ContainerAndExpressionConcepts.h
+// and Traits.h. Placing it in ContainerAndExpressionConcepts.h would have caused cyclic inclusion issues
+namespace vctr::is
+{
+/** Constrains T to be an expression chain builder that results in a reduction expression when a source of SourceType is passed to it. */
+template <class T, class SourceType>
+concept reductionExpressionChainBuilderForSource = expressionChainBuilder<T> && reductionExpression<ExpressionTypeForSourceType<T, SourceType>>;
+}
+
 namespace vctr
 {
 
