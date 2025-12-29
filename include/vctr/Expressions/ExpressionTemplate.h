@@ -176,6 +176,14 @@ struct CommonVecExpressionType<A, B, op> : std::common_type<A, B> {};
 template <class A, class B, auto op>
 using CommonVecExpressionType = typename detail::CommonVecExpressionType<A, B, op>::type;
 
+/** Derives the type of the expression that is created when prepending an expression chain builder with a certain source.
+
+    This is especially useful when writing generic code that has to derive the type of an expression before
+    actually instantiating it by prepending an expression chain builder instance with a container instance.
+ */
+template <is::expressionChainBuilder ChainBuilder, is::anyVctrOrExpression SourceType>
+using ExpressionTypeForSourceType = typename ChainBuilder::template Expression<extentOf<SourceType>, SourceType>;
+
 } // namespace vctr
 
 /** A helper macro to avoid repetitive boilerplate code when implementing a unary expression template class.
@@ -203,7 +211,7 @@ public:                                                                         
                                                                                                    \
     constexpr const auto& getStorageInfo() const { return srcName.getStorageInfo(); }              \
                                                                                                    \
-    constexpr size_t size () const { return srcName.size (); }                                     \
+    constexpr size_t size() const { return srcName.size (); }                                      \
                                                                                                    \
     constexpr bool isNotAliased (const void* other) const { return srcName.isNotAliased (other); } \
                                                                                                    \
