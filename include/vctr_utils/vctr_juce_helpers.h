@@ -151,3 +151,86 @@ auto audioBufferChannelAsSpan (const juce::AudioBuffer<SampleType>& buffer, size
 }
 
 }
+
+namespace  vctr::expressions
+{
+
+template <std::floating_point SampleType, is::reductionExpressionChainBuilderForSource<Span<const SampleType>> ChannelReduction>
+class AudioBlockChannelReduction : ExpressionTemplateBase
+{
+public:
+    using value_type = ValueType<ExpressionTypeForSourceType<ChannelReduction, Span<const SampleType>>>;
+
+    template <class Src>
+    constexpr AudioBlockChannelReduction (const Src& s, ChannelReduction& re)
+        : src (s),
+          channelReduction (re)
+    {}
+
+    constexpr const auto& getStorageInfo() const
+    {
+        return storageInfo;
+    }
+
+    constexpr size_t size() const
+    {
+        return src.getNumChannels();
+    }
+
+    constexpr bool isNotAliased (const void*) const
+    {
+        return false;
+    }
+
+    template <size_t i, class RuntimeArgs>
+    constexpr void iterateOverRuntimeArgChain (const RuntimeArgs& rtArgs)
+    {
+        tryApplyingRuntimeArgsToSrc<i + 1> (rtArgs, src);
+    }
+
+    VCTR_FORCEDINLINE constexpr auto operator[] (size_t i) const
+    {
+        return channelReduction << juce_helpers::blockChannelAsSpan (src, i);
+    }
+
+private:
+    juce::dsp::AudioBlock<const SampleType> src;
+    ChannelReduction& channelReduction;
+
+    static constexpr StaticStorageInfo<false, false, alignof (SampleType)> storageInfo;
+};
+}
+
+namespace vctr::juce_helpers
+{
+
+/** Returns an expression that will apply channelReduction on each channel of the source AudioBlock.
+
+    channelReduction has to be a reduction expression that converts the samples of each channels into
+    a single value which will lead to a block with n channels resulting in an expression of size n.
+
+    Example:
+    @code
+    class RMSComputation
+    {
+    public:
+        void prepare (size_t numChannels) { rmsPerChannel.resize (numChannels); }
+
+        // Returns a span of RMS values in dB for each channel in the source block.
+        vctr::Span<const float> process (const juce::dsp::AudioBlock<const float>& block)
+        {
+            rmsPerChannel = vctr::magToDb<vctr::dBFs> << vctr::transformChannelsByExpression (block, vctr::rms);
+            return rmsPerChannel;
+        }
+
+    private:
+        vctr::Vector<float> rmsPerChannel;
+    }
+    @endcode
+ */
+template <std::floating_point SampleType, is::reductionExpressionChainBuilderForSource<Span<const SampleType>> ChannelReduction>
+auto transformChannelsByExpression (const juce::dsp::AudioBlock<SampleType>& block, ChannelReduction& channelReduction)
+{
+    return expressions::AudioBlockChannelReduction<SampleType, ChannelReduction> (block, channelReduction);
+}
+}
