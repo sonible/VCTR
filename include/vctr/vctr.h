@@ -165,6 +165,8 @@ VCTR_END_IGNORE_WARNING_MSVC
 #include "Expressions/BasicMath/Abs.h"
 #include "Expressions/BasicMath/Clamp.h"
 #include "Expressions/BasicMath/Cube.h"
+#include "Expressions/BasicMath/ElementwiseMax.h"
+#include "Expressions/BasicMath/ElementwiseMin.h"
 #include "Expressions/BasicMath/Sqrt.h"
 #include "Expressions/BasicMath/Square.h"
 #include "Expressions/BasicMath/Add.h"
