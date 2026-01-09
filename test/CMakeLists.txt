@@ -29,6 +29,8 @@ target_sources (vctr_test_cases INTERFACE
         TestCases/Expressions/Clamp.cpp
         TestCases/Expressions/Conjugate.cpp
         TestCases/Expressions/Divide.cpp
+        TestCases/Expressions/ElementwiseMax.cpp
+        TestCases/Expressions/ElementwiseMin.cpp
         TestCases/Expressions/Exp.cpp
         TestCases/Expressions/Ln.cpp
         TestCases/Expressions/Log2.cpp
