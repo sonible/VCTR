@@ -83,7 +83,7 @@ constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::oper
 {
     // Special case: If V is a multiplication expression which has no chained expressions as sources,
     // it might implement a special accelerated multiply accumulate function.
-    if constexpr (detail::IsMultiplicationExpression<V>::value && requires { v.evalVectorOpMultiplyAccumulate (data()); })
+    if constexpr (detail::isMultiplicationExpression<V> && requires { v.evalVectorOpMultiplyAccumulate (data()); })
     {
         v.evalVectorOpMultiplyAccumulate (data());
         return;
