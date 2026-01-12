@@ -104,5 +104,7 @@ var classvctr_1_1OwnedArray =
     [ "subSpan", "classvctr_1_1OwnedArray.html#a2bc30017f36afa555e69770aadbb5fb2", null ],
     [ "subSpan", "classvctr_1_1OwnedArray.html#a5ccea594565f121e340eb85db5ff972f", null ],
     [ "subSpan", "classvctr_1_1OwnedArray.html#a4ebddf025d6d6fb9bc5deb44b4c9ca3c", null ],
-    [ "sum", "classvctr_1_1OwnedArray.html#add5f3def86f5ab26a70456c779a91d9d", null ]
+    [ "sum", "classvctr_1_1OwnedArray.html#add5f3def86f5ab26a70456c779a91d9d", null ],
+    [ "toStdMap", "classvctr_1_1OwnedArray.html#af6f45a27b4a384354520bb8ece579015", null ],
+    [ "toStdMap", "classvctr_1_1OwnedArray.html#a4a9244333c72f51027cdd5ac5b4beb1a", null ]
 ];

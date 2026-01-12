@@ -80,6 +80,7 @@ var hierarchy =
         [ "vctr::expressions::Tan< extent, SrcType >", "classvctr_1_1expressions_1_1Tan.html", null ],
         [ "vctr::expressions::Tanh< extent, SrcType >", "classvctr_1_1expressions_1_1Tanh.html", null ],
         [ "vctr::expressions::TransformedBy< extent, SrcType, FunctionType >", "classvctr_1_1expressions_1_1TransformedBy.html", null ],
+        [ "vctr::expressions::TransformedByDynamicCast< extent, SrcType, DstValueType, ExpectCastToSucceed >", "classvctr_1_1expressions_1_1TransformedByDynamicCast.html", null ],
         [ "vctr::expressions::TransformedByStaticCast< extent, SrcType, DstValueType >", "classvctr_1_1expressions_1_1TransformedByStaticCast.html", null ]
       ] ],
       [ "vctr::VctrBase< ElementType, StorageType, extent, StorageInfoType >", "classvctr_1_1VctrBase.html", [

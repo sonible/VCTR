@@ -1360,6 +1360,33 @@ template&lt;auto exponent&gt; </div>
 
 </div>
 </div>
+<a id="gac368c5ed87d1894cce56e371e2c023e2" name="gac368c5ed87d1894cce56e371e2c023e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac368c5ed87d1894cce56e371e2c023e2">&#9670;&#160;</a></span>transformedByDynamicCastTo</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class DstType , bool expectCastToSucceed = true&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1TransformedByDynamicCast.html">expressions::TransformedByDynamicCast</a>, DstType, <a class="el" href="structvctr_1_1Constant.html">Constant</a>&lt;expectCastToSucceed&gt; &gt; vctr::transformedByDynamicCastTo</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Transforms all source elements to DstValueType by applying a dynamic_cast&lt;DstValueType&gt; to them. </p>
+<p>If expectCastToSucceed is true, then a VCTR_ASSERT will be inserted to ensure the dynamic cast did not result in nullptr when casting pointers. </p>
+
+</div>
+</div>
 <a id="ga4afc0df5c9d66209b0dec9f4db0515da" name="ga4afc0df5c9d66209b0dec9f4db0515da"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga4afc0df5c9d66209b0dec9f4db0515da">&#9670;&#160;</a></span>transformedByStaticCastTo</h2>
 

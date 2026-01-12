@@ -165,6 +165,7 @@ var NAVTREE =
     [ "sum", "group__Expressions.html#gab068809892f9c3e4f3db4eb1b11abf19", null ],
     [ "tan", "group__Expressions.html#ga8b82fa61931a8f399094c5f9d96305b7", null ],
     [ "tanh", "group__Expressions.html#gafe4e6979458e366c27117a7c163eef06", null ],
+    [ "transformedByDynamicCastTo", "group__Expressions.html#gac368c5ed87d1894cce56e371e2c023e2", null ],
     [ "transformedByStaticCastTo", "group__Expressions.html#ga4afc0df5c9d66209b0dec9f4db0515da", null ],
     [ "useAVX", "group__Expressions.html#gaafbd0664a42572849269e06e66088f59", null ],
     [ "useNeon", "group__Expressions.html#gac92083dfec0ef5aeb23135c4fb64fe0c", null ],
@@ -201,8 +202,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classvctr_1_1OwnedVector.html#af232e22612aa17d3fc8eaeee4fec245a",
-"conceptvctr_1_1is_1_1int64Number.html"
+"classvctr_1_1OwnedVector.html#aebfff322866872974a2d7249720e5ae0",
+"conceptvctr_1_1is_1_1expression.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

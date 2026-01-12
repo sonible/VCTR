@@ -770,302 +770,317 @@ $(document).ready(function(){initNavTree('VctrBase_8h_source.html',''); initResi
 <div class="line"><a id="l00930" name="l00930"></a><span class="lineno">  930</span> </div>
 <div class="line"><a id="l00932" name="l00932"></a><span class="lineno"><a class="line" href="classvctr_1_1VctrBase.html#a25b77066a3a1e469d00c316af2d94322">  932</a></span>    constexpr <span class="keywordtype">bool</span> <a class="code hl_function" href="classvctr_1_1VctrBase.html#a78509572a38d4dc5ae95c7efaae0ec9d">anyElementIsNaN</a>() requires is::complexFloatNumber&lt;ElementType&gt;;</div>
 <div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span> </div>
-<div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>protected:</div>
-<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>    <span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>    constexpr <a class="code hl_class" href="classvctr_1_1VctrBase.html">VctrBase</a>()</div>
-<div class="line"><a id="l00937" name="l00937"></a><span class="lineno">  937</span>    {</div>
-<div class="line"><a id="l00938" name="l00938"></a><span class="lineno">  938</span>        <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (<a class="code hl_concept" href="conceptvctr_1_1has_1_1init.html">has::init&lt;StorageInfoType&gt;</a>)</div>
-<div class="line"><a id="l00939" name="l00939"></a><span class="lineno">  939</span>            StorageInfoType::init (storage.data(), storage.size());</div>
-<div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span>    }</div>
-<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span> </div>
-<div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span>    <span class="keyword">constexpr</span> <a class="code hl_class" href="classvctr_1_1VctrBase.html">VctrBase</a> (StorageType&amp;&amp; s)</div>
-<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span>        : storage (std::move (s))</div>
-<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span>    {</div>
-<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span>        <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (<a class="code hl_concept" href="conceptvctr_1_1has_1_1init.html">has::init&lt;StorageInfoType&gt;</a>)</div>
-<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span>            StorageInfoType::init (storage.data(), storage.size());</div>
-<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>    }</div>
-<div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span> </div>
-<div class="line"><a id="l00949" name="l00949"></a><span class="lineno">  949</span>    <span class="keyword">template</span> &lt;is::storageInfo OtherStorageInfoType&gt;</div>
-<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span>    <span class="keyword">constexpr</span> VctrBase (StorageType&amp;&amp; s, <span class="keyword">const</span> OtherStorageInfoType&amp; otherInfo)</div>
-<div class="line"><a id="l00951" name="l00951"></a><span class="lineno">  951</span>        : <a class="code hl_typedef" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a> (otherInfo),</div>
-<div class="line"><a id="l00952" name="l00952"></a><span class="lineno">  952</span>          storage (std::move (s))</div>
-<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span>    {}</div>
-<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span> </div>
-<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span>    <span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span><span class="comment"></span>    <span class="keyword">constexpr</span> <span class="keywordtype">void</span> resizeOrAssertSizeMatches (<span class="keywordtype">size_t</span> desiredSize)</div>
-<div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span>    <span class="keyword">requires</span> has::resize&lt;StorageType&gt;</div>
-<div class="line"><a id="l00959" name="l00959"></a><span class="lineno">  959</span>    {</div>
-<div class="line"><a id="l00960" name="l00960"></a><span class="lineno">  960</span>        storage.resize (desiredSize);</div>
-<div class="line"><a id="l00961" name="l00961"></a><span class="lineno">  961</span>    }</div>
-<div class="line"><a id="l00962" name="l00962"></a><span class="lineno">  962</span> </div>
-<div class="line"><a id="l00964" name="l00964"></a><span class="lineno">  964</span>    <span class="keyword">constexpr</span> <span class="keywordtype">void</span> resizeOrAssertSizeMatches ([[maybe_unused]] <span class="keywordtype">size_t</span> desiredSize)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00965" name="l00965"></a><span class="lineno">  965</span><span class="keyword">    </span>{</div>
-<div class="line"><a id="l00966" name="l00966"></a><span class="lineno">  966</span>        VCTR_ASSERT (<a class="code hl_function" href="classvctr_1_1VctrBase.html#ae83870ea4a869114785266ee2fab1598">size</a>() == desiredSize);</div>
-<div class="line"><a id="l00967" name="l00967"></a><span class="lineno">  967</span>    }</div>
-<div class="line"><a id="l00968" name="l00968"></a><span class="lineno">  968</span> </div>
-<div class="line"><a id="l00970" name="l00970"></a><span class="lineno">  970</span>    <span class="keyword">template</span> &lt;<span class="keywordtype">size_t</span> i&gt;</div>
-<div class="line"><a id="l00971" name="l00971"></a><span class="lineno">  971</span>    <span class="keyword">constexpr</span> <span class="keywordtype">void</span> assertIsInRange() const</div>
-<div class="line"><a id="l00972" name="l00972"></a><span class="lineno">  972</span>    requires (extent == std::dynamic_extent)</div>
-<div class="line"><a id="l00973" name="l00973"></a><span class="lineno">  973</span>    {</div>
-<div class="line"><a id="l00974" name="l00974"></a><span class="lineno">  974</span>        VCTR_ASSERT (i &lt; <a class="code hl_function" href="classvctr_1_1VctrBase.html#ae83870ea4a869114785266ee2fab1598">size</a>());</div>
-<div class="line"><a id="l00975" name="l00975"></a><span class="lineno">  975</span>    }</div>
-<div class="line"><a id="l00976" name="l00976"></a><span class="lineno">  976</span> </div>
-<div class="line"><a id="l00978" name="l00978"></a><span class="lineno">  978</span>    <span class="keyword">template</span> &lt;<span class="keywordtype">size_t</span> i&gt;</div>
-<div class="line"><a id="l00979" name="l00979"></a><span class="lineno">  979</span>    <span class="keyword">constexpr</span> <span class="keywordtype">void</span> assertIsInRange() const</div>
-<div class="line"><a id="l00980" name="l00980"></a><span class="lineno">  980</span>    requires (extent != std::dynamic_extent)</div>
-<div class="line"><a id="l00981" name="l00981"></a><span class="lineno">  981</span>    {</div>
-<div class="line"><a id="l00982" name="l00982"></a><span class="lineno">  982</span>        <span class="keyword">static_assert</span> (i &lt; extent);</div>
-<div class="line"><a id="l00983" name="l00983"></a><span class="lineno">  983</span>    }</div>
-<div class="line"><a id="l00984" name="l00984"></a><span class="lineno">  984</span> </div>
-<div class="line"><a id="l00986" name="l00986"></a><span class="lineno">  986</span>    <span class="keywordtype">void</span> throwIfOutOfRange (<span class="keywordtype">size_t</span> i)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00987" name="l00987"></a><span class="lineno">  987</span><span class="keyword">    </span>{</div>
-<div class="line"><a id="l00988" name="l00988"></a><span class="lineno">  988</span>        <span class="keywordflow">if</span> (i &gt;= <a class="code hl_function" href="classvctr_1_1VctrBase.html#ae83870ea4a869114785266ee2fab1598">size</a>())</div>
-<div class="line"><a id="l00989" name="l00989"></a><span class="lineno">  989</span>        {</div>
-<div class="line"><a id="l00990" name="l00990"></a><span class="lineno">  990</span>            VCTR_ASSERT (<span class="keyword">false</span>);</div>
-<div class="line"><a id="l00991" name="l00991"></a><span class="lineno">  991</span>            <span class="keywordflow">throw</span> std::out_of_range (<span class="stringliteral">&quot;Vctr of size &quot;</span> + std::to_string (<a class="code hl_function" href="classvctr_1_1VctrBase.html#ae83870ea4a869114785266ee2fab1598">size</a>()) + <span class="stringliteral">&quot;: Element &quot;</span> + std::to_string (i) + <span class="stringliteral">&quot; is out of range.&quot;</span>);</div>
-<div class="line"><a id="l00992" name="l00992"></a><span class="lineno">  992</span>        }</div>
-<div class="line"><a id="l00993" name="l00993"></a><span class="lineno">  993</span>    }</div>
-<div class="line"><a id="l00994" name="l00994"></a><span class="lineno">  994</span> </div>
-<div class="line"><a id="l00995" name="l00995"></a><span class="lineno">  995</span>    <span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>    <span class="keyword">template</span> &lt;is::expression Expression&gt;</div>
-<div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span>    VCTR_FORCEDINLINE <span class="keyword">constexpr</span> <span class="keywordtype">void</span> assignExpressionTemplate (<span class="keyword">const</span> Expression&amp; e)</div>
+<div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>    <span class="comment">// Conversion operators</span></div>
+<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l00938" name="l00938"></a><span class="lineno"><a class="line" href="classvctr_1_1VctrBase.html#af6f45a27b4a384354520bb8ece579015">  938</a></span><span class="comment"></span>    constexpr auto <a class="code hl_function" href="classvctr_1_1VctrBase.html#af6f45a27b4a384354520bb8ece579015">toStdMap</a>() &amp;&amp;</div>
+<div class="line"><a id="l00939" name="l00939"></a><span class="lineno">  939</span>    requires is::stdPair&lt;value_type&gt; &amp;&amp; (! is::view&lt;StorageType&gt;)</div>
+<div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span>    {</div>
+<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span>        <span class="keywordflow">return</span> std::map&lt;typename value_type::first_type, typename value_type::second_type&gt; { std::make_move_iterator (<a class="code hl_function" href="classvctr_1_1VctrBase.html#a4d62467d4d84cd6e7fd185f73cf24033">begin</a>()), std::make_move_iterator (<a class="code hl_function" href="classvctr_1_1VctrBase.html#ae82f4383edea8be887d6f1617cfa4edf">end</a>()) };</div>
+<div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span>    }</div>
+<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span> </div>
+<div class="line"><a id="l00945" name="l00945"></a><span class="lineno"><a class="line" href="classvctr_1_1VctrBase.html#a4a9244333c72f51027cdd5ac5b4beb1a">  945</a></span>    <span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_function" href="classvctr_1_1VctrBase.html#a4a9244333c72f51027cdd5ac5b4beb1a">toStdMap</a>() const &amp;</div>
+<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span>    requires is::stdPair&lt;value_type&gt;</div>
+<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>    {</div>
+<div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span>        <span class="keywordflow">return</span> std::map&lt;typename value_type::first_type, typename value_type::second_type&gt; { <a class="code hl_function" href="classvctr_1_1VctrBase.html#a4d62467d4d84cd6e7fd185f73cf24033">begin</a>(), <a class="code hl_function" href="classvctr_1_1VctrBase.html#ae82f4383edea8be887d6f1617cfa4edf">end</a>() };</div>
+<div class="line"><a id="l00949" name="l00949"></a><span class="lineno">  949</span>    }</div>
+<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span> </div>
+<div class="line"><a id="l00951" name="l00951"></a><span class="lineno">  951</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00952" name="l00952"></a><span class="lineno">  952</span>    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span>    <span class="keyword">constexpr</span> <a class="code hl_class" href="classvctr_1_1VctrBase.html">VctrBase</a>()</div>
+<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span>    {</div>
+<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span>        <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (<a class="code hl_concept" href="conceptvctr_1_1has_1_1init.html">has::init&lt;StorageInfoType&gt;</a>)</div>
+<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>            StorageInfoType::init (storage.data(), storage.size());</div>
+<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span>    }</div>
+<div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span> </div>
+<div class="line"><a id="l00959" name="l00959"></a><span class="lineno">  959</span>    <span class="keyword">constexpr</span> VctrBase (StorageType&amp;&amp; s)</div>
+<div class="line"><a id="l00960" name="l00960"></a><span class="lineno">  960</span>        : storage (std::move (s))</div>
+<div class="line"><a id="l00961" name="l00961"></a><span class="lineno">  961</span>    {</div>
+<div class="line"><a id="l00962" name="l00962"></a><span class="lineno">  962</span>        <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (has::init&lt;StorageInfoType&gt;)</div>
+<div class="line"><a id="l00963" name="l00963"></a><span class="lineno">  963</span>            StorageInfoType::init (storage.data(), storage.size());</div>
+<div class="line"><a id="l00964" name="l00964"></a><span class="lineno">  964</span>    }</div>
+<div class="line"><a id="l00965" name="l00965"></a><span class="lineno">  965</span> </div>
+<div class="line"><a id="l00966" name="l00966"></a><span class="lineno">  966</span>    <span class="keyword">template</span> &lt;is::storageInfo OtherStorageInfoType&gt;</div>
+<div class="line"><a id="l00967" name="l00967"></a><span class="lineno">  967</span>    <span class="keyword">constexpr</span> VctrBase (StorageType&amp;&amp; s, <span class="keyword">const</span> OtherStorageInfoType&amp; otherInfo)</div>
+<div class="line"><a id="l00968" name="l00968"></a><span class="lineno">  968</span>        : <a class="code hl_typedef" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a> (otherInfo),</div>
+<div class="line"><a id="l00969" name="l00969"></a><span class="lineno">  969</span>          storage (std::move (s))</div>
+<div class="line"><a id="l00970" name="l00970"></a><span class="lineno">  970</span>    {}</div>
+<div class="line"><a id="l00971" name="l00971"></a><span class="lineno">  971</span> </div>
+<div class="line"><a id="l00972" name="l00972"></a><span class="lineno">  972</span>    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l00974" name="l00974"></a><span class="lineno">  974</span><span class="comment"></span>    <span class="keyword">constexpr</span> <span class="keywordtype">void</span> resizeOrAssertSizeMatches (<span class="keywordtype">size_t</span> desiredSize)</div>
+<div class="line"><a id="l00975" name="l00975"></a><span class="lineno">  975</span>    <span class="keyword">requires</span> has::resize&lt;StorageType&gt;</div>
+<div class="line"><a id="l00976" name="l00976"></a><span class="lineno">  976</span>    {</div>
+<div class="line"><a id="l00977" name="l00977"></a><span class="lineno">  977</span>        storage.resize (desiredSize);</div>
+<div class="line"><a id="l00978" name="l00978"></a><span class="lineno">  978</span>    }</div>
+<div class="line"><a id="l00979" name="l00979"></a><span class="lineno">  979</span> </div>
+<div class="line"><a id="l00981" name="l00981"></a><span class="lineno">  981</span>    <span class="keyword">constexpr</span> <span class="keywordtype">void</span> resizeOrAssertSizeMatches ([[maybe_unused]] <span class="keywordtype">size_t</span> desiredSize)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00982" name="l00982"></a><span class="lineno">  982</span><span class="keyword">    </span>{</div>
+<div class="line"><a id="l00983" name="l00983"></a><span class="lineno">  983</span>        VCTR_ASSERT (<a class="code hl_function" href="classvctr_1_1VctrBase.html#ae83870ea4a869114785266ee2fab1598">size</a>() == desiredSize);</div>
+<div class="line"><a id="l00984" name="l00984"></a><span class="lineno">  984</span>    }</div>
+<div class="line"><a id="l00985" name="l00985"></a><span class="lineno">  985</span> </div>
+<div class="line"><a id="l00987" name="l00987"></a><span class="lineno">  987</span>    <span class="keyword">template</span> &lt;<span class="keywordtype">size_t</span> i&gt;</div>
+<div class="line"><a id="l00988" name="l00988"></a><span class="lineno">  988</span>    <span class="keyword">constexpr</span> <span class="keywordtype">void</span> assertIsInRange() const</div>
+<div class="line"><a id="l00989" name="l00989"></a><span class="lineno">  989</span>    requires (extent == std::dynamic_extent)</div>
+<div class="line"><a id="l00990" name="l00990"></a><span class="lineno">  990</span>    {</div>
+<div class="line"><a id="l00991" name="l00991"></a><span class="lineno">  991</span>        VCTR_ASSERT (i &lt; <a class="code hl_function" href="classvctr_1_1VctrBase.html#ae83870ea4a869114785266ee2fab1598">size</a>());</div>
+<div class="line"><a id="l00992" name="l00992"></a><span class="lineno">  992</span>    }</div>
+<div class="line"><a id="l00993" name="l00993"></a><span class="lineno">  993</span> </div>
+<div class="line"><a id="l00995" name="l00995"></a><span class="lineno">  995</span>    <span class="keyword">template</span> &lt;<span class="keywordtype">size_t</span> i&gt;</div>
+<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>    <span class="keyword">constexpr</span> <span class="keywordtype">void</span> assertIsInRange() const</div>
+<div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span>    requires (extent != std::dynamic_extent)</div>
 <div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span>    {</div>
-<div class="line"><a id="l00999" name="l00999"></a><span class="lineno">  999</span>        <span class="keywordflow">if</span> (! std::is_constant_evaluated())</div>
-<div class="line"><a id="l01000" name="l01000"></a><span class="lineno"> 1000</span>        {</div>
-<div class="line"><a id="l01001" name="l01001"></a><span class="lineno"> 1001</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (has::evalNextVectorOpInExpressionChain&lt;Expression, ElementType&gt;)</div>
-<div class="line"><a id="l01002" name="l01002"></a><span class="lineno"> 1002</span>            {</div>
-<div class="line"><a id="l01003" name="l01003"></a><span class="lineno"> 1003</span>                <span class="keywordflow">if</span> (e.isNotAliased (<a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>()))</div>
-<div class="line"><a id="l01004" name="l01004"></a><span class="lineno"> 1004</span>                {</div>
-<div class="line"><a id="l01005" name="l01005"></a><span class="lineno"> 1005</span>                    e.evalNextVectorOpInExpressionChain (<a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>());</div>
-<div class="line"><a id="l01006" name="l01006"></a><span class="lineno"> 1006</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l01007" name="l01007"></a><span class="lineno"> 1007</span>                }</div>
-<div class="line"><a id="l01008" name="l01008"></a><span class="lineno"> 1008</span>            }</div>
-<div class="line"><a id="l01009" name="l01009"></a><span class="lineno"> 1009</span> </div>
-<div class="line"><a id="l01010" name="l01010"></a><span class="lineno"> 1010</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (has::getNeon&lt;Expression&gt;)</div>
-<div class="line"><a id="l01011" name="l01011"></a><span class="lineno"> 1011</span>            {</div>
-<div class="line"><a id="l01012" name="l01012"></a><span class="lineno"> 1012</span>                assignExpressionTemplateNeon (e);</div>
-<div class="line"><a id="l01013" name="l01013"></a><span class="lineno"> 1013</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>            }</div>
-<div class="line"><a id="l01015" name="l01015"></a><span class="lineno"> 1015</span> </div>
-<div class="line"><a id="l01016" name="l01016"></a><span class="lineno"> 1016</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (has::getAVX&lt;Expression&gt;)</div>
-<div class="line"><a id="l01017" name="l01017"></a><span class="lineno"> 1017</span>            {</div>
-<div class="line"><a id="l01018" name="l01018"></a><span class="lineno"> 1018</span>                <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (is::realFloatNumber&lt;ElementType&gt;)</div>
-<div class="line"><a id="l01019" name="l01019"></a><span class="lineno"> 1019</span>                {</div>
-<div class="line"><a id="l01020" name="l01020"></a><span class="lineno"> 1020</span>                    <span class="keywordflow">if</span> (supportedCPUInstructionSets.fma)</div>
-<div class="line"><a id="l01021" name="l01021"></a><span class="lineno"> 1021</span>                    {</div>
-<div class="line"><a id="l01022" name="l01022"></a><span class="lineno"> 1022</span>                        assignExpressionTemplateFMA (e);</div>
-<div class="line"><a id="l01023" name="l01023"></a><span class="lineno"> 1023</span>                        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l01024" name="l01024"></a><span class="lineno"> 1024</span>                    }</div>
-<div class="line"><a id="l01025" name="l01025"></a><span class="lineno"> 1025</span>                }</div>
-<div class="line"><a id="l01026" name="l01026"></a><span class="lineno"> 1026</span>                <span class="keywordflow">else</span></div>
-<div class="line"><a id="l01027" name="l01027"></a><span class="lineno"> 1027</span>                {</div>
-<div class="line"><a id="l01028" name="l01028"></a><span class="lineno"> 1028</span>                    <span class="keywordflow">if</span> (supportedCPUInstructionSets.avx2)</div>
-<div class="line"><a id="l01029" name="l01029"></a><span class="lineno"> 1029</span>                    {</div>
-<div class="line"><a id="l01030" name="l01030"></a><span class="lineno"> 1030</span>                        assignExpressionTemplateAVX2 (e);</div>
-<div class="line"><a id="l01031" name="l01031"></a><span class="lineno"> 1031</span>                        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l01032" name="l01032"></a><span class="lineno"> 1032</span>                    }</div>
-<div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span>                }</div>
-<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span>            }</div>
-<div class="line"><a id="l01035" name="l01035"></a><span class="lineno"> 1035</span> </div>
-<div class="line"><a id="l01036" name="l01036"></a><span class="lineno"> 1036</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (has::getSSE&lt;Expression&gt;)</div>
-<div class="line"><a id="l01037" name="l01037"></a><span class="lineno"> 1037</span>            {</div>
-<div class="line"><a id="l01038" name="l01038"></a><span class="lineno"> 1038</span>                <span class="keywordflow">if</span> (supportedCPUInstructionSets.sse4_1)</div>
-<div class="line"><a id="l01039" name="l01039"></a><span class="lineno"> 1039</span>                {</div>
-<div class="line"><a id="l01040" name="l01040"></a><span class="lineno"> 1040</span>                    assignExpressionTemplateSSE4_1 (e);</div>
-<div class="line"><a id="l01041" name="l01041"></a><span class="lineno"> 1041</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00999" name="l00999"></a><span class="lineno">  999</span>        <span class="keyword">static_assert</span> (i &lt; extent);</div>
+<div class="line"><a id="l01000" name="l01000"></a><span class="lineno"> 1000</span>    }</div>
+<div class="line"><a id="l01001" name="l01001"></a><span class="lineno"> 1001</span> </div>
+<div class="line"><a id="l01003" name="l01003"></a><span class="lineno"> 1003</span>    <span class="keywordtype">void</span> throwIfOutOfRange (<span class="keywordtype">size_t</span> i)<span class="keyword"> const</span></div>
+<div class="line"><a id="l01004" name="l01004"></a><span class="lineno"> 1004</span><span class="keyword">    </span>{</div>
+<div class="line"><a id="l01005" name="l01005"></a><span class="lineno"> 1005</span>        <span class="keywordflow">if</span> (i &gt;= <a class="code hl_function" href="classvctr_1_1VctrBase.html#ae83870ea4a869114785266ee2fab1598">size</a>())</div>
+<div class="line"><a id="l01006" name="l01006"></a><span class="lineno"> 1006</span>        {</div>
+<div class="line"><a id="l01007" name="l01007"></a><span class="lineno"> 1007</span>            VCTR_ASSERT (<span class="keyword">false</span>);</div>
+<div class="line"><a id="l01008" name="l01008"></a><span class="lineno"> 1008</span>            <span class="keywordflow">throw</span> std::out_of_range (<span class="stringliteral">&quot;Vctr of size &quot;</span> + std::to_string (<a class="code hl_function" href="classvctr_1_1VctrBase.html#ae83870ea4a869114785266ee2fab1598">size</a>()) + <span class="stringliteral">&quot;: Element &quot;</span> + std::to_string (i) + <span class="stringliteral">&quot; is out of range.&quot;</span>);</div>
+<div class="line"><a id="l01009" name="l01009"></a><span class="lineno"> 1009</span>        }</div>
+<div class="line"><a id="l01010" name="l01010"></a><span class="lineno"> 1010</span>    }</div>
+<div class="line"><a id="l01011" name="l01011"></a><span class="lineno"> 1011</span> </div>
+<div class="line"><a id="l01012" name="l01012"></a><span class="lineno"> 1012</span>    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l01013" name="l01013"></a><span class="lineno"> 1013</span>    <span class="keyword">template</span> &lt;is::expression Expression&gt;</div>
+<div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>    VCTR_FORCEDINLINE <span class="keyword">constexpr</span> <span class="keywordtype">void</span> assignExpressionTemplate (<span class="keyword">const</span> Expression&amp; e)</div>
+<div class="line"><a id="l01015" name="l01015"></a><span class="lineno"> 1015</span>    {</div>
+<div class="line"><a id="l01016" name="l01016"></a><span class="lineno"> 1016</span>        <span class="keywordflow">if</span> (! std::is_constant_evaluated())</div>
+<div class="line"><a id="l01017" name="l01017"></a><span class="lineno"> 1017</span>        {</div>
+<div class="line"><a id="l01018" name="l01018"></a><span class="lineno"> 1018</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (has::evalNextVectorOpInExpressionChain&lt;Expression, ElementType&gt;)</div>
+<div class="line"><a id="l01019" name="l01019"></a><span class="lineno"> 1019</span>            {</div>
+<div class="line"><a id="l01020" name="l01020"></a><span class="lineno"> 1020</span>                <span class="keywordflow">if</span> (e.isNotAliased (<a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>()))</div>
+<div class="line"><a id="l01021" name="l01021"></a><span class="lineno"> 1021</span>                {</div>
+<div class="line"><a id="l01022" name="l01022"></a><span class="lineno"> 1022</span>                    e.evalNextVectorOpInExpressionChain (<a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>());</div>
+<div class="line"><a id="l01023" name="l01023"></a><span class="lineno"> 1023</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01024" name="l01024"></a><span class="lineno"> 1024</span>                }</div>
+<div class="line"><a id="l01025" name="l01025"></a><span class="lineno"> 1025</span>            }</div>
+<div class="line"><a id="l01026" name="l01026"></a><span class="lineno"> 1026</span> </div>
+<div class="line"><a id="l01027" name="l01027"></a><span class="lineno"> 1027</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (has::getNeon&lt;Expression&gt;)</div>
+<div class="line"><a id="l01028" name="l01028"></a><span class="lineno"> 1028</span>            {</div>
+<div class="line"><a id="l01029" name="l01029"></a><span class="lineno"> 1029</span>                assignExpressionTemplateNeon (e);</div>
+<div class="line"><a id="l01030" name="l01030"></a><span class="lineno"> 1030</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01031" name="l01031"></a><span class="lineno"> 1031</span>            }</div>
+<div class="line"><a id="l01032" name="l01032"></a><span class="lineno"> 1032</span> </div>
+<div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (has::getAVX&lt;Expression&gt;)</div>
+<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span>            {</div>
+<div class="line"><a id="l01035" name="l01035"></a><span class="lineno"> 1035</span>                <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (is::realFloatNumber&lt;ElementType&gt;)</div>
+<div class="line"><a id="l01036" name="l01036"></a><span class="lineno"> 1036</span>                {</div>
+<div class="line"><a id="l01037" name="l01037"></a><span class="lineno"> 1037</span>                    <span class="keywordflow">if</span> (supportedCPUInstructionSets.fma)</div>
+<div class="line"><a id="l01038" name="l01038"></a><span class="lineno"> 1038</span>                    {</div>
+<div class="line"><a id="l01039" name="l01039"></a><span class="lineno"> 1039</span>                        assignExpressionTemplateFMA (e);</div>
+<div class="line"><a id="l01040" name="l01040"></a><span class="lineno"> 1040</span>                        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01041" name="l01041"></a><span class="lineno"> 1041</span>                    }</div>
 <div class="line"><a id="l01042" name="l01042"></a><span class="lineno"> 1042</span>                }</div>
-<div class="line"><a id="l01043" name="l01043"></a><span class="lineno"> 1043</span>            }</div>
-<div class="line"><a id="l01044" name="l01044"></a><span class="lineno"> 1044</span>        }</div>
-<div class="line"><a id="l01045" name="l01045"></a><span class="lineno"> 1045</span> </div>
-<div class="line"><a id="l01046" name="l01046"></a><span class="lineno"> 1046</span>        <span class="keyword">const</span> <span class="keyword">auto</span> n = <a class="code hl_function" href="classvctr_1_1VctrBase.html#ae83870ea4a869114785266ee2fab1598">size</a>();</div>
-<div class="line"><a id="l01047" name="l01047"></a><span class="lineno"> 1047</span> </div>
-<div class="line"><a id="l01048" name="l01048"></a><span class="lineno"> 1048</span>        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; n; ++i)</div>
-<div class="line"><a id="l01049" name="l01049"></a><span class="lineno"> 1049</span>            storage[i] = e[i];</div>
-<div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span>    }</div>
-<div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span> </div>
-<div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> OtherContainer&gt;</div>
-<div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> shouldMoveFromOtherContainer = has::begin&lt;OtherContainer&gt; &amp;&amp;</div>
-<div class="line"><a id="l01055" name="l01055"></a><span class="lineno"> 1055</span>                                                         has::end&lt;OtherContainer&gt; &amp;&amp;</div>
-<div class="line"><a id="l01056" name="l01056"></a><span class="lineno"> 1056</span>                                                         (! is::view&lt;OtherContainer&gt;) &amp;&amp;</div>
-<div class="line"><a id="l01057" name="l01057"></a><span class="lineno"> 1057</span>                                                         (! std::is_reference_v&lt;OtherContainer&gt;) &amp;&amp;</div>
-<div class="line"><a id="l01058" name="l01058"></a><span class="lineno"> 1058</span>                                                         (! std::is_trivially_copyable_v&lt;ElementType&gt;);</div>
-<div class="line"><a id="l01059" name="l01059"></a><span class="lineno"> 1059</span> </div>
-<div class="line"><a id="l01060" name="l01060"></a><span class="lineno"> 1060</span>    <span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l01061" name="l01061"></a><span class="lineno"> 1061</span>    <span class="keyword">alignas</span> (StorageInfoType::memberAlignment) StorageType storage = StorageType {};</div>
+<div class="line"><a id="l01043" name="l01043"></a><span class="lineno"> 1043</span>                <span class="keywordflow">else</span></div>
+<div class="line"><a id="l01044" name="l01044"></a><span class="lineno"> 1044</span>                {</div>
+<div class="line"><a id="l01045" name="l01045"></a><span class="lineno"> 1045</span>                    <span class="keywordflow">if</span> (supportedCPUInstructionSets.avx2)</div>
+<div class="line"><a id="l01046" name="l01046"></a><span class="lineno"> 1046</span>                    {</div>
+<div class="line"><a id="l01047" name="l01047"></a><span class="lineno"> 1047</span>                        assignExpressionTemplateAVX2 (e);</div>
+<div class="line"><a id="l01048" name="l01048"></a><span class="lineno"> 1048</span>                        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01049" name="l01049"></a><span class="lineno"> 1049</span>                    }</div>
+<div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span>                }</div>
+<div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span>            }</div>
+<div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span> </div>
+<div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (has::getSSE&lt;Expression&gt;)</div>
+<div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span>            {</div>
+<div class="line"><a id="l01055" name="l01055"></a><span class="lineno"> 1055</span>                <span class="keywordflow">if</span> (supportedCPUInstructionSets.sse4_1)</div>
+<div class="line"><a id="l01056" name="l01056"></a><span class="lineno"> 1056</span>                {</div>
+<div class="line"><a id="l01057" name="l01057"></a><span class="lineno"> 1057</span>                    assignExpressionTemplateSSE4_1 (e);</div>
+<div class="line"><a id="l01058" name="l01058"></a><span class="lineno"> 1058</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01059" name="l01059"></a><span class="lineno"> 1059</span>                }</div>
+<div class="line"><a id="l01060" name="l01060"></a><span class="lineno"> 1060</span>            }</div>
+<div class="line"><a id="l01061" name="l01061"></a><span class="lineno"> 1061</span>        }</div>
 <div class="line"><a id="l01062" name="l01062"></a><span class="lineno"> 1062</span> </div>
-<div class="line"><a id="l01063" name="l01063"></a><span class="lineno"> 1063</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l01064" name="l01064"></a><span class="lineno"> 1064</span>    <span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l01065" name="l01065"></a><span class="lineno"> 1065</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> Expression&gt;</div>
-<div class="line"><a id="l01066" name="l01066"></a><span class="lineno"> 1066</span>    <span class="keywordtype">void</span> assignExpressionTemplateNeon (<span class="keyword">const</span> Expression&amp; e)</div>
-<div class="line"><a id="l01067" name="l01067"></a><span class="lineno"> 1067</span>    <span class="keyword">requires</span> archARM</div>
-<div class="line"><a id="l01068" name="l01068"></a><span class="lineno"> 1068</span>    {</div>
-<div class="line"><a id="l01069" name="l01069"></a><span class="lineno"> 1069</span>        <span class="keyword">constexpr</span> <span class="keyword">auto</span> inc = NeonRegister&lt;ElementType&gt;::numElements;</div>
-<div class="line"><a id="l01070" name="l01070"></a><span class="lineno"> 1070</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> hasExtendedSIMDStorage = e.getStorageInfo().hasSIMDExtendedStorage &amp;&amp; StorageInfoType::hasSIMDExtendedStorage;</div>
-<div class="line"><a id="l01071" name="l01071"></a><span class="lineno"> 1071</span>        <span class="keyword">const</span> <span class="keyword">auto</span> n = storage.size();</div>
-<div class="line"><a id="l01072" name="l01072"></a><span class="lineno"> 1072</span>        <span class="keyword">const</span> <span class="keyword">auto</span> nSIMD = hasExtendedSIMDStorage ? detail::nextMultipleOf&lt;inc&gt; (n) : detail::previousMultipleOf&lt;inc&gt; (n);</div>
-<div class="line"><a id="l01073" name="l01073"></a><span class="lineno"> 1073</span> </div>
-<div class="line"><a id="l01074" name="l01074"></a><span class="lineno"> 1074</span>        e.prepareNeonEvaluation();</div>
-<div class="line"><a id="l01075" name="l01075"></a><span class="lineno"> 1075</span>        <span class="keyword">auto</span>* d = <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>();</div>
+<div class="line"><a id="l01063" name="l01063"></a><span class="lineno"> 1063</span>        <span class="keyword">const</span> <span class="keyword">auto</span> n = <a class="code hl_function" href="classvctr_1_1VctrBase.html#ae83870ea4a869114785266ee2fab1598">size</a>();</div>
+<div class="line"><a id="l01064" name="l01064"></a><span class="lineno"> 1064</span> </div>
+<div class="line"><a id="l01065" name="l01065"></a><span class="lineno"> 1065</span>        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; n; ++i)</div>
+<div class="line"><a id="l01066" name="l01066"></a><span class="lineno"> 1066</span>            storage[i] = e[i];</div>
+<div class="line"><a id="l01067" name="l01067"></a><span class="lineno"> 1067</span>    }</div>
+<div class="line"><a id="l01068" name="l01068"></a><span class="lineno"> 1068</span> </div>
+<div class="line"><a id="l01070" name="l01070"></a><span class="lineno"> 1070</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> OtherContainer&gt;</div>
+<div class="line"><a id="l01071" name="l01071"></a><span class="lineno"> 1071</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> shouldMoveFromOtherContainer = has::begin&lt;OtherContainer&gt; &amp;&amp;</div>
+<div class="line"><a id="l01072" name="l01072"></a><span class="lineno"> 1072</span>                                                         has::end&lt;OtherContainer&gt; &amp;&amp;</div>
+<div class="line"><a id="l01073" name="l01073"></a><span class="lineno"> 1073</span>                                                         (! is::view&lt;OtherContainer&gt;) &amp;&amp;</div>
+<div class="line"><a id="l01074" name="l01074"></a><span class="lineno"> 1074</span>                                                         (! std::is_reference_v&lt;OtherContainer&gt;) &amp;&amp;</div>
+<div class="line"><a id="l01075" name="l01075"></a><span class="lineno"> 1075</span>                                                         (! std::is_trivially_copyable_v&lt;ElementType&gt;);</div>
 <div class="line"><a id="l01076" name="l01076"></a><span class="lineno"> 1076</span> </div>
-<div class="line"><a id="l01077" name="l01077"></a><span class="lineno"> 1077</span>        <span class="keywordtype">size_t</span> i = 0;</div>
-<div class="line"><a id="l01078" name="l01078"></a><span class="lineno"> 1078</span>        <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
-<div class="line"><a id="l01079" name="l01079"></a><span class="lineno"> 1079</span>            e.getNeon (i).store (d);</div>
-<div class="line"><a id="l01080" name="l01080"></a><span class="lineno"> 1080</span> </div>
-<div class="line"><a id="l01081" name="l01081"></a><span class="lineno"> 1081</span>        <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
-<div class="line"><a id="l01082" name="l01082"></a><span class="lineno"> 1082</span>            storage[i] = e[i];</div>
-<div class="line"><a id="l01083" name="l01083"></a><span class="lineno"> 1083</span>    }</div>
-<div class="line"><a id="l01084" name="l01084"></a><span class="lineno"> 1084</span> </div>
-<div class="line"><a id="l01085" name="l01085"></a><span class="lineno"> 1085</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> Expression&gt;</div>
-<div class="line"><a id="l01086" name="l01086"></a><span class="lineno"> 1086</span>    VCTR_TARGET (<span class="stringliteral">&quot;avx2&quot;</span>)</div>
-<div class="line"><a id="l01087" name="l01087"></a><span class="lineno"> 1087</span>    void assignExpressionTemplateAVX2 (const Expression&amp; e)</div>
-<div class="line"><a id="l01088" name="l01088"></a><span class="lineno"> 1088</span>    requires archX64</div>
-<div class="line"><a id="l01089" name="l01089"></a><span class="lineno"> 1089</span>    {</div>
-<div class="line"><a id="l01090" name="l01090"></a><span class="lineno"> 1090</span>        <span class="keyword">constexpr</span> <span class="keyword">auto</span> inc = AVXRegister&lt;ElementType&gt;::numElements;</div>
-<div class="line"><a id="l01091" name="l01091"></a><span class="lineno"> 1091</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> hasExtendedSIMDStorage = e.getStorageInfo().hasSIMDExtendedStorage &amp;&amp; StorageInfoType::hasSIMDExtendedStorage;</div>
-<div class="line"><a id="l01092" name="l01092"></a><span class="lineno"> 1092</span>        <span class="keyword">const</span> <span class="keyword">auto</span> n = storage.size();</div>
-<div class="line"><a id="l01093" name="l01093"></a><span class="lineno"> 1093</span>        <span class="keyword">const</span> <span class="keyword">auto</span> nSIMD = hasExtendedSIMDStorage ? detail::nextMultipleOf&lt;inc&gt; (n) : detail::previousMultipleOf&lt;inc&gt; (n);</div>
-<div class="line"><a id="l01094" name="l01094"></a><span class="lineno"> 1094</span> </div>
-<div class="line"><a id="l01095" name="l01095"></a><span class="lineno"> 1095</span>        e.prepareAVXEvaluation();</div>
-<div class="line"><a id="l01096" name="l01096"></a><span class="lineno"> 1096</span>        <span class="keyword">auto</span>* d = <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>();</div>
+<div class="line"><a id="l01077" name="l01077"></a><span class="lineno"> 1077</span>    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l01078" name="l01078"></a><span class="lineno"> 1078</span>    <span class="keyword">alignas</span> (StorageInfoType::memberAlignment) StorageType storage = StorageType {};</div>
+<div class="line"><a id="l01079" name="l01079"></a><span class="lineno"> 1079</span> </div>
+<div class="line"><a id="l01080" name="l01080"></a><span class="lineno"> 1080</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l01081" name="l01081"></a><span class="lineno"> 1081</span>    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l01082" name="l01082"></a><span class="lineno"> 1082</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> Expression&gt;</div>
+<div class="line"><a id="l01083" name="l01083"></a><span class="lineno"> 1083</span>    <span class="keywordtype">void</span> assignExpressionTemplateNeon (<span class="keyword">const</span> Expression&amp; e)</div>
+<div class="line"><a id="l01084" name="l01084"></a><span class="lineno"> 1084</span>    <span class="keyword">requires</span> archARM</div>
+<div class="line"><a id="l01085" name="l01085"></a><span class="lineno"> 1085</span>    {</div>
+<div class="line"><a id="l01086" name="l01086"></a><span class="lineno"> 1086</span>        <span class="keyword">constexpr</span> <span class="keyword">auto</span> inc = NeonRegister&lt;ElementType&gt;::numElements;</div>
+<div class="line"><a id="l01087" name="l01087"></a><span class="lineno"> 1087</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> hasExtendedSIMDStorage = e.getStorageInfo().hasSIMDExtendedStorage &amp;&amp; StorageInfoType::hasSIMDExtendedStorage;</div>
+<div class="line"><a id="l01088" name="l01088"></a><span class="lineno"> 1088</span>        <span class="keyword">const</span> <span class="keyword">auto</span> n = storage.size();</div>
+<div class="line"><a id="l01089" name="l01089"></a><span class="lineno"> 1089</span>        <span class="keyword">const</span> <span class="keyword">auto</span> nSIMD = hasExtendedSIMDStorage ? detail::nextMultipleOf&lt;inc&gt; (n) : detail::previousMultipleOf&lt;inc&gt; (n);</div>
+<div class="line"><a id="l01090" name="l01090"></a><span class="lineno"> 1090</span> </div>
+<div class="line"><a id="l01091" name="l01091"></a><span class="lineno"> 1091</span>        e.prepareNeonEvaluation();</div>
+<div class="line"><a id="l01092" name="l01092"></a><span class="lineno"> 1092</span>        <span class="keyword">auto</span>* d = <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>();</div>
+<div class="line"><a id="l01093" name="l01093"></a><span class="lineno"> 1093</span> </div>
+<div class="line"><a id="l01094" name="l01094"></a><span class="lineno"> 1094</span>        <span class="keywordtype">size_t</span> i = 0;</div>
+<div class="line"><a id="l01095" name="l01095"></a><span class="lineno"> 1095</span>        <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
+<div class="line"><a id="l01096" name="l01096"></a><span class="lineno"> 1096</span>            e.getNeon (i).store (d);</div>
 <div class="line"><a id="l01097" name="l01097"></a><span class="lineno"> 1097</span> </div>
-<div class="line"><a id="l01098" name="l01098"></a><span class="lineno"> 1098</span>        <span class="keywordflow">if</span> (StorageInfoType::dataIsSIMDAligned)</div>
-<div class="line"><a id="l01099" name="l01099"></a><span class="lineno"> 1099</span>        {</div>
-<div class="line"><a id="l01100" name="l01100"></a><span class="lineno"> 1100</span>            <span class="keywordtype">size_t</span> i = 0;</div>
-<div class="line"><a id="l01101" name="l01101"></a><span class="lineno"> 1101</span>            <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
-<div class="line"><a id="l01102" name="l01102"></a><span class="lineno"> 1102</span>                e.getAVX (i).storeAligned (d);</div>
-<div class="line"><a id="l01103" name="l01103"></a><span class="lineno"> 1103</span> </div>
-<div class="line"><a id="l01104" name="l01104"></a><span class="lineno"> 1104</span>            <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
-<div class="line"><a id="l01105" name="l01105"></a><span class="lineno"> 1105</span>                storage[i] = e[i];</div>
-<div class="line"><a id="l01106" name="l01106"></a><span class="lineno"> 1106</span>        }</div>
-<div class="line"><a id="l01107" name="l01107"></a><span class="lineno"> 1107</span>        <span class="keywordflow">else</span></div>
-<div class="line"><a id="l01108" name="l01108"></a><span class="lineno"> 1108</span>        {</div>
-<div class="line"><a id="l01109" name="l01109"></a><span class="lineno"> 1109</span>            <span class="keywordtype">size_t</span> i = 0;</div>
-<div class="line"><a id="l01110" name="l01110"></a><span class="lineno"> 1110</span>            <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
-<div class="line"><a id="l01111" name="l01111"></a><span class="lineno"> 1111</span>                e.getAVX (i).storeUnaligned (d);</div>
-<div class="line"><a id="l01112" name="l01112"></a><span class="lineno"> 1112</span> </div>
-<div class="line"><a id="l01113" name="l01113"></a><span class="lineno"> 1113</span>            <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
-<div class="line"><a id="l01114" name="l01114"></a><span class="lineno"> 1114</span>                storage[i] = e[i];</div>
-<div class="line"><a id="l01115" name="l01115"></a><span class="lineno"> 1115</span>        }</div>
-<div class="line"><a id="l01116" name="l01116"></a><span class="lineno"> 1116</span>    }</div>
-<div class="line"><a id="l01117" name="l01117"></a><span class="lineno"> 1117</span> </div>
-<div class="line"><a id="l01118" name="l01118"></a><span class="lineno"> 1118</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> Expression&gt;</div>
-<div class="line"><a id="l01119" name="l01119"></a><span class="lineno"> 1119</span>    VCTR_TARGET (<span class="stringliteral">&quot;fma&quot;</span>)</div>
-<div class="line"><a id="l01120" name="l01120"></a><span class="lineno"> 1120</span>    void assignExpressionTemplateFMA (const Expression&amp; e)</div>
-<div class="line"><a id="l01121" name="l01121"></a><span class="lineno"> 1121</span>    requires archX64</div>
-<div class="line"><a id="l01122" name="l01122"></a><span class="lineno"> 1122</span>    {</div>
-<div class="line"><a id="l01123" name="l01123"></a><span class="lineno"> 1123</span>        <span class="keyword">constexpr</span> <span class="keyword">auto</span> inc = AVXRegister&lt;ElementType&gt;::numElements;</div>
-<div class="line"><a id="l01124" name="l01124"></a><span class="lineno"> 1124</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> hasExtendedSIMDStorage = e.getStorageInfo().hasSIMDExtendedStorage &amp;&amp; StorageInfoType::hasSIMDExtendedStorage;</div>
-<div class="line"><a id="l01125" name="l01125"></a><span class="lineno"> 1125</span>        <span class="keyword">const</span> <span class="keyword">auto</span> n = storage.size();</div>
-<div class="line"><a id="l01126" name="l01126"></a><span class="lineno"> 1126</span>        <span class="keyword">const</span> <span class="keyword">auto</span> nSIMD = hasExtendedSIMDStorage ? detail::nextMultipleOf&lt;inc&gt; (n) : detail::previousMultipleOf&lt;inc&gt; (n);</div>
-<div class="line"><a id="l01127" name="l01127"></a><span class="lineno"> 1127</span> </div>
-<div class="line"><a id="l01128" name="l01128"></a><span class="lineno"> 1128</span>        e.prepareAVXEvaluation();</div>
-<div class="line"><a id="l01129" name="l01129"></a><span class="lineno"> 1129</span>        <span class="keyword">auto</span>* d = <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>();</div>
-<div class="line"><a id="l01130" name="l01130"></a><span class="lineno"> 1130</span> </div>
-<div class="line"><a id="l01131" name="l01131"></a><span class="lineno"> 1131</span>        <span class="keywordflow">if</span> (StorageInfoType::dataIsSIMDAligned)</div>
-<div class="line"><a id="l01132" name="l01132"></a><span class="lineno"> 1132</span>        {</div>
-<div class="line"><a id="l01133" name="l01133"></a><span class="lineno"> 1133</span>            <span class="keywordtype">size_t</span> i = 0;</div>
-<div class="line"><a id="l01134" name="l01134"></a><span class="lineno"> 1134</span>            <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
-<div class="line"><a id="l01135" name="l01135"></a><span class="lineno"> 1135</span>                e.getAVX (i).storeAligned (d);</div>
-<div class="line"><a id="l01136" name="l01136"></a><span class="lineno"> 1136</span> </div>
-<div class="line"><a id="l01137" name="l01137"></a><span class="lineno"> 1137</span>            <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
-<div class="line"><a id="l01138" name="l01138"></a><span class="lineno"> 1138</span>                storage[i] = e[i];</div>
-<div class="line"><a id="l01139" name="l01139"></a><span class="lineno"> 1139</span>        }</div>
-<div class="line"><a id="l01140" name="l01140"></a><span class="lineno"> 1140</span>        <span class="keywordflow">else</span></div>
-<div class="line"><a id="l01141" name="l01141"></a><span class="lineno"> 1141</span>        {</div>
-<div class="line"><a id="l01142" name="l01142"></a><span class="lineno"> 1142</span>            <span class="keywordtype">size_t</span> i = 0;</div>
-<div class="line"><a id="l01143" name="l01143"></a><span class="lineno"> 1143</span>            <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
-<div class="line"><a id="l01144" name="l01144"></a><span class="lineno"> 1144</span>                e.getAVX (i).storeUnaligned (d);</div>
-<div class="line"><a id="l01145" name="l01145"></a><span class="lineno"> 1145</span> </div>
-<div class="line"><a id="l01146" name="l01146"></a><span class="lineno"> 1146</span>            <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
-<div class="line"><a id="l01147" name="l01147"></a><span class="lineno"> 1147</span>                storage[i] = e[i];</div>
-<div class="line"><a id="l01148" name="l01148"></a><span class="lineno"> 1148</span>        }</div>
-<div class="line"><a id="l01149" name="l01149"></a><span class="lineno"> 1149</span>    }</div>
-<div class="line"><a id="l01150" name="l01150"></a><span class="lineno"> 1150</span> </div>
-<div class="line"><a id="l01151" name="l01151"></a><span class="lineno"> 1151</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> Expression&gt;</div>
-<div class="line"><a id="l01152" name="l01152"></a><span class="lineno"> 1152</span>    VCTR_TARGET (<span class="stringliteral">&quot;sse4.1&quot;</span>)</div>
-<div class="line"><a id="l01153" name="l01153"></a><span class="lineno"> 1153</span>    void assignExpressionTemplateSSE4_1 (const Expression&amp; e)</div>
-<div class="line"><a id="l01154" name="l01154"></a><span class="lineno"> 1154</span>    requires archX64</div>
-<div class="line"><a id="l01155" name="l01155"></a><span class="lineno"> 1155</span>    {</div>
-<div class="line"><a id="l01156" name="l01156"></a><span class="lineno"> 1156</span>        <span class="keyword">constexpr</span> <span class="keyword">auto</span> inc = SSERegister&lt;ElementType&gt;::numElements;</div>
-<div class="line"><a id="l01157" name="l01157"></a><span class="lineno"> 1157</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> hasExtendedSIMDStorage = e.getStorageInfo().hasSIMDExtendedStorage &amp;&amp; StorageInfoType::hasSIMDExtendedStorage;</div>
-<div class="line"><a id="l01158" name="l01158"></a><span class="lineno"> 1158</span>        <span class="keyword">const</span> <span class="keyword">auto</span> n = storage.size();</div>
-<div class="line"><a id="l01159" name="l01159"></a><span class="lineno"> 1159</span>        <span class="keyword">const</span> <span class="keyword">auto</span> nSIMD = hasExtendedSIMDStorage ? detail::nextMultipleOf&lt;inc&gt; (n) : detail::previousMultipleOf&lt;inc&gt; (n);</div>
-<div class="line"><a id="l01160" name="l01160"></a><span class="lineno"> 1160</span> </div>
-<div class="line"><a id="l01161" name="l01161"></a><span class="lineno"> 1161</span>        e.prepareSSEEvaluation();</div>
-<div class="line"><a id="l01162" name="l01162"></a><span class="lineno"> 1162</span>        <span class="keyword">auto</span>* d = <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>();</div>
-<div class="line"><a id="l01163" name="l01163"></a><span class="lineno"> 1163</span> </div>
-<div class="line"><a id="l01164" name="l01164"></a><span class="lineno"> 1164</span>        <span class="keywordflow">if</span> (StorageInfoType::dataIsSIMDAligned)</div>
-<div class="line"><a id="l01165" name="l01165"></a><span class="lineno"> 1165</span>        {</div>
-<div class="line"><a id="l01166" name="l01166"></a><span class="lineno"> 1166</span>            <span class="keywordtype">size_t</span> i = 0;</div>
-<div class="line"><a id="l01167" name="l01167"></a><span class="lineno"> 1167</span>            <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
-<div class="line"><a id="l01168" name="l01168"></a><span class="lineno"> 1168</span>                e.getSSE (i).storeAligned (d);</div>
-<div class="line"><a id="l01169" name="l01169"></a><span class="lineno"> 1169</span> </div>
-<div class="line"><a id="l01170" name="l01170"></a><span class="lineno"> 1170</span>            <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
-<div class="line"><a id="l01171" name="l01171"></a><span class="lineno"> 1171</span>                storage[i] = e[i];</div>
-<div class="line"><a id="l01172" name="l01172"></a><span class="lineno"> 1172</span>        }</div>
-<div class="line"><a id="l01173" name="l01173"></a><span class="lineno"> 1173</span>        <span class="keywordflow">else</span></div>
-<div class="line"><a id="l01174" name="l01174"></a><span class="lineno"> 1174</span>        {</div>
-<div class="line"><a id="l01175" name="l01175"></a><span class="lineno"> 1175</span>            <span class="keywordtype">size_t</span> i = 0;</div>
-<div class="line"><a id="l01176" name="l01176"></a><span class="lineno"> 1176</span>            <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
-<div class="line"><a id="l01177" name="l01177"></a><span class="lineno"> 1177</span>                e.getSSE (i).storeUnaligned (d);</div>
-<div class="line"><a id="l01178" name="l01178"></a><span class="lineno"> 1178</span> </div>
-<div class="line"><a id="l01179" name="l01179"></a><span class="lineno"> 1179</span>            <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
-<div class="line"><a id="l01180" name="l01180"></a><span class="lineno"> 1180</span>                storage[i] = e[i];</div>
-<div class="line"><a id="l01181" name="l01181"></a><span class="lineno"> 1181</span>        }</div>
-<div class="line"><a id="l01182" name="l01182"></a><span class="lineno"> 1182</span>    }</div>
-<div class="line"><a id="l01183" name="l01183"></a><span class="lineno"> 1183</span> </div>
-<div class="line"><a id="l01184" name="l01184"></a><span class="lineno"> 1184</span>    <span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l01185" name="l01185"></a><span class="lineno"> 1185</span>    <span class="keyword">template</span> &lt;<span class="keywordtype">size_t</span> spanExtent&gt;</div>
-<div class="line"><a id="l01186" name="l01186"></a><span class="lineno"> 1186</span>    <span class="keyword">constexpr</span> <span class="keyword">auto</span> constCorrectSpan (ElementType* <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>, <span class="keywordtype">size_t</span> spanSize);</div>
-<div class="line"><a id="l01187" name="l01187"></a><span class="lineno"> 1187</span> </div>
-<div class="line"><a id="l01188" name="l01188"></a><span class="lineno"> 1188</span>    <span class="keyword">template</span> &lt;<span class="keywordtype">size_t</span> spanExtent&gt;</div>
-<div class="line"><a id="l01189" name="l01189"></a><span class="lineno"> 1189</span>    <span class="keyword">constexpr</span> <span class="keyword">auto</span> constCorrectSpan (<span class="keyword">const</span> ElementType* <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>, <span class="keywordtype">size_t</span> spanSize) <span class="keyword">const</span></div>
-<div class="line"><a id="l01190" name="l01190"></a><span class="lineno"> 1190</span>    <span class="keyword">requires</span> (! is::stdSpan&lt;StorageType&gt;);</div>
-<div class="line"><a id="l01191" name="l01191"></a><span class="lineno"> 1191</span> </div>
-<div class="line"><a id="l01192" name="l01192"></a><span class="lineno"> 1192</span>    <span class="keyword">template</span> &lt;<span class="keywordtype">size_t</span> spanExtent&gt;</div>
-<div class="line"><a id="l01193" name="l01193"></a><span class="lineno"> 1193</span>    <span class="keyword">constexpr</span> <span class="keyword">auto</span> constCorrectSpan (ElementType* <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>, <span class="keywordtype">size_t</span> spanSize) <span class="keyword">const</span></div>
-<div class="line"><a id="l01194" name="l01194"></a><span class="lineno"> 1194</span>    <span class="keyword">requires</span> is::stdSpan&lt;StorageType&gt;;</div>
+<div class="line"><a id="l01098" name="l01098"></a><span class="lineno"> 1098</span>        <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
+<div class="line"><a id="l01099" name="l01099"></a><span class="lineno"> 1099</span>            storage[i] = e[i];</div>
+<div class="line"><a id="l01100" name="l01100"></a><span class="lineno"> 1100</span>    }</div>
+<div class="line"><a id="l01101" name="l01101"></a><span class="lineno"> 1101</span> </div>
+<div class="line"><a id="l01102" name="l01102"></a><span class="lineno"> 1102</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> Expression&gt;</div>
+<div class="line"><a id="l01103" name="l01103"></a><span class="lineno"> 1103</span>    VCTR_TARGET (<span class="stringliteral">&quot;avx2&quot;</span>)</div>
+<div class="line"><a id="l01104" name="l01104"></a><span class="lineno"> 1104</span>    void assignExpressionTemplateAVX2 (const Expression&amp; e)</div>
+<div class="line"><a id="l01105" name="l01105"></a><span class="lineno"> 1105</span>    requires archX64</div>
+<div class="line"><a id="l01106" name="l01106"></a><span class="lineno"> 1106</span>    {</div>
+<div class="line"><a id="l01107" name="l01107"></a><span class="lineno"> 1107</span>        <span class="keyword">constexpr</span> <span class="keyword">auto</span> inc = AVXRegister&lt;ElementType&gt;::numElements;</div>
+<div class="line"><a id="l01108" name="l01108"></a><span class="lineno"> 1108</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> hasExtendedSIMDStorage = e.getStorageInfo().hasSIMDExtendedStorage &amp;&amp; StorageInfoType::hasSIMDExtendedStorage;</div>
+<div class="line"><a id="l01109" name="l01109"></a><span class="lineno"> 1109</span>        <span class="keyword">const</span> <span class="keyword">auto</span> n = storage.size();</div>
+<div class="line"><a id="l01110" name="l01110"></a><span class="lineno"> 1110</span>        <span class="keyword">const</span> <span class="keyword">auto</span> nSIMD = hasExtendedSIMDStorage ? detail::nextMultipleOf&lt;inc&gt; (n) : detail::previousMultipleOf&lt;inc&gt; (n);</div>
+<div class="line"><a id="l01111" name="l01111"></a><span class="lineno"> 1111</span> </div>
+<div class="line"><a id="l01112" name="l01112"></a><span class="lineno"> 1112</span>        e.prepareAVXEvaluation();</div>
+<div class="line"><a id="l01113" name="l01113"></a><span class="lineno"> 1113</span>        <span class="keyword">auto</span>* d = <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>();</div>
+<div class="line"><a id="l01114" name="l01114"></a><span class="lineno"> 1114</span> </div>
+<div class="line"><a id="l01115" name="l01115"></a><span class="lineno"> 1115</span>        <span class="keywordflow">if</span> (StorageInfoType::dataIsSIMDAligned)</div>
+<div class="line"><a id="l01116" name="l01116"></a><span class="lineno"> 1116</span>        {</div>
+<div class="line"><a id="l01117" name="l01117"></a><span class="lineno"> 1117</span>            <span class="keywordtype">size_t</span> i = 0;</div>
+<div class="line"><a id="l01118" name="l01118"></a><span class="lineno"> 1118</span>            <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
+<div class="line"><a id="l01119" name="l01119"></a><span class="lineno"> 1119</span>                e.getAVX (i).storeAligned (d);</div>
+<div class="line"><a id="l01120" name="l01120"></a><span class="lineno"> 1120</span> </div>
+<div class="line"><a id="l01121" name="l01121"></a><span class="lineno"> 1121</span>            <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
+<div class="line"><a id="l01122" name="l01122"></a><span class="lineno"> 1122</span>                storage[i] = e[i];</div>
+<div class="line"><a id="l01123" name="l01123"></a><span class="lineno"> 1123</span>        }</div>
+<div class="line"><a id="l01124" name="l01124"></a><span class="lineno"> 1124</span>        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l01125" name="l01125"></a><span class="lineno"> 1125</span>        {</div>
+<div class="line"><a id="l01126" name="l01126"></a><span class="lineno"> 1126</span>            <span class="keywordtype">size_t</span> i = 0;</div>
+<div class="line"><a id="l01127" name="l01127"></a><span class="lineno"> 1127</span>            <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
+<div class="line"><a id="l01128" name="l01128"></a><span class="lineno"> 1128</span>                e.getAVX (i).storeUnaligned (d);</div>
+<div class="line"><a id="l01129" name="l01129"></a><span class="lineno"> 1129</span> </div>
+<div class="line"><a id="l01130" name="l01130"></a><span class="lineno"> 1130</span>            <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
+<div class="line"><a id="l01131" name="l01131"></a><span class="lineno"> 1131</span>                storage[i] = e[i];</div>
+<div class="line"><a id="l01132" name="l01132"></a><span class="lineno"> 1132</span>        }</div>
+<div class="line"><a id="l01133" name="l01133"></a><span class="lineno"> 1133</span>    }</div>
+<div class="line"><a id="l01134" name="l01134"></a><span class="lineno"> 1134</span> </div>
+<div class="line"><a id="l01135" name="l01135"></a><span class="lineno"> 1135</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> Expression&gt;</div>
+<div class="line"><a id="l01136" name="l01136"></a><span class="lineno"> 1136</span>    VCTR_TARGET (<span class="stringliteral">&quot;fma&quot;</span>)</div>
+<div class="line"><a id="l01137" name="l01137"></a><span class="lineno"> 1137</span>    void assignExpressionTemplateFMA (const Expression&amp; e)</div>
+<div class="line"><a id="l01138" name="l01138"></a><span class="lineno"> 1138</span>    requires archX64</div>
+<div class="line"><a id="l01139" name="l01139"></a><span class="lineno"> 1139</span>    {</div>
+<div class="line"><a id="l01140" name="l01140"></a><span class="lineno"> 1140</span>        <span class="keyword">constexpr</span> <span class="keyword">auto</span> inc = AVXRegister&lt;ElementType&gt;::numElements;</div>
+<div class="line"><a id="l01141" name="l01141"></a><span class="lineno"> 1141</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> hasExtendedSIMDStorage = e.getStorageInfo().hasSIMDExtendedStorage &amp;&amp; StorageInfoType::hasSIMDExtendedStorage;</div>
+<div class="line"><a id="l01142" name="l01142"></a><span class="lineno"> 1142</span>        <span class="keyword">const</span> <span class="keyword">auto</span> n = storage.size();</div>
+<div class="line"><a id="l01143" name="l01143"></a><span class="lineno"> 1143</span>        <span class="keyword">const</span> <span class="keyword">auto</span> nSIMD = hasExtendedSIMDStorage ? detail::nextMultipleOf&lt;inc&gt; (n) : detail::previousMultipleOf&lt;inc&gt; (n);</div>
+<div class="line"><a id="l01144" name="l01144"></a><span class="lineno"> 1144</span> </div>
+<div class="line"><a id="l01145" name="l01145"></a><span class="lineno"> 1145</span>        e.prepareAVXEvaluation();</div>
+<div class="line"><a id="l01146" name="l01146"></a><span class="lineno"> 1146</span>        <span class="keyword">auto</span>* d = <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>();</div>
+<div class="line"><a id="l01147" name="l01147"></a><span class="lineno"> 1147</span> </div>
+<div class="line"><a id="l01148" name="l01148"></a><span class="lineno"> 1148</span>        <span class="keywordflow">if</span> (StorageInfoType::dataIsSIMDAligned)</div>
+<div class="line"><a id="l01149" name="l01149"></a><span class="lineno"> 1149</span>        {</div>
+<div class="line"><a id="l01150" name="l01150"></a><span class="lineno"> 1150</span>            <span class="keywordtype">size_t</span> i = 0;</div>
+<div class="line"><a id="l01151" name="l01151"></a><span class="lineno"> 1151</span>            <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
+<div class="line"><a id="l01152" name="l01152"></a><span class="lineno"> 1152</span>                e.getAVX (i).storeAligned (d);</div>
+<div class="line"><a id="l01153" name="l01153"></a><span class="lineno"> 1153</span> </div>
+<div class="line"><a id="l01154" name="l01154"></a><span class="lineno"> 1154</span>            <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
+<div class="line"><a id="l01155" name="l01155"></a><span class="lineno"> 1155</span>                storage[i] = e[i];</div>
+<div class="line"><a id="l01156" name="l01156"></a><span class="lineno"> 1156</span>        }</div>
+<div class="line"><a id="l01157" name="l01157"></a><span class="lineno"> 1157</span>        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l01158" name="l01158"></a><span class="lineno"> 1158</span>        {</div>
+<div class="line"><a id="l01159" name="l01159"></a><span class="lineno"> 1159</span>            <span class="keywordtype">size_t</span> i = 0;</div>
+<div class="line"><a id="l01160" name="l01160"></a><span class="lineno"> 1160</span>            <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
+<div class="line"><a id="l01161" name="l01161"></a><span class="lineno"> 1161</span>                e.getAVX (i).storeUnaligned (d);</div>
+<div class="line"><a id="l01162" name="l01162"></a><span class="lineno"> 1162</span> </div>
+<div class="line"><a id="l01163" name="l01163"></a><span class="lineno"> 1163</span>            <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
+<div class="line"><a id="l01164" name="l01164"></a><span class="lineno"> 1164</span>                storage[i] = e[i];</div>
+<div class="line"><a id="l01165" name="l01165"></a><span class="lineno"> 1165</span>        }</div>
+<div class="line"><a id="l01166" name="l01166"></a><span class="lineno"> 1166</span>    }</div>
+<div class="line"><a id="l01167" name="l01167"></a><span class="lineno"> 1167</span> </div>
+<div class="line"><a id="l01168" name="l01168"></a><span class="lineno"> 1168</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> Expression&gt;</div>
+<div class="line"><a id="l01169" name="l01169"></a><span class="lineno"> 1169</span>    VCTR_TARGET (<span class="stringliteral">&quot;sse4.1&quot;</span>)</div>
+<div class="line"><a id="l01170" name="l01170"></a><span class="lineno"> 1170</span>    void assignExpressionTemplateSSE4_1 (const Expression&amp; e)</div>
+<div class="line"><a id="l01171" name="l01171"></a><span class="lineno"> 1171</span>    requires archX64</div>
+<div class="line"><a id="l01172" name="l01172"></a><span class="lineno"> 1172</span>    {</div>
+<div class="line"><a id="l01173" name="l01173"></a><span class="lineno"> 1173</span>        <span class="keyword">constexpr</span> <span class="keyword">auto</span> inc = SSERegister&lt;ElementType&gt;::numElements;</div>
+<div class="line"><a id="l01174" name="l01174"></a><span class="lineno"> 1174</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> hasExtendedSIMDStorage = e.getStorageInfo().hasSIMDExtendedStorage &amp;&amp; StorageInfoType::hasSIMDExtendedStorage;</div>
+<div class="line"><a id="l01175" name="l01175"></a><span class="lineno"> 1175</span>        <span class="keyword">const</span> <span class="keyword">auto</span> n = storage.size();</div>
+<div class="line"><a id="l01176" name="l01176"></a><span class="lineno"> 1176</span>        <span class="keyword">const</span> <span class="keyword">auto</span> nSIMD = hasExtendedSIMDStorage ? detail::nextMultipleOf&lt;inc&gt; (n) : detail::previousMultipleOf&lt;inc&gt; (n);</div>
+<div class="line"><a id="l01177" name="l01177"></a><span class="lineno"> 1177</span> </div>
+<div class="line"><a id="l01178" name="l01178"></a><span class="lineno"> 1178</span>        e.prepareSSEEvaluation();</div>
+<div class="line"><a id="l01179" name="l01179"></a><span class="lineno"> 1179</span>        <span class="keyword">auto</span>* d = <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>();</div>
+<div class="line"><a id="l01180" name="l01180"></a><span class="lineno"> 1180</span> </div>
+<div class="line"><a id="l01181" name="l01181"></a><span class="lineno"> 1181</span>        <span class="keywordflow">if</span> (StorageInfoType::dataIsSIMDAligned)</div>
+<div class="line"><a id="l01182" name="l01182"></a><span class="lineno"> 1182</span>        {</div>
+<div class="line"><a id="l01183" name="l01183"></a><span class="lineno"> 1183</span>            <span class="keywordtype">size_t</span> i = 0;</div>
+<div class="line"><a id="l01184" name="l01184"></a><span class="lineno"> 1184</span>            <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
+<div class="line"><a id="l01185" name="l01185"></a><span class="lineno"> 1185</span>                e.getSSE (i).storeAligned (d);</div>
+<div class="line"><a id="l01186" name="l01186"></a><span class="lineno"> 1186</span> </div>
+<div class="line"><a id="l01187" name="l01187"></a><span class="lineno"> 1187</span>            <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
+<div class="line"><a id="l01188" name="l01188"></a><span class="lineno"> 1188</span>                storage[i] = e[i];</div>
+<div class="line"><a id="l01189" name="l01189"></a><span class="lineno"> 1189</span>        }</div>
+<div class="line"><a id="l01190" name="l01190"></a><span class="lineno"> 1190</span>        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l01191" name="l01191"></a><span class="lineno"> 1191</span>        {</div>
+<div class="line"><a id="l01192" name="l01192"></a><span class="lineno"> 1192</span>            <span class="keywordtype">size_t</span> i = 0;</div>
+<div class="line"><a id="l01193" name="l01193"></a><span class="lineno"> 1193</span>            <span class="keywordflow">for</span> (; i &lt; nSIMD; i += inc, d += inc)</div>
+<div class="line"><a id="l01194" name="l01194"></a><span class="lineno"> 1194</span>                e.getSSE (i).storeUnaligned (d);</div>
 <div class="line"><a id="l01195" name="l01195"></a><span class="lineno"> 1195</span> </div>
-<div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span>    <span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l01198" name="l01198"></a><span class="lineno"> 1198</span><span class="comment"></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> clear (ElementType* ptr, <span class="keywordtype">size_t</span> numElements)</div>
-<div class="line"><a id="l01199" name="l01199"></a><span class="lineno"> 1199</span>    {</div>
-<div class="line"><a id="l01200" name="l01200"></a><span class="lineno"> 1200</span>        std::memset (ptr, 0, numElements * <span class="keyword">sizeof</span> (ElementType));</div>
-<div class="line"><a id="l01201" name="l01201"></a><span class="lineno"> 1201</span>    }</div>
-<div class="line"><a id="l01202" name="l01202"></a><span class="lineno"> 1202</span> </div>
-<div class="line"><a id="l01204" name="l01204"></a><span class="lineno"> 1204</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> memMove (<span class="keyword">const</span> ElementType* src, ElementType* dst, <span class="keywordtype">size_t</span> numElements)</div>
-<div class="line"><a id="l01205" name="l01205"></a><span class="lineno"> 1205</span>    <span class="keyword">requires</span> std::is_trivially_copyable_v&lt;ElementType&gt;</div>
-<div class="line"><a id="l01206" name="l01206"></a><span class="lineno"> 1206</span>    {</div>
-<div class="line"><a id="l01207" name="l01207"></a><span class="lineno"> 1207</span>        std::memmove (dst, src, numElements * <span class="keyword">sizeof</span> (ElementType));</div>
-<div class="line"><a id="l01208" name="l01208"></a><span class="lineno"> 1208</span>    }</div>
-<div class="line"><a id="l01209" name="l01209"></a><span class="lineno"> 1209</span> </div>
-<div class="line"><a id="l01211" name="l01211"></a><span class="lineno"> 1211</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
-<div class="line"><a id="l01212" name="l01212"></a><span class="lineno"> 1212</span>    VCTR_FORCEDINLINE <span class="keyword">constexpr</span> <span class="keyword">static</span> T* assumeAlignedToMaxSIMDRegisterSize (T* ptr)</div>
-<div class="line"><a id="l01213" name="l01213"></a><span class="lineno"> 1213</span>    {</div>
-<div class="line"><a id="l01214" name="l01214"></a><span class="lineno"> 1214</span>        <span class="keywordflow">if</span> (std::is_constant_evaluated())</div>
-<div class="line"><a id="l01215" name="l01215"></a><span class="lineno"> 1215</span>            <span class="keywordflow">return</span> ptr;</div>
-<div class="line"><a id="l01216" name="l01216"></a><span class="lineno"> 1216</span> </div>
-<div class="line"><a id="l01217" name="l01217"></a><span class="lineno"> 1217</span><span class="preprocessor">    #if __cpp_lib_assume_aligned</span></div>
-<div class="line"><a id="l01218" name="l01218"></a><span class="lineno"> 1218</span>        <span class="keywordflow">return</span> std::assume_aligned&lt;maxSIMDRegisterSize&gt; (ptr);</div>
-<div class="line"><a id="l01219" name="l01219"></a><span class="lineno"> 1219</span><span class="preprocessor">    #elif VCTR_CLANG</span></div>
-<div class="line"><a id="l01220" name="l01220"></a><span class="lineno"> 1220</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>T*<span class="keyword">&gt;</span> (__builtin_assume_aligned (ptr, maxSIMDRegisterSize));</div>
-<div class="line"><a id="l01221" name="l01221"></a><span class="lineno"> 1221</span><span class="preprocessor">    #else</span></div>
-<div class="line"><a id="l01222" name="l01222"></a><span class="lineno"> 1222</span>        <span class="keywordflow">return</span> ptr;</div>
-<div class="line"><a id="l01223" name="l01223"></a><span class="lineno"> 1223</span><span class="preprocessor">    #endif</span></div>
-<div class="line"><a id="l01224" name="l01224"></a><span class="lineno"> 1224</span>    }</div>
-<div class="line"><a id="l01225" name="l01225"></a><span class="lineno"> 1225</span>};</div>
+<div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span>            <span class="keywordflow">for</span> (; i &lt; n; ++i, ++d)</div>
+<div class="line"><a id="l01197" name="l01197"></a><span class="lineno"> 1197</span>                storage[i] = e[i];</div>
+<div class="line"><a id="l01198" name="l01198"></a><span class="lineno"> 1198</span>        }</div>
+<div class="line"><a id="l01199" name="l01199"></a><span class="lineno"> 1199</span>    }</div>
+<div class="line"><a id="l01200" name="l01200"></a><span class="lineno"> 1200</span> </div>
+<div class="line"><a id="l01201" name="l01201"></a><span class="lineno"> 1201</span>    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l01202" name="l01202"></a><span class="lineno"> 1202</span>    <span class="keyword">template</span> &lt;<span class="keywordtype">size_t</span> spanExtent&gt;</div>
+<div class="line"><a id="l01203" name="l01203"></a><span class="lineno"> 1203</span>    <span class="keyword">constexpr</span> <span class="keyword">auto</span> constCorrectSpan (ElementType* <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>, <span class="keywordtype">size_t</span> spanSize);</div>
+<div class="line"><a id="l01204" name="l01204"></a><span class="lineno"> 1204</span> </div>
+<div class="line"><a id="l01205" name="l01205"></a><span class="lineno"> 1205</span>    <span class="keyword">template</span> &lt;<span class="keywordtype">size_t</span> spanExtent&gt;</div>
+<div class="line"><a id="l01206" name="l01206"></a><span class="lineno"> 1206</span>    <span class="keyword">constexpr</span> <span class="keyword">auto</span> constCorrectSpan (<span class="keyword">const</span> ElementType* <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>, <span class="keywordtype">size_t</span> spanSize) <span class="keyword">const</span></div>
+<div class="line"><a id="l01207" name="l01207"></a><span class="lineno"> 1207</span>    <span class="keyword">requires</span> (! is::stdSpan&lt;StorageType&gt;);</div>
+<div class="line"><a id="l01208" name="l01208"></a><span class="lineno"> 1208</span> </div>
+<div class="line"><a id="l01209" name="l01209"></a><span class="lineno"> 1209</span>    <span class="keyword">template</span> &lt;<span class="keywordtype">size_t</span> spanExtent&gt;</div>
+<div class="line"><a id="l01210" name="l01210"></a><span class="lineno"> 1210</span>    <span class="keyword">constexpr</span> <span class="keyword">auto</span> constCorrectSpan (ElementType* <a class="code hl_function" href="classvctr_1_1VctrBase.html#a776a0a4f16ecc3c25f5a1e2eac1d094b">data</a>, <span class="keywordtype">size_t</span> spanSize) <span class="keyword">const</span></div>
+<div class="line"><a id="l01211" name="l01211"></a><span class="lineno"> 1211</span>    <span class="keyword">requires</span> is::stdSpan&lt;StorageType&gt;;</div>
+<div class="line"><a id="l01212" name="l01212"></a><span class="lineno"> 1212</span> </div>
+<div class="line"><a id="l01213" name="l01213"></a><span class="lineno"> 1213</span>    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l01215" name="l01215"></a><span class="lineno"> 1215</span><span class="comment"></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> clear (ElementType* ptr, <span class="keywordtype">size_t</span> numElements)</div>
+<div class="line"><a id="l01216" name="l01216"></a><span class="lineno"> 1216</span>    {</div>
+<div class="line"><a id="l01217" name="l01217"></a><span class="lineno"> 1217</span>        std::memset (ptr, 0, numElements * <span class="keyword">sizeof</span> (ElementType));</div>
+<div class="line"><a id="l01218" name="l01218"></a><span class="lineno"> 1218</span>    }</div>
+<div class="line"><a id="l01219" name="l01219"></a><span class="lineno"> 1219</span> </div>
+<div class="line"><a id="l01221" name="l01221"></a><span class="lineno"> 1221</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> memMove (<span class="keyword">const</span> ElementType* src, ElementType* dst, <span class="keywordtype">size_t</span> numElements)</div>
+<div class="line"><a id="l01222" name="l01222"></a><span class="lineno"> 1222</span>    <span class="keyword">requires</span> std::is_trivially_copyable_v&lt;ElementType&gt;</div>
+<div class="line"><a id="l01223" name="l01223"></a><span class="lineno"> 1223</span>    {</div>
+<div class="line"><a id="l01224" name="l01224"></a><span class="lineno"> 1224</span>        std::memmove (dst, src, numElements * <span class="keyword">sizeof</span> (ElementType));</div>
+<div class="line"><a id="l01225" name="l01225"></a><span class="lineno"> 1225</span>    }</div>
 <div class="line"><a id="l01226" name="l01226"></a><span class="lineno"> 1226</span> </div>
-<div class="line"><a id="l01232" name="l01232"></a><span class="lineno"> 1232</span><span class="keyword">template</span> &lt;is::anyVctr Lhs, is::anyVctr Rhs&gt;</div>
-<div class="line"><a id="l01233" name="l01233"></a><span class="lineno"> 1233</span><span class="keyword">requires</span> std::same_as&lt;ValueType&lt;Lhs&gt;, ValueType&lt;Rhs&gt;&gt;</div>
-<div class="line"><a id="l01234" name="l01234"></a><span class="lineno"><a class="line" href="namespacevctr.html#af90149542071c83fddeb04c75e9cfd3a"> 1234</a></span><span class="keyword">constexpr</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespacevctr.html#af90149542071c83fddeb04c75e9cfd3a">operator== </a>(<span class="keyword">const</span> Lhs&amp; lhs, <span class="keyword">const</span> Rhs&amp; rhs)</div>
-<div class="line"><a id="l01235" name="l01235"></a><span class="lineno"> 1235</span>{</div>
-<div class="line"><a id="l01236" name="l01236"></a><span class="lineno"> 1236</span>    <span class="keywordflow">return</span> std::equal (lhs.begin(), lhs.end(), rhs.begin(), rhs.end());</div>
-<div class="line"><a id="l01237" name="l01237"></a><span class="lineno"> 1237</span>}</div>
-<div class="line"><a id="l01238" name="l01238"></a><span class="lineno"> 1238</span> </div>
-<div class="line"><a id="l01239" name="l01239"></a><span class="lineno"> 1239</span>} <span class="comment">// namespace vctr</span></div>
-<div class="line"><a id="l01240" name="l01240"></a><span class="lineno"> 1240</span> </div>
-<div class="line"><a id="l01241" name="l01241"></a><span class="lineno"> 1241</span><span class="preprocessor">#if VCTR_MSVC</span></div>
-<div class="line"><a id="l01242" name="l01242"></a><span class="lineno"> 1242</span>__pragma (warning (pop))</div>
-<div class="line"><a id="l01243" name="l01243"></a><span class="lineno"> 1243</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l01228" name="l01228"></a><span class="lineno"> 1228</span>    <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
+<div class="line"><a id="l01229" name="l01229"></a><span class="lineno"> 1229</span>    VCTR_FORCEDINLINE <span class="keyword">constexpr</span> <span class="keyword">static</span> T* assumeAlignedToMaxSIMDRegisterSize (T* ptr)</div>
+<div class="line"><a id="l01230" name="l01230"></a><span class="lineno"> 1230</span>    {</div>
+<div class="line"><a id="l01231" name="l01231"></a><span class="lineno"> 1231</span>        <span class="keywordflow">if</span> (std::is_constant_evaluated())</div>
+<div class="line"><a id="l01232" name="l01232"></a><span class="lineno"> 1232</span>            <span class="keywordflow">return</span> ptr;</div>
+<div class="line"><a id="l01233" name="l01233"></a><span class="lineno"> 1233</span> </div>
+<div class="line"><a id="l01234" name="l01234"></a><span class="lineno"> 1234</span><span class="preprocessor">    #if __cpp_lib_assume_aligned</span></div>
+<div class="line"><a id="l01235" name="l01235"></a><span class="lineno"> 1235</span>        <span class="keywordflow">return</span> std::assume_aligned&lt;maxSIMDRegisterSize&gt; (ptr);</div>
+<div class="line"><a id="l01236" name="l01236"></a><span class="lineno"> 1236</span><span class="preprocessor">    #elif VCTR_CLANG</span></div>
+<div class="line"><a id="l01237" name="l01237"></a><span class="lineno"> 1237</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>T*<span class="keyword">&gt;</span> (__builtin_assume_aligned (ptr, maxSIMDRegisterSize));</div>
+<div class="line"><a id="l01238" name="l01238"></a><span class="lineno"> 1238</span><span class="preprocessor">    #else</span></div>
+<div class="line"><a id="l01239" name="l01239"></a><span class="lineno"> 1239</span>        <span class="keywordflow">return</span> ptr;</div>
+<div class="line"><a id="l01240" name="l01240"></a><span class="lineno"> 1240</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><a id="l01241" name="l01241"></a><span class="lineno"> 1241</span>    }</div>
+<div class="line"><a id="l01242" name="l01242"></a><span class="lineno"> 1242</span>};</div>
+<div class="line"><a id="l01243" name="l01243"></a><span class="lineno"> 1243</span> </div>
+<div class="line"><a id="l01249" name="l01249"></a><span class="lineno"> 1249</span><span class="keyword">template</span> &lt;is::anyVctr Lhs, is::anyVctr Rhs&gt;</div>
+<div class="line"><a id="l01250" name="l01250"></a><span class="lineno"> 1250</span><span class="keyword">requires</span> std::same_as&lt;ValueType&lt;Lhs&gt;, ValueType&lt;Rhs&gt;&gt;</div>
+<div class="line"><a id="l01251" name="l01251"></a><span class="lineno"><a class="line" href="namespacevctr.html#af90149542071c83fddeb04c75e9cfd3a"> 1251</a></span><span class="keyword">constexpr</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespacevctr.html#af90149542071c83fddeb04c75e9cfd3a">operator== </a>(<span class="keyword">const</span> Lhs&amp; lhs, <span class="keyword">const</span> Rhs&amp; rhs)</div>
+<div class="line"><a id="l01252" name="l01252"></a><span class="lineno"> 1252</span>{</div>
+<div class="line"><a id="l01253" name="l01253"></a><span class="lineno"> 1253</span>    <span class="keywordflow">return</span> std::equal (lhs.begin(), lhs.end(), rhs.begin(), rhs.end());</div>
+<div class="line"><a id="l01254" name="l01254"></a><span class="lineno"> 1254</span>}</div>
+<div class="line"><a id="l01255" name="l01255"></a><span class="lineno"> 1255</span> </div>
+<div class="line"><a id="l01256" name="l01256"></a><span class="lineno"> 1256</span>} <span class="comment">// namespace vctr</span></div>
+<div class="line"><a id="l01257" name="l01257"></a><span class="lineno"> 1257</span> </div>
+<div class="line"><a id="l01258" name="l01258"></a><span class="lineno"> 1258</span><span class="preprocessor">#if VCTR_MSVC</span></div>
+<div class="line"><a id="l01259" name="l01259"></a><span class="lineno"> 1259</span>__pragma (warning (pop))</div>
+<div class="line"><a id="l01260" name="l01260"></a><span class="lineno"> 1260</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclassvctr_1_1VctrBase_html"><div class="ttname"><a href="classvctr_1_1VctrBase.html">vctr::VctrBase</a></div><div class="ttdoc">The base class to all one dimensional containers and views in the VCTR project.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:38</div></div>
 <div class="ttc" id="aclassvctr_1_1VctrBase_html_a00b7cafbc190e73f31fbb191de2354e0"><div class="ttname"><a href="classvctr_1_1VctrBase.html#a00b7cafbc190e73f31fbb191de2354e0">vctr::VctrBase::shiftRight</a></div><div class="ttdeci">void shiftRight(size_t n, bool clearFreeSpaceBeforeShiftedRegion)</div><div class="ttdoc">Shifts all elements to the right by n.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:743</div></div>
 <div class="ttc" id="aclassvctr_1_1VctrBase_html_a029ddc0c88fbc4aac667bca7f6125348"><div class="ttname"><a href="classvctr_1_1VctrBase.html#a029ddc0c88fbc4aac667bca7f6125348">vctr::VctrBase::findMaxElement</a></div><div class="ttdeci">auto findMaxElement() const</div><div class="ttdoc">Returns an iterator to the first greatest element.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:623</div></div>
@@ -1092,6 +1107,7 @@ $(document).ready(function(){initNavTree('VctrBase_8h_source.html',''); initResi
 <div class="ttc" id="aclassvctr_1_1VctrBase_html_a441226b45536b133601da22b47a9ccad"><div class="ttname"><a href="classvctr_1_1VctrBase.html#a441226b45536b133601da22b47a9ccad">vctr::VctrBase::operator/=</a></div><div class="ttdeci">constexpr void operator/=(const V &amp;v)</div><div class="ttdoc">Divides this by a vector or expression in place.</div></div>
 <div class="ttc" id="aclassvctr_1_1VctrBase_html_a457b883bdf44506a49faa497659aa0b4"><div class="ttname"><a href="classvctr_1_1VctrBase.html#a457b883bdf44506a49faa497659aa0b4">vctr::VctrBase::find</a></div><div class="ttdeci">constexpr auto find(const T &amp;valueToLookFor) const</div><div class="ttdoc">Returns a const iterator to the first element that equals valueToLookFor or end() if none was found.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:463</div></div>
 <div class="ttc" id="aclassvctr_1_1VctrBase_html_a4612236989c7950e0d69917a007f6b79"><div class="ttname"><a href="classvctr_1_1VctrBase.html#a4612236989c7950e0d69917a007f6b79">vctr::VctrBase::sizeInBytes</a></div><div class="ttdeci">static constexpr size_t sizeInBytes() noexcept</div><div class="ttdoc">Returns the container size in bytes.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:79</div></div>
+<div class="ttc" id="aclassvctr_1_1VctrBase_html_a4a9244333c72f51027cdd5ac5b4beb1a"><div class="ttname"><a href="classvctr_1_1VctrBase.html#a4a9244333c72f51027cdd5ac5b4beb1a">vctr::VctrBase::toStdMap</a></div><div class="ttdeci">constexpr auto toStdMap() const &amp;</div><div class="ttdoc">If value_type is std::pair, this converts the content into a std::map with pair::first_type being the...</div><div class="ttdef"><b>Definition:</b> VctrBase.h:945</div></div>
 <div class="ttc" id="aclassvctr_1_1VctrBase_html_a4c0aa01c4581292b0c61510403841e83"><div class="ttname"><a href="classvctr_1_1VctrBase.html#a4c0aa01c4581292b0c61510403841e83">vctr::VctrBase::all</a></div><div class="ttdeci">constexpr bool all(Fn &amp;&amp;predicate) const</div><div class="ttdoc">Returns true if all elements satisfy the predicate or if the container is empty.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:525</div></div>
 <div class="ttc" id="aclassvctr_1_1VctrBase_html_a4d62467d4d84cd6e7fd185f73cf24033"><div class="ttname"><a href="classvctr_1_1VctrBase.html#a4d62467d4d84cd6e7fd185f73cf24033">vctr::VctrBase::begin</a></div><div class="ttdeci">constexpr auto begin()</div><div class="ttdoc">Returns an iterator to the begin of the storage.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:141</div></div>
 <div class="ttc" id="aclassvctr_1_1VctrBase_html_a4d7733e55415e624cf6a97fab0cef693"><div class="ttname"><a href="classvctr_1_1VctrBase.html#a4d7733e55415e624cf6a97fab0cef693">vctr::VctrBase::indexOfReverse</a></div><div class="ttdeci">constexpr std::optional&lt; size_t &gt; indexOfReverse(const T &amp;value) const</div><div class="ttdoc">Returns the index of the last element that compares true to value or std::nullopt if none is found.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:585</div></div>
@@ -1156,18 +1172,19 @@ $(document).ready(function(){initNavTree('VctrBase_8h_source.html',''); initResi
 <div class="ttc" id="aclassvctr_1_1VctrBase_html_aefc631d848a921dbc4222a5890751067"><div class="ttname"><a href="classvctr_1_1VctrBase.html#aefc631d848a921dbc4222a5890751067">vctr::VctrBase::indexIf</a></div><div class="ttdeci">constexpr std::optional&lt; size_t &gt; indexIf(Fn &amp;&amp;predicate) const</div><div class="ttdoc">Returns the index of the first element that satisfies the predicate or std::nullopt if none is found.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:593</div></div>
 <div class="ttc" id="aclassvctr_1_1VctrBase_html_af4204c2b21ab30ea9a78e1c30f76111b"><div class="ttname"><a href="classvctr_1_1VctrBase.html#af4204c2b21ab30ea9a78e1c30f76111b">vctr::VctrBase::shiftLeft</a></div><div class="ttdeci">void shiftLeft(size_t n, bool clearFreeSpaceAfterShiftedRegion)</div><div class="ttdoc">Shifts all elements to the left by n.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:716</div></div>
 <div class="ttc" id="aclassvctr_1_1VctrBase_html_af5dad4052f5d8720bdfb2414ac9b6b75"><div class="ttname"><a href="classvctr_1_1VctrBase.html#af5dad4052f5d8720bdfb2414ac9b6b75">vctr::VctrBase::rbegin</a></div><div class="ttdeci">constexpr auto rbegin() const</div><div class="ttdoc">Returns a const reverse iterator to the last element in the storage.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:156</div></div>
+<div class="ttc" id="aclassvctr_1_1VctrBase_html_af6f45a27b4a384354520bb8ece579015"><div class="ttname"><a href="classvctr_1_1VctrBase.html#af6f45a27b4a384354520bb8ece579015">vctr::VctrBase::toStdMap</a></div><div class="ttdeci">constexpr auto toStdMap() &amp;&amp;</div><div class="ttdoc">If value_type is std::pair, this converts the content into a std::map with pair::first_type being the...</div><div class="ttdef"><b>Definition:</b> VctrBase.h:938</div></div>
 <div class="ttc" id="aclassvctr_1_1VctrBase_html_af9420adec66c33c58a40ecad62c94fdf"><div class="ttname"><a href="classvctr_1_1VctrBase.html#af9420adec66c33c58a40ecad62c94fdf">vctr::VctrBase::operator*=</a></div><div class="ttdeci">constexpr void operator*=(const V &amp;v)</div><div class="ttdoc">Multiplies this by a vector or expression in place.</div></div>
 <div class="ttc" id="aclassvctr_1_1VctrBase_html_af982e33f6fa36af4add9f0373bde98a8"><div class="ttname"><a href="classvctr_1_1VctrBase.html#af982e33f6fa36af4add9f0373bde98a8">vctr::VctrBase::rbegin</a></div><div class="ttdeci">constexpr auto rbegin()</div><div class="ttdoc">Returns a reverse iterator to the last element in the storage.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:153</div></div>
 <div class="ttc" id="aconceptvctr_1_1has_1_1init_html"><div class="ttname"><a href="conceptvctr_1_1has_1_1init.html">vctr::has::init</a></div><div class="ttdoc">Constrains the type to have a member function init that takes a void pointer and a size_t.</div><div class="ttdef"><b>Definition:</b> GenericConcepts.h:32</div></div>
 <div class="ttc" id="aconceptvctr_1_1has_1_1resize_html"><div class="ttname"><a href="conceptvctr_1_1has_1_1resize.html">vctr::has::resize</a></div><div class="ttdoc">Constrains a type to have a function resize (size_t).</div><div class="ttdef"><b>Definition:</b> ContainerAndExpressionConcepts.h:164</div></div>
 <div class="ttc" id="aconceptvctr_1_1is_1_1functionWithSignatureOrImplicitlyConvertible_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1functionWithSignatureOrImplicitlyConvertible.html">vctr::is::functionWithSignatureOrImplicitlyConvertible</a></div><div class="ttdoc">Constrains Fn to be a function with the specified function signature or some signature with implicitl...</div><div class="ttdef"><b>Definition:</b> FunctionConcepts.h:89</div></div>
-<div class="ttc" id="aconceptvctr_1_1is_1_1nonConst_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1nonConst.html">vctr::is::nonConst</a></div><div class="ttdoc">Constrains a type to be non const.</div><div class="ttdef"><b>Definition:</b> GenericConcepts.h:88</div></div>
+<div class="ttc" id="aconceptvctr_1_1is_1_1nonConst_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1nonConst.html">vctr::is::nonConst</a></div><div class="ttdoc">Constrains a type to be non const.</div><div class="ttdef"><b>Definition:</b> GenericConcepts.h:82</div></div>
 <div class="ttc" id="aconceptvctr_1_1is_1_1realNumber_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1realNumber.html">vctr::is::realNumber</a></div><div class="ttdoc">Constrains a type to represent a real valued number.</div><div class="ttdef"><b>Definition:</b> NumericTypeConcepts.h:79</div></div>
 <div class="ttc" id="aconceptvctr_1_1is_1_1stdArray_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1stdArray.html">vctr::is::stdArray</a></div><div class="ttdoc">Constrains a type to be any instance of std::array.</div><div class="ttdef"><b>Definition:</b> ContainerAndExpressionConcepts.h:234</div></div>
-<div class="ttc" id="aconceptvctr_1_1is_1_1triviallyCopyable_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1triviallyCopyable.html">vctr::is::triviallyCopyable</a></div><div class="ttdoc">Constrains a type to be trivially copyable.</div><div class="ttdef"><b>Definition:</b> GenericConcepts.h:84</div></div>
+<div class="ttc" id="aconceptvctr_1_1is_1_1triviallyCopyable_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1triviallyCopyable.html">vctr::is::triviallyCopyable</a></div><div class="ttdoc">Constrains a type to be trivially copyable.</div><div class="ttdef"><b>Definition:</b> GenericConcepts.h:78</div></div>
 <div class="ttc" id="anamespacevctr_html"><div class="ttname"><a href="namespacevctr.html">vctr</a></div><div class="ttdoc">The main namespace of the VCTR project.</div><div class="ttdef"><b>Definition:</b> Array.h:24</div></div>
 <div class="ttc" id="anamespacevctr_html_a222cc9e4338c24b2f0751c132503ce3a"><div class="ttname"><a href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">vctr::StorageInfoType</a></div><div class="ttdeci">typename detail::StorageInfoType&lt; std::remove_cvref_t&lt; T &gt; &gt;::Type StorageInfoType</div><div class="ttdoc">If t is a type derived from VctrBase, this will equal the return value of T::getStorageInfo,...</div><div class="ttdef"><b>Definition:</b> Traits.h:227</div></div>
-<div class="ttc" id="anamespacevctr_html_af90149542071c83fddeb04c75e9cfd3a"><div class="ttname"><a href="namespacevctr.html#af90149542071c83fddeb04c75e9cfd3a">vctr::operator==</a></div><div class="ttdeci">constexpr bool operator==(const Lhs &amp;lhs, const Rhs &amp;rhs)</div><div class="ttdoc">Compares lhs and rhs for equality.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:1234</div></div>
+<div class="ttc" id="anamespacevctr_html_af90149542071c83fddeb04c75e9cfd3a"><div class="ttname"><a href="namespacevctr.html#af90149542071c83fddeb04c75e9cfd3a">vctr::operator==</a></div><div class="ttdeci">constexpr bool operator==(const Lhs &amp;lhs, const Rhs &amp;rhs)</div><div class="ttdoc">Compares lhs and rhs for equality.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:1251</div></div>
 <div class="ttc" id="astructvctr_1_1Config_html"><div class="ttname"><a href="structvctr_1_1Config.html">vctr::Config</a></div><div class="ttdef"><b>Definition:</b> Config.h:298</div></div>
 <div class="ttc" id="astructvctr_1_1NeonRegister_html"><div class="ttname"><a href="structvctr_1_1NeonRegister.html">vctr::NeonRegister</a></div><div class="ttdef"><b>Definition:</b> NeonRegister.h:28</div></div>
 <div class="ttc" id="astructvctr_1_1RequireConstexpr_html"><div class="ttname"><a href="structvctr_1_1RequireConstexpr.html">vctr::RequireConstexpr</a></div><div class="ttdoc">A helper struct intended to check if a value is a constexpr.</div><div class="ttdef"><b>Definition:</b> Traits.h:300</div></div>

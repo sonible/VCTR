@@ -73,6 +73,7 @@ var annotated_dup =
         [ "Tan", "classvctr_1_1expressions_1_1Tan.html", null ],
         [ "Tanh", "classvctr_1_1expressions_1_1Tanh.html", null ],
         [ "TransformedBy", "classvctr_1_1expressions_1_1TransformedBy.html", null ],
+        [ "TransformedByDynamicCast", "classvctr_1_1expressions_1_1TransformedByDynamicCast.html", null ],
         [ "TransformedByStaticCast", "classvctr_1_1expressions_1_1TransformedByStaticCast.html", null ]
       ] ],
       [ "generators", null, [

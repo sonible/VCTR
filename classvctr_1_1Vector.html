@@ -671,6 +671,12 @@ constexpr const <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c13
 <tr class="memitem:a25b77066a3a1e469d00c316af2d94322"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#a25b77066a3a1e469d00c316af2d94322">anyElementIsNaN</a> ()</td></tr>
 <tr class="memdesc:a25b77066a3a1e469d00c316af2d94322"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if any real or imaginary part of an element is NaN.  <br /></td></tr>
 <tr class="separator:a25b77066a3a1e469d00c316af2d94322"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6f45a27b4a384354520bb8ece579015"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#af6f45a27b4a384354520bb8ece579015">toStdMap</a> () &amp;&amp;</td></tr>
+<tr class="memdesc:af6f45a27b4a384354520bb8ece579015"><td class="mdescLeft">&#160;</td><td class="mdescRight">If value_type is std::pair, this converts the content into a std::map with pair::first_type being the key and pair::second_type the value.  <br /></td></tr>
+<tr class="separator:af6f45a27b4a384354520bb8ece579015"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a9244333c72f51027cdd5ac5b4beb1a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#a4a9244333c72f51027cdd5ac5b4beb1a">toStdMap</a> () const &amp;</td></tr>
+<tr class="memdesc:a4a9244333c72f51027cdd5ac5b4beb1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">If value_type is std::pair, this converts the content into a std::map with pair::first_type being the key and pair::second_type the value.  <br /></td></tr>
+<tr class="separator:a4a9244333c72f51027cdd5ac5b4beb1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -6117,6 +6123,64 @@ template&lt;is::nonConst ElementType, template&lt; class &gt; class Allocator = 
 
 <p>Swaps the underlying memory with the other <a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">Vector</a>. </p>
 <p>This is a standard interface function forwarded to std::vector::swap(). </p>
+
+</div>
+</div>
+<a id="af6f45a27b4a384354520bb8ece579015" name="af6f45a27b4a384354520bb8ece579015"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6f45a27b4a384354520bb8ece579015">&#9670;&#160;</a></span>toStdMap() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ElementType , class StorageType , size_t extent, class <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a>  = StorageInfo&lt;StorageType&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto <a class="el" href="classvctr_1_1VctrBase.html">vctr::VctrBase</a>&lt; ElementType, StorageType, extent, <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a> &gt;::toStdMap </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> &amp;&amp;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If value_type is std::pair, this converts the content into a std::map with pair::first_type being the key and pair::second_type the value. </p>
+
+</div>
+</div>
+<a id="a4a9244333c72f51027cdd5ac5b4beb1a" name="a4a9244333c72f51027cdd5ac5b4beb1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a9244333c72f51027cdd5ac5b4beb1a">&#9670;&#160;</a></span>toStdMap() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ElementType , class StorageType , size_t extent, class <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a>  = StorageInfo&lt;StorageType&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto <a class="el" href="classvctr_1_1VctrBase.html">vctr::VctrBase</a>&lt; ElementType, StorageType, extent, <a class="el" href="namespacevctr.html#a222cc9e4338c24b2f0751c132503ce3a">StorageInfoType</a> &gt;::toStdMap </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const &amp;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If value_type is std::pair, this converts the content into a std::map with pair::first_type being the key and pair::second_type the value. </p>
 
 </div>
 </div>

@@ -162,5 +162,7 @@ var classvctr_1_1Vector =
     [ "subSpan", "classvctr_1_1Vector.html#a5ccea594565f121e340eb85db5ff972f", null ],
     [ "subSpan", "classvctr_1_1Vector.html#a4ebddf025d6d6fb9bc5deb44b4c9ca3c", null ],
     [ "sum", "classvctr_1_1Vector.html#add5f3def86f5ab26a70456c779a91d9d", null ],
-    [ "swap", "classvctr_1_1Vector.html#a9efdb84965206c223c69acb183ce74bd", null ]
+    [ "swap", "classvctr_1_1Vector.html#a9efdb84965206c223c69acb183ce74bd", null ],
+    [ "toStdMap", "classvctr_1_1Vector.html#af6f45a27b4a384354520bb8ece579015", null ],
+    [ "toStdMap", "classvctr_1_1Vector.html#a4a9244333c72f51027cdd5ac5b4beb1a", null ]
 ];

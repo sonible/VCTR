@@ -5,6 +5,9 @@ var concepts =
         [ "noExpressionTemplates", "conceptvctr_1_1are_1_1noExpressionTemplates.html", null ],
         [ "same", "conceptvctr_1_1are_1_1same.html", null ]
       ] ],
+      [ "expressions", null, [
+        [ "isRefOrPtr", "conceptvctr_1_1expressions_1_1isRefOrPtr.html", null ]
+      ] ],
       [ "has", null, [
         [ "prepareNeonEvaluation", "conceptvctr_1_1has_1_1prepareNeonEvaluation.html", null ],
         [ "getNeon", "conceptvctr_1_1has_1_1getNeon.html", null ],
@@ -92,6 +95,8 @@ var concepts =
         [ "pointer", "conceptvctr_1_1is_1_1pointer.html", null ],
         [ "noPointer", "conceptvctr_1_1is_1_1noPointer.html", null ],
         [ "uniquePtr", "conceptvctr_1_1is_1_1uniquePtr.html", null ],
+        [ "lvalueReference", "conceptvctr_1_1is_1_1lvalueReference.html", null ],
+        [ "stdPair", "conceptvctr_1_1is_1_1stdPair.html", null ],
         [ "stdTuple", "conceptvctr_1_1is_1_1stdTuple.html", null ],
         [ "stdTupleWithTypes", "conceptvctr_1_1is_1_1stdTupleWithTypes.html", null ],
         [ "constant", "conceptvctr_1_1is_1_1constant.html", null ],
