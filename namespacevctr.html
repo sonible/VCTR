@@ -374,6 +374,14 @@ requires is::anyVctrOrExpression&lt;Src&gt;</td></tr>
 <tr class="memitem:ga7ca2de641883cfdd1d28b122424864eb"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga7ca2de641883cfdd1d28b122424864eb">operator/</a> (Src &amp;&amp;vec, typename std::remove_cvref_t&lt; Src &gt;::value_type single)</td></tr>
 <tr class="memdesc:ga7ca2de641883cfdd1d28b122424864eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that divides a vector or expression source by a single value.  <br /></td></tr>
 <tr class="separator:ga7ca2de641883cfdd1d28b122424864eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9298e125df7d8b98ebd63e8fd6e46c2"><td class="memTemplParams" colspan="2">template&lt;is::anyVctrOrExpression SrcAType, is::anyVctrOrExpression SrcBType&gt; </td></tr>
+<tr class="memitem:aa9298e125df7d8b98ebd63e8fd6e46c2"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#aa9298e125df7d8b98ebd63e8fd6e46c2">elementwiseMax</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b)</td></tr>
+<tr class="memdesc:aa9298e125df7d8b98ebd63e8fd6e46c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the element-wise maximum of two sources.  <br /></td></tr>
+<tr class="separator:aa9298e125df7d8b98ebd63e8fd6e46c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad93616497d6c986dcf11047902e6497"><td class="memTemplParams" colspan="2">template&lt;is::anyVctrOrExpression SrcAType, is::anyVctrOrExpression SrcBType&gt; </td></tr>
+<tr class="memitem:aad93616497d6c986dcf11047902e6497"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#aad93616497d6c986dcf11047902e6497">elementwiseMin</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b)</td></tr>
+<tr class="memdesc:aad93616497d6c986dcf11047902e6497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the element-wise minimum of two sources.  <br /></td></tr>
+<tr class="separator:aad93616497d6c986dcf11047902e6497"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gace45c99e6906fb1273db0cfb3ec4fd01"><td class="memTemplParams" colspan="2">template&lt;class SrcAType , class SrcBType &gt; <br />
 requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt;)</td></tr>
 <tr class="memitem:gace45c99e6906fb1273db0cfb3ec4fd01"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#gace45c99e6906fb1273db0cfb3ec4fd01">operator*</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b)</td></tr>
@@ -1047,6 +1055,86 @@ template&lt;class A , class B , class C &gt; </div>
 
 <p>Ensures that all three sources have the same size. </p>
 <p>In case they all specify a non-dynamic extent, this will be a compile-time static_assert, otherwise it will perform a runtime assert comparing the sizes. </p>
+
+</div>
+</div>
+<a id="aa9298e125df7d8b98ebd63e8fd6e46c2" name="aa9298e125df7d8b98ebd63e8fd6e46c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9298e125df7d8b98ebd63e8fd6e46c2">&#9670;&#160;</a></span>elementwiseMax()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anyVctrOrExpression SrcAType, is::anyVctrOrExpression SrcBType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::elementwiseMax </td>
+          <td>(</td>
+          <td class="paramtype">SrcAType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SrcBType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the element-wise maximum of two sources. </p>
+
+</div>
+</div>
+<a id="aad93616497d6c986dcf11047902e6497" name="aad93616497d6c986dcf11047902e6497"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad93616497d6c986dcf11047902e6497">&#9670;&#160;</a></span>elementwiseMin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anyVctrOrExpression SrcAType, is::anyVctrOrExpression SrcBType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::elementwiseMin </td>
+          <td>(</td>
+          <td class="paramtype">SrcAType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SrcBType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the element-wise minimum of two sources. </p>
 
 </div>
 </div>

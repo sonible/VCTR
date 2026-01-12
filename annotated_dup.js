@@ -26,6 +26,8 @@ var annotated_dup =
         [ "DivideSingleByVec", "classvctr_1_1expressions_1_1DivideSingleByVec.html", null ],
         [ "DivideVecBySingle", "classvctr_1_1expressions_1_1DivideVecBySingle.html", null ],
         [ "DivideVectors", "classvctr_1_1expressions_1_1DivideVectors.html", null ],
+        [ "ElementwiseMax", "classvctr_1_1expressions_1_1ElementwiseMax.html", null ],
+        [ "ElementwiseMin", "classvctr_1_1expressions_1_1ElementwiseMin.html", null ],
         [ "Exp", "classvctr_1_1expressions_1_1Exp.html", null ],
         [ "FastExp", "classvctr_1_1expressions_1_1FastExp.html", null ],
         [ "FastExp2", "classvctr_1_1expressions_1_1FastExp2.html", null ],

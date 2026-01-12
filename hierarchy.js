@@ -33,6 +33,8 @@ var hierarchy =
         [ "vctr::expressions::DivideSingleByVec< extent, SrcType >", "classvctr_1_1expressions_1_1DivideSingleByVec.html", null ],
         [ "vctr::expressions::DivideVecBySingle< extent, SrcType >", "classvctr_1_1expressions_1_1DivideVecBySingle.html", null ],
         [ "vctr::expressions::DivideVectors< extent, SrcAType, SrcBType >", "classvctr_1_1expressions_1_1DivideVectors.html", null ],
+        [ "vctr::expressions::ElementwiseMax< extent, SrcAType, SrcBType >", "classvctr_1_1expressions_1_1ElementwiseMax.html", null ],
+        [ "vctr::expressions::ElementwiseMin< extent, SrcAType, SrcBType >", "classvctr_1_1expressions_1_1ElementwiseMin.html", null ],
         [ "vctr::expressions::Exp< extent, SrcType >", "classvctr_1_1expressions_1_1Exp.html", null ],
         [ "vctr::expressions::FastExp< extent, SrcType >", "classvctr_1_1expressions_1_1FastExp.html", null ],
         [ "vctr::expressions::FastExp2< extent, SrcType >", "classvctr_1_1expressions_1_1FastExp2.html", null ],

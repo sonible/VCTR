@@ -78,6 +78,8 @@ var NAVTREE =
     [ "clamp", "group__Expressions.html#gadb6fc764c304eda32439875e7b50d485", null ],
     [ "clampHigh", "group__Expressions.html#gaa42cf0dd0e425bad94a420c9ac6805c7", null ],
     [ "clampLow", "group__Expressions.html#ga69329f63042f587f726465da4ef612d8", null ],
+    [ "elementwiseMax", "namespacevctr.html#aa9298e125df7d8b98ebd63e8fd6e46c2", null ],
+    [ "elementwiseMin", "namespacevctr.html#aad93616497d6c986dcf11047902e6497", null ],
     [ "functionName", "namespacevctr.html#a127327a069f9c9d92bb9c5325234f2fe", null ],
     [ "functionName", "namespacevctr.html#acd3bde90036f67b89e469aea181516e8", null ],
     [ "getCommonExtent", "namespacevctr.html#a50b3b641de5cbcac59ad5c852df70929", null ],
@@ -203,7 +205,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classvctr_1_1OwnedVector.html#aebfff322866872974a2d7249720e5ae0",
-"conceptvctr_1_1is_1_1expression.html"
+"conceptvctr_1_1is_1_1contiguousIteratorWithValueTypeSameAs.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
