@@ -255,13 +255,16 @@ private:
 namespace vctr::detail
 {
 template <class T>
-struct IsMultiplicationExpression : std::false_type {};
+constexpr static bool isMultiplicationExpression = false;
 
 template <size_t e, class A, class B>
-struct IsMultiplicationExpression<expressions::MultiplyVectors<e, A, B>> : std::true_type {};
+constexpr static bool isMultiplicationExpression<expressions::MultiplyVectors<e, A, B>> = true;
 
 template <size_t e, class A>
-struct IsMultiplicationExpression<expressions::MultiplyVecBySingle<e, A>> : std::true_type {};
+constexpr static bool isMultiplicationExpression<expressions::MultiplyVecBySingle<e, A>> = true;
+
+template <size_t e, class A>
+constexpr static bool isMultiplicationExpression<expressions::Square<e, A>> = true;
 } // namespace vctr::detail
 
 namespace vctr

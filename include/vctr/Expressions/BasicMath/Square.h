@@ -54,12 +54,24 @@ public:
         return dst;
     }
 
+    VCTR_FORCEDINLINE void evalVectorOpMultiplyAccumulate (value_type* dst) const
+    requires is::suitableForAccelerateRealOrComplexFloatVectorOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable> && is::anyVctr<SrcType>
+    {
+        Expression::Accelerate::multiplyAdd (src.data(), src.data(), dst, dst, size());
+    }
+
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
     requires is::suitableForIppRealOrComplexFloatVectorOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
     {
         const auto* s = src.evalNextVectorOpInExpressionChain (dst);
         Expression::IPP::mul (s, s, dst, sizeToInt (size()));
         return dst;
+    }
+
+    VCTR_FORCEDINLINE void evalVectorOpMultiplyAccumulate (value_type* dst) const
+    requires is::suitableForIppRealOrComplexFloatVectorOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable> && is::anyVctr<SrcType>
+    {
+        Expression::IPP::multiplyAccumulate (src.data(), src.data(), dst, sizeToInt (size()));
     }
 
     //==============================================================================
