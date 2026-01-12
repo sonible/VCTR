@@ -222,6 +222,10 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a8faf2b9cdab729f70118b612ce91f540"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a8faf2b9cdab729f70118b612ce91f540">CommonVecExpressionType</a> = typename detail::CommonVecExpressionType&lt; A, B, op &gt;::type</td></tr>
 <tr class="memdesc:a8faf2b9cdab729f70118b612ce91f540"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to figure out the value_type for binary vector-vector operations.  <br /></td></tr>
 <tr class="separator:a8faf2b9cdab729f70118b612ce91f540"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5eb92e3f347e94403dce599e7e1f8ec"><td class="memTemplParams" colspan="2">template&lt;is::expressionChainBuilder ChainBuilder, is::anyVctrOrExpression SourceType&gt; </td></tr>
+<tr class="memitem:aa5eb92e3f347e94403dce599e7e1f8ec"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#aa5eb92e3f347e94403dce599e7e1f8ec">ExpressionTypeForSourceType</a> = typename ChainBuilder::template Expression&lt; <a class="el" href="namespacevctr.html#a0e2879d4e781cb85ff0ae8cf4f1deefd">extentOf</a>&lt; SourceType &gt;, SourceType &gt;</td></tr>
+<tr class="memdesc:aa5eb92e3f347e94403dce599e7e1f8ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Derives the type of the expression that is created when prepending an expression chain builder with a certain source.  <br /></td></tr>
+<tr class="separator:aa5eb92e3f347e94403dce599e7e1f8ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83a43fd917a646b18b60be7e88becc33"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a83a43fd917a646b18b60be7e88becc33"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a83a43fd917a646b18b60be7e88becc33">ValueType</a> = typename detail::ValueType&lt; std::remove_cvref_t&lt; T &gt; &gt;::Type</td></tr>
 <tr class="memdesc:a83a43fd917a646b18b60be7e88becc33"><td class="mdescLeft">&#160;</td><td class="mdescRight">If T is an expression template, it equals its return type, if it's a type that defines value_type as a public typedef, it equals value_type.  <br /></td></tr>
@@ -808,6 +812,25 @@ template&lt;template&lt; size_t, class... &gt; class ExpressionType, class... Ad
 </div><div class="memdoc">
 
 <p>Convenient typedef to create a simple expression chain builder instance for an expression template. </p>
+
+</div>
+</div>
+<a id="aa5eb92e3f347e94403dce599e7e1f8ec" name="aa5eb92e3f347e94403dce599e7e1f8ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5eb92e3f347e94403dce599e7e1f8ec">&#9670;&#160;</a></span>ExpressionTypeForSourceType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::expressionChainBuilder ChainBuilder, is::anyVctrOrExpression SourceType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacevctr.html#aa5eb92e3f347e94403dce599e7e1f8ec">vctr::ExpressionTypeForSourceType</a> = typedef typename ChainBuilder::template Expression&lt;<a class="el" href="namespacevctr.html#a0e2879d4e781cb85ff0ae8cf4f1deefd">extentOf</a>&lt;SourceType&gt;, SourceType&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Derives the type of the expression that is created when prepending an expression chain builder with a certain source. </p>
+<p>This is especially useful when writing generic code that has to derive the type of an expression before actually instantiating it by prepending an expression chain builder instance with a container instance. </p>
 
 </div>
 </div>

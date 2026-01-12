@@ -42,6 +42,7 @@ var concepts =
         [ "getEndWithValueType", "conceptvctr_1_1has_1_1getEndWithValueType.html", null ]
       ] ],
       [ "is", null, [
+        [ "reductionExpressionChainBuilderForSource", "conceptvctr_1_1is_1_1reductionExpressionChainBuilderForSource.html", null ],
         [ "constexprStorageInfo", "conceptvctr_1_1is_1_1constexprStorageInfo.html", null ],
         [ "anyVctr", "conceptvctr_1_1is_1_1anyVctr.html", null ],
         [ "anyVctrWithValueType", "conceptvctr_1_1is_1_1anyVctrWithValueType.html", null ],

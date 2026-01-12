@@ -54,9 +54,11 @@ var NAVTREE =
     [ "blockChannelAsSpan", "namespacevctr_1_1juce__helpers.html#a76d6fc48c137adf182f5310775a73d5e", null ],
     [ "blockChannelAsSpanSIMDAligned", "namespacevctr_1_1juce__helpers.html#a413eb058cc5dffbc2ae6806c65db23ae", null ],
     [ "toSIMDRegister", "namespacevctr_1_1juce__helpers.html#adf38efd21d799da767096de9e8bd72cf", null ],
+    [ "transformChannelsByExpression", "namespacevctr_1_1juce__helpers.html#a91269329f6b9d0e6ac9fec144cf60343", null ],
     [ "CommonVecExpressionType", "namespacevctr.html#a8faf2b9cdab729f70118b612ce91f540", null ],
     [ "DataType", "namespacevctr.html#ad3cbb6dc6bd6736802f5a7537b8dfb62", null ],
     [ "ExpressionChainBuilder", "namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb", null ],
+    [ "ExpressionTypeForSourceType", "namespacevctr.html#aa5eb92e3f347e94403dce599e7e1f8ec", null ],
     [ "FloatType", "namespacevctr.html#aa10a74a826089c483c4eb7feb374f09f", null ],
     [ "RealType", "namespacevctr.html#abbf99aea4bbfba08d526a19614f28516", null ],
     [ "SpanStorageInfo", "namespacevctr.html#ad74ae35c2844e5e4e79889b55a82f21f", null ],
@@ -200,7 +202,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classvctr_1_1OwnedVector.html#af232e22612aa17d3fc8eaeee4fec245a",
-"conceptvctr_1_1is_1_1intNumber.html"
+"conceptvctr_1_1is_1_1int64Number.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

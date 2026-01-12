@@ -15,6 +15,7 @@ var annotated_dup =
         [ "AssertSIMDFilter", "classvctr_1_1expressions_1_1AssertSIMDFilter.html", null ],
         [ "Atan", "classvctr_1_1expressions_1_1Atan.html", null ],
         [ "Atanh", "classvctr_1_1expressions_1_1Atanh.html", null ],
+        [ "AudioBlockChannelReduction", "classvctr_1_1expressions_1_1AudioBlockChannelReduction.html", null ],
         [ "AVXFilter", "classvctr_1_1expressions_1_1AVXFilter.html", null ],
         [ "Clamp", "classvctr_1_1expressions_1_1Clamp.html", null ],
         [ "ClampByConstant", "classvctr_1_1expressions_1_1ClampByConstant.html", null ],

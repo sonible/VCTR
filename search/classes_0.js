@@ -16,7 +16,8 @@ var searchData=
   ['assertsimdfilter_13',['AssertSIMDFilter',['../classvctr_1_1expressions_1_1AssertSIMDFilter.html',1,'vctr::expressions']]],
   ['atan_14',['Atan',['../classvctr_1_1expressions_1_1Atan.html',1,'vctr::expressions']]],
   ['atanh_15',['Atanh',['../classvctr_1_1expressions_1_1Atanh.html',1,'vctr::expressions']]],
-  ['avxfilter_16',['AVXFilter',['../classvctr_1_1expressions_1_1AVXFilter.html',1,'vctr::expressions']]],
-  ['avxregister_17',['AVXRegister',['../structvctr_1_1AVXRegister.html',1,'vctr']]],
-  ['avxregister_3c_20typename_20commonsrcelement_3a_3atype_20_3e_18',['AVXRegister&lt; typename CommonSrcElement::Type &gt;',['../structvctr_1_1AVXRegister.html',1,'vctr']]]
+  ['audioblockchannelreduction_16',['AudioBlockChannelReduction',['../classvctr_1_1expressions_1_1AudioBlockChannelReduction.html',1,'vctr::expressions']]],
+  ['avxfilter_17',['AVXFilter',['../classvctr_1_1expressions_1_1AVXFilter.html',1,'vctr::expressions']]],
+  ['avxregister_18',['AVXRegister',['../structvctr_1_1AVXRegister.html',1,'vctr']]],
+  ['avxregister_3c_20typename_20commonsrcelement_3a_3atype_20_3e_19',['AVXRegister&lt; typename CommonSrcElement::Type &gt;',['../structvctr_1_1AVXRegister.html',1,'vctr']]]
 ];

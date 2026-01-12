@@ -23,6 +23,7 @@ var hierarchy =
         [ "vctr::expressions::AssertSIMDFilter< extent, SrcType >", "classvctr_1_1expressions_1_1AssertSIMDFilter.html", null ],
         [ "vctr::expressions::Atan< extent, SrcType >", "classvctr_1_1expressions_1_1Atan.html", null ],
         [ "vctr::expressions::Atanh< extent, SrcType >", "classvctr_1_1expressions_1_1Atanh.html", null ],
+        [ "vctr::expressions::AudioBlockChannelReduction< SampleType, ChannelReduction >", "classvctr_1_1expressions_1_1AudioBlockChannelReduction.html", null ],
         [ "vctr::expressions::Clamp< extent, SrcType, ClampLow, ClampHigh >", "classvctr_1_1expressions_1_1Clamp.html", null ],
         [ "vctr::expressions::ClampByConstant< extent, SrcType, LowerBound, UpperBound >", "classvctr_1_1expressions_1_1ClampByConstant.html", null ],
         [ "vctr::expressions::Conjugate< extent, SrcType >", "classvctr_1_1expressions_1_1Conjugate.html", null ],
@@ -121,6 +122,7 @@ var hierarchy =
     [ "vctr::SSERegister< T >", "structvctr_1_1SSERegister.html", null ],
     [ "vctr::SSERegister< typename CommonSrcElement::Type >", "structvctr_1_1SSERegister.html", null ],
     [ "vctr::StaticStorageInfo< isDataSIMDAligned, isStorageSIMDExtended, customMemberAlignment >", "structvctr_1_1StaticStorageInfo.html", null ],
+    [ "vctr::StaticStorageInfo< false, false, alignof(SampleType)>", "structvctr_1_1StaticStorageInfo.html", null ],
     [ "vctr::StorageInfo< StorageType >", "structvctr_1_1StorageInfo.html", [
       [ "vctr::VctrBase< ElementType, StorageType, extent, StorageInfoType >", "classvctr_1_1VctrBase.html", null ]
     ] ],

@@ -122,6 +122,10 @@ Functions</h2></td></tr>
 <tr class="memitem:ab8c17b88cbbe69c92e848c0ea483e960"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr_1_1juce__helpers.html#ab8c17b88cbbe69c92e848c0ea483e960">audioBufferChannelAsSpan</a> (const juce::AudioBuffer&lt; SampleType &gt; &amp;buffer, size_t channelIdx)</td></tr>
 <tr class="memdesc:ab8c17b88cbbe69c92e848c0ea483e960"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> that views a single channel of a juce::AudioBuffer.  <br /></td></tr>
 <tr class="separator:ab8c17b88cbbe69c92e848c0ea483e960"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91269329f6b9d0e6ac9fec144cf60343"><td class="memTemplParams" colspan="2">template&lt;std::floating_point SampleType, is::reductionExpressionChainBuilderForSource&lt; <a class="el" href="classvctr_1_1Span.html">Span</a>&lt; const SampleType &gt; &gt; ChannelReduction&gt; </td></tr>
+<tr class="memitem:a91269329f6b9d0e6ac9fec144cf60343"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr_1_1juce__helpers.html#a91269329f6b9d0e6ac9fec144cf60343">transformChannelsByExpression</a> (const juce::dsp::AudioBlock&lt; SampleType &gt; &amp;block, ChannelReduction &amp;channelReduction)</td></tr>
+<tr class="memdesc:a91269329f6b9d0e6ac9fec144cf60343"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that will apply channelReduction on each channel of the source AudioBlock.  <br /></td></tr>
+<tr class="separator:a91269329f6b9d0e6ac9fec144cf60343"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Helper functions to integrate vctr into dsp code written with JUCE (<a href="https://github.com/juce-framework/JUCE">https://github.com/juce-framework/JUCE</a>). </p>
@@ -309,6 +313,57 @@ VctrBase::getSSE </dd>
 <dd>
 VctrBase::getAVX </dd></dl>
 
+</div>
+</div>
+<a id="a91269329f6b9d0e6ac9fec144cf60343" name="a91269329f6b9d0e6ac9fec144cf60343"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91269329f6b9d0e6ac9fec144cf60343">&#9670;&#160;</a></span>transformChannelsByExpression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::floating_point SampleType, is::reductionExpressionChainBuilderForSource&lt; <a class="el" href="classvctr_1_1Span.html">Span</a>&lt; const SampleType &gt; &gt; ChannelReduction&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto vctr::juce_helpers::transformChannelsByExpression </td>
+          <td>(</td>
+          <td class="paramtype">const juce::dsp::AudioBlock&lt; SampleType &gt; &amp;&#160;</td>
+          <td class="paramname"><em>block</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ChannelReduction &amp;&#160;</td>
+          <td class="paramname"><em>channelReduction</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns an expression that will apply channelReduction on each channel of the source AudioBlock. </p>
+<p>channelReduction has to be a reduction expression that converts the samples of each channels into a single value which will lead to a block with n channels resulting in an expression of size n.</p>
+<p>Example: </p><div class="fragment"><div class="line"><span class="keyword">class </span>RMSComputation</div>
+<div class="line">{</div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">    <span class="keywordtype">void</span> prepare (<span class="keywordtype">size_t</span> numChannels) { rmsPerChannel.resize (numChannels); }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Returns a span of RMS values in dB for each channel in the source block.</span></div>
+<div class="line">    <a class="code hl_class" href="classvctr_1_1Span.html">vctr::Span&lt;const float&gt;</a> process (<span class="keyword">const</span> juce::dsp::AudioBlock&lt;const float&gt;&amp; block)</div>
+<div class="line">    {</div>
+<div class="line">        rmsPerChannel = vctr::magToDb&lt;vctr::dBFs&gt; &lt;&lt; vctr::transformChannelsByExpression (block, <a class="code hl_variable" href="group__Expressions.html#ga461b990c1ec58299e9e7bb7ae367fd13">vctr::rms</a>);</div>
+<div class="line">        <span class="keywordflow">return</span> rmsPerChannel;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">private</span>:</div>
+<div class="line">    <a class="code hl_class" href="classvctr_1_1Vector.html">vctr::Vector&lt;float&gt;</a> rmsPerChannel;</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassvctr_1_1Span_html"><div class="ttname"><a href="classvctr_1_1Span.html">vctr::Span</a></div><div class="ttdoc">The view type.</div><div class="ttdef"><b>Definition:</b> Span.h:66</div></div>
+<div class="ttc" id="aclassvctr_1_1Vector_html"><div class="ttname"><a href="classvctr_1_1Vector.html">vctr::Vector</a></div><div class="ttdoc">The heap-allocated container type.</div><div class="ttdef"><b>Definition:</b> Vector.h:99</div></div>
+<div class="ttc" id="agroup__Expressions_html_ga461b990c1ec58299e9e7bb7ae367fd13"><div class="ttname"><a href="group__Expressions.html#ga461b990c1ec58299e9e7bb7ae367fd13">vctr::rms</a></div><div class="ttdeci">constexpr ExpressionChainBuilder&lt; expressions::RootMeanSquare &gt; rms</div><div class="ttdoc">Computes the square root of the mean value of the squared source values.</div><div class="ttdef"><b>Definition:</b> Mean.h:260</div></div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

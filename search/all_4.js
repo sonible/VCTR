@@ -17,6 +17,7 @@ var searchData=
   ['expressionchainbuilderwithruntimeargs_14',['ExpressionChainBuilderWithRuntimeArgs',['../structvctr_1_1ExpressionChainBuilderWithRuntimeArgs.html',1,'vctr']]],
   ['expressions_15',['Expressions',['../group__Expressions.html',1,'']]],
   ['expressiontemplatebase_16',['ExpressionTemplateBase',['../structvctr_1_1ExpressionTemplateBase.html',1,'vctr']]],
-  ['expressiontypes_17',['ExpressionTypes',['../structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html',1,'vctr::ExpressionTemplateBase']]],
-  ['extentof_18',['extentOf',['../namespacevctr.html#a0e2879d4e781cb85ff0ae8cf4f1deefd',1,'vctr']]]
+  ['expressiontypeforsourcetype_17',['ExpressionTypeForSourceType',['../namespacevctr.html#aa5eb92e3f347e94403dce599e7e1f8ec',1,'vctr']]],
+  ['expressiontypes_18',['ExpressionTypes',['../structvctr_1_1ExpressionTemplateBase_1_1ExpressionTypes.html',1,'vctr::ExpressionTemplateBase']]],
+  ['extentof_19',['extentOf',['../namespacevctr.html#a0e2879d4e781cb85ff0ae8cf4f1deefd',1,'vctr']]]
 ];
