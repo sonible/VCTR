@@ -58,6 +58,8 @@ T acosh (T v) { return std::acosh (v); }
 template <vctr::is::realOrComplexFloatNumber T>
 T atanh (T v) { return std::atanh (v); }
 
+static constexpr auto trigonometricTestMargin = 0.0001;
+
 
 TEMPLATE_PRODUCT_TEST_CASE ("Sin", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
 {
@@ -66,8 +68,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Sin", "[VCTR][Expressions][trigonometric]", (Platfo
     const vctr::Vector res = filter << vctr::sin << srcA;
     const vctr::Vector resU = filter << vctr::sin << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<sin> (srcA).withMargin (0.0001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<sin> (srcUnaligned).withMargin (0.0001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<sin> (srcA).withMargin (trigonometricTestMargin));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<sin> (srcUnaligned).withMargin (trigonometricTestMargin));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Cos", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
@@ -77,8 +79,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Cos", "[VCTR][Expressions][trigonometric]", (Platfo
     const vctr::Vector res = filter << vctr::cos << srcA;
     const vctr::Vector resU = filter << vctr::cos << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<cos> (srcA).withMargin (0.0001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<cos> (srcUnaligned).withMargin (0.0001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<cos> (srcA).withMargin (trigonometricTestMargin));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<cos> (srcUnaligned).withMargin (trigonometricTestMargin));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Tan", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
@@ -88,8 +90,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Tan", "[VCTR][Expressions][trigonometric]", (Platfo
     const vctr::Vector res = filter << vctr::tan << srcA;
     const vctr::Vector resU = filter << vctr::tan << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<tan> (srcA).withMargin (0.0001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<tan> (srcUnaligned).withMargin (0.0001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<tan> (srcA).withMargin (trigonometricTestMargin));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<tan> (srcUnaligned).withMargin (trigonometricTestMargin));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Sinh", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
@@ -99,8 +101,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Sinh", "[VCTR][Expressions][trigonometric]", (Platf
     const vctr::Vector res = filter << vctr::sinh << srcA;
     const vctr::Vector resU = filter << vctr::sinh << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<sinh> (srcA).withMargin (0.00001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<sinh> (srcUnaligned).withMargin (0.00001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<sinh> (srcA).withMargin (trigonometricTestMargin));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<sinh> (srcUnaligned).withMargin (trigonometricTestMargin));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Cosh", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
@@ -110,8 +112,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Cosh", "[VCTR][Expressions][trigonometric]", (Platf
     const vctr::Vector res = filter << vctr::cosh << srcA;
     const vctr::Vector resU = filter << vctr::cosh << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<cosh> (srcA).withMargin (0.00001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<cosh> (srcUnaligned).withMargin (0.00001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<cosh> (srcA).withMargin (trigonometricTestMargin));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<cosh> (srcUnaligned).withMargin (trigonometricTestMargin));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Tanh", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
@@ -121,8 +123,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Tanh", "[VCTR][Expressions][trigonometric]", (Platf
     const vctr::Vector res = filter << vctr::tanh << srcA;
     const vctr::Vector resU = filter << vctr::tanh << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<tanh> (srcA).withMargin (0.00001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<tanh> (srcUnaligned).withMargin (0.00001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<tanh> (srcA).withMargin (trigonometricTestMargin));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<tanh> (srcUnaligned).withMargin (trigonometricTestMargin));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Asin", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
@@ -132,8 +134,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Asin", "[VCTR][Expressions][trigonometric]", (Platf
     const vctr::Vector res = filter << vctr::asin << srcA;
     const vctr::Vector resU = filter << vctr::asin << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<asin> (srcA).withMargin (0.00001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<asin> (srcUnaligned).withMargin (0.00001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<asin> (srcA).withMargin (trigonometricTestMargin));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<asin> (srcUnaligned).withMargin (trigonometricTestMargin));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Acos", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
@@ -143,8 +145,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Acos", "[VCTR][Expressions][trigonometric]", (Platf
     const vctr::Vector res = filter << vctr::acos << srcA;
     const vctr::Vector resU = filter << vctr::acos << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<acos> (srcA).withMargin (0.00001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<acos> (srcUnaligned).withMargin (0.00001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<acos> (srcA).withMargin (trigonometricTestMargin));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<acos> (srcUnaligned).withMargin (trigonometricTestMargin));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Atan", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
@@ -154,8 +156,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Atan", "[VCTR][Expressions][trigonometric]", (Platf
     const vctr::Vector res = filter << vctr::atan << srcA;
     const vctr::Vector resU = filter << vctr::atan << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<atan> (srcA).withMargin (0.00001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<atan> (srcUnaligned).withMargin (0.00001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<atan> (srcA).withMargin (trigonometricTestMargin));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<atan> (srcUnaligned).withMargin (trigonometricTestMargin));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Asinh", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
@@ -165,8 +167,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Asinh", "[VCTR][Expressions][trigonometric]", (Plat
     const vctr::Vector res = filter << vctr::asinh << srcA;
     const vctr::Vector resU = filter << vctr::asinh << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<asinh> (srcA).withMargin (0.00001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<asinh> (srcUnaligned).withMargin (0.00001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<asinh> (srcA).withMargin (trigonometricTestMargin));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<asinh> (srcUnaligned).withMargin (trigonometricTestMargin));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Acosh", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
@@ -176,8 +178,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("Acosh", "[VCTR][Expressions][trigonometric]", (Plat
     const vctr::Vector res = filter << vctr::acosh << srcA;
     const vctr::Vector resU = filter << vctr::acosh << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<acosh> (srcA).withMargin (0.00001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<acosh> (srcUnaligned).withMargin (0.00001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<acosh> (srcA).withMargin (trigonometricTestMargin));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<acosh> (srcUnaligned).withMargin (trigonometricTestMargin));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Atanh", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
@@ -187,6 +189,6 @@ TEMPLATE_PRODUCT_TEST_CASE ("Atanh", "[VCTR][Expressions][trigonometric]", (Plat
     const vctr::Vector res = filter << vctr::atanh << srcA;
     const vctr::Vector resU = filter << vctr::atanh << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<atanh> (srcA).withMargin (0.00001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<atanh> (srcUnaligned).withMargin (0.00001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<atanh> (srcA).withMargin (trigonometricTestMargin));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<atanh> (srcUnaligned).withMargin (trigonometricTestMargin));
 }
