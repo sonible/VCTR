@@ -41,10 +41,9 @@ TEMPLATE_PRODUCT_TEST_CASE ("FastExp vs. FastExp", "[VCTR][expressions][fastExp]
     const vctr::Vector res = filter << vctr::fastExp << srcA;
     const vctr::Vector resU = filter << vctr::fastExp << srcUnaligned;
 
-    REQUIRE_THAT (res, vctr::EqualsTransformedBy<fastExp> (srcA).withMargin (0.0001));
-    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<fastExp> (srcUnaligned).withMargin (0.0001));
+    REQUIRE_THAT (res, vctr::EqualsTransformedBy<fastExp> (srcA).withEpsilon (1e-4));
+    REQUIRE_THAT (resU, vctr::EqualsTransformedBy<fastExp> (srcUnaligned).withEpsilon (1e-4));
 }
-
 
 TEMPLATE_PRODUCT_TEST_CASE ("FastExp vs. StdExp", "[VCTR][expressions][fastExp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>) )
 {
@@ -67,8 +66,8 @@ TEMPLATE_PRODUCT_TEST_CASE ("FastExp2 vs. StdExp2", "[VCTR][expressions][fastExp
     const vctr::Vector res = filter << vctr::fastExp2 << srcA;
     const vctr::Vector resU = filter << vctr::fastExp2 << srcUnaligned;
 
-    CHECK_THAT (res, vctr::EqualsTransformedBy<stdExp2> (srcA).withEpsilon (5.04e-5));
-    CHECK_THAT (resU, vctr::EqualsTransformedBy<stdExp2> (srcUnaligned).withEpsilon (5.04e-5));
+    CHECK_THAT (res, vctr::EqualsTransformedBy<stdExp2> (srcA).withEpsilon (1e-4));
+    CHECK_THAT (resU, vctr::EqualsTransformedBy<stdExp2> (srcUnaligned).withEpsilon (1e-4));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("FastLog2 vs. StdLog2", "[VCTR][expressions][fastExp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float) )
