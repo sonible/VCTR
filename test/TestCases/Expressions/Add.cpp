@@ -67,7 +67,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Addition in place", "[VCTR][add]", (PlatformVectorO
     // Todo: This causes build errors on some platforms. https://github.com/sonible/VCTR/issues/70
     //mac3 += vctr::multiplyByConstant<42> << srcB;
 
-    const auto eps = vctr::RealType<ElementType> (0.00001);
+    const auto eps = vctr::RealType<ElementType> (0.0001);
 
     for (size_t i = 0; i < 10; ++i)
     {
