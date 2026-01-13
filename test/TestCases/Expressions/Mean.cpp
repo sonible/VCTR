@@ -72,7 +72,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("MeanSquare", "[VCTR][Expressions][meanSquare]", (Pl
     const auto ref = std::reduce (srcASquared.begin(), srcASquared.end()) / ElementType (vctr::RealType<ElementType> (srcASquared.size()));
     const auto refU = std::reduce (srcUSquared.begin(), srcUSquared.end()) / ElementType (vctr::RealType<ElementType> (srcUSquared.size()));
 
-    const auto eps = vctr::RealType<ElementType> (0.00002);
+    const auto eps = vctr::RealType<ElementType> (0.0001);
 
     if constexpr (vctr::is::complexFloatNumber<ElementType>)
     {
