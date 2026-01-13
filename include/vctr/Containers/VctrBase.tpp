@@ -85,6 +85,7 @@ constexpr void VctrBase<ElementType, StorageType, extent, StorageInfoType>::oper
     // it might implement a special accelerated multiply accumulate function.
     if constexpr (detail::isMultiplicationExpression<V> && requires { v.evalVectorOpMultiplyAccumulate (data()); })
     {
+        VCTR_ASSERT (v.size() == size());
         v.evalVectorOpMultiplyAccumulate (data());
         return;
     }
