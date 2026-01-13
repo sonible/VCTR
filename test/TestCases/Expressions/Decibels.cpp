@@ -28,7 +28,7 @@ template <vctr::is::realFloatNumber T> auto magToDbFS    (T x) { return std::max
 template <vctr::is::realFloatNumber T> auto magToDbPower (T x) { return std::max (std::log10 (x) * T (10), T (-100)); }
 // clang-format on
 
-TEMPLATE_PRODUCT_TEST_CASE ("Decibels", "[VCTR][Decibels]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
+TEMPLATE_PRODUCT_TEST_CASE ("Decibels", "[VCTR][Expressions][Decibels]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
 {
     VCTR_TEST_DEFINES_WITH_TRAILING_ZERO_IN_RANGE (0, 2, 10)
 
@@ -64,7 +64,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Decibels", "[VCTR][Decibels]", (PlatformVectorOps, 
     // clang-format on
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Fast decibel approximations", "[VCTR][Decibels]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float) )
+TEMPLATE_PRODUCT_TEST_CASE ("Fast decibel approximations", "[VCTR][Expressions][Decibels]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float) )
 {
     VCTR_TEST_DEFINES_WITH_TRAILING_ZERO_IN_RANGE (0, 2, 10)
 

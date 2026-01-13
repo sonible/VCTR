@@ -33,7 +33,7 @@
 template <vctr::is::realNumber T>
 auto div10exp (T x) { return std::exp (x / T (10)); }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Exp", "[VCTR][exp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t))
+TEMPLATE_PRODUCT_TEST_CASE ("Exp", "[VCTR][Expressions][exp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t))
 {
     VCTR_TEST_DEFINES (10)
 

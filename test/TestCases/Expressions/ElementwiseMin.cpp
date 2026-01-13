@@ -23,7 +23,7 @@
 #include <vctr_test_utils/vctr_test_common.h>
 
 TEMPLATE_PRODUCT_TEST_CASE ("elementWiseMin",
-                            "[VCTR][elementWiseMin]",
+                            "[VCTR][Expressions][elementWiseMin]",
                             (PlatformVectorOps, VCTR_NATIVE_SIMD),
                             (float, double, int32_t, int64_t, uint32_t, uint64_t) )
 {

@@ -29,7 +29,7 @@ template <vctr::is::signedNumber T>      auto absLn (T x) { return std::log (std
 template <vctr::is::unsignedIntNumber T> auto absLn (T x) { return std::log (x); }
 // clang-format on
 
-TEMPLATE_PRODUCT_TEST_CASE ("Ln", "[VCTR][ln]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t))
+TEMPLATE_PRODUCT_TEST_CASE ("Ln", "[VCTR][Expressions][ln]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t))
 {
     VCTR_TEST_DEFINES (10)
 

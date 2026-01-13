@@ -31,7 +31,7 @@ double toDoublePlus1 (T in) { return static_cast<double> (in + T (1)); }
 template <vctr::is::realNumber T>
 std::string toStringPlus1 (T in) { return std::to_string (in + T (1)); }
 
-TEST_CASE ("TransformedByDynamicCast", "[VCTR][transformation]")
+TEST_CASE ("TransformedByDynamicCast", "[VCTR][Expressions][transformation]")
 {
     struct A
     {
@@ -76,7 +76,7 @@ TEST_CASE ("TransformedByDynamicCast", "[VCTR][transformation]")
     bs.forEach ([] (B* b) { delete b; });
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("TransformedByStaticCast", "[VCTR][transformation]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int16_t, int32_t, int64_t))
+TEMPLATE_PRODUCT_TEST_CASE ("TransformedByStaticCast", "[VCTR][Expressions][transformation]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int16_t, int32_t, int64_t))
 {
     VCTR_TEST_DEFINES (10)
 
@@ -88,7 +88,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("TransformedByStaticCast", "[VCTR][transformation]",
     REQUIRE_THAT (castedToDouble, vctr::EqualsTransformedBy<toDoublePlus1> (srcA));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("TransformedBy", "[VCTR][transformation]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, int64_t))
+TEMPLATE_PRODUCT_TEST_CASE ("TransformedBy", "[VCTR][Expressions][transformation]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, int64_t))
 {
     VCTR_TEST_DEFINES (10)
 

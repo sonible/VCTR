@@ -22,7 +22,7 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEMPLATE_PRODUCT_TEST_CASE ("MultiplyAccumulate", "[VCTR][multiplyAccumulate]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
+TEMPLATE_PRODUCT_TEST_CASE ("MultiplyAccumulate", "[VCTR][Expressions][multiplyAccumulate]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
 {
     VCTR_TEST_DEFINES (10)
 
@@ -35,7 +35,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("MultiplyAccumulate", "[VCTR][multiplyAccumulate]", 
     REQUIRE_THAT (x, vctr::Equals (xElementWise).withEpsilon (0.0001));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("MultiplySubtract", "[VCTR][multiplyAccumulate]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
+TEMPLATE_PRODUCT_TEST_CASE ("MultiplySubtract", "[VCTR][Expressions][multiplyAccumulate]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
 {
     VCTR_TEST_DEFINES (10)
 

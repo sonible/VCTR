@@ -34,7 +34,7 @@ T stdLog2 (T v) { return std::log2 (v); }
 template <vctr::is::realOrComplexFloatNumber T>
 T fastExp (T v) { return (T (1680) + v * (T (840) + v * (T (180) + v * (T (20) + v)))) / (T (1680) + v * (T (-840) + v * (T (180) + v * (T (-20) + v)))); }
 
-TEMPLATE_PRODUCT_TEST_CASE ("FastExp vs. FastExp", "[VCTR][expressions][fastExp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>) )
+TEMPLATE_PRODUCT_TEST_CASE ("FastExp vs. FastExp", "[VCTR][Expressions][fastExp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES_IN_RANGE (-6, 4, 10)
 
@@ -45,7 +45,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("FastExp vs. FastExp", "[VCTR][expressions][fastExp]
     REQUIRE_THAT (resU, vctr::EqualsTransformedBy<fastExp> (srcUnaligned).withEpsilon (1e-4));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("FastExp vs. StdExp", "[VCTR][expressions][fastExp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>) )
+TEMPLATE_PRODUCT_TEST_CASE ("FastExp vs. StdExp", "[VCTR][Expressions][fastExp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES_IN_RANGE (-2, 2, 10)
 
@@ -56,7 +56,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("FastExp vs. StdExp", "[VCTR][expressions][fastExp]"
     REQUIRE_THAT (resU, vctr::EqualsTransformedBy<stdExp> (srcUnaligned).withMargin (0.01));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("FastExp2 vs. StdExp2", "[VCTR][expressions][fastExp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
+TEMPLATE_PRODUCT_TEST_CASE ("FastExp2 vs. StdExp2", "[VCTR][Expressions][fastExp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
 {
     constexpr auto startValue = int (vctr::expressions::detail::FastExp2Constants<typename TestType::ElementType>::minExpo);
     constexpr auto endValue = int (vctr::expressions::detail::FastExp2Constants<typename TestType::ElementType>::expoBias) + 1;
@@ -70,7 +70,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("FastExp2 vs. StdExp2", "[VCTR][expressions][fastExp
     CHECK_THAT (resU, vctr::EqualsTransformedBy<stdExp2> (srcUnaligned).withEpsilon (1e-4));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("FastLog2 vs. StdLog2", "[VCTR][expressions][fastExp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float) )
+TEMPLATE_PRODUCT_TEST_CASE ("FastLog2 vs. StdLog2", "[VCTR][Expressions][fastExp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float) )
 {
     VCTR_TEST_DEFINES_IN_RANGE (0, 126, 10)
 
