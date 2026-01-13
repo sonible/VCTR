@@ -59,7 +59,7 @@ template <vctr::is::realOrComplexFloatNumber T>
 T atanh (T v) { return std::atanh (v); }
 
 
-TEMPLATE_PRODUCT_TEST_CASE ("Sin", "[VCTR][expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
+TEMPLATE_PRODUCT_TEST_CASE ("Sin", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (-4, 4, 10)
 
@@ -70,7 +70,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Sin", "[VCTR][expressions][trigonometric]", (Platfo
     REQUIRE_THAT (resU, vctr::EqualsTransformedBy<sin> (srcUnaligned).withMargin (0.0001));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Cos", "[VCTR][expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
+TEMPLATE_PRODUCT_TEST_CASE ("Cos", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (-4, 4, 10)
 
@@ -81,7 +81,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Cos", "[VCTR][expressions][trigonometric]", (Platfo
     REQUIRE_THAT (resU, vctr::EqualsTransformedBy<cos> (srcUnaligned).withMargin (0.0001));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Tan", "[VCTR][expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
+TEMPLATE_PRODUCT_TEST_CASE ("Tan", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (-4, 4, 10)
 
@@ -92,7 +92,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Tan", "[VCTR][expressions][trigonometric]", (Platfo
     REQUIRE_THAT (resU, vctr::EqualsTransformedBy<tan> (srcUnaligned).withMargin (0.0001));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Sinh", "[VCTR][expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
+TEMPLATE_PRODUCT_TEST_CASE ("Sinh", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (-4, 4, 10)
 
@@ -103,7 +103,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Sinh", "[VCTR][expressions][trigonometric]", (Platf
     REQUIRE_THAT (resU, vctr::EqualsTransformedBy<sinh> (srcUnaligned).withMargin (0.00001));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Cosh", "[VCTR][expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
+TEMPLATE_PRODUCT_TEST_CASE ("Cosh", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (-4, 4, 10)
 
@@ -114,7 +114,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Cosh", "[VCTR][expressions][trigonometric]", (Platf
     REQUIRE_THAT (resU, vctr::EqualsTransformedBy<cosh> (srcUnaligned).withMargin (0.00001));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Tanh", "[VCTR][expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
+TEMPLATE_PRODUCT_TEST_CASE ("Tanh", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (-4, 4, 10)
 
@@ -125,7 +125,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Tanh", "[VCTR][expressions][trigonometric]", (Platf
     REQUIRE_THAT (resU, vctr::EqualsTransformedBy<tanh> (srcUnaligned).withMargin (0.00001));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Asin", "[VCTR][expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
+TEMPLATE_PRODUCT_TEST_CASE ("Asin", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (-1, 1, 10)
 
@@ -136,7 +136,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Asin", "[VCTR][expressions][trigonometric]", (Platf
     REQUIRE_THAT (resU, vctr::EqualsTransformedBy<asin> (srcUnaligned).withMargin (0.00001));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Acos", "[VCTR][expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
+TEMPLATE_PRODUCT_TEST_CASE ("Acos", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (-1, 1, 10)
 
@@ -147,7 +147,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Acos", "[VCTR][expressions][trigonometric]", (Platf
     REQUIRE_THAT (resU, vctr::EqualsTransformedBy<acos> (srcUnaligned).withMargin (0.00001));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Atan", "[VCTR][expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
+TEMPLATE_PRODUCT_TEST_CASE ("Atan", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (-4, 4, 10)
 
@@ -158,7 +158,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Atan", "[VCTR][expressions][trigonometric]", (Platf
     REQUIRE_THAT (resU, vctr::EqualsTransformedBy<atan> (srcUnaligned).withMargin (0.00001));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Asinh", "[VCTR][expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
+TEMPLATE_PRODUCT_TEST_CASE ("Asinh", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (-4, 4, 10)
 
@@ -169,7 +169,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Asinh", "[VCTR][expressions][trigonometric]", (Plat
     REQUIRE_THAT (resU, vctr::EqualsTransformedBy<asinh> (srcUnaligned).withMargin (0.00001));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Acosh", "[VCTR][expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
+TEMPLATE_PRODUCT_TEST_CASE ("Acosh", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (1, 10, 10)
 
@@ -180,7 +180,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Acosh", "[VCTR][expressions][trigonometric]", (Plat
     REQUIRE_THAT (resU, vctr::EqualsTransformedBy<acosh> (srcUnaligned).withMargin (0.00001));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Atanh", "[VCTR][expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
+TEMPLATE_PRODUCT_TEST_CASE ("Atanh", "[VCTR][Expressions][trigonometric]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (-1, 1, 10)
 

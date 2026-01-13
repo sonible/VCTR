@@ -25,7 +25,7 @@
 template <class T>
 T addition (T a, T b) { return a + b; }
 
-TEMPLATE_PRODUCT_TEST_CASE ("SIMDFilter", "[VCTR][SIMD]", (AnySIMD), (float, double, int32_t, uint32_t) )
+TEMPLATE_PRODUCT_TEST_CASE ("SIMDFilter", "[VCTR][Expressions][SIMD]", (AnySIMD), (float, double, int32_t, uint32_t) )
 {
     VCTR_TEST_DEFINES (10)
     const vctr::Vector sum = vctr::assertSIMD << filter << (srcA + srcB);

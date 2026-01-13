@@ -34,7 +34,7 @@ T square (T x) { return x * x; }
 template <class T>
 T cube (T x) { return x * x * x; }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Square Root", "[VCTR][sqrt]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>) )
+TEMPLATE_PRODUCT_TEST_CASE ("Square Root", "[VCTR][Expressions][sqrt]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES_IN_RANGE (0, 10000, 10)
 
@@ -43,7 +43,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Square Root", "[VCTR][sqrt]", (PlatformVectorOps, V
     REQUIRE_THAT (s, vctr::EqualsTransformedBy<sqrt> (srcA).withEpsilon (0.000001));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Square", "[VCTR][square]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
+TEMPLATE_PRODUCT_TEST_CASE ("Square", "[VCTR][Expressions][square]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES_IN_RANGE (-20, 20, 10)
 
@@ -52,7 +52,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Square", "[VCTR][square]", (PlatformVectorOps, VCTR
     REQUIRE_THAT (s, vctr::EqualsTransformedBy<square> (srcA));
 }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Cube", "[VCTR][cube]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
+TEMPLATE_PRODUCT_TEST_CASE ("Cube", "[VCTR][Expressions][cube]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES (10)
 

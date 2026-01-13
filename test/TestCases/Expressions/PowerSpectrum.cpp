@@ -25,7 +25,7 @@
 template <std::floating_point T>
 T getPowerSpectrum (std::complex<T> src) { return src.real() * src.real() + src.imag() * src.imag(); }
 
-TEMPLATE_PRODUCT_TEST_CASE ("PowerSpectrum", "[VCTR][complex]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (std::complex<float>, std::complex<double>) )
+TEMPLATE_PRODUCT_TEST_CASE ("PowerSpectrum", "[VCTR][Expressions][Complex][powerSpectrum]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES (10)
 

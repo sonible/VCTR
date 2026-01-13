@@ -25,7 +25,7 @@
 template <std::floating_point T>
 T getAngle (std::complex<T> src) { return std::arg (src); }
 
-TEMPLATE_PRODUCT_TEST_CASE ("Angle", "[VCTR][complex]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (std::complex<float>, std::complex<double>) )
+TEMPLATE_PRODUCT_TEST_CASE ("Angle", "[VCTR][Expressions][Complex][angle]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES (10)
 
