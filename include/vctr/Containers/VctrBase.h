@@ -172,7 +172,7 @@ public:
     template <size_t startIdx>
     constexpr auto subSpan()
     {
-        assertIsInRange<startIdx>();
+        assertIsInRangeIncludingEnd<startIdx>();
         return constCorrectSpan<getExtent (startIdx)> (data() + startIdx, size() - startIdx);
     }
 
@@ -184,7 +184,7 @@ public:
     template <size_t startIdx>
     constexpr auto subSpan() const
     {
-        assertIsInRange<startIdx>();
+        assertIsInRangeIncludingEnd<startIdx>();
         return constCorrectSpan<getExtent (startIdx)> (data() + startIdx, size() - startIdx);
     }
 
@@ -194,7 +194,7 @@ public:
      */
     constexpr auto subSpan (size_t startIdx)
     {
-        VCTR_ASSERT (startIdx < size());
+        VCTR_ASSERT (startIdx <= size());
         return constCorrectSpan<std::dynamic_extent> (data() + startIdx, size() - startIdx);
     }
 
@@ -204,7 +204,7 @@ public:
      */
     constexpr auto subSpan (size_t startIdx) const
     {
-        VCTR_ASSERT (startIdx < size());
+        VCTR_ASSERT (startIdx <= size());
         return constCorrectSpan<std::dynamic_extent> (data() + startIdx, size() - startIdx);
     }
 
@@ -215,7 +215,6 @@ public:
     template <size_t startIdx, size_t numElements>
     constexpr auto subSpan()
     {
-        VCTR_ASSERT (startIdx < size());
         VCTR_ASSERT (startIdx + numElements <= size());
         return constCorrectSpan<numElements> (data() + startIdx, numElements);
     }
@@ -227,7 +226,6 @@ public:
     template <size_t startIdx, size_t numElements>
     constexpr auto subSpan() const
     {
-        VCTR_ASSERT (startIdx < size());
         VCTR_ASSERT (startIdx + numElements <= size());
         return constCorrectSpan<numElements> (data() + startIdx, numElements);
     }
@@ -238,7 +236,6 @@ public:
      */
     constexpr auto subSpan (size_t startIdx, size_t numElements)
     {
-        VCTR_ASSERT (startIdx < size());
         VCTR_ASSERT (startIdx + numElements <= size());
         return constCorrectSpan<std::dynamic_extent> (data() + startIdx, numElements);
     }
@@ -983,7 +980,7 @@ protected:
         VCTR_ASSERT (size() == desiredSize);
     }
 
-    /** A runtime assert that the template size argument is not greater than the runtime defined size. */
+    /** A runtime assert that the template size argument is smaller than the runtime defined size. */
     template <size_t i>
     constexpr void assertIsInRange() const
     requires (extent == std::dynamic_extent)
@@ -991,12 +988,28 @@ protected:
         VCTR_ASSERT (i < size());
     }
 
-    /** A static assert that the template size argument is not greater than the compile time defined extent. */
+    /** A static assert that the template size argument is smaller than the compile time defined extent. */
     template <size_t i>
     constexpr void assertIsInRange() const
     requires (extent != std::dynamic_extent)
     {
         static_assert (i < extent);
+    }
+
+    /** A runtime assert that the template size argument is not greater than the runtime defined size. */
+    template <size_t i>
+    constexpr void assertIsInRangeIncludingEnd() const
+    requires (extent == std::dynamic_extent)
+    {
+        VCTR_ASSERT (i <= size());
+    }
+
+    /** A static assert that the template size argument is not greater than the compile time defined extent. */
+    template <size_t i>
+    constexpr void assertIsInRangeIncludingEnd() const
+    requires (extent != std::dynamic_extent)
+    {
+        static_assert (i <= extent);
     }
 
     /** Throws std::out_of_range and triggers an assertion if i is greater than size(). */
