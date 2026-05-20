@@ -98,11 +98,24 @@ struct ExpressionChainingHelper
 
 /** A helper struct to pass a constant as argument wrapped in a struct with a single public
     static constexpr member variable named value.
+
+    @see ConstantRef
  */
 template <auto constantValue>
 struct Constant
 {
     static constexpr auto value = constantValue;
+};
+
+/** A helper struct to pass a constant reference as argument wrapped in a struct with a single public
+    static constexpr reference member variable named value.
+
+    @see Constant
+ */
+template <const auto& constantValue>
+struct ConstantRef
+{
+    static constexpr auto& value = constantValue;
 };
 
 /** Evaluates the return value of getStart called on the constant reference template argument and

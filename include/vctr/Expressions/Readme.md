@@ -147,6 +147,24 @@ template <auto arg>
 constexpr inline ExpressionChainBuilder<MyExpressionWithConstant, Constant<arg>> myExpressionWithConstant;
 ```
 
+This approach however has limitations with current clang versions if the argument should be a floating point value. One
+way to overcome this is to pass a reference to a static constexpr value declared somewhere in the calling code as
+argument. Therefore, most expression chain builders taking constants currently have a second overload postfixed `Ref`,
+like this:
+
+```C++
+template <const auto& arg>
+constexpr inline ExpressionChainBuilder<MyExpressionWithConstant, ConstantRef<arg>> myExpressionWithConstantRef;
+```
+
+A real world example usage could be:
+```C++
+static constexpr float myVal = 42.1;
+constexpr vctr::Array in { 1.1, 2.2, 3.3 };
+constexpr vctr::Array out = vctr::addConstantRef<myVal> << in;
+// out would be [ 43.2, 44.3, 45.4 ]
+```
+
 ## Binary expressions
 
 The types of expressions described above are unary expressions, this means that they transform a single source vector or

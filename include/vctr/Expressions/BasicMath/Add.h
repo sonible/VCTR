@@ -261,8 +261,20 @@ constexpr auto operator+ (Src&& vec, typename std::remove_cvref_t<Src>::value_ty
 /** Returns an expression that adds a compile time constant to a vector or expression source.
 
     @ingroup Expressions
+    @see addConstantRef
  */
 template <auto constantValue>
 constexpr inline ExpressionChainBuilder<expressions::AddConstantToVec, Constant<constantValue>> addConstant;
+
+/** Returns an expression that adds a compile time constant to a vector or expression source.
+
+    In contrast to addConstant, this takes a reference to a constexpr value constant. This can be used as a
+    workaround for clang versions not directly accepting floating point template arguments.
+
+    @ingroup Expressions
+    @see addConstant
+ */
+template <const auto& constantValue>
+constexpr inline ExpressionChainBuilder<expressions::AddConstantToVec, ConstantRef<constantValue>> addConstantRef;
 
 } // namespace vctr
