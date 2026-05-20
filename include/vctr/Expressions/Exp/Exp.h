@@ -70,6 +70,26 @@ public:
         Expression::IPP::exp (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));
         return dst;
     }
+
+    VCTR_FORWARD_PREPARE_SIMD_EVALUATION_UNARY_EXPRESSION_MEMBER_FUNCTIONS
+
+    VCTR_FORCEDINLINE NeonRegister<value_type> getNeon (size_t i) const
+    requires archARM && platformApple && has::getNeon<SrcType> && std::same_as<value_type, float>
+    {
+        return Expression::Neon::exp (src.getNeon (i));
+    }
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") AVXRegister<value_type> getAVX (size_t i) const
+    requires archX64 && hasSVML && has::getAVX<SrcType> && is::realFloatNumber<value_type>
+    {
+        return Expression::AVX::exp (src.getAVX (i));
+    }
+
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") SSERegister<value_type> getSSE (size_t i) const
+    requires is::suitableForVfpOrSvmlSSERegisterFunction<value_type> && has::getSSE<SrcType>
+    {
+        return Expression::SSE::exp (src.getSSE (i));
+    }
 };
 
 } // namespace vctr::expressions
