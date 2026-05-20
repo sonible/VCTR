@@ -311,7 +311,19 @@ constexpr auto operator* (Src&& vec, typename std::remove_cvref_t<Src>::value_ty
 /** Returns an expression that multiplies a vector or expression source with a compile time constant.
 
     @ingroup Expressions
+    @see multiplyByConstantRef
  */
 template <auto constantValue>
 constexpr inline ExpressionChainBuilder<expressions::MultiplyVecByConstant, Constant<constantValue>> multiplyByConstant;
+
+/** Returns an expression that multiplies a vector or expression source with a compile time constant.
+
+    In contrast to multiplyByConstant, this takes a reference to a constexpr value constant. This can be used as a
+    workaround for clang versions not directly accepting floating point template arguments.
+
+    @ingroup Expressions
+    @see multiplyByConstant
+ */
+template <const auto& constantValue>
+constexpr inline ExpressionChainBuilder<expressions::MultiplyVecByConstant, ConstantRef<constantValue>> multiplyByConstantRef;
 } // namespace vctr

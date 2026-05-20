@@ -247,15 +247,39 @@ constexpr auto pow (Src&& bases, typename std::remove_cvref_t<Src>::value_type e
 /** Evaluates base raised to the power of the source elements.
 
     @ingroup Expressions
+    @see powConstantBaseRef
  */
 template <auto base>
 constexpr inline ExpressionChainBuilder<expressions::PowConstantBase, Constant<base>> powConstantBase;
 
+/** Evaluates base raised to the power of the source elements.
+
+    In contrast to powConstantBase, this takes a reference to a constexpr base constant. This can be used as a
+    workaround for clang versions not directly accepting floating point template arguments.
+
+    @ingroup Expressions
+    @see powConstantBase
+ */
+template <const auto& base>
+constexpr inline ExpressionChainBuilder<expressions::PowConstantBase, ConstantRef<base>> powConstantBaseRef;
+
 /** Evaluates the source elements raised to the power of exponent.
 
     @ingroup Expressions
+    @see powConstantExponentRef
  */
 template <auto exponent>
 constexpr inline ExpressionChainBuilder<expressions::PowConstantExponent, Constant<exponent>> powConstantExponent;
+
+/** Evaluates the source elements raised to the power of exponent.
+
+    In contrast to powConstantExponent, this takes a reference to a constexpr exponent constant. This can be used as a
+    workaround for clang versions not directly accepting floating point template arguments.
+
+    @ingroup Expressions
+    @see powConstantExponent
+ */
+template <const auto& exponent>
+constexpr inline ExpressionChainBuilder<expressions::PowConstantExponent, ConstantRef<exponent>> powConstantExponentRef;
 
 } // namespace vctr
