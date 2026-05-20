@@ -216,6 +216,20 @@ public:
         return Expression::SSE::add (constantSIMD.sse, src.getSSE (i));
     }
 
+    // Neon Implementation
+    void prepareNeonEvaluation() const
+    requires (archARM && has::prepareNeonEvaluation<SrcType> && Expression::CommonElement::isRealFloat)
+    {
+        src.prepareNeonEvaluation();
+        constantSIMD.neon = Expression::Neon::broadcast (constant);
+    }
+
+    NeonRegister<value_type> getNeon (size_t i) const
+    requires (archARM && has::getNeon<SrcType> && Expression::CommonElement::isRealFloat)
+    {
+        return Expression::Neon::add (constantSIMD.neon, src.getNeon (i));
+    }
+
 private:
     mutable SIMDRegisterUnion<Expression> constantSIMD {};
 };
