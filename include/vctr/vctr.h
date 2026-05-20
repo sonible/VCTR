@@ -157,6 +157,7 @@ VCTR_END_IGNORE_WARNING_MSVC
 #include "Expressions/Filter/SIMDFilter.h"
 #include "Expressions/Filter/PlatformVectorOpsFilter.h"
 
+#include "Expressions/Generic/Forward.h"
 #include "Expressions/Generic/Map.h"
 #include "Expressions/Generic/TransformedBy.h"
 #include "Expressions/Generic/TransformedByDynamicCast.h"

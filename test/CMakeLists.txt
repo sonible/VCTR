@@ -32,6 +32,7 @@ target_sources (vctr_test_cases INTERFACE
         TestCases/Expressions/ElementwiseMax.cpp
         TestCases/Expressions/ElementwiseMin.cpp
         TestCases/Expressions/Exp.cpp
+        TestCases/Expressions/Forward.cpp
         TestCases/Expressions/Ln.cpp
         TestCases/Expressions/Log2.cpp
         TestCases/Expressions/Log10.cpp
