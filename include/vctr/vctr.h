@@ -2,7 +2,7 @@
   ==============================================================================
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-    Copyright 2022- by sonible GmbH.
+    Copyright 2022 - by sonible GmbH.
 
     This file is part of VCTR - Versatile Container Templates Reconceptualized.
 
@@ -122,6 +122,8 @@ VCTR_END_IGNORE_WARNING_MSVC
     used to initialize a new Vector or Array.
  */
 
+#include "Miscellaneous/CompareOp.h"
+
 #include "TypeTraitsAndConcepts/ContainerAndExpressionConcepts.h"
 #include "TypeTraitsAndConcepts/FunctionConcepts.h"
 
@@ -157,6 +159,7 @@ VCTR_END_IGNORE_WARNING_MSVC
 #include "Expressions/Filter/SIMDFilter.h"
 #include "Expressions/Filter/PlatformVectorOpsFilter.h"
 
+#include "Expressions/Generic/BinaryCaseDistinction.h"
 #include "Expressions/Generic/Forward.h"
 #include "Expressions/Generic/Map.h"
 #include "Expressions/Generic/TransformedBy.h"

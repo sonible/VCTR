@@ -45,30 +45,6 @@ constexpr size_t nextMultipleOf (size_t numElements)
 namespace vctr
 {
 
-#if (! VCTR_X64)
-// These are defined in immintrin.h – defining them here for non x86 builds
-// to be able to assign the CompareOp enum cross-platform
-// NOLINTBEGIN (*-reserved-identifier)
-constexpr auto _CMP_LT_OQ = 0;
-constexpr auto _CMP_LE_OQ = 1;
-constexpr auto _CMP_GT_OQ = 2;
-constexpr auto _CMP_GE_OQ = 3;
-constexpr auto _CMP_EQ_OQ = 4;
-constexpr auto _CMP_NEQ_OQ = 5;
-// NOLINTEND (*-reserved-identifier)
-#endif
-
-/** Possible types of (SIMD) compare operations */
-enum class CompareOp : int
-{
-    less = _CMP_LT_OQ,           // <
-    lessOrEqual = _CMP_LE_OQ,    // <=
-    greater = _CMP_GT_OQ,        // >
-    greaterOrEqual = _CMP_GE_OQ, // >=
-    equal = _CMP_EQ_OQ,          // ==
-    notEqual = _CMP_NEQ_OQ       // !=
-};
-
 /** Helper function to check if a pointer is aligned to the required alignment value.
 
     The default alignment value is maxSIMDRegisterSize, which is the alignment that
