@@ -145,6 +145,20 @@ public:
     }
 };
 
+//==============================================================================
+// TEMPLATE_PRODUCT_TEST_CASE helper types. The types and defines containing list of types below are intended to be
+// passed as first argument to a TEMPLATE_PRODUCT_TEST_CASE where the other list of types are the actual numerical
+// types that should be tested. They enforce that a certain evaluation strategy is used when the test case is executed.
+
+/** Contains a vctr::dontUseAcceleration filter, forcing the test case to take the fallback for-loop based evaluation strategy. */
+template <class T>
+struct DontUseAcceleration
+{
+    static constexpr auto filter = vctr::dontUseAcceleration;
+    using ElementType = T;
+};
+
+/** Contains a vctr::usePlatformVectorOps filter, forcing the test case to take the platform vec op based evaluation strategy if available. */
 template <class T>
 struct PlatformVectorOps
 {
@@ -152,6 +166,7 @@ struct PlatformVectorOps
     using ElementType = T;
 };
 
+/** Contains a vctr::useAVX filter, forcing the test case to take the AVX based evaluation strategy if available. */
 template <class T>
 struct AVX
 {
@@ -160,6 +175,7 @@ struct AVX
     using RegisterType = vctr::AVXRegister<T>;
 };
 
+/** Contains a vctr::useSSE filter, forcing the test case to take the SSE based evaluation strategy if available. */
 template <class T>
 struct SSE
 {
@@ -168,6 +184,7 @@ struct SSE
     using RegisterType = vctr::SSERegister<T>;
 };
 
+/** Contains a vctr::useNeon filter, forcing the test case to take the Neon based evaluation strategy if available. */
 template <class T>
 struct Neon
 {
@@ -176,6 +193,7 @@ struct Neon
     using RegisterType = vctr::NeonRegister<T>;
 };
 
+/** Contains a vctr::useSIMD filter, forcing the test case to take the best suitable SIMD based evaluation strategy available. */
 template <class T>
 struct AnySIMD
 {
@@ -184,10 +202,15 @@ struct AnySIMD
 };
 
 #if VCTR_ARM
+/** Defines all native SIMD filter types for ARM based machines (e.g. only Neon). */
 #define VCTR_NATIVE_SIMD Neon
 #else
+/** Defines all native SIMD filter types for Intel based machines (e.g. AVX and SSE). */
 #define VCTR_NATIVE_SIMD AVX, SSE
 #endif
+
+/** A list of all possible evaluation strategies, fores the test to attempt any strategy. */
+#define VCTR_ALL_EVALUATION_STRATEGIES DontUseAcceleration, PlatformVectorOps, VCTR_NATIVE_SIMD
 
 #define VCTR_TEST_DEFINES_BASE(testVectorSize, start, end, avoidZeros, forceZero)                                                              \
     using ElementType = typename TestType::ElementType;                                                                                        \
