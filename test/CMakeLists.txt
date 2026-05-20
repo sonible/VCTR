@@ -15,6 +15,7 @@ target_sources (vctr_test_cases INTERFACE
         TestCases/ElementAccessFunctions.cpp
         TestCases/FindingAndManipulatingElements.cpp
         TestCases/Range.cpp
+        TestCases/ScalarCompareOp.cpp
         TestCases/SpanConstructors.cpp
         TestCases/SpanMemberFunctions.cpp
         TestCases/VctrBaseMemberFunctions.cpp
@@ -26,6 +27,7 @@ target_sources (vctr_test_cases INTERFACE
         TestCases/Expressions/Abs.cpp
         TestCases/Expressions/Add.cpp
         TestCases/Expressions/Angle.cpp
+        TestCases/Expressions/BinaryCaseDistinction.cpp
         TestCases/Expressions/Clamp.cpp
         TestCases/Expressions/Conjugate.cpp
         TestCases/Expressions/Divide.cpp
