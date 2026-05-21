@@ -97,6 +97,30 @@ struct NeonRegister<float>
     static NeonRegister fma (NeonRegister a, NeonRegister b, NeonRegister c) { return { vfmaq_f32 (c.value, a.value, b.value) }; }
     static NeonRegister fms (NeonRegister a, NeonRegister b, NeonRegister c) { return { vfmsq_f32 (c.value, a.value, b.value) }; }
 
+#if VCTR_APPLE
+    // The Apple Accelerate vfp function collection contains some optimised math functions that can be directly called
+    // on 128 bit float vectors and which are therefore compatible to float32x4_t arguments.
+    static NeonRegister exp   (NeonRegister x) { return { vexpf (x.value) }; }
+    static NeonRegister exp2  (NeonRegister x) { return { vexp2f (x.value) }; }
+    static NeonRegister expm1 (NeonRegister x) { return { vexpm1f (x.value) }; }
+    static NeonRegister log   (NeonRegister x) { return { vlogf (x.value) }; }
+    static NeonRegister log1p (NeonRegister x) { return { vlog1pf (x.value) }; }
+    static NeonRegister log10 (NeonRegister x) { return { vlog10f (x.value) }; }
+    static NeonRegister logb  (NeonRegister x) { return { vlogbf (x.value) }; }
+    static NeonRegister log2  (NeonRegister x) { return { vlog2f (x.value) }; }
+    static NeonRegister sin   (NeonRegister x) { return { vsinf (x.value) }; }
+    static NeonRegister cos   (NeonRegister x) { return { vcosf (x.value) }; }
+    static NeonRegister tan   (NeonRegister x) { return { vtanf (x.value) }; }
+    static NeonRegister sinh  (NeonRegister x) { return { vsinhf (x.value) }; }
+    static NeonRegister cosh  (NeonRegister x) { return { vcoshf (x.value) }; }
+    static NeonRegister tanh  (NeonRegister x) { return { vtanhf (x.value) }; }
+    static NeonRegister asinh (NeonRegister x) { return { vasinhf (x.value) }; }
+    static NeonRegister acosh (NeonRegister x) { return { vacoshf (x.value) }; }
+    static NeonRegister atanh (NeonRegister x) { return { vatanhf (x.value) }; }
+    static NeonRegister pow   (NeonRegister x, NeonRegister y) { return { vpowf (x.value, y.value) }; }
+    static NeonRegister pow   (NeonRegister x, NeonRegister<int32_t> y);
+#endif
+
     //==============================================================================
     // Type conversion
     static NeonRegister<int32_t> convertToInt (NeonRegister x);
@@ -297,6 +321,10 @@ inline NeonRegister<int32_t> NeonRegister<float>::convertToInt (NeonRegister<flo
 inline NeonRegister<int32_t> NeonRegister<float>::reinterpretAsInt (NeonRegister<float> x)   { return { vreinterpretq_s32_f32 (x.value) }; }
 inline NeonRegister<int64_t> NeonRegister<double>::convertToInt (NeonRegister<double> x)     { return { vcvtq_s64_f64 (x.value) }; }
 inline NeonRegister<int64_t> NeonRegister<double>::reinterpretAsInt (NeonRegister<double> x) { return { vreinterpretq_s64_f64 (x.value) }; }
+
+#if VCTR_APPLE
+inline NeonRegister<float> NeonRegister<float>::pow (NeonRegister<float> x, NeonRegister<int32_t> y)       { return { vipowf (x.value, y.value) }; }
+#endif
 
 #endif
 
