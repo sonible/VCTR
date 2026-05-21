@@ -89,6 +89,25 @@ struct SSERegister<float>
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister atanh (SSERegister x) { return { vatanhf (x.value) }; }
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister pow   (SSERegister x, SSERegister y) { return { vpowf (x.value, y.value) }; }
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister pow   (SSERegister x, SSERegister<int32_t> y);
+#elif VCTR_HAS_SVML
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister exp   (SSERegister x) { return { _mm_exp_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister exp2  (SSERegister x) { return { _mm_exp2_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister expm1 (SSERegister x) { return { _mm_expm1_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister log   (SSERegister x) { return { _mm_log_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister log1p (SSERegister x) { return { _mm_log1p_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister log10 (SSERegister x) { return { _mm_log10_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister logb  (SSERegister x) { return { _mm_logb_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister log2  (SSERegister x) { return { _mm_log2_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sin   (SSERegister x) { return { _mm_sin_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister cos   (SSERegister x) { return { _mm_cos_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister tan   (SSERegister x) { return { _mm_tan_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sinh  (SSERegister x) { return { _mm_sinh_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister cosh  (SSERegister x) { return { _mm_cosh_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister tanh  (SSERegister x) { return { _mm_tanh_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister asinh (SSERegister x) { return { _mm_asinh_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister acosh (SSERegister x) { return { _mm_acosh_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister atanh (SSERegister x) { return { _mm_atanh_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister pow   (SSERegister x, SSERegister y) { return { _mm_pow_ps (x.value, y.value) }; }
 #endif
 
     //==============================================================================
@@ -133,6 +152,27 @@ struct SSERegister<double>
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_pd (a.value, b.value) }; }
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_pd (a.value, b.value) }; }
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_pd (a.value, b.value) }; }
+
+#if VCTR_HAS_SVML
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister exp   (SSERegister x) { return { _mm_exp_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister exp2  (SSERegister x) { return { _mm_exp2_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister expm1 (SSERegister x) { return { _mm_expm1_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister log   (SSERegister x) { return { _mm_log_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister log1p (SSERegister x) { return { _mm_log1p_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister log10 (SSERegister x) { return { _mm_log10_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister logb  (SSERegister x) { return { _mm_logb_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister log2  (SSERegister x) { return { _mm_log2_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sin   (SSERegister x) { return { _mm_sin_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister cos   (SSERegister x) { return { _mm_cos_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister tan   (SSERegister x) { return { _mm_tan_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sinh  (SSERegister x) { return { _mm_sinh_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister cosh  (SSERegister x) { return { _mm_cosh_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister tanh  (SSERegister x) { return { _mm_tanh_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister asinh (SSERegister x) { return { _mm_asinh_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister acosh (SSERegister x) { return { _mm_acosh_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister atanh (SSERegister x) { return { _mm_atanh_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister pow   (SSERegister x, SSERegister y) { return { _mm_pow_pd (x.value, y.value) }; }
+#endif
 
     //==============================================================================
     // Type conversion
