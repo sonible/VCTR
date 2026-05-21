@@ -66,6 +66,30 @@ struct SSERegister<float>
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sub (SSERegister a, SSERegister b) { return { _mm_sub_ps (a.value, b.value) }; }
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister max (SSERegister a, SSERegister b) { return { _mm_max_ps (a.value, b.value) }; }
     VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister min (SSERegister a, SSERegister b) { return { _mm_min_ps (a.value, b.value) }; }
+    
+#if VCTR_APPLE
+    // The Apple Accelerate vfp function collection contains some optimised math functions that can be directly called
+    // on 128 bit float vectors and which are therefore compatible to __m128 arguments.
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister exp   (SSERegister x) { return { vexpf (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister exp2  (SSERegister x) { return { vexp2f (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister expm1 (SSERegister x) { return { vexpm1f (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister log   (SSERegister x) { return { vlogf (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister log1p (SSERegister x) { return { vlog1pf (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister log10 (SSERegister x) { return { vlog10f (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister logb  (SSERegister x) { return { vlogbf (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister log2  (SSERegister x) { return { vlog2f (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sin   (SSERegister x) { return { vsinf (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister cos   (SSERegister x) { return { vcosf (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister tan   (SSERegister x) { return { vtanf (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister sinh  (SSERegister x) { return { vsinhf (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister cosh  (SSERegister x) { return { vcoshf (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister tanh  (SSERegister x) { return { vtanhf (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister asinh (SSERegister x) { return { vasinhf (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister acosh (SSERegister x) { return { vacoshf (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister atanh (SSERegister x) { return { vatanhf (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister pow   (SSERegister x, SSERegister y) { return { vpowf (x.value, y.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("sse4.1") static SSERegister pow   (SSERegister x, SSERegister<int32_t> y);
+#endif
 
     //==============================================================================
     // Type conversion
@@ -260,6 +284,11 @@ inline SSERegister<int32_t> SSERegister<float>::convertToInt (SSERegister x)    
 inline SSERegister<int32_t> SSERegister<float>::reinterpretAsInt (SSERegister x)  { return { _mm_castps_si128 (x.value) }; }
 inline SSERegister<int64_t> SSERegister<double>::convertToInt (SSERegister x)     { return { _mm_cvtpd_epi64 (x.value) }; }
 inline SSERegister<int64_t> SSERegister<double>::reinterpretAsInt (SSERegister x) { return { _mm_castpd_si128 (x.value) }; }
+    
+    
+#if VCTR_APPLE
+inline SSERegister<float> SSERegister<float>::pow (SSERegister<float> x, SSERegister<int32_t> y) { return { vipowf (x.value, y.value) }; }
+#endif
 
 #endif
 
