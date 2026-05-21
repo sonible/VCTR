@@ -341,6 +341,10 @@ concept suitableForIppComplexFloatBinaryVectorOp = detail::isPreferredVectorOp<p
 template <class SrcA, class SrcB, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForIppRealOrComplexComplexFloatBinaryVectorOp = detail::isPreferredVectorOp<pref> && Config::hasIPP && suitableForBinaryVectorOp<SrcA, SrcB, DstType> && (realFloatNumber<DstType> || complexFloatNumber<DstType>);
 
+/** A combined concept if one of the similar named Apple Accelerate VFP or Intel SVML backed member functions of SSERegister can be used with the given value type. */
+template <class ValueType>
+concept suitableForVfpOrSvmlSSERegisterFunction = Config::archX64 && ((Config::platformApple && std::same_as<float, ValueType>) || (Config::hasSVML && realFloatNumber<ValueType>));
+
 //==============================================================================
 /** Constrains a type to supply a data and size function, an index operator and define a trivially copyable value_type. */
 template <class T>

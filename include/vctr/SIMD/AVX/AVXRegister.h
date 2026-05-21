@@ -76,6 +76,27 @@ struct AVXRegister<float>
     VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_ps (a.value, b.value, c.value) }; }
     VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_ps (a.value, b.value, c.value) }; }
 
+#if VCTR_HAS_SVML
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister exp   (AVXRegister x) { return {_mm256_exp_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister exp2  (AVXRegister x) { return {_mm256_exp2_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister expm1 (AVXRegister x) { return {_mm256_expm1_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister log   (AVXRegister x) { return {_mm256_log_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister log1p (AVXRegister x) { return {_mm256_log1p_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister log10 (AVXRegister x) { return {_mm256_log10_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister logb  (AVXRegister x) { return {_mm256_logb_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister log2  (AVXRegister x) { return {_mm256_log2_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister sin   (AVXRegister x) { return {_mm256_sin_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister cos   (AVXRegister x) { return {_mm256_cos_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister tan   (AVXRegister x) { return {_mm256_tan_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister sinh  (AVXRegister x) { return {_mm256_sinh_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister cosh  (AVXRegister x) { return {_mm256_cosh_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister tanh  (AVXRegister x) { return {_mm256_tanh_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister asinh (AVXRegister x) { return {_mm256_asinh_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister acosh (AVXRegister x) { return {_mm256_acosh_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister atanh (AVXRegister x) { return {_mm256_atanh_ps (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister pow   (AVXRegister x, AVXRegister y) { return {_mm256_pow_ps (x.value, y.value) }; }
+#endif
+
     //==============================================================================
     // Type conversion
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister<int32_t> convertToInt (AVXRegister x);
@@ -128,6 +149,27 @@ struct AVXRegister<double>
     VCTR_FORCEDINLINE VCTR_TARGET ("avx") static AVXRegister min (AVXRegister a, AVXRegister b) { return { _mm256_min_pd (a.value, b.value) }; }
     VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister fma (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fmadd_pd (a.value, b.value, c.value) }; }
     VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister fms (AVXRegister a, AVXRegister b, AVXRegister c) { return { _mm256_fnmadd_pd (a.value, b.value, c.value) }; }
+    
+#if VCTR_HAS_SVML
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister exp   (AVXRegister x) { return {_mm256_exp_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister exp2  (AVXRegister x) { return {_mm256_exp2_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister expm1 (AVXRegister x) { return {_mm256_expm1_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister log   (AVXRegister x) { return {_mm256_log_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister log1p (AVXRegister x) { return {_mm256_log1p_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister log10 (AVXRegister x) { return {_mm256_log10_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister logb  (AVXRegister x) { return {_mm256_logb_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister log2  (AVXRegister x) { return {_mm256_log2_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister sin   (AVXRegister x) { return {_mm256_sin_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister cos   (AVXRegister x) { return {_mm256_cos_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister tan   (AVXRegister x) { return {_mm256_tan_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister sinh  (AVXRegister x) { return {_mm256_sinh_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister cosh  (AVXRegister x) { return {_mm256_cosh_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister tanh  (AVXRegister x) { return {_mm256_tanh_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister asinh (AVXRegister x) { return {_mm256_asinh_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister acosh (AVXRegister x) { return {_mm256_acosh_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister atanh (AVXRegister x) { return {_mm256_atanh_pd (x.value) }; }
+    VCTR_FORCEDINLINE VCTR_TARGET ("fma") static AVXRegister pow   (AVXRegister x, AVXRegister y) { return {_mm256_pow_pd (x.value, y.value) }; }
+#endif
 
     //==============================================================================
     // Type conversion
