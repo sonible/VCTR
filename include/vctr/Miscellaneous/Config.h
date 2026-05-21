@@ -74,6 +74,9 @@
 #elif defined(_MSC_VER)
 #define VCTR_MSVC 1
 #define VCTR_COMPILER_NAME MSVC
+// Since Visual Studio 2019, there is builtin SVML support in MSVC
+// https://devblogs.microsoft.com/cppblog/msvc-backend-updates-in-visual-studio-2019-preview-2/
+#define VCTR_HAS_SVML (_MSC_VER >= 1921)
 #endif
 
 #ifndef VCTR_CLANG
@@ -86,6 +89,10 @@
 
 #ifndef VCTR_MSVC
 #define VCTR_MSVC 0
+#endif
+
+#ifndef VCTR_HAS_SVML
+#define VCTR_HAS_SVML 0
 #endif
 
 //==============================================================================
@@ -330,6 +337,8 @@ struct Config
     static constexpr bool compilerMSVC = VCTR_MSVC;
 
     static_assert (detail::trueCount<compilerClang, compilerGCC, compilerMSVC>() == 1, "Unsupported compiler or compiler detection error");
+
+    static constexpr bool hasSVML = VCTR_HAS_SVML;
 
     //==============================================================================
     // User supplied config
