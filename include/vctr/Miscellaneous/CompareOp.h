@@ -49,9 +49,20 @@ enum class CompareOp : int
 
 namespace is
 {
+// clang-format off
+/** Constrains an instance of Lhs to be comparable by op with Rhs. */
+template <class Lhs, CompareOp op, class Rhs>
+concept comparableByWith = (op == CompareOp::less           && requires (const Lhs& lhs, const Rhs& rhs) { lhs <  rhs; }) ||
+                           (op == CompareOp::lessOrEqual    && requires (const Lhs& lhs, const Rhs& rhs) { lhs <= rhs; }) ||
+                           (op == CompareOp::greater        && requires (const Lhs& lhs, const Rhs& rhs) { lhs >  rhs; }) ||
+                           (op == CompareOp::greaterOrEqual && requires (const Lhs& lhs, const Rhs& rhs) { lhs >= rhs; }) ||
+                           (op == CompareOp::equal          && requires (const Lhs& lhs, const Rhs& rhs) { lhs == rhs; }) ||
+                           (op == CompareOp::notEqual       && requires (const Lhs& lhs, const Rhs& rhs) { lhs != rhs; });
+// clang-format on
+
 /** Constrains two instances of T to be comparable by the operation specified by op. */
 template <class T, CompareOp op>
-concept comparableBy = ((op == CompareOp::equal || op == CompareOp::notEqual) && std::equality_comparable<T>) || std::three_way_comparable<T>;
+concept comparableBy = comparableByWith<T, op, T>;
 }
 
 /** Helper struct for scalar fallback evaluation of compare operations specified via CompareOp constants.
@@ -66,47 +77,47 @@ struct ScalarCompareOp {};
 template<>
 struct ScalarCompareOp<CompareOp::less>
 {
-    template <class Lhs, std::three_way_comparable_with<Lhs> Rhs>
+    template <class Lhs, is::comparableByWith<CompareOp::less, Lhs> Rhs>
     constexpr bool operator() (const Lhs& lhs, const Rhs& rhs) const { return lhs < rhs; }
 };
 
 template<>
 struct ScalarCompareOp<CompareOp::lessOrEqual>
 {
-    template <class Lhs, std::three_way_comparable_with<Lhs> Rhs>
+    template <class Lhs, is::comparableByWith<CompareOp::lessOrEqual, Lhs> Rhs>
     constexpr bool operator() (const Lhs& lhs, const Rhs& rhs) const { return lhs <= rhs; }
 };
 
 template<>
 struct ScalarCompareOp<CompareOp::greater>
 {
-    template <class Lhs, std::three_way_comparable_with<Lhs> Rhs>
+    template <class Lhs, is::comparableByWith<CompareOp::greater, Lhs> Rhs>
     constexpr bool operator() (const Lhs& lhs, const Rhs& rhs) const { return lhs > rhs; }
 };
 
 template<>
 struct ScalarCompareOp<CompareOp::greaterOrEqual>
 {
-    template <class Lhs, std::three_way_comparable_with<Lhs> Rhs>
+    template <class Lhs, is::comparableByWith<CompareOp::greaterOrEqual, Lhs> Rhs>
     constexpr bool operator() (const Lhs& lhs, const Rhs& rhs) const { return lhs >= rhs; }
 };
 
 template<>
 struct ScalarCompareOp<CompareOp::equal>
 {
-    template <class Lhs, std::equality_comparable_with<Lhs> Rhs>
+    template <class Lhs, is::comparableByWith<CompareOp::equal, Lhs> Rhs>
     constexpr bool operator() (const Lhs& lhs, const Rhs& rhs) const { return lhs == rhs; }
 };
 
 template<>
 struct ScalarCompareOp<CompareOp::notEqual>
 {
-    template <class Lhs, std::equality_comparable_with<Lhs> Rhs>
+    template <class Lhs, is::comparableByWith<CompareOp::notEqual, Lhs> Rhs>
     constexpr bool operator() (const Lhs& lhs, const Rhs& rhs) const { return lhs != rhs; }
 };
 
 /** Compares two values using the compare operation specified by CompareOp. */
-template <CompareOp op, class Lhs, class Rhs>
+template <CompareOp op, class Lhs, is::comparableByWith<op, Lhs> Rhs>
 constexpr bool scalarCompare (const Lhs& lhs, const Rhs& rhs)
 {
     return ScalarCompareOp<op>{} (lhs, rhs);
