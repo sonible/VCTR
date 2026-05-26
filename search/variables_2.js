@@ -1,6 +1,11 @@
 var searchData=
 [
-  ['dataissimdaligned_0',['dataIsSIMDAligned',['../structvctr_1_1StorageInfo_3_01std_1_1array_3_01ElementType_00_01size_01_4_01_4.html#ad21e0231f581503afc0696460f0deef6',1,'vctr::StorageInfo&lt; std::array&lt; ElementType, size &gt; &gt;']]],
-  ['dbtomag_1',['dbToMag',['../group__Expressions.html#ga0fb8fcc155a35e271c9698c78fa0fea8',1,'vctr']]],
-  ['dontuseacceleration_2',['dontUseAcceleration',['../group__Expressions.html#ga4346d69140e0367d58e03e85c69f7310',1,'vctr']]]
+  ['clampbyconstant_0',['clampByConstant',['../group__Expressions.html#ga9b6f78c2a5e03e76bf2591297c281c4a',1,'vctr']]],
+  ['clamphighbyconstant_1',['clampHighByConstant',['../group__Expressions.html#ga26405b01dc3bdcb3d46d9f0e5a42340f',1,'vctr']]],
+  ['clamplowbyconstant_2',['clampLowByConstant',['../group__Expressions.html#gab9cbe3f19b460eac11e8814fb62731cd',1,'vctr']]],
+  ['clamptorange_3',['clampToRange',['../group__Expressions.html#gac570bfee18c5d6d4fd11ea41b186e35e',1,'vctr']]],
+  ['conjugate_4',['conjugate',['../group__Expressions.html#gaf2cab54fe8d56b64f2cea0d1f2b44529',1,'vctr']]],
+  ['cos_5',['cos',['../group__Expressions.html#ga896371d63c7f50b8cf87211c4b07749e',1,'vctr']]],
+  ['cosh_6',['cosh',['../group__Expressions.html#ga73474b549d4401d5ad5d746dd1b78d49',1,'vctr']]],
+  ['cube_7',['cube',['../group__Expressions.html#gad4e424bc5fa6e6b74c38135f20e10621',1,'vctr']]]
 ];

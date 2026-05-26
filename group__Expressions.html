@@ -202,6 +202,35 @@ template&lt;auto constantValue&gt; </div>
 </div><div class="memdoc">
 
 <p>Returns an expression that adds a compile time constant to a vector or expression source. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__Expressions.html#gae022741779f954ccea3ca50315533fa6" title="Returns an expression that adds a compile time constant to a vector or expression source.">addConstantRef</a> </dd></dl>
+
+</div>
+</div>
+<a id="gae022741779f954ccea3ca50315533fa6" name="gae022741779f954ccea3ca50315533fa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae022741779f954ccea3ca50315533fa6">&#9670;&#160;</a></span>addConstantRef</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;const auto &amp; constantValue&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1AddConstantToVec.html">expressions::AddConstantToVec</a>, <a class="el" href="structvctr_1_1ConstantRef.html">ConstantRef</a>&lt;constantValue&gt; &gt; vctr::addConstantRef</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that adds a compile time constant to a vector or expression source. </p>
+<p>In contrast to addConstant, this takes a reference to a constexpr value constant. This can be used as a workaround for clang versions not directly accepting floating point template arguments.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__Expressions.html#ga1b75ff028956dd81c7539419ff894d21" title="Returns an expression that adds a compile time constant to a vector or expression source.">addConstant</a> </dd></dl>
 
 </div>
 </div>
@@ -348,6 +377,35 @@ template&lt;auto constantValue&gt; </div>
 </div><div class="memdoc">
 
 <p>Computes the inverse hyperbolic tangent of each source element. </p>
+
+</div>
+</div>
+<a id="ga7f9e98129958a05683b78e497af4bca1" name="ga7f9e98129958a05683b78e497af4bca1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7f9e98129958a05683b78e497af4bca1">&#9670;&#160;</a></span>binaryCaseDistinction</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;const auto &amp; caseTrueExpression, <a class="el" href="namespacevctr.html#a8a46a9dbd17d34124d497e189e22c2b8">CompareOp</a> compareOp, const auto &amp; threshold, const auto &amp; caseFalseExpression&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1BinaryCaseDistinction.html">expressions::BinaryCaseDistinction</a>, <a class="el" href="structvctr_1_1BinaryCaseDistinctionConfig.html">BinaryCaseDistinctionConfig</a>&lt;caseTrueExpression, compareOp, <a class="el" href="structvctr_1_1ConstantRef.html">ConstantRef</a>&lt;threshold&gt;, caseFalseExpression&gt; &gt; vctr::binaryCaseDistinction</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Evaluates one of two expressions depending on a binary condition. </p>
+<p>The comparison of the input value with the threshold using the specified compare operation decides which one is evaluated.</p>
+<p>The expression will prepend the source to both caseTrueExpression and caseFalseExpression internally. If a source element compares true to threshold using compareOp, the result element will be the evaluation result of caseTrueExpression, otherwise caseFalseExpression. If you only want to apply an expression to either the true or false path, consider passing <a class="el" href="group__Expressions.html#ga18ed29b212185631744d2f14c949b2d9" title="An expression that forwards the source unaltered.">vctr::forward</a> as expression to the other path.</p>
+<dl class="section note"><dt>Note</dt><dd>: Since this expression evaluates both expression paths and the compare operation this leads to possibly multiple accesses of the source. Therefore, it's good advice to only use containers rather than unevaluated expressions as source to this expression to avoid multiple evaluations of the same expression. </dd></dl>
 
 </div>
 </div>
@@ -713,6 +771,31 @@ template&lt;is::constant DecibelConstant&gt; </div>
 
 </div>
 </div>
+<a id="ga18ed29b212185631744d2f14c949b2d9" name="ga18ed29b212185631744d2f14c949b2d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga18ed29b212185631744d2f14c949b2d9">&#9670;&#160;</a></span>forward</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1Forward.html">expressions::Forward</a>&gt; vctr::forward</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>An expression that forwards the source unaltered. </p>
+<p>This is mainly useful as generic building block to insert in situations where an expression is required syntactically but nothing should be altered. </p>
+
+</div>
+</div>
 <a id="ga4d940e2110b6323e22d993d3b1e5a63d" name="ga4d940e2110b6323e22d993d3b1e5a63d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga4d940e2110b6323e22d993d3b1e5a63d">&#9670;&#160;</a></span>imag</h2>
 
@@ -1011,6 +1094,35 @@ template&lt;auto constantValue&gt; </div>
 </div><div class="memdoc">
 
 <p>Returns an expression that multiplies a vector or expression source with a compile time constant. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__Expressions.html#ga99158161c8a8544d2ee9f4996b920ff6" title="Returns an expression that multiplies a vector or expression source with a compile time constant.">multiplyByConstantRef</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga99158161c8a8544d2ee9f4996b920ff6" name="ga99158161c8a8544d2ee9f4996b920ff6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga99158161c8a8544d2ee9f4996b920ff6">&#9670;&#160;</a></span>multiplyByConstantRef</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;const auto &amp; constantValue&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1MultiplyVecByConstant.html">expressions::MultiplyVecByConstant</a>, <a class="el" href="structvctr_1_1ConstantRef.html">ConstantRef</a>&lt;constantValue&gt; &gt; vctr::multiplyByConstantRef</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that multiplies a vector or expression source with a compile time constant. </p>
+<p>In contrast to multiplyByConstant, this takes a reference to a constexpr value constant. This can be used as a workaround for clang versions not directly accepting floating point template arguments.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__Expressions.html#gacaca8458ca97c6a7da8e682cd6e5d84d" title="Returns an expression that multiplies a vector or expression source with a compile time constant.">multiplyByConstant</a> </dd></dl>
 
 </div>
 </div>
@@ -1063,6 +1175,35 @@ template&lt;auto base&gt; </div>
 </div><div class="memdoc">
 
 <p>Evaluates base raised to the power of the source elements. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__Expressions.html#gaab7c8cc4ef258c64723ecc01349ab376" title="Evaluates base raised to the power of the source elements.">powConstantBaseRef</a> </dd></dl>
+
+</div>
+</div>
+<a id="gaab7c8cc4ef258c64723ecc01349ab376" name="gaab7c8cc4ef258c64723ecc01349ab376"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaab7c8cc4ef258c64723ecc01349ab376">&#9670;&#160;</a></span>powConstantBaseRef</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;const auto &amp; base&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1PowConstantBase.html">expressions::PowConstantBase</a>, <a class="el" href="structvctr_1_1ConstantRef.html">ConstantRef</a>&lt;base&gt; &gt; vctr::powConstantBaseRef</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Evaluates base raised to the power of the source elements. </p>
+<p>In contrast to powConstantBase, this takes a reference to a constexpr base constant. This can be used as a workaround for clang versions not directly accepting floating point template arguments.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__Expressions.html#ga3b6d257bb352c945c76cae98c730a28b" title="Evaluates base raised to the power of the source elements.">powConstantBase</a> </dd></dl>
 
 </div>
 </div>
@@ -1089,6 +1230,35 @@ template&lt;auto exponent&gt; </div>
 </div><div class="memdoc">
 
 <p>Evaluates the source elements raised to the power of exponent. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__Expressions.html#gae1547451911fafc76caf7cbcdab5fed4" title="Evaluates the source elements raised to the power of exponent.">powConstantExponentRef</a> </dd></dl>
+
+</div>
+</div>
+<a id="gae1547451911fafc76caf7cbcdab5fed4" name="gae1547451911fafc76caf7cbcdab5fed4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae1547451911fafc76caf7cbcdab5fed4">&#9670;&#160;</a></span>powConstantExponentRef</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;const auto &amp; exponent&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a>&lt;<a class="el" href="classvctr_1_1expressions_1_1PowConstantExponent.html">expressions::PowConstantExponent</a>, <a class="el" href="structvctr_1_1ConstantRef.html">ConstantRef</a>&lt;exponent&gt; &gt; vctr::powConstantExponentRef</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Evaluates the source elements raised to the power of exponent. </p>
+<p>In contrast to powConstantExponent, this takes a reference to a constexpr exponent constant. This can be used as a workaround for clang versions not directly accepting floating point template arguments.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__Expressions.html#gadc712a3c1ecf10913b0b0be0d2e4f905" title="Evaluates the source elements raised to the power of exponent.">powConstantExponent</a> </dd></dl>
 
 </div>
 </div>

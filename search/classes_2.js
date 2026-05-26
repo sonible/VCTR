@@ -1,12 +1,20 @@
 var searchData=
 [
-  ['dbfs_0',['dBFS',['../structvctr_1_1dBFS.html',1,'vctr']]],
-  ['dbpower_1',['dBPower',['../structvctr_1_1dBPower.html',1,'vctr']]],
-  ['dbvoltage_2',['dBVoltage',['../structvctr_1_1dBVoltage.html',1,'vctr']]],
-  ['defaultvectorallocator_3',['DefaultVectorAllocator',['../structvctr_1_1DefaultVectorAllocator.html',1,'vctr']]],
-  ['defaultvectorallocator_3c_20elementtype_20_3e_4',['DefaultVectorAllocator&lt; ElementType &gt;',['../structvctr_1_1DefaultVectorAllocator_3_01ElementType_01_4.html',1,'vctr']]],
-  ['disabledconstant_5',['DisabledConstant',['../structvctr_1_1DisabledConstant.html',1,'vctr']]],
-  ['dividesinglebyvec_6',['DivideSingleByVec',['../classvctr_1_1expressions_1_1DivideSingleByVec.html',1,'vctr::expressions']]],
-  ['dividevecbysingle_7',['DivideVecBySingle',['../classvctr_1_1expressions_1_1DivideVecBySingle.html',1,'vctr::expressions']]],
-  ['dividevectors_8',['DivideVectors',['../classvctr_1_1expressions_1_1DivideVectors.html',1,'vctr::expressions']]]
+  ['clamp_0',['Clamp',['../classvctr_1_1expressions_1_1Clamp.html',1,'vctr::expressions']]],
+  ['clampbyconstant_1',['ClampByConstant',['../classvctr_1_1expressions_1_1ClampByConstant.html',1,'vctr::expressions']]],
+  ['combinedstorageinfo_2',['CombinedStorageInfo',['../structvctr_1_1CombinedStorageInfo.html',1,'vctr']]],
+  ['combinedstorageinfo_3c_20first_2c_20others_2e_2e_2e_20_3e_3',['CombinedStorageInfo&lt; First, Others... &gt;',['../structvctr_1_1CombinedStorageInfo_3_01First_00_01Others_8_8_8_01_4.html',1,'vctr']]],
+  ['combinedstorageinfo_3c_20std_3a_3aremove_5fcvref_5ft_3c_20srcastorageinfotype_20_3e_2c_20std_3a_3aremove_5fcvref_5ft_3c_20srcbstorageinfotype_20_3e_2c_20std_3a_3aremove_5fcvref_5ft_3c_20srccstorageinfotype_20_3e_20_3e_4',['CombinedStorageInfo&lt; std::remove_cvref_t&lt; SrcAStorageInfoType &gt;, std::remove_cvref_t&lt; SrcBStorageInfoType &gt;, std::remove_cvref_t&lt; SrcCStorageInfoType &gt; &gt;',['../structvctr_1_1CombinedStorageInfo.html',1,'vctr']]],
+  ['config_5',['Config',['../structvctr_1_1Config.html',1,'vctr']]],
+  ['conjugate_6',['Conjugate',['../classvctr_1_1expressions_1_1Conjugate.html',1,'vctr::expressions']]],
+  ['constant_7',['Constant',['../structvctr_1_1Constant.html',1,'vctr']]],
+  ['constant_3c_2010_20_3e_8',['Constant&lt; 10 &gt;',['../structvctr_1_1Constant.html',1,'vctr']]],
+  ['constant_3c_2020_20_3e_9',['Constant&lt; 20 &gt;',['../structvctr_1_1Constant.html',1,'vctr']]],
+  ['constantrangeend_10',['ConstantRangeEnd',['../structvctr_1_1ConstantRangeEnd.html',1,'vctr']]],
+  ['constantrangestart_11',['ConstantRangeStart',['../structvctr_1_1ConstantRangeStart.html',1,'vctr']]],
+  ['constantref_12',['ConstantRef',['../structvctr_1_1ConstantRef.html',1,'vctr']]],
+  ['cos_13',['Cos',['../classvctr_1_1expressions_1_1Cos.html',1,'vctr::expressions']]],
+  ['cosh_14',['Cosh',['../classvctr_1_1expressions_1_1Cosh.html',1,'vctr::expressions']]],
+  ['cpuinstructionsets_15',['CPUInstructionSets',['../structvctr_1_1CPUInstructionSets.html',1,'vctr']]],
+  ['cube_16',['Cube',['../classvctr_1_1expressions_1_1Cube.html',1,'vctr::expressions']]]
 ];

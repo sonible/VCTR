@@ -45,7 +45,10 @@ var concepts =
         [ "getEndWithValueType", "conceptvctr_1_1has_1_1getEndWithValueType.html", null ]
       ] ],
       [ "is", null, [
+        [ "binaryCaseDistinctionConfig", "conceptvctr_1_1is_1_1binaryCaseDistinctionConfig.html", null ],
         [ "reductionExpressionChainBuilderForSource", "conceptvctr_1_1is_1_1reductionExpressionChainBuilderForSource.html", null ],
+        [ "comparableByWith", "conceptvctr_1_1is_1_1comparableByWith.html", null ],
+        [ "comparableBy", "conceptvctr_1_1is_1_1comparableBy.html", null ],
         [ "constexprStorageInfo", "conceptvctr_1_1is_1_1constexprStorageInfo.html", null ],
         [ "anyVctr", "conceptvctr_1_1is_1_1anyVctr.html", null ],
         [ "anyVctrWithValueType", "conceptvctr_1_1is_1_1anyVctrWithValueType.html", null ],
@@ -79,6 +82,7 @@ var concepts =
         [ "suitableForIppRealFloatBinaryVectorOp", "conceptvctr_1_1is_1_1suitableForIppRealFloatBinaryVectorOp.html", null ],
         [ "suitableForIppComplexFloatBinaryVectorOp", "conceptvctr_1_1is_1_1suitableForIppComplexFloatBinaryVectorOp.html", null ],
         [ "suitableForIppRealOrComplexComplexFloatBinaryVectorOp", "conceptvctr_1_1is_1_1suitableForIppRealOrComplexComplexFloatBinaryVectorOp.html", null ],
+        [ "suitableForVfpOrSvmlSSERegisterFunction", "conceptvctr_1_1is_1_1suitableForVfpOrSvmlSSERegisterFunction.html", null ],
         [ "triviallyCopyableWithDataAndSize", "conceptvctr_1_1is_1_1triviallyCopyableWithDataAndSize.html", null ],
         [ "iteratorCopyable", "conceptvctr_1_1is_1_1iteratorCopyable.html", null ],
         [ "suitableInitializerForElementType", "conceptvctr_1_1is_1_1suitableInitializerForElementType.html", null ],

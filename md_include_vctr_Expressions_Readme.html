@@ -191,6 +191,15 @@ Creating an &lt;tt&gt;ExpressionChainBuilder&lt;/tt&gt; instance</h1>
 </div><!-- fragment --><p>The corresponding expression chain builder is a variable template then: </p><div class="fragment"><div class="line"> {C++}</div>
 <div class="line">template &lt;auto arg&gt;</div>
 <div class="line">constexpr inline ExpressionChainBuilder&lt;MyExpressionWithConstant, Constant&lt;arg&gt;&gt; myExpressionWithConstant;</div>
+</div><!-- fragment --><p>This approach however has limitations with current clang versions if the argument should be a floating point value. One way to overcome this is to pass a reference to a static constexpr value declared somewhere in the calling code as argument. Therefore, most expression chain builders taking constants currently have a second overload postfixed <code>Ref</code>, like this:</p>
+<div class="fragment"><div class="line"> {C++}</div>
+<div class="line">template &lt;const auto&amp; arg&gt;</div>
+<div class="line">constexpr inline ExpressionChainBuilder&lt;MyExpressionWithConstant, ConstantRef&lt;arg&gt;&gt; myExpressionWithConstantRef;</div>
+</div><!-- fragment --><p>A real world example usage could be: </p><div class="fragment"><div class="line"> {C++}</div>
+<div class="line">static constexpr float myVal = 42.1;</div>
+<div class="line">constexpr vctr::Array in { 1.1, 2.2, 3.3 };</div>
+<div class="line">constexpr vctr::Array out = vctr::addConstantRef&lt;myVal&gt; &lt;&lt; in;</div>
+<div class="line">// out would be [ 43.2, 44.3, 45.4 ]</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md2"></a>
 Binary expressions</h1>
 <p>The types of expressions described above are unary expressions, this means that they transform a single source vector or expression. Operations like e.g. additions and multiplications need multiple operands. They should take two source types as template argument and two constructor arguments accordingly. The <code>VCTR_COMMON_BINARY_VEC_VEC_EXPRESSION_MEMBERS</code> and <code>VCTR_COMMON_BINARY_SINGLE_VEC_EXPRESSION_MEMBERS</code> macros should be chosen to generate the boilerplate code in this case. Those expressions are exposed via free functions or operator overloads. This is how e.g. the vector addition implementation looks like:</p>

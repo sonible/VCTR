@@ -112,6 +112,7 @@ var NAVTREE =
     [ "pow", "group__Expressions.html#ga3b49d9d6f6070cc6a9af10c8c167cc35", null ],
     [ "pow", "group__Expressions.html#ga9bee671c8b09c5aa9d952e8529e47e8b", null ],
     [ "pow", "group__Expressions.html#gacd4fec61c0c7d256340f9483a17d13eb", null ],
+    [ "scalarCompare", "namespacevctr.html#a8966294740ae409c8e6ffcb15c1aba1a", null ],
     [ "simdAlignedSpanStorageInfo", "namespacevctr.html#abb0c57eb1dc57e153788f2a8631ed6a6", null ],
     [ "sizeToInt", "namespacevctr.html#aecbd148207a93e819482375969ad3db9", null ],
     [ "transformedBy", "group__Expressions.html#gaea7f8d380f1eadb6615c56b8246544d9", null ],
@@ -120,12 +121,14 @@ var NAVTREE =
     [ "acos", "group__Expressions.html#ga778493aa5f46f4a688de257b299c8d92", null ],
     [ "acosh", "group__Expressions.html#ga45af1bb62e14a9d6aa8380346c030c8e", null ],
     [ "addConstant", "group__Expressions.html#ga1b75ff028956dd81c7539419ff894d21", null ],
+    [ "addConstantRef", "group__Expressions.html#gae022741779f954ccea3ca50315533fa6", null ],
     [ "angle", "group__Expressions.html#gacdade010cccd89cb91921e3e38c28c55", null ],
     [ "asin", "group__Expressions.html#ga429a6b58b01f054a80d007bc2a6cb7a5", null ],
     [ "asinh", "group__Expressions.html#ga321147aab676531cb4af96f4b4f64d32", null ],
     [ "assertSIMD", "group__Expressions.html#gaf0e0357a0a5e857e11eee9228c2403cc", null ],
     [ "atan", "group__Expressions.html#ga666c0848887d4feecc228569b1f7a678", null ],
     [ "atanh", "group__Expressions.html#ga9bec0884896ef9a38043781f9a6f7179", null ],
+    [ "binaryCaseDistinction", "group__Expressions.html#ga7f9e98129958a05683b78e497af4bca1", null ],
     [ "clampByConstant", "group__Expressions.html#ga9b6f78c2a5e03e76bf2591297c281c4a", null ],
     [ "clampHighByConstant", "group__Expressions.html#ga26405b01dc3bdcb3d46d9f0e5a42340f", null ],
     [ "clampLowByConstant", "group__Expressions.html#gab9cbe3f19b460eac11e8814fb62731cd", null ],
@@ -141,6 +144,7 @@ var NAVTREE =
     [ "fastExp", "group__Expressions.html#ga07452e4928d888bdcadf45a6e6ea5473", null ],
     [ "fastExp2", "group__Expressions.html#ga1079fb06966ca5084f9b2fc5641d05ff", null ],
     [ "fastLog2", "group__Expressions.html#ga2397abd76d4474d25ea021a591ff663c", null ],
+    [ "forward", "group__Expressions.html#ga18ed29b212185631744d2f14c949b2d9", null ],
     [ "imag", "group__Expressions.html#ga4d940e2110b6323e22d993d3b1e5a63d", null ],
     [ "ln", "group__Expressions.html#ga66fa77725b3684fd045c771c27b7dbac", null ],
     [ "log10", "group__Expressions.html#ga0fd49babf82a9c443081e134f86ee1fc", null ],
@@ -153,9 +157,12 @@ var NAVTREE =
     [ "min", "group__Expressions.html#gae77e3e38e1fb46de60f48d2977edc8d5", null ],
     [ "minAbs", "group__Expressions.html#ga3b09e32571fd1b4968f6ba72509a71c7", null ],
     [ "multiplyByConstant", "group__Expressions.html#gacaca8458ca97c6a7da8e682cd6e5d84d", null ],
+    [ "multiplyByConstantRef", "group__Expressions.html#ga99158161c8a8544d2ee9f4996b920ff6", null ],
     [ "normalizeSum", "group__Expressions.html#ga7cccddc76017b29befea7e34bf607010", null ],
     [ "powConstantBase", "group__Expressions.html#ga3b6d257bb352c945c76cae98c730a28b", null ],
+    [ "powConstantBaseRef", "group__Expressions.html#gaab7c8cc4ef258c64723ecc01349ab376", null ],
     [ "powConstantExponent", "group__Expressions.html#gadc712a3c1ecf10913b0b0be0d2e4f905", null ],
+    [ "powConstantExponentRef", "group__Expressions.html#gae1547451911fafc76caf7cbcdab5fed4", null ],
     [ "powerSpectrum", "group__Expressions.html#gaf5ec582bc24648aa5087f73f8eaeb651", null ],
     [ "real", "group__Expressions.html#gae4fc0dae0a600f82c768b555dcf6ea69", null ],
     [ "realToComplex", "group__Expressions.html#gab6416b37ceb85eeb4b9f8bbe6c059e02", null ],
@@ -205,7 +212,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classvctr_1_1OwnedVector.html#aebfff322866872974a2d7249720e5ae0",
-"conceptvctr_1_1is_1_1contiguousIteratorWithValueTypeSameAs.html"
+"conceptvctr_1_1is_1_1comparableByWith.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

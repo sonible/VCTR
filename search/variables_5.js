@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['hassimdextendedstorage_0',['hasSIMDExtendedStorage',['../structvctr_1_1StorageInfo_3_01std_1_1vector_3_01ElementType_00_01AlignedAllocator_3_01ElementTypb1ff9125abc35bf2a038ab1c1b675ea6.html#a769c28b9459bb449ebba89b61a34c2d5',1,'vctr::StorageInfo&lt; std::vector&lt; ElementType, AlignedAllocator&lt; ElementType, alignmentInBytes &gt; &gt; &gt;']]]
+  ['fastexp_0',['fastExp',['../group__Expressions.html#ga07452e4928d888bdcadf45a6e6ea5473',1,'vctr']]],
+  ['fastexp2_1',['fastExp2',['../group__Expressions.html#ga1079fb06966ca5084f9b2fc5641d05ff',1,'vctr']]],
+  ['fastlog2_2',['fastLog2',['../group__Expressions.html#ga2397abd76d4474d25ea021a591ff663c',1,'vctr']]],
+  ['forward_3',['forward',['../group__Expressions.html#ga18ed29b212185631744d2f14c949b2d9',1,'vctr']]]
 ];
