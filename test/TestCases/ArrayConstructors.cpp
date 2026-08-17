@@ -38,6 +38,16 @@ TEMPLATE_TEST_CASE ("Array Constructors", "[VCTR][Array][Constructor]", float, i
     REQUIRE (initializedWithSize.size() == 43);
     REQUIRE_THAT (initializedWithSize, vctr::AllElementsEqualTo (v[0]));
 
+    // Direct-list-style initialization sets all elements to the same value
+    vctr::Array<TestType, 43> directListInitialized { v[0] };
+    REQUIRE (directListInitialized.size() == 43);
+    REQUIRE_THAT (directListInitialized, vctr::AllElementsEqualTo (v[0]));
+
+    // Copy-list-style initialization sets all elements to the same value
+    vctr::Array<TestType, 43> copyListInitialized = { v[0] };
+    REQUIRE (copyListInitialized.size() == 43);
+    REQUIRE_THAT (copyListInitialized, vctr::AllElementsEqualTo (v[0]));
+
     // Initializer list
     vctr::Array il { v[0], v[1], v[2], v[3] };
     static_assert (std::same_as<TestType, typename decltype (il)::value_type>);
