@@ -3,4 +3,4 @@ catch2/3.8.0
 gcem/1.16.0
 
 [generators]
-CMakeDeps
+CMakeConfigDeps
