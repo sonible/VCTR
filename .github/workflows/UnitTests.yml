@@ -123,12 +123,6 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
 
-      - name: (Windows) Setup Conan profile for Clang
-        run: |
-          conan config home
-          conan profile show -pr .github/conan/profiles/windows-clang
-        if: runner.os == 'Windows' && matrix.configs.cxx != 'cl'
-
       - name: Install IPP
         run: pip3 install ipp-static
         if: matrix.configs.ipp == 'ipp'
