@@ -10,90 +10,115 @@ jobs:
   unit_tests:
     strategy:
       matrix:
+        # Every config selects the Conan profile it wants to build with via `conan_profile`:
+        #   - `default`: let Conan auto-detect the profile
+        #   - anything else: use `.github/conan/profiles/<conan_profile>`
+        # See .github/conan/profiles/Readme.md for details.
         configs:
           - runner: ubuntu-22.04
             cc: clang-15
             cxx: clang++-15
             ipp: no_ipp
+            conan_profile: default
 
           - runner: ubuntu-24.04
             cc: gcc-13
             cxx: g++-13
             ipp: no_ipp
+            conan_profile: default
 
           - runner: ubuntu-22.04
             cc: clang-15
             cxx: clang++-15
             ipp: ipp
+            conan_profile: default
 
           - runner: ubuntu-24.04
             cc: gcc-13
             cxx: g++-13
             ipp: ipp
+            conan_profile: default
 
           # MSVC currently fails to compile all the expression test cases: https://github.com/sonible/VCTR/issues/142
           # - runner: windows-2025
           #   cc: cl
           #   cxx: cl
           #   ipp: no_ipp
+          #   conan_profile: windows-msvc
 
           - runner: windows-2025
             cc: clang-cl
             cxx: clang-cl
             ipp: no_ipp
+            conan_profile: windows-clang
 
           - runner: windows-2025
             cc: clang
             cxx: clang++
             ipp: no_ipp
+            conan_profile: windows-clang
 
           #   Not supported yet
           # - runner: windows-2025
           #   cc: gcc
           #   cxx: g++
           #   ipp: no_ipp
+          #   conan_profile: default
 
           # MSVC currently fails to compile all the expression test cases: https://github.com/sonible/VCTR/issues/142
           # - runner: windows-2025
           #   cc: cl
           #   cxx: cl
           #   ipp: ipp
+          #   conan_profile: windows-msvc
 
           - runner: windows-2025
             cc: clang-cl
             cxx: clang-cl
             ipp: ipp
+            conan_profile: windows-clang
 
           - runner: windows-2025
             cc: clang
             cxx: clang++
             ipp: ipp
+            conan_profile: windows-clang
 
           #   Not supported yet
           # - runner: windows-2025
           #   cc: gcc
           #   cxx: g++
-          #   ipp: no_ipp
+          #   ipp: ipp
+          #   conan_profile: default
 
           # macos-14 and upwards runners are ARM based, therefore no IPP needed here
           - runner: macos-14
             cc: clang
             cxx: clang++
             ipp: no_ipp
+            conan_profile: default
 
           - runner: macos-15-intel
             cc: clang
             cxx: clang++
             ipp: no_ipp
+            conan_profile: default
 
           - runner: macos-15-intel
             cc: clang
             cxx: clang++
             ipp: ipp
+            conan_profile: default
 
       fail-fast: false
 
+    name: ${{ matrix.configs.runner }} / ${{ matrix.configs.cxx }} / ${{ matrix.configs.ipp }}
+
     runs-on: ${{ matrix.configs.runner }}
+
+    env:
+      # Either `default` or the absolute path to a profile file in .github/conan/profiles
+      CONAN_PROFILE: ${{ matrix.configs.conan_profile == 'default' && 'default' || format('{0}/.github/conan/profiles/{1}', github.workspace, matrix.configs.conan_profile) }}
 
     steps:
 
@@ -123,17 +148,76 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
 
+      # Conan's auto-detection guesses the Visual Studio installation wrong on the runner images, so
+      # the Windows profiles pin it explicitly. The values are detected here instead of being
+      # hardcoded, so that they keep working when the runner image is updated.
+      - name: (Windows) Detect toolchain versions
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vsVersion = "17"
+          $vcToolsVersion = $env:VCToolsVersion
+
+          if (Test-Path $vswhere)
+          {
+            $installationVersion = & $vswhere -latest -products * -property installationVersion
+            if ($installationVersion) { $vsVersion = $installationVersion.Split('.')[0] }
+
+            if (-not $vcToolsVersion)
+            {
+              $installationPath = & $vswhere -latest -products * -property installationPath
+              $defaultToolsFile = Join-Path $installationPath "VC\Auxiliary\Build\Microsoft.VCToolsVersion.default.txt"
+              if (Test-Path $defaultToolsFile) { $vcToolsVersion = (Get-Content $defaultToolsFile -Raw).Trim() }
+            }
+          }
+
+          # MSVC tools version 14.3x -> runtime v143 / msvc 193, 14.4x -> v144 / 194, 14.5x -> v145 / 195
+          $vsRuntimeVersion = "v143"
+          $msvcVersion = "193"
+          if ($vcToolsVersion -match '^(\d+)\.(\d)')
+          {
+            $candidate = "v" + $Matches[1] + $Matches[2]
+            $known = @("v140", "v141", "v142", "v143", "v144", "v145")
+            if ($known -contains $candidate)
+            {
+              $vsRuntimeVersion = $candidate
+              $msvcVersion = "19" + $Matches[2]
+            }
+            else
+            {
+              Write-Host "Unknown MSVC toolset $candidate, falling back to $vsRuntimeVersion"
+            }
+          }
+
+          $clangVersion = "20"
+          $clangVersionOutput = (& clang --version 2>$null) -join "`n"
+          if ($clangVersionOutput -match 'version (\d+)') { $clangVersion = $Matches[1] }
+
+          Write-Host "Visual Studio major version: $vsVersion"
+          Write-Host "MSVC tools version: $vcToolsVersion -> runtime_version $vsRuntimeVersion, msvc version $msvcVersion"
+          Write-Host "Clang major version: $clangVersion"
+
+          "VS_VERSION=$vsVersion"                | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "VS_RUNTIME_VERSION=$vsRuntimeVersion" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "VS_MSVC_VERSION=$msvcVersion"         | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "CLANG_VERSION=$clangVersion"          | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+        if: runner.os == 'Windows'
+
       - name: Install IPP
         run: pip3 install ipp-static
         if: matrix.configs.ipp == 'ipp'
 
       # VCTR_AUTOLINK_IPP uses fake ternary operator
       # More details here: https://github.com/actions/runner/issues/409#issuecomment-752775072
+      # cmake-conan's `auto-cmake` profile is appended to the host profile so that the compiler
+      # executables detected by CMake are passed on to Conan.
       - name: Configure CMake
-        run: cmake . -B build -G Ninja -D CMAKE_BUILD_TYPE=Release -D VCTR_BUILD_TEST=1 -D CMAKE_PROJECT_TOP_LEVEL_INCLUDES=ext/cmake-conan/conan_provider.cmake -D VCTR_AUTOLINK_IPP=${{ matrix.configs.ipp == 'ipp' && '1' || '0' }}
+        run: cmake . -B build -G Ninja -D CMAKE_BUILD_TYPE=Release -D VCTR_BUILD_TEST=1 -D CMAKE_PROJECT_TOP_LEVEL_INCLUDES=ext/cmake-conan/conan_provider.cmake -D VCTR_AUTOLINK_IPP=${{ matrix.configs.ipp == 'ipp' && '1' || '0' }} "-DCONAN_HOST_PROFILE=${{ env.CONAN_PROFILE }};auto-cmake" "-DCONAN_BUILD_PROFILE=${{ env.CONAN_PROFILE }}"
         env:
           CC: ${{ matrix.configs.cc }}
           CXX: ${{ matrix.configs.cxx }}
+
+
 
       - name: Build
         run: cmake --build build/ --target vctr_test
