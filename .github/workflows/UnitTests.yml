@@ -130,10 +130,12 @@ jobs:
       # VCTR_AUTOLINK_IPP uses fake ternary operator
       # More details here: https://github.com/actions/runner/issues/409#issuecomment-752775072
       - name: Configure CMake
-        run: cmake . -B build -G Ninja -D CMAKE_BUILD_TYPE=Release -D VCTR_BUILD_TEST=1 -D CMAKE_PROJECT_TOP_LEVEL_INCLUDES=ext/cmake-conan/conan_provider.cmake -D VCTR_AUTOLINK_IPP=${{ matrix.configs.ipp == 'ipp' }} -D VCTR_USE_CLANG_ON_WINDOWS=${{ matrix.configs.cxx == 'clang++' }} --profile:build=.github/conan/profiles/windows-clang --profile:host=.github/conan/profiles/windows-clang
+        run: cmake . -B build -G Ninja -D CMAKE_BUILD_TYPE=Release -D VCTR_BUILD_TEST=1 -D CMAKE_PROJECT_TOP_LEVEL_INCLUDES=ext/cmake-conan/conan_provider.cmake -D VCTR_AUTOLINK_IPP=${{ matrix.configs.ipp == 'ipp' }} -D VCTR_USE_CLANG_ON_WINDOWS=${{ matrix.configs.cxx == 'clang++' }}
         env:
           CC: ${{ matrix.configs.cc }}
           CXX: ${{ matrix.configs.cxx }}
+          CONAN_PROFILE_BUILD: .github/conan/profiles/windows-clang
+          CONAN_PROFILE_HOST: .github/conan/profiles/windows-clang
         if: runner.os == 'Windows'
 
       - name: Configure CMake
