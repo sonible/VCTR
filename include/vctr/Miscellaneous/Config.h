@@ -279,10 +279,10 @@ inline CPUInstructionSets getSupportedCPUInstructionSets()
     __builtin_cpu_init();
 
     return {
-        .sse4_1 = __builtin_cpu_supports ("sse4.1"),
-        .avx = __builtin_cpu_supports ("avx"),
-        .avx2 = __builtin_cpu_supports ("avx2"),
-        .fma = __builtin_cpu_supports ("fma"),
+        .sse4_1 = bool (__builtin_cpu_supports ("sse4.1")),
+        .avx = bool (__builtin_cpu_supports ("avx")),
+        .avx2 = bool (__builtin_cpu_supports ("avx2")),
+        .fma = bool (__builtin_cpu_supports ("fma")),
         .neon = false
     };
 }
