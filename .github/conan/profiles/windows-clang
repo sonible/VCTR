@@ -1,0 +1,20 @@
+{# See Readme.md in this folder. Conan renders profiles as Jinja templates, so the values #}
+{# detected by the CI workflow can be picked up instead of hardcoding them here.          #}
+{% set vs_version = os.getenv("VS_VERSION", "17") %}
+{% set vs_runtime_version = os.getenv("VS_RUNTIME_VERSION", "v143") %}
+{% set clang_version = os.getenv("CLANG_VERSION", "20") %}
+
+[settings]
+os=Windows
+arch=x86_64
+build_type=Release
+compiler=clang
+compiler.version={{ clang_version }}
+compiler.cppstd=20
+compiler.runtime=dynamic
+compiler.runtime_type=Release
+compiler.runtime_version={{ vs_runtime_version }}
+
+[conf]
+tools.cmake.cmaketoolchain:generator=Ninja
+tools.microsoft.msbuild:vs_version={{ vs_version }}
