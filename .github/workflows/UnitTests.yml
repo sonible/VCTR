@@ -212,7 +212,7 @@ jobs:
       # cmake-conan's `auto-cmake` profile is appended to the host profile so that the compiler
       # executables detected by CMake are passed on to Conan.
       - name: Configure CMake
-        run: cmake . -B build -G Ninja -D CMAKE_BUILD_TYPE=Release -D VCTR_BUILD_TEST=1 -D CMAKE_PROJECT_TOP_LEVEL_INCLUDES=ext/cmake-conan/conan_provider.cmake -D VCTR_AUTOLINK_IPP=${{ matrix.configs.ipp == 'ipp' && '1' || '0' }} "-DCONAN_HOST_PROFILE=${{ env.CONAN_PROFILE }};auto-cmake" "-DCONAN_BUILD_PROFILE=${{ env.CONAN_PROFILE }}"
+        run: cmake . -B build -G Ninja -D CMAKE_BUILD_TYPE=Release -D CMAKE_COMPILE_WARNING_AS_ERROR=ON -D VCTR_BUILD_TEST=1 -D CMAKE_PROJECT_TOP_LEVEL_INCLUDES=ext/cmake-conan/conan_provider.cmake -D VCTR_AUTOLINK_IPP=${{ matrix.configs.ipp == 'ipp' && '1' || '0' }} "-DCONAN_HOST_PROFILE=${{ env.CONAN_PROFILE }};auto-cmake" "-DCONAN_BUILD_PROFILE=${{ env.CONAN_PROFILE }}"
         env:
           CC: ${{ matrix.configs.cc }}
           CXX: ${{ matrix.configs.cxx }}
