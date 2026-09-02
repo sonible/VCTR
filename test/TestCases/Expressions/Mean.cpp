@@ -22,6 +22,8 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
+VCTR_START_IGNORE_WARNING_CLANG (implicit-const-int-float-conversion)
+
 TEMPLATE_PRODUCT_TEST_CASE ("Mean", "[VCTR][Expressions][mean]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, std::complex<float>, std::complex<double>, int32_t, int64_t, uint32_t, uint64_t) )
 {
     VCTR_TEST_DEFINES (10)
@@ -135,3 +137,5 @@ TEMPLATE_PRODUCT_TEST_CASE ("RMS", "[VCTR][Expressions][rms]", (PlatformVectorOp
         REQUIRE (rmsU == refU);
     }
 }
+
+VCTR_END_IGNORE_WARNING_CLANG
