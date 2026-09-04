@@ -2,7 +2,7 @@
   ==============================================================================
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-    Copyright 2022- by sonible GmbH.
+    Copyright 2026 - by sonible GmbH.
 
     This file is part of VCTR - Versatile Container Templates Reconceptualized.
 
@@ -24,56 +24,45 @@ namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType>
-requires is::realFloatNumber<ValueType<SrcType>> || is::complexFloatNumber<ValueType<SrcType>>
-class Sqrt : ExpressionTemplateBase
+requires is::realFloatNumber<ValueType<SrcType>>
+class SignedSqrt : ExpressionTemplateBase
 {
 public:
     using value_type = ValueType<SrcType>;
 
-    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (Sqrt, src)
+    VCTR_COMMON_UNARY_EXPRESSION_MEMBERS (SignedSqrt, src)
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
-        VCTR_ASSERT (inputValueValid (src[i]));
-        if constexpr (is::realFloatNumber<value_type>)
-        {
-            if (std::is_constant_evaluated())
-                return gcem::sqrt (src[i]);
-        }
+        const auto in = src[i];
 
-        return std::sqrt (src[i]);
+        if (std::is_constant_evaluated())
+            return in < value_type (0) ? -gcem::sqrt (-in) : gcem::sqrt (in);
+
+        return std::copysign (std::sqrt (std::abs (in)), in);
     }
 
     //==============================================================================
     // Platform Vector Operation Implementation
     VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
-    requires is::suitableForAccelerateRealFloatVectorOp<SrcType, value_type, detail::dontPreferIfIppAndAccelerateAreAvailable>
+    requires is::suitableForAccelerateRealFloatVectorOp<SrcType, value_type>
     {
         const auto* s = src.evalNextVectorOpInExpressionChain (dst);
-        VCTR_ASSERT (std::all_of (s, s + size(), inputValueValid));
 
-        Expression::Accelerate::sqrt (s, dst, sizeToInt (size()));
+        if (s != dst)
+        {
+            const auto len = sizeToInt (size());
+            Expression::Accelerate::abs (s, dst, len);
+            Expression::Accelerate::sqrt (dst, dst, len);
+            Expression::Accelerate::copysign (dst, s, dst, len);
+            return dst;
+        }
+
+        // The vectorised approach does not work for in-place evaluation, so we fall back to a scalar implementation here
+        for (size_t i = 0; i < size(); ++i)
+            dst[i] = std::copysign (std::sqrt (std::abs (dst[i])), dst[i]);
+
         return dst;
-    }
-
-    VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
-    requires is::suitableForIppRealOrComplexFloatVectorOp<SrcType, value_type, detail::preferIfIppAndAccelerateAreAvailable>
-    {
-        const auto* s = src.evalNextVectorOpInExpressionChain (dst);
-        VCTR_ASSERT (std::all_of (s, s + size(), inputValueValid));
-
-        Expression::IPP::sqrt (s, dst, sizeToInt (size()));
-        return dst;
-    }
-
-private:
-    /** If the value type is real, this checks if the value is greater or equal zero */
-    static constexpr bool inputValueValid (value_type in)
-    {
-        if constexpr (is::realNumber<value_type>)
-            return in >= value_type (0);
-
-        return true;
     }
 };
 
@@ -82,10 +71,15 @@ private:
 namespace vctr
 {
 
-/** Computes the square root of the source values.
+/** Computes the sign-preserving square root of the source values.
+
+    Values >= 0 behave like a regular square root, values < 0 yield a negative square root of the absolute value.
 
     @ingroup Expressions
  */
-constexpr inline ExpressionChainBuilder<expressions::Sqrt> sqrt;
+constexpr inline ExpressionChainBuilder<expressions::SignedSqrt> signedSqrt;
 
 } // namespace vctr
+
+
+
