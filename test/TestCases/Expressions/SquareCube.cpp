@@ -28,6 +28,9 @@ T sqrt (T x) { return std::sqrt (x); }
 template <vctr::is::complexFloatNumber T>
 T sqrt (T x) { return std::sqrt (x); }
 
+template <vctr::is::realFloatNumber T>
+T signedSqrt (T x) { return std::copysign (std::sqrt (std::abs (x)), x); }
+
 template <class T>
 T square (T x) { return x * x; }
 
@@ -41,6 +44,15 @@ TEMPLATE_PRODUCT_TEST_CASE ("Square Root", "[VCTR][Expressions][sqrt]", (Platfor
     const vctr::Vector s = filter << vctr::sqrt << srcA;
 
     REQUIRE_THAT (s, vctr::EqualsTransformedBy<sqrt> (srcA).withEpsilon (0.000001));
+}
+
+TEMPLATE_PRODUCT_TEST_CASE ("Signed Square Root", "[VCTR][Expressions][signedSqrt]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
+{
+    VCTR_TEST_DEFINES_IN_RANGE (-10000, 10000, 10)
+
+    const vctr::Vector s = filter << vctr::signedSqrt << srcA;
+
+    REQUIRE_THAT (s, vctr::EqualsTransformedBy<signedSqrt> (srcA).withEpsilon (0.000001));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Square", "[VCTR][Expressions][square]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
