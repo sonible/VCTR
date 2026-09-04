@@ -172,6 +172,7 @@ VCTR_END_IGNORE_WARNING_MSVC
 #include "Expressions/BasicMath/ElementwiseMax.h"
 #include "Expressions/BasicMath/ElementwiseMin.h"
 #include "Expressions/BasicMath/Sqrt.h"
+#include "Expressions/BasicMath/SignedSqrt.h"
 #include "Expressions/BasicMath/Square.h"
 #include "Expressions/BasicMath/Add.h"
 #include "Expressions/BasicMath/Subtract.h"
