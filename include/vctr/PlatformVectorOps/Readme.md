@@ -71,7 +71,7 @@ abs operation:
 const ReturnElementType* evalNextVectorOpInExpressionChain (ReturnElementType* dst) const
 requires (platformApple && has::evalNextVectorOpInExpressionChain<SrcType, ReturnElementType> && is::realFloatNumber<ReturnElementType>)
 {
-    AccelerateRetType::abs (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));
+    Expression::Accelerate::abs (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));
     return dst;
 }
 ```
@@ -88,7 +88,26 @@ Now if this should also use IPP on x64 CPUs in case of non-apple, we could add a
 const ReturnElementType* evalNextVectorOpInExpressionChain (ReturnElementType* dst) const
 requires (hasIPP && ! platformApple && has::evalNextVectorOpInExpressionChain<SrcType, ReturnElementType> && is::realFloatNumber<ReturnElementType>)
 {
-    IPPRetType::abs (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));
+    Expression::IPP::abs (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));
+    return dst;
+}
+```
+
+If multiple operations should be chained, the first takes the return value of 
+`src.evalNextVectorOpInExpressionChain (dst)` as source argument, further calls take dst as both source and destination
+argument. This way, each evaluation step directly uses the destination buffer without any temporary allocations. This is
+an example taken from the IPP implementation of the `Log2` expression:
+
+```C++
+const ReturnElementType* evalNextVectorOpInExpressionChain (ReturnElementType* dst) const
+requires (hasIPP && ! platformApple && has::evalNextVectorOpInExpressionChain<SrcType, ReturnElementType> && is::realFloatNumber<ReturnElementType>)
+{
+    constexpr auto factor = value_type (1.4426950408889634);
+
+    auto s = sizeToInt (size());
+    
+    Expression::IPP::ln (src.evalNextVectorOpInExpressionChain (dst), dst, s);
+    Expression::IPP::mul (factor, dst, s);
     return dst;
 }
 ```
