@@ -35,6 +35,14 @@ public:
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     {
         VCTR_ASSERT (inputValueValid (src[i]));
+        #if VCTR_USE_GCEM
+        if constexpr (is::realFloatNumber<value_type>)
+        {
+            if (std::is_constant_evaluated())
+                return gcem::sqrt (src[i]);
+        }
+        #endif
+
         return std::sqrt (src[i]);
     }
 
