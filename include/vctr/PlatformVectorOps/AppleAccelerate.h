@@ -38,26 +38,27 @@ public:
     // vForce functions
     //==============================================================================
     // clang-format off
-    static void abs   (const float* src,                    float* dst, int len) { vvfabsf (dst, src, &len); }
-    static void ln    (const float* src,                    float* dst, int len) { vvlogf (dst, src, &len); }
-    static void log10 (const float* src,                    float* dst, int len) { vvlog10f (dst, src, &len); }
-    static void log2  (const float* src,                    float* dst, int len) { vvlog2f (dst, src, &len); }
-    static void exp   (const float* src,                    float* dst, int len) { vvexpf (dst, src, &len); }
-    static void exp2  (const float* src,                    float* dst, int len) { vvexp2f (dst, src, &len); }
-    static void pow   (const float* base, const float* exp, float* dst, int len) { vvpowf (dst, exp, base, &len); }
-    static void sqrt  (const float* src,                    float* dst, int len) { vvsqrtf (dst, src, &len); }
-    static void sin   (const float* src,                    float* dst, int len) { vvsinf (dst, src, &len); }
-    static void cos   (const float* src,                    float* dst, int len) { vvcosf (dst, src, &len); }
-    static void tan   (const float* src,                    float* dst, int len) { vvtanf (dst, src, &len); }
-    static void asin  (const float* src,                    float* dst, int len) { vvasinf (dst, src, &len); }
-    static void acos  (const float* src,                    float* dst, int len) { vvacosf (dst, src, &len); }
-    static void atan  (const float* src,                    float* dst, int len) { vvatanf (dst, src, &len); }
-    static void sinh  (const float* src,                    float* dst, int len) { vvsinhf (dst, src, &len); }
-    static void cosh  (const float* src,                    float* dst, int len) { vvcoshf (dst, src, &len); }
-    static void tanh  (const float* src,                    float* dst, int len) { vvtanhf (dst, src, &len); }
-    static void asinh (const float* src,                    float* dst, int len) { vvasinhf (dst, src, &len); }
-    static void acosh (const float* src,                    float* dst, int len) { vvacoshf (dst, src, &len); }
-    static void atanh (const float* src,                    float* dst, int len) { vvatanhf (dst, src, &len); }
+    static void abs      (const float* src,                    float* dst, int len) { vvfabsf (dst, src, &len); }
+    static void ln       (const float* src,                    float* dst, int len) { vvlogf (dst, src, &len); }
+    static void log10    (const float* src,                    float* dst, int len) { vvlog10f (dst, src, &len); }
+    static void log2     (const float* src,                    float* dst, int len) { vvlog2f (dst, src, &len); }
+    static void exp      (const float* src,                    float* dst, int len) { vvexpf (dst, src, &len); }
+    static void exp2     (const float* src,                    float* dst, int len) { vvexp2f (dst, src, &len); }
+    static void pow      (const float* base, const float* exp, float* dst, int len) { vvpowf (dst, exp, base, &len); }
+    static void sqrt     (const float* src,                    float* dst, int len) { vvsqrtf (dst, src, &len); }
+    static void sin      (const float* src,                    float* dst, int len) { vvsinf (dst, src, &len); }
+    static void cos      (const float* src,                    float* dst, int len) { vvcosf (dst, src, &len); }
+    static void tan      (const float* src,                    float* dst, int len) { vvtanf (dst, src, &len); }
+    static void asin     (const float* src,                    float* dst, int len) { vvasinf (dst, src, &len); }
+    static void acos     (const float* src,                    float* dst, int len) { vvacosf (dst, src, &len); }
+    static void atan     (const float* src,                    float* dst, int len) { vvatanf (dst, src, &len); }
+    static void sinh     (const float* src,                    float* dst, int len) { vvsinhf (dst, src, &len); }
+    static void cosh     (const float* src,                    float* dst, int len) { vvcoshf (dst, src, &len); }
+    static void tanh     (const float* src,                    float* dst, int len) { vvtanhf (dst, src, &len); }
+    static void asinh    (const float* src,                    float* dst, int len) { vvasinhf (dst, src, &len); }
+    static void acosh    (const float* src,                    float* dst, int len) { vvacoshf (dst, src, &len); }
+    static void atanh    (const float* src,                    float* dst, int len) { vvatanhf (dst, src, &len); }
+    static void copysign (const float* src, const float* sign, float* dst, int len) { vvcopysignf (dst, src, sign, &len); }
     // clang-format on
 
     //==============================================================================
@@ -101,26 +102,27 @@ public:
     // vForce functions
     //==============================================================================
     // clang-format off
-    static void abs   (const double* src,                     double* dst, int len) { vvfabs (dst, src, &len); }
-    static void ln    (const double* src,                     double* dst, int len) { vvlog (dst, src, &len); }
-    static void log10 (const double* src,                     double* dst, int len) { vvlog10 (dst, src, &len); }
-    static void log2  (const double* src,                     double* dst, int len) { vvlog2 (dst, src, &len); }
-    static void exp   (const double* src,                     double* dst, int len) { vvexp (dst, src, &len); }
-    static void exp2  (const double* src,                     double* dst, int len) { vvexp2 (dst, src, &len); }
-    static void pow   (const double* base, const double* exp, double* dst, int len) { vvpow (dst, exp, base, &len); }
-    static void sqrt  (const double* src,                     double* dst, int len) { vvsqrt (dst, src, &len); }
-    static void sin   (const double* src,                     double* dst, int len) { vvsin (dst, src, &len); }
-    static void cos   (const double* src,                     double* dst, int len) { vvcos (dst, src, &len); }
-    static void tan   (const double* src,                     double* dst, int len) { vvtan (dst, src, &len); }
-    static void asin  (const double* src,                     double* dst, int len) { vvasin (dst, src, &len); }
-    static void acos  (const double* src,                     double* dst, int len) { vvacos (dst, src, &len); }
-    static void atan  (const double* src,                     double* dst, int len) { vvatan (dst, src, &len); }
-    static void sinh  (const double* src,                     double* dst, int len) { vvsinh (dst, src, &len); }
-    static void cosh  (const double* src,                     double* dst, int len) { vvcosh (dst, src, &len); }
-    static void tanh  (const double* src,                     double* dst, int len) { vvtanh (dst, src, &len); }
-    static void asinh (const double* src,                     double* dst, int len) { vvasinh (dst, src, &len); }
-    static void acosh (const double* src,                     double* dst, int len) { vvacosh (dst, src, &len); }
-    static void atanh (const double* src,                     double* dst, int len) { vvatanh (dst, src, &len); }
+    static void abs      (const double* src,                     double* dst, int len) { vvfabs (dst, src, &len); }
+    static void ln       (const double* src,                     double* dst, int len) { vvlog (dst, src, &len); }
+    static void log10    (const double* src,                     double* dst, int len) { vvlog10 (dst, src, &len); }
+    static void log2     (const double* src,                     double* dst, int len) { vvlog2 (dst, src, &len); }
+    static void exp      (const double* src,                     double* dst, int len) { vvexp (dst, src, &len); }
+    static void exp2     (const double* src,                     double* dst, int len) { vvexp2 (dst, src, &len); }
+    static void pow      (const double* base, const double* exp, double* dst, int len) { vvpow (dst, exp, base, &len); }
+    static void sqrt     (const double* src,                     double* dst, int len) { vvsqrt (dst, src, &len); }
+    static void sin      (const double* src,                     double* dst, int len) { vvsin (dst, src, &len); }
+    static void cos      (const double* src,                     double* dst, int len) { vvcos (dst, src, &len); }
+    static void tan      (const double* src,                     double* dst, int len) { vvtan (dst, src, &len); }
+    static void asin     (const double* src,                     double* dst, int len) { vvasin (dst, src, &len); }
+    static void acos     (const double* src,                     double* dst, int len) { vvacos (dst, src, &len); }
+    static void atan     (const double* src,                     double* dst, int len) { vvatan (dst, src, &len); }
+    static void sinh     (const double* src,                     double* dst, int len) { vvsinh (dst, src, &len); }
+    static void cosh     (const double* src,                     double* dst, int len) { vvcosh (dst, src, &len); }
+    static void tanh     (const double* src,                     double* dst, int len) { vvtanh (dst, src, &len); }
+    static void asinh    (const double* src,                     double* dst, int len) { vvasinh (dst, src, &len); }
+    static void acosh    (const double* src,                     double* dst, int len) { vvacosh (dst, src, &len); }
+    static void atanh    (const double* src,                     double* dst, int len) { vvatanh (dst, src, &len); }
+    static void copysign (const double* src, const double* sign, double* dst, int len) { vvcopysign (dst, src, sign, &len); }
     // clang-format on
 
     //==============================================================================
