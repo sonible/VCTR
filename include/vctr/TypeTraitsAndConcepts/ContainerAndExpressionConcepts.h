@@ -185,19 +185,50 @@ namespace vctr::detail
 {
 /** Special flags for platform vector op related concepts below.
 
-        If IPP is available on macOS, we might have situations where both, IPP and Apple Accelerate
-        can offer similar operations for a certain operation. In that case the flag marks if we want
-        to prefer the one or the other.
-     */
+    If IPP is available on macOS, we might have situations where both, IPP and Apple Accelerate
+    can offer similar operations for a certain operation. In that case the flag marks if we want
+    to prefer the one or the other.
+
+    @see isPreferredVectorOp for details.
+ */
 enum PlatformVectorOpPreference
 {
     dontPreferIfIppAndAccelerateAreAvailable,
     preferIfIppAndAccelerateAreAvailable
 };
 
+/** Resolves the Apple Accelerate vs. Intel IPP tie-break for a single platform vector op concept.
+
+    Apple Accelerate and Intel IPP backed implementations should each be gated by their own concept
+    (e.g. is::suitableForAccelerate... and is::suitableForIpp...), which additionally require
+    Config::platformApple resp. Config::hasIPP. isPreferredVectorOp only comes into play to decide the
+    outcome for the one platform where *both* backends can be linked at the same time, namely macOS on
+    x86_64 with Intel IPP linked. On every other platform there is no conflict to resolve, so the concept
+    simply evaluates to `true` and lets the caller's own Config::platformApple / Config::hasIPP guard decide.
+
+    An expression that implements both an Accelerate and an IPP backed evalNextVectorOpInExpressionChain
+    for the same operation usually passes dontPreferIfIppAndAccelerateAreAvailable to its Accelerate concept
+    and (the default) preferIfIppAndAccelerateAreAvailable to its IPP concept, so that IPP wins whenever
+    both are available. This is desirable in most cases since IPP implementations seem to outperform Accelerate.
+    In special cases where the opposite is to be expected, the arguments can be flipped. An expression that only
+    implements one of the two backends should leave pref at its default so that backend stays enabled on every
+    platform it supports, independent of the other backend's availability.
+
+    Resulting enablement per platform/config, assuming the pref is passed as described above:
+
+    | arch  | IPP linked | OS    | Accelerate enabled | IPP enabled |
+    |-------|------------|-------|---------------------|-------------|
+    | x64   | no         | macOS | yes                 | no          |
+    | x64   | no         | other | no                  | no          |
+    | x64   | yes        | macOS | no                  | yes         |
+    | x64   | yes        | other | no                  | yes         |
+    | ARM64 | no*        | macOS | yes                 | no          |
+    | ARM64 | no*        | other | no                  | no          |
+
+    * There is no IPP build for ARM64, so Config::hasIPP is always false there.
+ */
 template <PlatformVectorOpPreference pref>
-concept isPreferredVectorOp = (Config::hasIPP && Config::platformApple && (pref == preferIfIppAndAccelerateAreAvailable)) ||
-                              ((! (Config::hasIPP && Config::platformApple)) && (pref == dontPreferIfIppAndAccelerateAreAvailable));
+concept isPreferredVectorOp = (! (Config::hasIPP && Config::platformApple)) || (pref == preferIfIppAndAccelerateAreAvailable);
 } // namespace vctr::detail
 
 namespace vctr::is
