@@ -65,6 +65,7 @@ var annotated_dup =
         [ "Real", "classvctr_1_1expressions_1_1Real.html", null ],
         [ "RealToComplex", "classvctr_1_1expressions_1_1RealToComplex.html", null ],
         [ "RootMeanSquare", "classvctr_1_1expressions_1_1RootMeanSquare.html", null ],
+        [ "SignedSqrt", "classvctr_1_1expressions_1_1SignedSqrt.html", null ],
         [ "Sin", "classvctr_1_1expressions_1_1Sin.html", null ],
         [ "Sinh", "classvctr_1_1expressions_1_1Sinh.html", null ],
         [ "Sqrt", "classvctr_1_1expressions_1_1Sqrt.html", null ],

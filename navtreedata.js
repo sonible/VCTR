@@ -167,6 +167,7 @@ var NAVTREE =
     [ "real", "group__Expressions.html#gae4fc0dae0a600f82c768b555dcf6ea69", null ],
     [ "realToComplex", "group__Expressions.html#gab6416b37ceb85eeb4b9f8bbe6c059e02", null ],
     [ "rms", "group__Expressions.html#ga461b990c1ec58299e9e7bb7ae367fd13", null ],
+    [ "signedSqrt", "group__Expressions.html#ga210280c6281323165f36af2f9f7c4511", null ],
     [ "sin", "group__Expressions.html#ga179f04cf1507d218f7ed1dd4390af4a5", null ],
     [ "sinh", "group__Expressions.html#gae41920cbcbb09b4745423d71133bd457", null ],
     [ "sqrt", "group__Expressions.html#ga9a6c2e6dc10d5648dd04d6412c376e76", null ],
@@ -212,7 +213,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classvctr_1_1OwnedVector.html#aebfff322866872974a2d7249720e5ae0",
-"conceptvctr_1_1is_1_1comparableByWith.html"
+"conceptvctr_1_1is_1_1comparableBy.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -140,7 +140,7 @@ Using them in expressions</h1>
 <div class="line">const ReturnElementType* evalNextVectorOpInExpressionChain (ReturnElementType* dst) const</div>
 <div class="line">requires (platformApple &amp;&amp; has::evalNextVectorOpInExpressionChain&lt;SrcType, ReturnElementType&gt; &amp;&amp; is::realFloatNumber&lt;ReturnElementType&gt;)</div>
 <div class="line">{</div>
-<div class="line">    AccelerateRetType::abs (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));</div>
+<div class="line">    Expression::Accelerate::abs (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));</div>
 <div class="line">    return dst;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>We see that the first constraint is <code>platformApple</code> – this way, we would disable that function overload if we are building for a non-apple platform where the corresponding struct would be an empty dummy struct. Then, after checking if the source allows to evaluate vector ops, we check if the data type matches – Accelerate defines functions for <code>float</code> and <code>double</code> so we constrain it to <code>is::realFloatNumber</code>. This way, we can be sure that this code path is only taken if we are evaluating abs for float or double on Apple.</p>
@@ -149,7 +149,20 @@ Using them in expressions</h1>
 <div class="line">const ReturnElementType* evalNextVectorOpInExpressionChain (ReturnElementType* dst) const</div>
 <div class="line">requires (hasIPP &amp;&amp; ! platformApple &amp;&amp; has::evalNextVectorOpInExpressionChain&lt;SrcType, ReturnElementType&gt; &amp;&amp; is::realFloatNumber&lt;ReturnElementType&gt;)</div>
 <div class="line">{</div>
-<div class="line">    IPPRetType::abs (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));</div>
+<div class="line">    Expression::IPP::abs (src.evalNextVectorOpInExpressionChain (dst), dst, sizeToInt (size()));</div>
+<div class="line">    return dst;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>If multiple operations should be chained, the first takes the return value of <code>src.evalNextVectorOpInExpressionChain (dst)</code> as source argument, further calls take dst as both source and destination argument. This way, each evaluation step directly uses the destination buffer without any temporary allocations. This is an example taken from the IPP implementation of the <code>Log2</code> expression:</p>
+<div class="fragment"><div class="line"> {C++}</div>
+<div class="line">const ReturnElementType* evalNextVectorOpInExpressionChain (ReturnElementType* dst) const</div>
+<div class="line">requires (hasIPP &amp;&amp; ! platformApple &amp;&amp; has::evalNextVectorOpInExpressionChain&lt;SrcType, ReturnElementType&gt; &amp;&amp; is::realFloatNumber&lt;ReturnElementType&gt;)</div>
+<div class="line">{</div>
+<div class="line">    constexpr auto factor = value_type (1.4426950408889634);</div>
+<div class="line"> </div>
+<div class="line">    auto s = sizeToInt (size());</div>
+<div class="line">    </div>
+<div class="line">    Expression::IPP::ln (src.evalNextVectorOpInExpressionChain (dst), dst, s);</div>
+<div class="line">    Expression::IPP::mul (factor, dst, s);</div>
 <div class="line">    return dst;</div>
 <div class="line">}</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>

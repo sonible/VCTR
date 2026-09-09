@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>VCTR: vctr::is::expressionWithValueType Concept Reference</title>
+<title>VCTR: vctr::expressions::SignedSqrt&lt; extent, SrcType &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -65,7 +65,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('conceptvctr_1_1is_1_1expressionWithValueType.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('classvctr_1_1expressions_1_1SignedSqrt.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -91,25 +91,47 @@ $(document).ready(function(){initNavTree('conceptvctr_1_1is_1_1expressionWithVal
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">vctr::is::expressionWithValueType Concept Reference</div></div>
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="classvctr_1_1expressions_1_1SignedSqrt-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">vctr::expressions::SignedSqrt&lt; extent, SrcType &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Constrains a type to be an expression template with a certain value_type.  
-<a href="conceptvctr_1_1is_1_1expressionWithValueType.html#details">More...</a></p>
-<h2 class="groupheader">Concept definition</h2>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T, <span class="keyword">class</span> V&gt;</div>
-<div class="line"><span class="keyword">concept </span><a class="code hl_concept" href="conceptvctr_1_1is_1_1expressionWithValueType.html">vctr::is::expressionWithValueType</a> =  <a class="code hl_concept" href="conceptvctr_1_1is_1_1expression.html">expression&lt;T&gt;</a> &amp;&amp; std::same_as&lt;typename std::remove_cvref_t&lt;T&gt;::value_type, V&gt;</div>
-<div class="ttc" id="aconceptvctr_1_1is_1_1expressionWithValueType_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1expressionWithValueType.html">vctr::is::expressionWithValueType</a></div><div class="ttdoc">Constrains a type to be an expression template with a certain value_type.</div><div class="ttdef"><b>Definition:</b> ContainerAndExpressionConcepts.h:253</div></div>
-<div class="ttc" id="aconceptvctr_1_1is_1_1expression_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1expression.html">vctr::is::expression</a></div><div class="ttdoc">Constrains a type to be an expression template.</div><div class="ttdef"><b>Definition:</b> ContainerAndExpressionConcepts.h:249</div></div>
-</div><!-- fragment --><a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Constrains a type to be an expression template with a certain value_type. </p>
-</div></div><!-- contents -->
+<div class="dynheader">
+Inheritance diagram for vctr::expressions::SignedSqrt&lt; extent, SrcType &gt;:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classvctr_1_1expressions_1_1SignedSqrt.png" usemap="#vctr::expressions::SignedSqrt_3C_20extent_2C_20SrcType_20_3E_map" alt=""/>
+  <map id="vctr::expressions::SignedSqrt_3C_20extent_2C_20SrcType_20_3E_map" name="vctr::expressions::SignedSqrt_3C_20extent_2C_20SrcType_20_3E_map">
+<area href="structvctr_1_1ExpressionTemplateBase.html" title="The base class to every expression template." alt="vctr::ExpressionTemplateBase" shape="rect" coords="0,0,288,24"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:aef404e9d1b8c370ef0c6d77a9fc3c5c1"><td class="memItemLeft" align="right" valign="top"><a id="aef404e9d1b8c370ef0c6d77a9fc3c5c1" name="aef404e9d1b8c370ef0c6d77a9fc3c5c1"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>value_type</b> = <a class="el" href="namespacevctr.html#a83a43fd917a646b18b60be7e88becc33">ValueType</a>&lt; SrcType &gt;</td></tr>
+<tr class="separator:aef404e9d1b8c370ef0c6d77a9fc3c5c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ac9cb52470433f7089303eadf91af911f"><td class="memItemLeft" align="right" valign="top"><a id="ac9cb52470433f7089303eadf91af911f" name="ac9cb52470433f7089303eadf91af911f"></a>
+VCTR_FORCEDINLINE constexpr value_type&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (size_t i) const</td></tr>
+<tr class="separator:ac9cb52470433f7089303eadf91af911f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e09092bc1f18b5bf7a23cb9a7c81d72"><td class="memItemLeft" align="right" valign="top"><a id="a1e09092bc1f18b5bf7a23cb9a7c81d72" name="a1e09092bc1f18b5bf7a23cb9a7c81d72"></a>
+VCTR_FORCEDINLINE const value_type *&#160;</td><td class="memItemRight" valign="bottom"><b>evalNextVectorOpInExpressionChain</b> (value_type *dst) const</td></tr>
+<tr class="separator:a1e09092bc1f18b5bf7a23cb9a7c81d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>include/vctr/Expressions/BasicMath/<a class="el" href="SignedSqrt_8h_source.html">SignedSqrt.h</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespacevctr.html">vctr</a></li><li class="navelem"><b>is</b></li><li class="navelem"><a class="el" href="conceptvctr_1_1is_1_1expressionWithValueType.html">expressionWithValueType</a></li>
+    <li class="navelem"><a class="el" href="namespacevctr.html">vctr</a></li><li class="navelem"><b>expressions</b></li><li class="navelem"><a class="el" href="classvctr_1_1expressions_1_1SignedSqrt.html">SignedSqrt</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>

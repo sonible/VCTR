@@ -74,6 +74,7 @@ var hierarchy =
         [ "vctr::expressions::RealToComplex< extent, SrcType >", "classvctr_1_1expressions_1_1RealToComplex.html", null ],
         [ "vctr::expressions::RootMeanSquare< extent, SrcType >", "classvctr_1_1expressions_1_1RootMeanSquare.html", null ],
         [ "vctr::expressions::SSEFilter< extent, SrcType >", "classvctr_1_1expressions_1_1SSEFilter.html", null ],
+        [ "vctr::expressions::SignedSqrt< extent, SrcType >", "classvctr_1_1expressions_1_1SignedSqrt.html", null ],
         [ "vctr::expressions::Sin< extent, SrcType >", "classvctr_1_1expressions_1_1Sin.html", null ],
         [ "vctr::expressions::Sinh< extent, SrcType >", "classvctr_1_1expressions_1_1Sinh.html", null ],
         [ "vctr::expressions::Sqrt< extent, SrcType >", "classvctr_1_1expressions_1_1Sqrt.html", null ],
