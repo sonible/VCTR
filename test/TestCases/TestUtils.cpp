@@ -23,46 +23,43 @@
 #include <vctr_test_utils/vctr_catch_matchers.h>
 #include <vctr_test_utils/vctr_test_common.h>
 
-TEMPLATE_TEST_CASE ("TestUtils", "[Vector][Constructor]", float, double)
+TEMPLATE_TEST_CASE ("TestUtils", "[VCTR][TestUtils][Equals]", float, double)
 {
-    SECTION ("Equals with margin/epsilon")
+    constexpr vctr::Array<TestType, 10> reference (TestType (1));
+
+    SECTION ("Equals with margin")
     {
-        const auto refValue = TestType (10);
-        const auto testValue = TestType (11);
+        constexpr auto margin = TestType (1e-3);
 
-        const vctr::Vector<TestType> reference (10, refValue);
-
-        vctr::Vector<TestType> v (10, refValue);
-        REQUIRE_THAT (v, vctr::Equals (reference));
-
-        v.fill (testValue);
-
-        // margin
-        auto marginPass = std::abs (testValue - refValue);
-        auto marginFail = marginPass - std::numeric_limits<TestType>::epsilon();
+        constexpr vctr::Array vWithin = reference + margin - std::numeric_limits<TestType>::epsilon();
+        constexpr vctr::Array vOutside = reference + margin + std::numeric_limits<TestType>::epsilon();
 
         // baseline test
         for (auto n = 0; n < reference.size(); ++n)
         {
-            CHECK (v[n] == Catch::Approx (reference[n]).margin (marginPass));
-            CHECK_FALSE (v[n] == Catch::Approx (reference[n]).margin (marginFail));
+            CHECK_THAT (vWithin[n], Catch::Matchers::WithinAbs (reference[n], margin));
+            CHECK_FALSE (Catch::Matchers::WithinAbs (reference[n], margin).match (vOutside[n]));
         }
 
-        REQUIRE (vctr::Equals (reference).withMargin (marginPass).match (v));
-        REQUIRE_FALSE (vctr::Equals (reference).withMargin (marginFail).match (v));
+        REQUIRE_THAT (vWithin, vctr::Equals (reference).withMargin (margin));
+        REQUIRE_FALSE (vctr::Equals (reference).withMargin (margin).match (vOutside));
+    }
 
-        // epsilon
-        auto epsilonPass = marginPass / refValue;
-        auto epsilonFail = epsilonPass - std::numeric_limits<TestType>::epsilon();
+    SECTION ("Equals with epsilon")
+    {
+        constexpr auto epsilon = TestType (0.1);
+
+        constexpr vctr::Array vWithin = reference + reference * epsilon;
+        constexpr vctr::Array vOutside = reference + reference * (epsilon * TestType (2));
 
         // baseline test
         for (auto n = 0; n < reference.size(); ++n)
         {
-            CHECK (v[n] == Catch::Approx (reference[n]).epsilon (epsilonPass));
-            CHECK_FALSE (v[n] == Catch::Approx (reference[n]).epsilon (epsilonFail));
+            CHECK_THAT (vWithin[n], Catch::Matchers::WithinRel (reference[n], epsilon));
+            CHECK_FALSE (Catch::Matchers::WithinRel (reference[n], epsilon).match (vOutside[n]));
         }
 
-        REQUIRE (vctr::Equals (reference).withEpsilon (epsilonPass).match (v));
-        REQUIRE_FALSE (vctr::Equals (reference).withEpsilon (epsilonFail).match (v));
+        REQUIRE_THAT (vWithin, vctr::Equals (reference).withEpsilon (epsilon));
+        REQUIRE_FALSE (vctr::Equals (reference).withEpsilon (epsilon).match (vOutside));
     }
 }
