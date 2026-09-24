@@ -34,7 +34,17 @@ public:
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
     requires is::signedNumber<value_type>
     {
-        return std::abs (src[i]);
+        auto value = src[i];
+
+        if (std::is_constant_evaluated())
+        {
+            if constexpr (is::realNumber<ValueType<SrcType>>)
+                return gcem::abs (value);
+            else
+                return gcem::sqrt (value.real() * value.real() + value.imag() * value.imag());
+        }
+
+        return std::abs (value);
     }
 
     VCTR_FORCEDINLINE constexpr value_type operator[] (size_t i) const
