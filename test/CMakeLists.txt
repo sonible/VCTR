@@ -9,6 +9,7 @@ add_library (vctr_test_cases INTERFACE)
 target_sources (vctr_test_cases INTERFACE
         TestCases/InternalFunctions.cpp
 
+        TestCases/TestUtils.cpp
         TestCases/ArrayConstructors.cpp
         TestCases/ArrayMemberFunctions.cpp
         TestCases/ConversionOperators.cpp
