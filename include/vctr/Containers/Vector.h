@@ -506,7 +506,7 @@ public:
         This is a standard interface function forwarded to std::vector::emplace_back().
      */
     template <class... Args>
-    constexpr void emplace_back (Args&&... args) { Vctr::storage.emplace_back (std::forward<Args> (args)...); }
+    constexpr ElementType& emplace_back (Args&&... args) { return Vctr::storage.emplace_back (std::forward<Args> (args)...); }
 
     /** Swaps the underlying memory with the other Vector.
 

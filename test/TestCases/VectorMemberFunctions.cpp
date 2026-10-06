@@ -283,11 +283,11 @@ TEST_CASE ("emplace_back", "[VCTR][VectorMemberFunctions]")
 {
     vctr::Vector<std::pair<std::string, int>> v;
 
-    v.emplace_back ("The answer", 42);
+    auto& entry = v.emplace_back ("The answer", 42);
 
     REQUIRE (v.size() == 1);
-    REQUIRE_THAT (v[0].first, Catch::Matchers::Equals ("The answer"));
-    REQUIRE (v[0].second == 42);
+    REQUIRE_THAT (entry.first, Catch::Matchers::Equals ("The answer"));
+    REQUIRE (entry.second == 42);
 }
 
 TEST_CASE ("insert", "[VCTR][VectorMemberFunctions]")
