@@ -252,7 +252,95 @@ private:
     double margin = 0.0;
     double epsilon = 0.0;
 };
+
+/** Matcher that applies an arbitrary callable element-wise to one or more reference vectors. */
+template <class Fn, is::anyVctr... ReferenceVecs>
+struct CallableEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
+{
+    using RetValueType = std::remove_cvref_t<std::invoke_result_t<const Fn&, std::remove_const_t<typename ReferenceVecs::value_type>...>>;
+
+    CallableEqualsTransformedMatcher (Fn f, const ReferenceVecs&... vecs)
+        : fn (std::move (f)),
+          references (vecs...),
+          refSize (std::get<0> (references).size())
+    {
+        if (! std::apply ([&] (const auto&... r) { return ((r.size() == refSize) && ...); }, references))
+            throw std::invalid_argument ("All reference vectors must have the same size.");
+    }
+
+    template <is::anyVctr Vec>
+    bool match (const Vec& vec) const
+    {
+        if (vec.size() != refSize)
+            return false;
+
+        for (size_t i = 0; i < vec.size(); ++i)
+        {
+            const auto v = std::apply ([&] (const auto&... r) { return fn (r[i]...); }, references);
+
+            if constexpr (vctr::is::number<RetValueType>)
+            {
+                if (Approx<RetValueType> (v).margin (margin).epsilon (epsilon) != vec[i])
+                    return false;
+            }
+            else
+            {
+                if (v != vec[i])
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    auto withMargin (double m) &&
+    {
+        margin = m;
+        return std::move (*this);
+    }
+
+    auto withEpsilon (double e = defaultEpsilon<RetValueType>) &&
+    {
+        epsilon = e;
+        return std::move (*this);
+    }
+
+    std::string describe() const override
+    {
+        std::ostringstream os;
+        os << "\nEquals: callable applied to";
+        std::apply ([&] (const auto&... r) { ((os << " (" << r << ")"), ...); }, references);
+
+        Vector<RetValueType> result (refSize, [&] (size_t i) { return std::apply ([&] (const auto&... r) { return fn (r[i]...); }, references); });
+
+        os << " = " << result;
+        return os.str();
+    }
+
+private:
+    Fn fn;
+    std::tuple<const ReferenceVecs&...> references;
+    const size_t refSize;
+
+    double margin = 0.0;
+    double epsilon = 0.0;
+};
 } // namespace detail
+
+/** Checks if the reference vectors, element-wise transformed by the callable fn, have the same element values as the
+    vector it is matched against.
+
+    Scalars can be bound inside fn. In contrast to EqualsTransformedBy, it deliberately avoids function pointer non-type
+    template parameters and overload sets, which crash some MSVC versions. This comes with the downside of not being
+    able to automatically deduce the name of the callable for the description, so prefer using EqualsTransformedBy
+    wherever possible.
+*/
+template <class Fn, is::anyVctr... ReferenceVecs>
+requires (sizeof... (ReferenceVecs) > 0)
+auto EqualsMappedBy (Fn fn, const ReferenceVecs&... vecs)
+{
+    return detail::CallableEqualsTransformedMatcher<Fn, ReferenceVecs...> (std::move (fn), vecs...);
+}
 
 #define VCTR_DEFINE_EQUAL_TRANSFORMED_BY_FOR_TYPE(T)                                                                                  \
                                                                                                                                       \
