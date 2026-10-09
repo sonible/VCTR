@@ -214,7 +214,7 @@ struct AnySIMD
 
 #define VCTR_TEST_DEFINES_BASE(testVectorSize, start, end, avoidZeros, forceZero)                                                              \
     using ElementType = typename TestType::ElementType;                                                                                        \
-    [[maybe_unused]] const auto& filter = TestType::filter;                                                                                    \
+    [[maybe_unused]] constexpr auto& filter = TestType::filter;                                                                                \
     [[maybe_unused]] constexpr auto srcA = UnitTestValues<ElementType>::template array<testVectorSize, 0, start, end> (avoidZeros, forceZero); \
     [[maybe_unused]] constexpr auto srcB = UnitTestValues<ElementType>::template array<testVectorSize, 1, start, end> (avoidZeros, forceZero); \
     [[maybe_unused]] const auto srcC = UnitTestValues<ElementType>::template vector<testVectorSize, 2, start, end> (avoidZeros, forceZero);    \
