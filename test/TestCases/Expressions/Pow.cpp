@@ -22,64 +22,49 @@
 
 #include <vctr_test_utils/vctr_test_common.h>
 
-// The Linux builds failed with templated functions. Could be cleaned up at some point.
-// clang-format off
-float                power (float base,                float exp)                { return std::pow (base, exp); }
-double               power (double base,               double exp)               { return std::pow (base, exp); }
-double               power (int32_t base,              int32_t exp)              { return std::pow (base, exp); }
-double               power (int64_t base,              int64_t exp)              { return std::pow (base, exp); }
-std::complex<float>  power (std::complex<float> base,  std::complex<float> exp)  { return std::pow (base, exp); }
-std::complex<double> power (std::complex<double> base, std::complex<double> exp) { return std::pow (base, exp); }
-
-template <int32_t base> float                powerConstantBase (float exp)                { return std::pow (float (base), exp); }
-template <int32_t base> double               powerConstantBase (double exp)               { return std::pow (double (base), exp); }
-template <int32_t base> double               powerConstantBase (int32_t exp)              { return std::pow (base, exp); }
-template <int64_t base> double               powerConstantBase (int64_t exp)              { return std::pow (base, exp); }
-template <int32_t base> std::complex<float>  powerConstantBase (std::complex<float> exp)  { return std::pow (std::complex<float> (base), exp); }
-template <int32_t base> std::complex<double> powerConstantBase (std::complex<double> exp) { return std::pow (std::complex<double> (base), exp); }
-
-template <int32_t exp> float                powerConstantExp (float base)                { return std::pow (base, float (exp)); }
-template <int32_t exp> double               powerConstantExp (double base)               { return std::pow (base, double (exp)); }
-template <int32_t exp> double               powerConstantExp (int32_t base)              { return std::pow (base, exp); }
-template <int64_t exp> double               powerConstantExp (int64_t base)              { return std::pow (base, exp); }
-template <int32_t exp> std::complex<float>  powerConstantExp (std::complex<float> base)  { return std::pow (base, std::complex<float> (exp)); }
-template <int32_t exp> std::complex<double> powerConstantExp (std::complex<double> base) { return std::pow (base, std::complex<double> (exp)); }
-// clang-format on
-
 TEMPLATE_PRODUCT_TEST_CASE ("Pow", "[VCTR][Expressions][pow]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, int64_t, std::complex<float>, std::complex<double>))
 {
     VCTR_TEST_DEFINES_IN_RANGE (0, 15, 10)
 
     // For non-integral values we want to test with negative exponents
     constexpr int singleExponent = std::is_integral_v<ElementType> ? 5 : -4;
+    constexpr int singleBase = 3;
+    constexpr int constantBase = 4;
+
+    // Plain callables instead of overloaded function templates used as non-type template arguments
+    const auto power = [] (ElementType base, ElementType exp) { return std::pow (base, exp); };
+    const auto powerConstantExp = [] (ElementType base) { return std::pow (base, ElementType (singleExponent)); };
+    const auto powerSingleBase = [] (ElementType exp) { return std::pow (ElementType (singleBase), exp); };
+    const auto powerConstantBase = [] (ElementType exp) { return std::pow (ElementType (constantBase), exp); };
 
     SECTION ("Vector raised to the power of Vector")
     {
         const vctr::Vector p = filter << vctr::pow (srcA, srcB);
-        REQUIRE_THAT (p, vctr::EqualsTransformedBy<power> (srcA, srcB).withEpsilon (0.00001));
+        REQUIRE_THAT (p, vctr::EqualsMappedBy (power, srcA, srcB).withEpsilon (0.00001));
     }
 
     SECTION ("Vector raised to the power of a single value")
     {
         const vctr::Vector p = filter << vctr::pow (srcA, ElementType (singleExponent));
-        REQUIRE_THAT (p, vctr::EqualsTransformedBy<powerConstantExp<singleExponent>> (srcA).withEpsilon (0.00001));
+        REQUIRE_THAT (p, vctr::EqualsMappedBy (powerConstantExp, srcA).withEpsilon (0.00001));
     }
 
     SECTION ("Single value raised to the power of Vector")
     {
-        const vctr::Vector p = filter << vctr::pow (ElementType (3), srcA);
-        REQUIRE_THAT (p, vctr::EqualsTransformedBy<powerConstantBase<3>> (srcA));
+        const vctr::Vector p = filter << vctr::pow (ElementType (singleBase), srcA);
+        REQUIRE_THAT (p, vctr::EqualsMappedBy (powerSingleBase, srcA));
     }
 
     SECTION ("Vector raised to the power of a compile time constant value")
     {
         const vctr::Vector p = filter << vctr::powConstantExponent<singleExponent> << srcA;
-        REQUIRE_THAT (p, vctr::EqualsTransformedBy<powerConstantExp<singleExponent>> (srcA).withEpsilon (0.00001));
+        REQUIRE_THAT (p, vctr::EqualsMappedBy (powerConstantExp, srcA).withEpsilon (0.00001));
     }
 
     SECTION ("Compile time constant value raised to the power of Vector")
     {
-        const vctr::Vector p = filter << vctr::powConstantBase<4> << srcA;
-        REQUIRE_THAT (p, vctr::EqualsTransformedBy<powerConstantBase<4>> (srcA));
+        const vctr::Vector p = filter << vctr::powConstantBase<constantBase> << srcA;
+        REQUIRE_THAT (p, vctr::EqualsMappedBy (powerConstantBase, srcA));
     }
 }
+
