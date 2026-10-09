@@ -39,12 +39,11 @@ jobs:
             ipp: ipp
             conan_profile: default
 
-          # MSVC currently fails to compile all the expression test cases: https://github.com/sonible/VCTR/issues/142
-          # - runner: windows-2025
-          #   cc: cl
-          #   cxx: cl
-          #   ipp: no_ipp
-          #   conan_profile: windows-msvc
+          - runner: windows-2025
+            cc: cl
+            cxx: cl
+            ipp: no_ipp
+            conan_profile: windows-msvc
 
           - runner: windows-2025
             cc: clang-cl
@@ -65,12 +64,11 @@ jobs:
           #   ipp: no_ipp
           #   conan_profile: default
 
-          # MSVC currently fails to compile all the expression test cases: https://github.com/sonible/VCTR/issues/142
-          # - runner: windows-2025
-          #   cc: cl
-          #   cxx: cl
-          #   ipp: ipp
-          #   conan_profile: windows-msvc
+          - runner: windows-2025
+            cc: cl
+            cxx: cl
+            ipp: ipp
+            conan_profile: windows-msvc
 
           - runner: windows-2025
             cc: clang-cl
