@@ -57,7 +57,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Map", "[VCTR][Expressions][map]", (PlatformVectorOp
     REQUIRE (mapped1.min() >= ElementType (dstValueMin));
     REQUIRE (mapped1.max() <= ElementType (dstValueMax));
 
-    REQUIRE_THAT (mapped1, (vctr::EqualsTransformedBy<map<srcValueMin, srcValueMax, dstValueMin, dstValueMax>> (srcA).withEpsilon (0.0001)));
+    REQUIRE_THAT (mapped1, (vctr::EqualsMappedBy ([] (ElementType v) { return map<srcValueMin, srcValueMax, dstValueMin, dstValueMax, ElementType> (v); }, srcA).withEpsilon (0.0001)));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("MapFrom0To1", "[VCTR][Expressions][mapFrom0To1]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double))
@@ -77,7 +77,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("MapFrom0To1", "[VCTR][Expressions][mapFrom0To1]", (
     REQUIRE (mapped1.min() >= ElementType (dstValueMin));
     REQUIRE (mapped1.max() <= ElementType (dstValueMax));
 
-    REQUIRE_THAT (mapped1, (vctr::EqualsTransformedBy<map<srcValueMin, srcValueMax, dstValueMin, dstValueMax>> (srcA).withEpsilon (0.0001)));
+    REQUIRE_THAT (mapped1, (vctr::EqualsMappedBy ([] (ElementType v) { return map<srcValueMin, srcValueMax, dstValueMin, dstValueMax, ElementType> (v); }, srcA).withEpsilon (0.0001)));
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("MapTo0To1", "[VCTR][Expressions][mapTo0To1]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double))
@@ -97,5 +97,5 @@ TEMPLATE_PRODUCT_TEST_CASE ("MapTo0To1", "[VCTR][Expressions][mapTo0To1]", (Plat
     REQUIRE (mapped1.min() >= ElementType (dstValueMin));
     REQUIRE (mapped1.max() <= ElementType (dstValueMax));
 
-    REQUIRE_THAT (mapped1, (vctr::EqualsTransformedBy<map<srcValueMin, srcValueMax, dstValueMin, dstValueMax>> (srcA).withEpsilon (0.0001)));
+    REQUIRE_THAT (mapped1, (vctr::EqualsMappedBy ([] (ElementType v) { return map<srcValueMin, srcValueMax, dstValueMin, dstValueMax, ElementType> (v); }, srcA).withEpsilon (0.0001)));
 }
