@@ -295,6 +295,10 @@ TEST_CASE ("emplace_back", "[VCTR][VectorMemberFunctions]")
 
     REQUIRE (b.size() == 1);
     REQUIRE (ref == true);
+    REQUIRE (&ref == &b.back());
+
+    ref = false;
+    REQUIRE_FALSE (b.back());
 }
 
 TEST_CASE ("insert", "[VCTR][VectorMemberFunctions]")

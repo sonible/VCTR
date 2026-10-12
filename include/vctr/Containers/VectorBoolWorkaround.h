@@ -77,6 +77,13 @@ public:
     constexpr const bool& back() const                { return toBool (StdVectorType::back()); }
     constexpr void        push_back (bool v)          { StdVectorType::push_back (std::byte (v)); }
 
+    template <class... Args>
+    constexpr bool& emplace_back (Args&&... args)
+    {
+        StdVectorType::emplace_back (std::byte (bool (std::forward<Args> (args)...)));
+        return back();
+    }
+
     bool*       data()        { return toBool (StdVectorType::data()); }
     const bool* data() const  { return toBool (StdVectorType::data()); }
     bool*       begin()       { return data(); }
