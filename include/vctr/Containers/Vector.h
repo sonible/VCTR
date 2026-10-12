@@ -503,13 +503,13 @@ public:
 
     /** Constructs an element in-place at the end of the Vector
 
-        This is a standard interface function forwarded to std::vector::emplace_back().
+        This is a standard interface function forwarded to std::vector::emplace_back(). Vector<bool> has special
+        behaviour, which is handled in the VectorBoolWorkaround class.
      */
     template <class... Args>
     constexpr ElementType& emplace_back (Args&&... args)
     {
-        Vctr::storage.emplace_back (std::forward<Args> (args)...);
-        return Vctr::storage.back();
+        return Vctr::storage.emplace_back (std::forward<Args> (args)...);
     }
 
     /** Swaps the underlying memory with the other Vector.
