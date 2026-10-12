@@ -275,10 +275,10 @@ requires isDifferentAllocatorTypeWithSameValueType&lt;OtherAllocator&gt;</td></t
 <tr class="memitem:a8932b2885c55f96e4f00e4d9def65e09"><td class="memItemLeft" align="right" valign="top">constexpr ElementType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1Vector.html#a8932b2885c55f96e4f00e4d9def65e09">pop_back</a> ()</td></tr>
 <tr class="memdesc:a8932b2885c55f96e4f00e4d9def65e09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the last element in the vector, effectively reducing the container size by one.  <br /></td></tr>
 <tr class="separator:a8932b2885c55f96e4f00e4d9def65e09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62beb44c672def537e7179b3bd5de1ea"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
-<tr class="memitem:a62beb44c672def537e7179b3bd5de1ea"><td class="memTemplItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1Vector.html#a62beb44c672def537e7179b3bd5de1ea">emplace_back</a> (Args &amp;&amp;... args)</td></tr>
-<tr class="memdesc:a62beb44c672def537e7179b3bd5de1ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an element in-place at the end of the <a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">Vector</a>.  <br /></td></tr>
-<tr class="separator:a62beb44c672def537e7179b3bd5de1ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a201b2cf2e55f23290e4e706f31e19a5a"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:a201b2cf2e55f23290e4e706f31e19a5a"><td class="memTemplItemLeft" align="right" valign="top">constexpr ElementType &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1Vector.html#a201b2cf2e55f23290e4e706f31e19a5a">emplace_back</a> (Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:a201b2cf2e55f23290e4e706f31e19a5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an element in-place at the end of the <a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">Vector</a>.  <br /></td></tr>
+<tr class="separator:a201b2cf2e55f23290e4e706f31e19a5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9efdb84965206c223c69acb183ce74bd"><td class="memItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1Vector.html#a9efdb84965206c223c69acb183ce74bd">swap</a> (<a class="el" href="classvctr_1_1Vector.html">Vector</a> &amp;other) noexcept</td></tr>
 <tr class="memdesc:a9efdb84965206c223c69acb183ce74bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps the underlying memory with the other <a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">Vector</a>.  <br /></td></tr>
 <tr class="separator:a9efdb84965206c223c69acb183ce74bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2074,8 +2074,8 @@ template&lt;class ElementType , class StorageType , size_t extent, class <a clas
 
 </div>
 </div>
-<a id="a62beb44c672def537e7179b3bd5de1ea" name="a62beb44c672def537e7179b3bd5de1ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62beb44c672def537e7179b3bd5de1ea">&#9670;&#160;</a></span>emplace_back()</h2>
+<a id="a201b2cf2e55f23290e4e706f31e19a5a" name="a201b2cf2e55f23290e4e706f31e19a5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a201b2cf2e55f23290e4e706f31e19a5a">&#9670;&#160;</a></span>emplace_back()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2088,7 +2088,7 @@ template&lt;class... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr void <a class="el" href="classvctr_1_1Vector.html">vctr::Vector</a>&lt; ElementType, Allocator &gt;::emplace_back </td>
+          <td class="memname">constexpr ElementType &amp; <a class="el" href="classvctr_1_1Vector.html">vctr::Vector</a>&lt; ElementType, Allocator &gt;::emplace_back </td>
           <td>(</td>
           <td class="paramtype">Args &amp;&amp;...&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
@@ -2103,7 +2103,7 @@ template&lt;class... Args&gt; </div>
 </div><div class="memdoc">
 
 <p>Constructs an element in-place at the end of the <a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">Vector</a>. </p>
-<p>This is a standard interface function forwarded to std::vector::emplace_back(). </p>
+<p>This is a standard interface function forwarded to std::vector::emplace_back(). Vector&lt;bool&gt; has special behaviour, which is handled in the VectorBoolWorkaround class. </p>
 
 </div>
 </div>

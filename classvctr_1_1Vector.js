@@ -42,7 +42,7 @@ var classvctr_1_1Vector =
     [ "data", "classvctr_1_1Vector.html#a776a0a4f16ecc3c25f5a1e2eac1d094b", null ],
     [ "data", "classvctr_1_1Vector.html#a2ed4bae89175ad4f0da54a9d807d2d75", null ],
     [ "elementsAreSorted", "classvctr_1_1Vector.html#ab71e907a8173889718559fef90a45aed", null ],
-    [ "emplace_back", "classvctr_1_1Vector.html#a62beb44c672def537e7179b3bd5de1ea", null ],
+    [ "emplace_back", "classvctr_1_1Vector.html#a201b2cf2e55f23290e4e706f31e19a5a", null ],
     [ "empty", "classvctr_1_1Vector.html#acb907e744177485ef9aaf219b0756b90", null ],
     [ "end", "classvctr_1_1Vector.html#ae82f4383edea8be887d6f1617cfa4edf", null ],
     [ "end", "classvctr_1_1Vector.html#a8d0117b7f6fc7cd51595146070fa0533", null ],
