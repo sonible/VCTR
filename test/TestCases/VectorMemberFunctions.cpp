@@ -281,13 +281,20 @@ TEST_CASE ("pop_back", "[VCTR][VectorMemberFunctions]")
 
 TEST_CASE ("emplace_back", "[VCTR][VectorMemberFunctions]")
 {
+    // test with std::pair
     vctr::Vector<std::pair<std::string, int>> v;
-
     auto& entry = v.emplace_back ("The answer", 42);
 
     REQUIRE (v.size() == 1);
     REQUIRE_THAT (entry.first, Catch::Matchers::Equals ("The answer"));
     REQUIRE (entry.second == 42);
+
+    // do another test with Vector<bool> because we all know it has special behavior
+    vctr::Vector<bool> b;
+    auto& ref = b.emplace_back (true);
+
+    REQUIRE (b.size() == 1);
+    REQUIRE (ref == true);
 }
 
 TEST_CASE ("insert", "[VCTR][VectorMemberFunctions]")
