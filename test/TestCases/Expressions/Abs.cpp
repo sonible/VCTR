@@ -40,7 +40,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Abs", "[VCTR][Expressions][abs]", (PlatformVectorOp
     */
 
     // test whether vctr::abs compiles in a constexpr context and yields the correct result
-    static constexpr vctr::Array absConstexpr = filter << vctr::abs << srcA;
+    [[maybe_unused]] static constexpr vctr::Array absConstexpr = filter << vctr::abs << srcA;
 
     // TODO: Re-enable tests after resolving compilation issue on linux-clang
     // REQUIRE_THAT (abs, vctr::EqualsTransformedBy<std::abs> (srcA).withEpsilon());
