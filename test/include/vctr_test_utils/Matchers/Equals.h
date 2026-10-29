@@ -36,14 +36,24 @@ struct Equals : Catch::Matchers::MatcherGenericBase
     template <class Vec>
     bool match (const Vec& vec) const
     {
-        if constexpr (is::realFloatNumber<SrcValueType>)
-        {
-            return std::equal (vec.begin(), vec.end(), reference.begin(), reference.end(), [&] (auto a, auto b) { return a == Catch::Approx (b).margin (margin).epsilon (epsilon); });
-        }
-        else
-        {
-            return std::equal (vec.begin(), vec.end(), reference.begin(), reference.end());
-        }
+        const auto actualSize = size_t (std::distance (vec.begin(), vec.end()));
+        const auto referenceSize = size_t (std::distance (reference.begin(), reference.end()));
+
+        // Query actual/expected elements by advancing these iterators rather than via operator[], so that this
+        // also works for containers that only provide forward iterators (e.g. no random access).
+        auto itA = vec.begin();
+        auto itB = reference.begin();
+
+        // decltype (auto) rather than auto& here, since some iterators (e.g. std::vector<bool>::iterator) return
+        // a proxy object by value from operator*, which cannot bind to a non-const lvalue reference.
+        return detail::computeElementwiseEqualityReport (
+            report,
+            actualSize,
+            referenceSize,
+            margin,
+            epsilon,
+            [&itA] (size_t) -> decltype (auto) { return *itA++; },
+            [&itB] (size_t) -> decltype (auto) { return *itB++; });
     }
 
     auto withMargin (double m) &&
@@ -60,11 +70,16 @@ struct Equals : Catch::Matchers::MatcherGenericBase
 
     std::string describe() const override
     {
-        return "Equals: " + Catch::StringMaker<ReferenceVec>::convert (reference);
+        std::ostringstream s;
+        s << "Equals: " << Catch::StringMaker<ReferenceVec>::convert (reference);
+        s << "\n\n";
+        report.appendDescriptionTo (s);
+        return s.str();
     }
 
 private:
     ReferenceVec reference;
+    mutable detail::ElementwiseEqualityReport report;
 
     double margin = 0.0;
     double epsilon = 0.0;
