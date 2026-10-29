@@ -29,6 +29,7 @@
 #include <vctr_utils/template_arg_string_conversion.h>
 
 #include "Matchers/StringMakers.h"
+#include "Matchers/ElementwiseEqualityReport.h"
 #include "Matchers/Equals.h"
 #include "Matchers/EqualsTransformedBy.h"
 #include "Matchers/AllElementsEqualTo.h"

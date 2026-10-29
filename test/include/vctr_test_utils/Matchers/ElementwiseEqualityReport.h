@@ -20,16 +20,18 @@
   ==============================================================================
 */
 
-#pragma once
-
 namespace vctr::detail
 {
 
-/** Mismatch/error statistics collected by computeElementwiseEqualityDetails(). Shared between the Equals and
-    EqualsTransformedBy family of matchers so that all of them report failures in the same format.
+/** Mismatch/error statistics collected by computeElementwiseEqualityDetails().
+
+    Shared between the Equals and EqualsTransformedBy family of matchers so that
+    all of them report failures in the same format.
 */
-struct ElementwiseEqualityDetails
+struct ElementwiseEqualityReport
 {
+    static constexpr auto maxNumErrorValuesToReport = 5; ///< Maximum number of mismatching values to report in the description.
+
     size_t numMismatches = 0;
     size_t firstMismatchIndex = 0;
     size_t actualSize = 0;
@@ -38,6 +40,12 @@ struct ElementwiseEqualityDetails
     double minError = 0.0;
     double maxError = 0.0;
     double meanAbsErrorAllElements = 0.0;
+
+    /** Stores the first up to maxNumErrorValuesToReport mismatching values (index, actual, expected) for reporting.
+
+        In case of complex numbers, the absolute value is stored.
+     */
+    Vector<std::tuple<size_t, double, double>> collectedMismatches;
 
     /** Appends a human readable description of the stored mismatch/error statistics to the given stream. Does
         nothing if there were no mismatches and the sizes matched.
@@ -55,6 +63,13 @@ struct ElementwiseEqualityDetails
                 s << "\n  Smallest error (actual - expected): " << minError
                   << "\n  Largest error (actual - expected): " << maxError
                   << "\n  Mean abs error (all elements): " << meanAbsErrorAllElements;
+
+                if (! collectedMismatches.empty())
+                {
+                    s << "\n\n  First " << collectedMismatches.size() << " mismatching values:";
+                    for (const auto& [index, actual, expected] : collectedMismatches)
+                        s << "\n    At index " << index << ": actual = " << actual << ", expected = " << expected;
+                }
             }
         }
 
@@ -78,7 +93,7 @@ struct ElementwiseEqualityDetails
     Returns true if there were no mismatches and actualSize == referenceSize.
 */
 template <class ExpectedValueType, class GetActual, class GetExpected>
-bool computeElementwiseEqualityDetails (ElementwiseEqualityDetails& details, size_t actualSize, size_t referenceSize, double margin, double epsilon, GetActual&& getActual, GetExpected&& getExpected)
+bool computeElementwiseEqualityReport (ElementwiseEqualityReport& details, size_t actualSize, size_t referenceSize, double margin, double epsilon, GetActual&& getActual, GetExpected&& getExpected)
 {
     details = {};
     details.actualSize = actualSize;
@@ -98,17 +113,17 @@ bool computeElementwiseEqualityDetails (ElementwiseEqualityDetails& details, siz
 
     for (size_t i = 0; i < numToCompare; ++i)
     {
-        decltype (auto) a = getActual (i);
-        decltype (auto) b = getExpected (i);
+        decltype (auto) actual = getActual (i);
+        decltype (auto) reference = getExpected (i);
 
         double error = 0.0;
 
         if constexpr (hasNumericError)
         {
             if constexpr (errorIsComplex)
-                error = std::abs (a - b);
+                error = std::abs (actual - reference);
             else
-                error = double (a) - double (b);
+                error = double (actual) - double (reference);
 
             details.hasErrorStats = true;
             sumAbsErrorAllElements += std::abs (error);
@@ -116,11 +131,11 @@ bool computeElementwiseEqualityDetails (ElementwiseEqualityDetails& details, siz
 
         const bool isEqual = [&] {
             if constexpr (is::realFloatNumber<ExpectedValueType>)
-                return withinTolerance (double (b), double (a));
+                return withinTolerance (double (reference), double (actual));
             else if constexpr (is::complexFloatNumber<ExpectedValueType>)
-                return withinTolerance (double (b.real()), double (a.real())) && withinTolerance (double (b.imag()), double (a.imag()));
+                return withinTolerance (double (reference.real()), double (actual.real())) && withinTolerance (double (reference.imag()), double (actual.imag()));
             else
-                return a == b;
+                return actual == reference;
         }();
 
         if (isEqual)
@@ -135,6 +150,14 @@ bool computeElementwiseEqualityDetails (ElementwiseEqualityDetails& details, siz
         {
             details.minError = details.numMismatches == 1 ? error : std::min (details.minError, error);
             details.maxError = details.numMismatches == 1 ? error : std::max (details.maxError, error);
+
+            if (details.collectedMismatches.size() < ElementwiseEqualityReport::maxNumErrorValuesToReport)
+            {
+                if constexpr (is::complexFloatNumber<ExpectedValueType>)
+                    details.collectedMismatches.emplace_back (i, double (std::abs (actual)), double (std::abs (reference)));
+                else
+                    details.collectedMismatches.emplace_back (i, double (actual), double (reference));
+            }
         }
     }
 

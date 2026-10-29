@@ -20,8 +20,6 @@
   ==============================================================================
 */
 
-#include "detail/ElementwiseEqualityDetails.h"
-
 namespace vctr
 {
 
@@ -48,8 +46,12 @@ struct Equals : Catch::Matchers::MatcherGenericBase
 
         // decltype (auto) rather than auto& here, since some iterators (e.g. std::vector<bool>::iterator) return
         // a proxy object by value from operator*, which cannot bind to a non-const lvalue reference.
-        return detail::computeElementwiseEqualityDetails<SrcValueType> (
-            details, actualSize, referenceSize, margin, epsilon,
+        return detail::computeElementwiseEqualityReport<SrcValueType> (
+            report,
+            actualSize,
+            referenceSize,
+            margin,
+            epsilon,
             [&itA] (size_t) -> decltype (auto) { decltype (auto) v = *itA; ++itA; return v; },
             [&itB] (size_t) -> decltype (auto) { decltype (auto) v = *itB; ++itB; return v; });
     }
@@ -70,13 +72,13 @@ struct Equals : Catch::Matchers::MatcherGenericBase
     {
         std::ostringstream s;
         s << "Equals: " << Catch::StringMaker<ReferenceVec>::convert (reference);
-        details.appendDescriptionTo (s);
+        report.appendDescriptionTo (s);
         return s.str();
     }
 
 private:
     ReferenceVec reference;
-    mutable detail::ElementwiseEqualityDetails details;
+    mutable detail::ElementwiseEqualityReport report;
 
     double margin = 0.0;
     double epsilon = 0.0;
