@@ -119,8 +119,7 @@ TEMPLATE_TEST_CASE ("Linspace (positive and negative increments)", "[VCTR][Gener
 
             REQUIRE_THAT (result, vctr::Equals (vctr::generators::Linspace::makeVector (start, stop, num, includeEnd)));
 
-            for (auto n = 0; n < num; ++n)
-                REQUIRE (reference[n] == Approx (result[n]));
+            REQUIRE_THAT (reference, vctr::Equals (result).withEpsilon (std::numeric_limits<float>::epsilon() * 100.0f));
         }
 
         SECTION ("Overload without num")
@@ -139,8 +138,7 @@ TEMPLATE_TEST_CASE ("Linspace (positive and negative increments)", "[VCTR][Gener
 
             REQUIRE (result1.size() == reference.size());
 
-            for (auto n = 0; n < result1.size(); ++n)
-                REQUIRE (reference[n] == Approx (result1[n]));
+            REQUIRE_THAT (reference, vctr::Equals (result1).withEpsilon (std::numeric_limits<float>::epsilon() * 100.0f));
         }
     }
 }
@@ -177,8 +175,7 @@ TEMPLATE_TEST_CASE ("Linspace (additional tests for floating-point numbers)", "[
 
                 REQUIRE_THAT (result, vctr::Equals (vctr::generators::Linspace::makeVector (start, stop, num, includeEnd)));
 
-                for (auto n = 0; n < num; ++n)
-                    REQUIRE (reference[n] == Approx (result[n]));
+                REQUIRE_THAT (reference, vctr::Equals (result).withEpsilon (std::numeric_limits<float>::epsilon() * 100.0f));
             }
 
             SECTION ("Precision")
@@ -193,7 +190,7 @@ TEMPLATE_TEST_CASE ("Linspace (additional tests for floating-point numbers)", "[
 
                 REQUIRE_THAT (result, vctr::Equals (vctr::generators::Linspace::makeVector (start, stop, num, includeEnd)));
 
-                REQUIRE (stop == Approx (result.back()).margin (std::numeric_limits<TestType>::epsilon()));
+                REQUIRE_THAT (stop,  Catch::Matchers::WithinAbs (result.back(), 1e-6f));
             }
         }
     }
