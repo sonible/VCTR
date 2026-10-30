@@ -60,8 +60,9 @@ consteval auto getTimeFromString (const char* str, int offset)
 /** Computes a uint32 integer from the current system time when compiling. */
 consteval auto getSeedFromCurrentTime()
 {
-    auto t = __TIME__;
-    return getTimeFromString (t, 0) * 60 * 60 + getTimeFromString (t, 3) * 60 + getTimeFromString (t, 6);
+    // auto t = __TIME__;
+    // return getTimeFromString (t, 0) * 60 * 60 + getTimeFromString (t, 3) * 60 + getTimeFromString (t, 6);
+    return 2585314546; // TODO fixed seed for reproducibility
 }
 
 /** This implements a linear congruential pseudo-random-number generator.
