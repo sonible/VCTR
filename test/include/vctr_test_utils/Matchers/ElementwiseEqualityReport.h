@@ -54,27 +54,35 @@ struct ElementwiseEqualityReport
     {
         if (numMismatches > 0)
         {
-            s << "\n\nError statistics:"
-              << "\n  Mismatching elements: " << numMismatches << "/" << referenceSize
-              << "\n  First mismatch at index: " << firstMismatchIndex;
+            s << "\n\nMismatch statistics:"
+              << "\n  Mismatching elements:               " << numMismatches << " out of " << referenceSize
+              << "\n  First mismatch at index:            " << firstMismatchIndex;
 
             if (hasErrorStats)
             {
                 s << "\n  Smallest error (actual - expected): " << minError
-                  << "\n  Largest error (actual - expected): " << maxError
-                  << "\n  Mean abs error (all elements): " << meanAbsErrorAllElements;
+                  << "\n  Largest error  (actual - expected): " << maxError
+                  << "\n  Mean abs error (all elements):      " << meanAbsErrorAllElements;
 
                 if (! collectedMismatches.empty())
                 {
-                    s << "\n\n  First " << collectedMismatches.size() << " mismatching values:";
+                    s << "\nFirst " << collectedMismatches.size() << " mismatching values:";
+
+                    const auto oldPrecision = s.precision();
+                    s << std::setprecision (std::numeric_limits<double>::max_digits10);
+
                     for (const auto& [index, actual, expected] : collectedMismatches)
-                        s << "\n    At index " << index << ": actual = " << actual << ", expected = " << expected;
+                        s << "\n  At index " << index << ": actual = " << actual << ", expected = " << expected;
+
+                    s.precision (oldPrecision);
                 }
             }
         }
 
         if (actualSize != referenceSize)
             s << "\n  Size mismatch: actual size " << actualSize << ", expected size " << referenceSize;
+
+        s << "\n";
     }
 };
 

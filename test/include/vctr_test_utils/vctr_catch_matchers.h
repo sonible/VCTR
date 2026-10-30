@@ -24,6 +24,9 @@
 
 #include <catch2/matchers/catch_matchers_all.hpp>
 
+#include <iomanip>
+#include <limits>
+
 #include <vctr/vctr.h>
 
 #include <vctr_utils/template_arg_string_conversion.h>
