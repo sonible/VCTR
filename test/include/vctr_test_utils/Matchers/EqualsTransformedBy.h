@@ -60,6 +60,10 @@ double defaultEpsilon = 0.0;
 template <is::number T>
 double defaultEpsilon<T> = std::numeric_limits<vctr::RealType<T>>::epsilon() * 100.0;
 
+/** Compares a candidate vector with the element-wise result of applying a unary function to a reference vector.
+
+    The function's return type determines the comparison type.
+*/
 template <class RetValueType, class SrcValueType, is::anyVctr ReferenceVec, RetValueType (*transformingFn) (SrcValueType)>
 struct UnaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
 {
@@ -69,26 +73,14 @@ struct UnaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
     template <is::anyVctr Vec>
     bool match (const Vec& vec) const
     {
-        if (vec.size() != reference.size())
-            return false;
-
-        for (size_t i = 0; i < vec.size(); ++i)
-        {
-            auto v = transformingFn (reference[i]);
-
-            if constexpr (vctr::is::number<RetValueType>)
-            {
-                if (Approx<RetValueType> (v).margin (margin).epsilon (epsilon) != vec[i])
-                    return false;
-            }
-            else
-            {
-                if (v != vec[i])
-                    return false;
-            }
-        }
-
-        return true;
+        return detail::computeElementwiseEqualityReport<RetValueType> (
+            report,
+            vec.size(),
+            reference.size(),
+            margin,
+            epsilon,
+            [&] (size_t i) -> decltype (auto) { return vec[i]; },      // getActual
+            [&] (size_t i) { return transformingFn (reference[i]); }); // getExpected
     }
 
     auto withMargin (double m) &&
@@ -111,16 +103,22 @@ struct UnaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
 
         std::ostringstream os;
         os << "\nEquals: " << vctr::functionName<RetValueType, SrcValueType, transformingFn>() << " (" << reference << ")\n = " << refResult;
+        report.appendDescriptionTo (os);
         return os.str();
     }
 
 private:
     const ReferenceVec& reference;
+    mutable detail::ElementwiseEqualityReport report;
 
     double margin = 0.0;
     double epsilon = 0.0;
 };
 
+/** Compares a candidate vector with the element-wise result of applying a binary function to two reference vectors.
+
+    The reference vectors must have equal sizes.
+*/
 template <class RetValueType, class SrcValueType, is::anyVctr ReferenceVecA, is::anyVctr ReferenceVecB, RetValueType (*transformingFn) (SrcValueType, SrcValueType)>
 struct BinaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
 {
@@ -132,19 +130,19 @@ struct BinaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
     bool match (const Vec& vec) const
     {
         if (referenceA.size() != referenceB.size())
-            return false;
-
-        if (vec.size() != referenceA.size())
-            return false;
-
-        for (size_t i = 0; i < vec.size(); ++i)
         {
-            auto v = transformingFn (referenceA[i], referenceB[i]);
-            if (Approx<RetValueType> (v).margin (margin).epsilon (epsilon) != vec[i])
-                return false;
+            report = {};
+            return false;
         }
 
-        return true;
+        return detail::computeElementwiseEqualityReport<RetValueType> (
+            report,
+            vec.size(),
+            referenceA.size(),
+            margin,
+            epsilon,
+            [&] (size_t i) -> decltype (auto) { return vec[i]; },                      // getActual
+            [&] (size_t i) { return transformingFn (referenceA[i], referenceB[i]); }); // getExpected
     }
 
     auto withMargin (double m) &&
@@ -168,17 +166,23 @@ struct BinaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
         std::ostringstream os;
         os << "\nEquals: " << vctr::functionName<RetValueType, SrcValueType, SrcValueType, transformingFn>() << " (" << referenceA
            << ", " << referenceB << ")\n = " << refResult;
+        report.appendDescriptionTo (os);
         return os.str();
     }
 
 private:
     const ReferenceVecA& referenceA;
     const ReferenceVecB& referenceB;
+    mutable detail::ElementwiseEqualityReport report;
 
     double margin = 0.0;
     double epsilon = 0.0;
 };
 
+/** Compares a candidate vector with the element-wise result of applying a binary function to a reference vector and a scalar.
+
+    The scalar's position in the function call matches its position in the matcher factory call.
+*/
 template <class ValueType, is::anyVctr ReferenceVec, ValueType (*transformingFn) (ValueType, ValueType)>
 struct BinaryScalarEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
 {
@@ -199,18 +203,14 @@ struct BinaryScalarEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBas
     template <is::anyVctr Vec>
     bool match (const Vec& vec) const
     {
-        if (vec.size() != referenceVec.size())
-            return false;
-
-        for (size_t i = 0; i < vec.size(); ++i)
-        {
-            auto v = fnWithBoundScalar (referenceVec[i]);
-
-            if (Approx<ValueType> (v).margin (margin).epsilon (epsilon) != vec[i])
-                return false;
-        }
-
-        return true;
+        return detail::computeElementwiseEqualityReport<ValueType> (
+            report,
+            vec.size(),
+            referenceVec.size(),
+            margin,
+            epsilon,
+            [&] (size_t i) -> decltype (auto) { return vec[i]; },
+            [&] (size_t i) { return fnWithBoundScalar (referenceVec[i]); });
     }
 
     auto withMargin (double m) &&
@@ -239,6 +239,7 @@ struct BinaryScalarEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBas
             os << referenceVec << ", " << referenceScalar;
 
         os << ")\n = " << refResult;
+        report.appendDescriptionTo (os);
 
         return os.str();
     }
@@ -248,12 +249,16 @@ private:
     const ValueType referenceScalar;
     const bool scalarBeforeVec;
     const std::function<ValueType (ValueType)> fnWithBoundScalar;
+    mutable detail::ElementwiseEqualityReport report;
 
     double margin = 0.0;
     double epsilon = 0.0;
 };
 
-/** Matcher that applies an arbitrary callable element-wise to one or more reference vectors. */
+/** Compares a candidate vector with the element-wise result of applying a callable to one or more reference vectors.
+
+    All reference vectors must have equal sizes; the callable's return type determines the comparison type.
+*/
 template <class Fn, is::anyVctr... ReferenceVecs>
 struct CallableEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
 {
@@ -271,26 +276,14 @@ struct CallableEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
     template <is::anyVctr Vec>
     bool match (const Vec& vec) const
     {
-        if (vec.size() != refSize)
-            return false;
-
-        for (size_t i = 0; i < vec.size(); ++i)
-        {
-            const auto v = std::apply ([&] (const auto&... r) { return fn (r[i]...); }, references);
-
-            if constexpr (vctr::is::number<RetValueType>)
-            {
-                if (Approx<RetValueType> (v).margin (margin).epsilon (epsilon) != vec[i])
-                    return false;
-            }
-            else
-            {
-                if (v != vec[i])
-                    return false;
-            }
-        }
-
-        return true;
+        return detail::computeElementwiseEqualityReport<RetValueType> (
+            report,
+            vec.size(),
+            refSize,
+            margin,
+            epsilon,
+            [&] (size_t i) -> decltype (auto) { return vec[i]; },                                                 // getActual
+            [&] (size_t i) { return std::apply ([&] (const auto&... r) { return fn (r[i]...); }, references); }); // getExpected
     }
 
     auto withMargin (double m) &&
@@ -314,6 +307,7 @@ struct CallableEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
         Vector<RetValueType> result (refSize, [&] (size_t i) { return std::apply ([&] (const auto&... r) { return fn (r[i]...); }, references); });
 
         os << " = " << result;
+        report.appendDescriptionTo (os);
         return os.str();
     }
 
@@ -321,6 +315,7 @@ private:
     Fn fn;
     std::tuple<const ReferenceVecs&...> references;
     const size_t refSize;
+    mutable detail::ElementwiseEqualityReport report;
 
     double margin = 0.0;
     double epsilon = 0.0;
@@ -336,7 +331,7 @@ private:
     wherever possible.
 */
 template <class Fn, is::anyVctr... ReferenceVecs>
-requires (sizeof... (ReferenceVecs) > 0)
+requires (sizeof...(ReferenceVecs) > 0)
 auto EqualsMappedBy (Fn fn, const ReferenceVecs&... vecs)
 {
     return detail::CallableEqualsTransformedMatcher<Fn, ReferenceVecs...> (std::move (fn), vecs...);

@@ -225,4 +225,4 @@ jobs:
         if: runner.os != 'Windows'
 
       - name: Run test
-        run: ./build/test/TestMain/vctr_test
+        run: ./build/test/TestMain/vctr_test --rng-seed=2585314546

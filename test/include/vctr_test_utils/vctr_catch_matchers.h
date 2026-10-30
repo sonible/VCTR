@@ -24,12 +24,15 @@
 
 #include <catch2/matchers/catch_matchers_all.hpp>
 
+#include <iomanip>
+#include <limits>
+
 #include <vctr/vctr.h>
 
 #include <vctr_utils/template_arg_string_conversion.h>
-#include <vctr_test_utils/vctr_approx.h>
 
 #include "Matchers/StringMakers.h"
+#include "Matchers/ElementwiseEqualityReport.h"
 #include "Matchers/Equals.h"
 #include "Matchers/EqualsTransformedBy.h"
 #include "Matchers/AllElementsEqualTo.h"

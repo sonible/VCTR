@@ -13,6 +13,7 @@ target_sources (vctr_test_cases INTERFACE
         TestCases/ArrayMemberFunctions.cpp
         TestCases/ConversionOperators.cpp
         TestCases/ElementAccessFunctions.cpp
+        TestCases/EqualsMatcher.cpp
         TestCases/FindingAndManipulatingElements.cpp
         TestCases/Range.cpp
         TestCases/ScalarCompareOp.cpp
