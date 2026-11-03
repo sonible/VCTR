@@ -184,6 +184,7 @@ VCTR_END_IGNORE_WARNING_MSVC
 #include "Expressions/BasicMath/Min.h"
 #include "Expressions/BasicMath/Mean.h"
 #include "Expressions/BasicMath/Sum.h"
+#include "Expressions/BasicMath/Product.h"
 #include "Expressions/BasicMath/NormalizeSum.h"
 
 #include "Expressions/Complex/Angle.h"
