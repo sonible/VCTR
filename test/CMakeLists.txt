@@ -48,6 +48,7 @@ target_sources (vctr_test_cases INTERFACE
         TestCases/Expressions/NormalizeSum.cpp
         TestCases/Expressions/Pow.cpp
         TestCases/Expressions/PowerSpectrum.cpp
+        TestCases/Expressions/Product.cpp
         TestCases/Expressions/RealImag.cpp
         TestCases/Expressions/SIMDFilter.cpp
         TestCases/Expressions/Subtract.cpp
