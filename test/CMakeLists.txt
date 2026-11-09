@@ -24,6 +24,8 @@ target_sources (vctr_test_cases INTERFACE
         TestCases/VectorStdPMRCompatibility.cpp
         TestCases/BitwiseMaskOperations.cpp
 
+        TestCases/Containers/SplitComplex.cpp
+
         TestCases/Expressions/Abs.cpp
         TestCases/Expressions/Add.cpp
         TestCases/Expressions/Angle.cpp
