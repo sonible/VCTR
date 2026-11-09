@@ -221,6 +221,24 @@ public:
         Vctr::assignExpressionTemplate (expression);
     }
 
+    /** Returns a new Array that holds the elements of this Array followed by the elements of vctrToAppend.
+
+        Only works for a Span or Array with the same value_type as this Array and a compile-time extent, since the
+        size of the returned Array has to be known at compile time. A Vector or a Span with std::dynamic_extent can't
+        be appended. If vctrToAppend is an rvalue, its elements are moved, otherwise they are copied.
+    */
+    template <is::anyVctrWithValueType<value_type> VctrToAppend>
+    requires (extentOf<VctrToAppend> != std::dynamic_extent)
+    constexpr auto append (VctrToAppend&& vctrToAppend) const
+    {
+        Array<value_type, extent + extentOf<VctrToAppend>> appended;
+
+        appended.template subSpan<0, extent>() = *this;
+        appended.template subSpan<extent>() = std::forward<VctrToAppend> (vctrToAppend);
+
+        return appended;
+    }
+
 private:
     //==============================================================================
     template <is::suitableInitializerFunction Fn, size_t... i>
