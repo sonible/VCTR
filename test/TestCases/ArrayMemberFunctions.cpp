@@ -62,3 +62,48 @@ TEST_CASE ("Assignment operator", "[VCTR][ArrayMemberFunctions]")
     strings = std::move (mv);
     REQUIRE_THAT (strings, vctr::Equals ({ "I", "love", "sonible" }));
 }
+
+TEST_CASE ("append", "[VCTR][ArrayMemberFunctions]")
+{
+    SECTION ("append by copy")
+    {
+        vctr::Array<std::string, 2> a { "one", "two" };
+        vctr::Array<std::string, 2> toAppend { "three", "four" };
+
+        auto appended = a.append (toAppend);
+
+        REQUIRE (std::is_same_v<std::remove_cvref_t<decltype (appended)>, vctr::Array<std::string, 4>>);
+        REQUIRE_THAT (appended, vctr::Equals ({ "one", "two", "three", "four" }));
+        REQUIRE_FALSE (toAppend[0].empty());
+        REQUIRE_FALSE (toAppend[1].empty());
+    }
+
+    SECTION ("append by move from Span")
+    {
+        vctr::Array<std::string, 2> a { "one", "two" };
+
+        std::string s[] { "move 1", "move 2" };
+        vctr::Span spanToMove (s, 2);
+
+        auto appended = a.append (spanToMove, true);
+
+        REQUIRE (std::is_same_v<std::remove_cvref_t<decltype (appended)>, vctr::Array<std::string, 4>>);
+        REQUIRE_THAT (appended, vctr::Equals ({ "one", "two", "move 1", "move 2" }));
+        REQUIRE (s[0].empty());
+        REQUIRE (s[1].empty());
+    }
+
+    SECTION ("constexpr append")
+    {
+        constexpr vctr::Array<int, 2> a { 1, 2 };
+        constexpr vctr::Array<int, 3> b { 3, 4, 5 };
+        constexpr auto appended = a.append (b);
+
+        STATIC_REQUIRE (std::is_same_v<std::remove_cvref_t<decltype (appended)>, vctr::Array<int, 5>>);
+        STATIC_REQUIRE (appended[0] == 1);
+        STATIC_REQUIRE (appended[1] == 2);
+        STATIC_REQUIRE (appended[2] == 3);
+        STATIC_REQUIRE (appended[3] == 4);
+        STATIC_REQUIRE (appended[4] == 5);
+    }
+}
