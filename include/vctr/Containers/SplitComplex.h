@@ -74,7 +74,7 @@ public:
      */
     template <class Real, class Imag>
     requires std::constructible_from<ContainerType, Real&&> && std::constructible_from<ContainerType, Imag&&>
-    SplitComplexBase (Real&& realPart, Imag&& imagPart)
+    constexpr SplitComplexBase (Real&& realPart, Imag&& imagPart)
         : realParts (std::forward<Real> (realPart)),
           imagParts (std::forward<Imag> (imagPart))
     {
@@ -86,7 +86,7 @@ public:
      */
     template <class Other>
     requires (! std::same_as<Other, ContainerType>) && std::constructible_from<ContainerType, decltype (std::declval<SplitComplexBase<Other>&>().real())>
-    SplitComplexBase (SplitComplexBase<Other>& other)
+    constexpr SplitComplexBase (SplitComplexBase<Other>& other)
         : realParts (other.real()),
           imagParts (other.imag())
     {
@@ -95,11 +95,10 @@ public:
     /** @copydoc SplitComplexBase(SplitComplexBase<Other>&) */
     template <class Other>
     requires (! std::same_as<Other, ContainerType>) && std::constructible_from<ContainerType, decltype (std::declval<const SplitComplexBase<Other>&>().real())>
-    SplitComplexBase (const SplitComplexBase<Other>& other)
+    constexpr SplitComplexBase (const SplitComplexBase<Other>& other)
         : realParts (other.real()),
           imagParts (other.imag())
-    {
-    }
+    { }
 
     /** Creates a SplitComplexBase by deinterleaving a container of std::complex values. Only available for owning containers.
 
