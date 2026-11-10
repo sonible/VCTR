@@ -25,6 +25,19 @@
 namespace vctr
 {
 
+template <is::expression RealExpression, is::expression ImagExpression>
+requires (std::same_as<typename RealExpression::value_type, typename ImagExpression::value_type>)
+struct SplitComplexExpression
+{
+    using value_type = typename RealExpression::value_type;
+
+    RealExpression realExpression;
+    ImagExpression imagExpression;
+
+    RealExpression& real() { return realExpression; }
+    ImagExpression& imag() { return imagExpression; }
+};
+
 /** A container for complex values that stores the real and imaginary parts in two separate, equally sized buffers
     instead of interleaved like std::complex does.
 
@@ -99,6 +112,32 @@ public:
         : realParts (other.real()),
           imagParts (other.imag())
     { }
+
+    template <is::expression RealExpression, is::expression ImagExpression>
+    constexpr SplitComplexBase (SplitComplexExpression<RealExpression, ImagExpression>&& expressions)
+    {
+        *this = expressions;
+    }
+
+    /** Assigns the result of an expression to this Vector.
+
+        It may resize the Vector if it does not match the expression size.
+     */
+    template <is::expression RealExpression, is::expression ImagExpression>
+    constexpr void operator= (const SplitComplexExpression<RealExpression, ImagExpression>& expressions)
+    {
+        realParts = expressions.realExpression;
+        imagParts = expressions.imagExpression;
+    }
+
+    /** Copies the elements of another SplitComplexBase of identical size. */
+    template <class Other>
+    constexpr void operator= (const SplitComplexBase<Other>& other)
+    {
+        VCTR_ASSERT (size() == other.size());
+        std::copy (other.real().begin(), other.real().end(), realParts.begin());
+        std::copy (other.imag().begin(), other.imag().end(), imagParts.begin());
+    }
 
     /** Creates a SplitComplexBase by deinterleaving a container of std::complex values. Only available for owning containers.
 
@@ -175,15 +214,6 @@ public:
     /** Sets all elements to zero. */
     constexpr void clear() { fill (complex_type (0, 0)); }
 
-    /** Copies the elements of another SplitComplexBase of identical size. */
-    template <class Other>
-    constexpr void copyFrom (const SplitComplexBase<Other>& other)
-    {
-        VCTR_ASSERT (size() == other.size());
-        std::copy (other.real().begin(), other.real().end(), realParts.begin());
-        std::copy (other.imag().begin(), other.imag().end(), imagParts.begin());
-    }
-
     /** Deinterleaves std::complex values into this container. The sizes must match. */
     template <has::sizeAndDataWithElementType<const complex_type> Interleaved>
     constexpr void assignInterleaved (const Interleaved& interleaved)
@@ -199,17 +229,58 @@ public:
         }
     }
 
-    /** Interleaves the values into a container of std::complex values. The sizes must match. */
-    template <has::sizeAndDataWithElementType<complex_type> Interleaved>
-    constexpr void copyToInterleaved (Interleaved& interleaved) const
-    {
-        VCTR_ASSERT (size() == interleaved.size());
-
-        auto* dst = interleaved.data();
-
-        for (size_t i = 0; i < size(); ++i)
-            dst[i] = (*this)[i];
+    ////==============================================================================
+    //// Math operators.
+    ////==============================================================================
+    /** Multiplies this by a vector or expression in place. */
+    template <is::anyVctrOrExpression V>
+    constexpr void operator*= (const V& v)
+    {   
+        auto& self = *this;
+        self = self * v;
     }
+
+    ///** Multiplies this by a constant in place. */
+    //constexpr void operator*= (value_type c);
+
+    ///** Divides this by a vector or expression in place. */
+    //template <is::anyVctrOrExpression V>
+    //constexpr void operator/= (const V& v);
+
+    ///** Divides this by a constant in place. */
+    //constexpr void operator/= (value_type c);
+
+    ///** Adds a vector or expression to this in place.
+
+    //    In the special case where a multiplication expression is assigned for which none of the operands
+    //    are expressions themselves, this will try to use accelerated multiply accumulate operations to
+    //    evaluate the expression.
+
+    //    Example:
+    //    @code
+    //    vctr::Array<float, 10> a, b, c;
+
+    //    // This code tries to use an accelerated multiply accumulate operation as it can access the values of a and b right away
+    //    c += a * b;
+    //    c += a * 42.0f;
+
+    //    // Cannot directly evaluate the accelerated operation as vctr::square (b) would have to be evaluated and stored to
+    //    // some temporary memory location first.
+    //    c += a * vctr::square (b);
+    //    @endcode
+    // */
+    //template <is::anyVctrOrExpression V>
+    //constexpr void operator+= (const V& v);
+
+    ///** Adds a constant to this in place. */
+    //constexpr void operator+= (value_type c);
+
+    ///** Subtracts a vector or expression from this in place. */
+    //template <is::anyVctrOrExpression V>
+    //constexpr void operator-= (const V& v);
+
+    ///** Subtracts a constant from this in place. */
+    //constexpr void operator-= (value_type c);
 
 private:
     ContainerType realParts;
