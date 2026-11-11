@@ -53,7 +53,7 @@ struct ElementwiseEqualityReport
     {
         if (numMismatches > 0)
         {
-            s << "\n\nMismatch statistics:"
+            s << "Mismatch statistics:"
               << "\n  Mismatching elements:               " << numMismatches << " out of " << referenceSize;
 
             if (hasErrorStats)

@@ -166,6 +166,7 @@ struct BinaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
         std::ostringstream os;
         os << "\nEquals: " << vctr::functionName<RetValueType, SrcValueType, SrcValueType, transformingFn>() << " (" << referenceA
            << ", " << referenceB << ")\n = " << refResult;
+        os << "\n\n";
         report.appendDescriptionTo (os);
         return os.str();
     }
@@ -239,6 +240,7 @@ struct BinaryScalarEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBas
             os << referenceVec << ", " << referenceScalar;
 
         os << ")\n = " << refResult;
+        os << "\n\n";
         report.appendDescriptionTo (os);
 
         return os.str();
@@ -307,6 +309,7 @@ struct CallableEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
         Vector<RetValueType> result (refSize, [&] (size_t i) { return std::apply ([&] (const auto&... r) { return fn (r[i]...); }, references); });
 
         os << " = " << result;
+        os << "\n\n";
         report.appendDescriptionTo (os);
         return os.str();
     }
