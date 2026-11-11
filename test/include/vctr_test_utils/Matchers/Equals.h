@@ -72,6 +72,7 @@ struct Equals : Catch::Matchers::MatcherGenericBase
     {
         std::ostringstream s;
         s << "Equals: " << Catch::StringMaker<ReferenceVec>::convert (reference);
+        s << "\n\n";
         report.appendDescriptionTo (s);
         return s.str();
     }
