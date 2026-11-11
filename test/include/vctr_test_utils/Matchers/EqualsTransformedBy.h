@@ -73,7 +73,7 @@ struct UnaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
     template <is::anyVctr Vec>
     bool match (const Vec& vec) const
     {
-        return detail::computeElementwiseEqualityReport<RetValueType> (
+        return detail::computeElementwiseEqualityReport (
             report,
             vec.size(),
             reference.size(),
@@ -135,7 +135,7 @@ struct BinaryEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
             return false;
         }
 
-        return detail::computeElementwiseEqualityReport<RetValueType> (
+        return detail::computeElementwiseEqualityReport (
             report,
             vec.size(),
             referenceA.size(),
@@ -204,7 +204,7 @@ struct BinaryScalarEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBas
     template <is::anyVctr Vec>
     bool match (const Vec& vec) const
     {
-        return detail::computeElementwiseEqualityReport<ValueType> (
+        return detail::computeElementwiseEqualityReport (
             report,
             vec.size(),
             referenceVec.size(),
@@ -278,7 +278,7 @@ struct CallableEqualsTransformedMatcher : Catch::Matchers::MatcherGenericBase
     template <is::anyVctr Vec>
     bool match (const Vec& vec) const
     {
-        return detail::computeElementwiseEqualityReport<RetValueType> (
+        return detail::computeElementwiseEqualityReport (
             report,
             vec.size(),
             refSize,

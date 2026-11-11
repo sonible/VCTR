@@ -46,7 +46,7 @@ struct Equals : Catch::Matchers::MatcherGenericBase
 
         // decltype (auto) rather than auto& here, since some iterators (e.g. std::vector<bool>::iterator) return
         // a proxy object by value from operator*, which cannot bind to a non-const lvalue reference.
-        return detail::computeElementwiseEqualityReport<SrcValueType> (
+        return detail::computeElementwiseEqualityReport (
             report,
             actualSize,
             referenceSize,
