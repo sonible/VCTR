@@ -52,8 +52,8 @@ struct Equals : Catch::Matchers::MatcherGenericBase
             referenceSize,
             margin,
             epsilon,
-            [&itA] (size_t) -> decltype (auto) { decltype (auto) v = *itA; ++itA; return v; },
-            [&itB] (size_t) -> decltype (auto) { decltype (auto) v = *itB; ++itB; return v; });
+            [&itA] (size_t) -> decltype (auto) { return *itA++; },
+            [&itB] (size_t) -> decltype (auto) { return *itB++; });
     }
 
     auto withMargin (double m) &&
