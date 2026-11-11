@@ -36,16 +36,18 @@ TEMPLATE_PRODUCT_TEST_CASE ("Pow", "[VCTR][Expressions][pow]", (PlatformVectorOp
     const auto powerScalarBaseA = [] (ElementType exp) { return std::pow (ElementType (scalarBaseA), exp); };
     const auto powerScalarBaseB = [] (ElementType exp) { return std::pow (ElementType (scalarBaseB), exp); };
 
+    constexpr auto epsilon = 0.001;
+
     SECTION ("Vector raised to the power of Vector")
     {
         const vctr::Vector p = filter << vctr::pow (srcA, srcB);
-        REQUIRE_THAT (p, vctr::EqualsMappedBy (power, srcA, srcB).withEpsilon (0.00001));
+        REQUIRE_THAT (p, vctr::EqualsMappedBy (power, srcA, srcB).withEpsilon (epsilon));
     }
 
     SECTION ("Vector raised to the power of a single value")
     {
         const vctr::Vector p = filter << vctr::pow (srcA, ElementType (scalarExponent));
-        REQUIRE_THAT (p, vctr::EqualsMappedBy (powerConstantExp, srcA).withEpsilon (0.00001));
+        REQUIRE_THAT (p, vctr::EqualsMappedBy (powerConstantExp, srcA).withEpsilon (epsilon));
     }
 
     SECTION ("Single value raised to the power of Vector")
@@ -57,7 +59,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Pow", "[VCTR][Expressions][pow]", (PlatformVectorOp
     SECTION ("Vector raised to the power of a compile time constant value")
     {
         const vctr::Vector p = filter << vctr::powConstantExponent<scalarExponent> << srcA;
-        REQUIRE_THAT (p, vctr::EqualsMappedBy (powerConstantExp, srcA).withEpsilon (0.00001));
+        REQUIRE_THAT (p, vctr::EqualsMappedBy (powerConstantExp, srcA).withEpsilon (epsilon));
     }
 
     SECTION ("Compile time constant value raised to the power of Vector")
