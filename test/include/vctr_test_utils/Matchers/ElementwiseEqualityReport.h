@@ -46,8 +46,9 @@ struct ElementwiseEqualityReport
      */
     Vector<std::tuple<size_t, double, double>> collectedMismatches;
 
-    /** Appends a human readable description of the stored mismatch/error statistics to the given stream. Does
-        nothing if there were no mismatches and the sizes matched.
+    /** Appends a human readable description of the stored mismatch/error statistics to the given stream.
+
+       Does nothing if there were no mismatches and the sizes matched.
     */
     void appendDescriptionTo (std::ostringstream& s) const
     {
@@ -104,7 +105,7 @@ struct ElementwiseEqualityReport
 
     Returns true if there were no mismatches and actualSize == referenceSize.
 */
-template <class ExpectedValueType, class GetActual, class GetExpected>
+template <class GetActual, class GetExpected>
 bool computeElementwiseEqualityReport (ElementwiseEqualityReport& details, size_t actualSize, size_t referenceSize, double margin, double epsilon, GetActual&& getActual, GetExpected&& getExpected)
 {
     details = {};
@@ -114,6 +115,7 @@ bool computeElementwiseEqualityReport (ElementwiseEqualityReport& details, size_
     const size_t numToCompare = std::min (actualSize, referenceSize);
 
     using ActualValueType = std::decay_t<decltype (getActual (size_t {}))>;
+    using ExpectedValueType = std::decay_t<decltype (getActual (size_t {}))>;
     constexpr auto isNotBool = ! std::same_as<std::remove_cvref_t<ActualValueType>, bool> && ! std::same_as<std::remove_cvref_t<ExpectedValueType>, bool>;
     constexpr auto hasNumericErrorIncludingBool = is::number<ActualValueType> && is::number<ExpectedValueType>; // is::number doesn't exclude bool
     constexpr auto hasNumericErrorExcludingBool = isNotBool && is::number<ActualValueType> && is::number<ExpectedValueType>;
