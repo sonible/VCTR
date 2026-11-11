@@ -33,13 +33,12 @@ struct ElementwiseEqualityReport
     static constexpr auto maxNumErrorValuesToReport = 5; ///< Maximum number of mismatching values to report in the description.
 
     size_t numMismatches = 0;
-    size_t firstMismatchIndex = 0;
     size_t actualSize = 0;
     size_t referenceSize = 0;
     bool hasErrorStats = false;
-    double minError = 0.0;
-    double maxError = 0.0;
-    double meanAbsErrorAllElements = 0.0;
+    std::optional<double> minAbsError = std::nullopt;
+    std::optional<double> maxAbsError = std::nullopt;
+    std::optional<double> meanAbsErrorAllElements = std::nullopt;
 
     /** Stores the first up to maxNumErrorValuesToReport mismatching values (index, actual, expected) for reporting.
 
@@ -55,14 +54,19 @@ struct ElementwiseEqualityReport
         if (numMismatches > 0)
         {
             s << "\n\nMismatch statistics:"
-              << "\n  Mismatching elements:               " << numMismatches << " out of " << referenceSize
-              << "\n  First mismatch at index:            " << firstMismatchIndex;
+              << "\n  Mismatching elements:               " << numMismatches << " out of " << referenceSize;
 
             if (hasErrorStats)
             {
-                s << "\n  Smallest error (actual - expected): " << minError
-                  << "\n  Largest error  (actual - expected): " << maxError
-                  << "\n  Mean abs error (all elements):      " << meanAbsErrorAllElements;
+                VCTR_ASSERT (minAbsError.has_value() == meanAbsErrorAllElements.has_value());
+                VCTR_ASSERT (maxAbsError.has_value() == meanAbsErrorAllElements.has_value());
+
+                if (meanAbsErrorAllElements.has_value())
+                {
+                    s << "\n  Minimum absolute error of all mismatches: " << *minAbsError
+                      << "\n  Maximum absolute error of all mismatches: " << *maxAbsError
+                      << "\n  Mean absolute error of all elements:      " << *meanAbsErrorAllElements;
+                }
 
                 if (! collectedMismatches.empty())
                 {
@@ -110,31 +114,40 @@ bool computeElementwiseEqualityReport (ElementwiseEqualityReport& details, size_
     const size_t numToCompare = std::min (actualSize, referenceSize);
 
     using ActualValueType = std::decay_t<decltype (getActual (size_t {}))>;
-    constexpr bool hasNumericError = is::number<ActualValueType> && is::number<ExpectedValueType>;
-    constexpr bool errorIsComplex = is::complexFloatNumber<ActualValueType> || is::complexFloatNumber<ExpectedValueType>;
+    constexpr auto isNotBool = ! std::same_as<std::remove_cvref_t<ActualValueType>, bool> && ! std::same_as<std::remove_cvref_t<ExpectedValueType>, bool>;
+    constexpr auto hasNumericErrorIncludingBool = is::number<ActualValueType> && is::number<ExpectedValueType>; // is::number doesn't exclude bool
+    constexpr auto hasNumericErrorExcludingBool = isNotBool && is::number<ActualValueType> && is::number<ExpectedValueType>;
+
+    constexpr auto errorIsComplex = is::complexFloatNumber<ActualValueType> || is::complexFloatNumber<ExpectedValueType>;
 
     auto withinTolerance = [&] (double target, double value) {
         return (Catch::Matchers::WithinAbs (target, margin) || Catch::Matchers::WithinRel (target, epsilon)).match (value);
     };
 
+    static_assert (std::is_arithmetic_v<int>);
+    static_assert (std::is_arithmetic_v<bool>);
+
     double sumAbsErrorAllElements = 0.0;
+
+    auto minAbsError = std::numeric_limits<double>::max();
+    auto maxAbsError = 0.0;
 
     for (size_t i = 0; i < numToCompare; ++i)
     {
         decltype (auto) actual = getActual (i);
         decltype (auto) reference = getExpected (i);
 
-        double error = 0.0;
+        double absError = 0.0;
 
-        if constexpr (hasNumericError)
+        if constexpr (hasNumericErrorIncludingBool)
         {
             if constexpr (errorIsComplex)
-                error = std::abs (actual - reference);
+                absError = std::abs (actual - reference);
             else
-                error = double (actual) - double (reference);
+                absError = std::abs (double (actual) - double (reference));
 
             details.hasErrorStats = true;
-            sumAbsErrorAllElements += std::abs (error);
+            sumAbsErrorAllElements += std::abs (absError);
         }
 
         const bool isEqual = [&] {
@@ -149,15 +162,12 @@ bool computeElementwiseEqualityReport (ElementwiseEqualityReport& details, size_
         if (isEqual)
             continue;
 
-        if (details.numMismatches == 0)
-            details.firstMismatchIndex = i;
-
         ++details.numMismatches;
 
-        if constexpr (hasNumericError)
+        if constexpr (hasNumericErrorIncludingBool)
         {
-            details.minError = details.numMismatches == 1 ? error : std::min (details.minError, error);
-            details.maxError = details.numMismatches == 1 ? error : std::max (details.maxError, error);
+            minAbsError = std::min (minAbsError, absError);
+            maxAbsError = std::max (maxAbsError, absError);
 
             if (details.collectedMismatches.size() < ElementwiseEqualityReport::maxNumErrorValuesToReport)
             {
@@ -169,8 +179,14 @@ bool computeElementwiseEqualityReport (ElementwiseEqualityReport& details, size_
         }
     }
 
-    if (numToCompare > 0 && details.hasErrorStats)
-        details.meanAbsErrorAllElements = sumAbsErrorAllElements / double (numToCompare);
+    if constexpr (hasNumericErrorExcludingBool)
+    {
+        details.minAbsError = minAbsError;
+        details.maxAbsError = maxAbsError;
+
+        if (numToCompare > 0 && details.hasErrorStats)
+            details.meanAbsErrorAllElements = sumAbsErrorAllElements / double (numToCompare);
+    }
 
     return details.numMismatches == 0 && actualSize == referenceSize;
 }
