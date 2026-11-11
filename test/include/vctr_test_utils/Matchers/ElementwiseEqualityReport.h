@@ -82,12 +82,12 @@ struct ElementwiseEqualityReport
                     s.precision (oldPrecision);
                 }
             }
+
+            s << "\n";
         }
 
         if (actualSize != referenceSize)
-            s << "\n  Size mismatch: actual size " << actualSize << ", expected size " << referenceSize;
-
-        s << "\n";
+            s << "\n  Size mismatch: actual size " << actualSize << ", expected size " << referenceSize << "\n";
     }
 };
 
