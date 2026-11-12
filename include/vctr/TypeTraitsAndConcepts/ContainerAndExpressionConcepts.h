@@ -244,6 +244,14 @@ concept anyVctr = detail::AnyVctr<std::remove_cvref_t<T>>::value;
 template <class T, class V>
 concept anyVctrWithValueType = anyVctr<T> && std::same_as<typename std::remove_cvref_t<T>::value_type, V>;
 
+/** Constrains a type to be any derived instance of VctrBase with a value_type to represent a real valued floating point number. */
+template <class T>
+concept anyVctrWithRealFloatValueType = anyVctr<T> && realFloatNumber<typename T::value_type>;
+
+/** Constrains a type to be any derived instance of VctrBase with a value_type to represent a complex valued floating point number (e.g. std::complex<float> or std::complex<double>). */
+template <class T>
+concept anyVctrWithComplexFloatValueType = anyVctr<T> && complexFloatNumber<typename T::value_type>;
+
 /** Constrains a type to be an expression template. */
 template <class T>
 concept expression = has::getStorageInfo<T> && has::size<T> && has::isNotAliased<T> && ! anyVctr<T>;

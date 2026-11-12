@@ -28,23 +28,22 @@ namespace
 template <class T>
 constexpr T tolerance = std::is_same_v<T, float> ? T (1e-2) : T (1e-9);
 
-struct TestData
+/** Returns an array of test data as interleaved complex vector. */
+template <class FloatType, int seed, size_t numValues = 17, int min = -10, int max = 10>
+constexpr vctr::Array<std::complex<FloatType>, numValues> makeTestDataArray()
 {
-    template <class FloatType, int seed, size_t numValues = 17>
-    static constexpr vctr::Array<std::complex<FloatType>, numValues> makeArray()
-    {
-        return UnitTestValues<std::complex<FloatType>>::template array<numValues, seed, -10, 10> (true);
-    }
-};
+    return UnitTestValues<std::complex<FloatType>>::template array<numValues, seed, min, max> (true);
+}
 
+/** Returns an interleaved version of the given split complex vector */
 template <class ContainerType>
 auto makeInterleaved (const vctr::SplitComplexBase<ContainerType>& v)
 {
-    return vctr::Vector { v.size(), [&v] (size_t i) { return v[i]; }};
+    return vctr::Vector<typename ContainerType::complex_type> { v.size(), [&v] (size_t i) { return v[i]; }};
 }
 
 template <class T>
-void requireClose (const vctr::SplitComplexBase<vctr::Vector<T>>& actual, const std::vector<std::complex<T>>& expected)
+void requireClose (const vctr::SplitComplexBase<vctr::Vector<T>>& actual, const vctr::Vector<std::complex<T>>& expected)
 {
     REQUIRE (actual.size() == expected.size());
 
@@ -54,16 +53,6 @@ void requireClose (const vctr::SplitComplexBase<vctr::Vector<T>>& actual, const 
         CHECK (std::abs (actual[i].real() - expected[i].real()) <= tolerance<T> * (T (1) + std::abs (expected[i].real())));
         CHECK (std::abs (actual[i].imag() - expected[i].imag()) <= tolerance<T> * (T (1) + std::abs (expected[i].imag())));
     }
-}
-
-template <class T>
-vctr::Vector<std::complex<T>> testData (int seed)
-{
-    const vctr::Array a = UnitTestValues<std::complex<T>>::template array<17, 0, -10, 10> (true);
-    const vctr::Array b = UnitTestValues<std::complex<T>>::template array<17, 1, -10, 10> (true);
-
-    const auto& src = seed == 0 ? a : b;
-    return vctr::Vector<std::complex<T>> (src.begin(), src.end());
 }
 } // namespace
 
@@ -104,8 +93,8 @@ TEMPLATE_TEST_CASE ("SplitComplex construction", "[VCTR][SplitComplex]", float, 
 
     SECTION ("From interleaved data")
     {
-        constexpr auto data = TestData::makeArray<float, 0>();
-        const auto v = vctr::SplitComplexVector<float> (data);
+        constexpr auto data = makeTestDataArray<TestType, 0>();
+        const auto v = vctr::SplitComplexVector<TestType> (data);
 
         REQUIRE (v.size() == data.size());
 
@@ -120,7 +109,7 @@ TEMPLATE_TEST_CASE ("SplitComplex construction", "[VCTR][SplitComplex]", float, 
 
     SECTION ("Copy and move")
     {
-        const auto data = testData<TestType> (0);
+        const auto data = makeTestDataArray<TestType, 0>();
         const auto v = makeSplit (data);
 
         auto copy = v;
@@ -136,7 +125,7 @@ TEMPLATE_TEST_CASE ("SplitComplex construction", "[VCTR][SplitComplex]", float, 
 
 TEMPLATE_TEST_CASE ("SplitComplex spans", "[VCTR][SplitComplex]", float, double)
 {
-    const auto data = testData<TestType> (0);
+    const auto data = makeTestDataArray<TestType, 0>();
     auto v = makeSplit (data);
 
     SECTION ("Mutable span views the vector")
@@ -209,7 +198,7 @@ TEMPLATE_TEST_CASE ("SplitComplex element access and manipulation", "[VCTR][Spli
     REQUIRE (v.size() == 5);
     REQUIRE (v.imag().size() == 5);
 
-    const auto data = testData<TestType> (1);
+    const auto data = makeTestDataArray<TestType, 1>();
     vctr::SplitComplexVector<TestType> other (data.size());
     other.assignInterleaved (data);
 
@@ -226,13 +215,13 @@ TEMPLATE_TEST_CASE ("SplitComplex binary math", "[VCTR][SplitComplex]", float, d
 {
     using Complex = std::complex<TestType>;
 
-    const auto dataA = testData<TestType> (0);
-    const auto dataB = testData<TestType> (1);
+    const auto dataA = makeTestDataArray<TestType, 0>();
+    const auto dataB = makeTestDataArray<TestType, 1>();
     const auto a = makeSplit (dataA);
     const auto b = makeSplit (dataB);
 
     const auto expect = [&] (auto op) {
-        std::vector<Complex> r (dataA.size());
+        vctr::Vector<Complex> r (dataA.size());
 
         for (size_t i = 0; i < r.size(); ++i)
             r[i] = op (dataA[i], dataB[i]);
@@ -277,14 +266,14 @@ TEMPLATE_TEST_CASE ("SplitComplex binary math", "[VCTR][SplitComplex]", float, d
 
     SECTION ("mulAdd")
     {
-        auto acc = makeSplit (testData<TestType> (1));
+        auto acc = makeSplit (makeTestDataArray<TestType, 1>());
         acc = acc + a * b;
         requireClose (acc, expect ([] (Complex x, Complex y) { return y + x * y; }));
     }
 
     SECTION ("mulSub")
     {
-        auto acc = makeSplit (testData<TestType> (1));
+        auto acc = makeSplit (makeTestDataArray<TestType, 1>());
         acc = acc - a * b;
         requireClose (acc, expect ([] (Complex x, Complex y) { return y - x * y; }));
     }
@@ -296,6 +285,7 @@ TEMPLATE_TEST_CASE ("SplitComplex binary math", "[VCTR][SplitComplex]", float, d
         vctr::SplitComplexSpan<TestType> dstSpan (dst);
 
         dstSpan = aSpan * bSpan;
+
         requireClose (dst, expect ([] (Complex x, Complex y) { return x * y; }));
     }
 
@@ -324,9 +314,9 @@ TEMPLATE_TEST_CASE ("SplitComplex binary math", "[VCTR][SplitComplex]", float, d
     {
         for (size_t n : { size_t (0), size_t (1), size_t (3), size_t (7), size_t (9) })
         {
-            std::vector<Complex> sa (dataA.begin(), dataA.begin() + (ptrdiff_t) n);
-            std::vector<Complex> sb (dataB.begin(), dataB.begin() + (ptrdiff_t) n);
-            std::vector<Complex> expected (n);
+            vctr::Vector<Complex> sa (dataA.begin(), dataA.begin() + (ptrdiff_t) n);
+            vctr::Vector<Complex> sb (dataB.begin(), dataB.begin() + (ptrdiff_t) n);
+            vctr::Vector<Complex> expected (n);
 
             for (size_t i = 0; i < n; ++i)
                 expected[i] = sa[i] * sb[i];
@@ -344,7 +334,7 @@ TEMPLATE_TEST_CASE ("SplitComplex unary and scalar math", "[VCTR][SplitComplex]"
 {
     using Complex = std::complex<TestType>;
 
-    const auto data = testData<TestType> (0);
+    const auto data = makeTestDataArray<TestType, 0>();
     const auto a = makeSplit (data);
     vctr::SplitComplexVector<TestType> dst (a.size());
 
@@ -352,7 +342,7 @@ TEMPLATE_TEST_CASE ("SplitComplex unary and scalar math", "[VCTR][SplitComplex]"
     {
         dst = vctr::splitComplexConjugate (a);
 
-        std::vector<Complex> expected;
+        vctr::Vector<Complex> expected;
         for (auto c : data)
             expected.push_back (std::conj (c));
 
@@ -372,7 +362,7 @@ TEMPLATE_TEST_CASE ("SplitComplex unary and scalar math", "[VCTR][SplitComplex]"
     {
         dst = a * TestType (-2.5);
 
-        std::vector<Complex> expected;
+        vctr::Vector<Complex> expected;
         for (auto c : data)
             expected.push_back (c * TestType (-2.5));
 
@@ -384,7 +374,7 @@ TEMPLATE_TEST_CASE ("SplitComplex unary and scalar math", "[VCTR][SplitComplex]"
         const Complex f (TestType (1.5), TestType (-2));
         dst = a * f;
 
-        std::vector<Complex> expected;
+        vctr::Vector<Complex> expected;
         for (auto c : data)
             expected.push_back (c * f);
 
@@ -414,12 +404,12 @@ TEMPLATE_TEST_CASE ("SplitComplexArray", "[VCTR][SplitComplex]", float, double)
 {
     using Complex = std::complex<TestType>;
     using SCArray = vctr::SplitComplexArray<TestType, 17>;
-    ;
+    
     static_assert (! requires (SCArray& a) { a.resize (size_t (3)); });
     static_assert (! std::is_constructible_v<SCArray, size_t>);
 
-    const auto dataA = testData<TestType> (0);
-    const auto dataB = testData<TestType> (1);
+    const auto dataA = makeTestDataArray<TestType, 0>();
+    const auto dataB = makeTestDataArray<TestType, 1>();
 
     SECTION ("Construction and element access")
     {
@@ -445,7 +435,7 @@ TEMPLATE_TEST_CASE ("SplitComplexArray", "[VCTR][SplitComplex]", float, double)
         for (size_t i = 0; i < dataA.size(); ++i)
             REQUIRE (a[i] == dataA[i]);
 
-        std::vector<Complex> back (a.size());
+        vctr::Vector<Complex> back (a.size());
         a.copyToInterleaved (back);
         REQUIRE (back == dataA);
     }
@@ -491,7 +481,7 @@ TEMPLATE_TEST_CASE ("SplitComplexArray", "[VCTR][SplitComplex]", float, double)
         dst = a * b;
 
         vctr::SplitComplexVector<TestType> result (dst);
-        std::vector<Complex> expected (dataA.size());
+        vctr::Vector<Complex> expected (dataA.size());
         for (size_t i = 0; i < expected.size(); ++i)
             expected[i] = dataA[i] * dataB[i];
 
@@ -517,7 +507,7 @@ TEMPLATE_TEST_CASE ("SplitComplex in place math on larger containers", "[VCTR][S
     // Odd size, larger than typical SIMD register widths
     constexpr size_t n = 3 * 256 + 5;
 
-    std::vector<Complex> dataA (n), dataB (n);
+    vctr::Vector<Complex> dataA (n), dataB (n);
     for (size_t i = 0; i < n; ++i)
     {
         dataA[i] = Complex (TestType (std::sin (0.1 * double (i))) * 5, TestType (std::cos (0.3 * double (i))) * 3);
@@ -525,7 +515,7 @@ TEMPLATE_TEST_CASE ("SplitComplex in place math on larger containers", "[VCTR][S
     }
 
     const auto b = makeSplit (dataB);
-    std::vector<Complex> expected (n);
+    vctr::Vector<Complex> expected (n);
 
     const auto check = [&] (auto fn, auto expectedOp) {
         auto x = makeSplit (dataA);

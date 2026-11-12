@@ -24,12 +24,15 @@ namespace vctr
 {
 namespace is
 {
+/** Evaluates to true if T derives from a specialization of SplitComplexBase. */
 template <class T>
 concept derivedFromSplitComplexBase = requires (T& d) { [] <class ContainerType> (SplitComplexBase<ContainerType>&) {} (d); };
 
+/** Evaluates to true if T derives from a specialization of SplitComplexExpression. */
 template <class T>
 concept derivedFromSplitComplexExpression = requires (T& d) { [] <expression... Ts> (SplitComplexExpression<Ts...>&) {} (d); };
 
+/** Evaluates to true if T is a split-complex container or split-complex expression. */
 template <class T>
 concept anySplitComplexVectorOrExpression = derivedFromSplitComplexBase<T> || derivedFromSplitComplexExpression<T>;
 
@@ -38,6 +41,12 @@ concept anySplitComplexVectorOrExpression = derivedFromSplitComplexBase<T> || de
 //concept 
 } // namespace is
 
+/** Combines real and imaginary expressions into a split-complex expression.
+
+    The two expressions must have the same size.
+
+    @ingroup Expressions
+ */
 template <is::expression RealExpression, is::expression ImagExpression>
 constexpr auto makeSplitComplexExpression (RealExpression&& realExpression, ImagExpression&& imagExpression)
 {
@@ -78,14 +87,20 @@ constexpr auto operator* (SrcAType&& srcA, SrcBType&& srcB)
     return makeSplitComplexExpression (realMulExpression - imagMulExpression, realMulExpression + imagMulExpression);
 }
 
-// TODO: DESC!
+/** Returns an expression that multiplies each value in a split-complex source by a real scalar.
+
+    @ingroup Expressions
+ */
 template <is::anySplitComplexVectorOrExpression SrcType>
 constexpr auto operator* (SrcType&& src, typename std::remove_cvref_t<SrcType>::value_type single)
 {
     return makeSplitComplexExpression (src.real() * single, src.imag() * single);
 }
 
-// TODO: DESC!
+/** Returns an expression that multiplies each value in a split-complex source by a complex scalar.
+
+    @ingroup Expressions
+ */
 template <is::anySplitComplexVectorOrExpression SrcType>
 constexpr auto operator* (SrcType&& src, std::complex<typename std::remove_cvref_t<SrcType>::value_type> single)
 {
@@ -93,7 +108,10 @@ constexpr auto operator* (SrcType&& src, std::complex<typename std::remove_cvref
                                        src.real() * single.imag() + src.imag() * single.real());
 }
 
-// TODO: DESC!
+/** Returns an expression that divides split-complex source a by split-complex source b.
+
+    @ingroup Expressions
+ */
 template <is::anySplitComplexVectorOrExpression SrcAType, is::anySplitComplexVectorOrExpression SrcBType>
 constexpr auto operator/ (SrcAType&& srcA, SrcBType&& srcB)
 {
@@ -103,7 +121,10 @@ constexpr auto operator/ (SrcAType&& srcA, SrcBType&& srcB)
                                        (srcA.imag() * srcB.real() - srcA.real() * srcB.imag()) / denominator);
 }
 
-// TODO: DESC!
+/** Returns an expression that multiplies split-complex source a by the complex conjugate of source b.
+
+    @ingroup Expressions
+ */
 template <is::anySplitComplexVectorOrExpression SrcAType, is::anySplitComplexVectorOrExpression SrcBType>
 constexpr auto multiplyConjugate (SrcAType&& srcA, SrcBType&& srcB)
 {
@@ -111,7 +132,10 @@ constexpr auto multiplyConjugate (SrcAType&& srcA, SrcBType&& srcB)
                                        srcA.imag() * srcB.real() - srcA.real() * srcB.imag());
 }
 
-// TODO: DESC!
+/** Returns an expression containing the complex conjugate of each value in a split-complex source.
+
+    @ingroup Expressions
+ */
 template <is::anySplitComplexVectorOrExpression SrcType>
 constexpr auto splitComplexConjugate (SrcType&& src) // TODO: RENAME?
 {
@@ -119,15 +143,20 @@ constexpr auto splitComplexConjugate (SrcType&& src) // TODO: RENAME?
                                        multiplyByConstant<-1> << src.imag());
 }
 
-// TODO: compute expression
-// TODO: DESC!
+/** Returns an expression containing the squared magnitude of each value in a split-complex source.
+
+    @ingroup Expressions
+ */
 template <is::anySplitComplexVectorOrExpression SrcType>
 constexpr auto magnitudeSquared (SrcType&& src)
 {
     return src.real() * src.real() + src.imag() * src.imag();
 }
 
-// TODO: DESC!
+/** Returns an expression containing the magnitude of each value in a split-complex source.
+
+    @ingroup Expressions
+ */
 template <is::anySplitComplexVectorOrExpression SrcType>
 constexpr auto magnitude (SrcType&& src)
 {

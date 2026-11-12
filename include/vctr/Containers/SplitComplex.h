@@ -24,7 +24,47 @@
 
 namespace vctr
 {
+namespace detail
+{
+template <class T>
+struct SplitComplexContainerType
+{
+    using Type = T;
+};
 
+template <class T, template <class> class A>
+struct SplitComplexContainerType<Vector<std::complex<T>, A>>
+{
+    using Type = Vector<T, A>;
+};
+
+template <class T, size_t e, size_t s>
+struct SplitComplexContainerType<Array<std::complex<T>, e, s>>
+{
+    using Type = Array<T, e, s>;
+};
+
+template <class E, class S, size_t extent, class I>
+struct SplitComplexContainerType<VctrBase<E, S, extent, I>>
+{
+    using Type = VctrBase<E, S, extent, I>;
+};
+
+template <class T, size_t extent, class S>
+struct SplitComplexContainerType<Span<T, extent, S>>
+{
+    using Type = Span<T, extent, S>;
+};
+} // namespace detail
+
+
+/** An expression combining separate real and imaginary component expressions.
+
+    @tparam RealExpression The expression producing the real parts.
+    @tparam ImagExpression The expression producing the imaginary parts. Its value type must match RealExpression.
+
+    @ingroup Expressions
+ */
 template <is::expression RealExpression, is::expression ImagExpression>
 requires (std::same_as<typename RealExpression::value_type, typename ImagExpression::value_type>)
 struct SplitComplexExpression
@@ -34,7 +74,10 @@ struct SplitComplexExpression
     RealExpression realExpression;
     ImagExpression imagExpression;
 
+    /** Returns the expression producing the real parts. */
     RealExpression& real() { return realExpression; }
+
+    /** Returns the expression producing the imaginary parts. */
     ImagExpression& imag() { return imagExpression; }
 };
 
@@ -54,8 +97,7 @@ struct SplitComplexExpression
 
     @ingroup Core
  */
-template <class ContainerType>
-requires is::anyVctr<ContainerType> && is::realFloatNumber<typename ContainerType::value_type>
+template <is::anyVctrWithRealFloatValueType ContainerType>
 class SplitComplexBase
 {
 public:
@@ -98,59 +140,82 @@ public:
         or a SplitComplexVector holding a copy of a SplitComplexSpan.
      */
     template <class Other>
-    requires (! std::same_as<Other, ContainerType>) && std::constructible_from<ContainerType, decltype (std::declval<SplitComplexBase<Other>&>().real())>
+    requires (! std::same_as<Other, ContainerType>) && std::constructible_from<ContainerType, Span<value_type>>
     constexpr SplitComplexBase (SplitComplexBase<Other>& other)
         : realParts (other.real()),
           imagParts (other.imag())
-    {
-    }
+    { }
 
     /** @copydoc SplitComplexBase(SplitComplexBase<Other>&) */
     template <class Other>
-    requires (! std::same_as<Other, ContainerType>) && std::constructible_from<ContainerType, decltype (std::declval<const SplitComplexBase<Other>&>().real())>
+    requires (! std::same_as<Other, ContainerType>) && std::constructible_from<ContainerType, Span<const value_type>>
     constexpr SplitComplexBase (const SplitComplexBase<Other>& other)
         : realParts (other.real()),
           imagParts (other.imag())
     { }
 
+    /** Creates a SplitComplexBase by deinterleaving a container of std::complex values. Only available for owning containers.
+
+        Allows implicit conversion from an interleaved container.
+        For containers with a compile time size, the size of the interleaved container has to match.
+     */
+    template <is::anyVctrWithComplexFloatValueType Interleaved>
+    SplitComplexBase (const Interleaved& interleaved)
+    {
+        if constexpr (vctr::has::resize<ContainerType>)
+            resize (interleaved.size());
+
+        *this = interleaved;
+    }
+
+    /** Creates a split-complex container from a split-complex expression.
+
+        The real and imaginary component expressions are assigned to the corresponding parts of this container.
+     */
     template <is::expression RealExpression, is::expression ImagExpression>
     constexpr SplitComplexBase (SplitComplexExpression<RealExpression, ImagExpression>&& expressions)
     {
         *this = expressions;
     }
 
-    /** Assigns the result of an expression to this Vector.
+    //==============================================================================
+    // Assignment
+    //==============================================================================
 
-        It may resize the Vector if it does not match the expression size.
+    /** Assigns the result of a split-complex expression to this container.
+
+        The underlying containers may resize if their size differs from the expression size.
      */
     template <is::expression RealExpression, is::expression ImagExpression>
     constexpr void operator= (const SplitComplexExpression<RealExpression, ImagExpression>& expressions)
     {
-        realParts = expressions.realExpression;
-        imagParts = expressions.imagExpression;
+        real() = expressions.realExpression;
+        imag() = expressions.imagExpression;
     }
 
     /** Copies the elements of another SplitComplexBase of identical size. */
     template <class Other>
+    requires (std::convertible_to<typename SplitComplexBase<Other>::value_type, value_type>)
     constexpr void operator= (const SplitComplexBase<Other>& other)
     {
         VCTR_ASSERT (size() == other.size());
-        std::copy (other.real().begin(), other.real().end(), realParts.begin());
-        std::copy (other.imag().begin(), other.imag().end(), imagParts.begin());
+
+        real() = other.real();
+        imag() = other.imag();
     }
 
-    /** Creates a SplitComplexBase by deinterleaving a container of std::complex values. Only available for owning containers.
-
-        For containers with a compile time size, the size of the interleaved container has to match.
-     */
-    template <has::sizeAndDataWithElementType<const complex_type> Interleaved>
-    requires std::default_initializable<ContainerType>
-    explicit SplitComplexBase (const Interleaved& interleaved)
+    template <is::anyVctrWithComplexFloatValueType Interleaved>
+    constexpr void operator= (const Interleaved& interleaved)
     {
-        if constexpr (vctr::has::resize<ContainerType>)
-            resize (interleaved.size());
+        VCTR_ASSERT (size() == interleaved.size());
 
-        assignInterleaved (interleaved);
+        const auto* src = interleaved.data();
+
+        for (size_t i = 0; i < size(); ++i)
+        {
+            realParts[i] = src[i].real();
+            imagParts[i] = src[i].imag();
+        }
     }
 
     //==============================================================================
@@ -164,20 +229,13 @@ public:
     constexpr Span<const value_type> imag() const { return Span<const value_type> (imagParts); }
 
     /** Returns a mutable view of the real parts. */
-    constexpr auto real() { return Span<std::remove_pointer_t<decltype (realParts.data())>> (realParts); }
+    constexpr Span<value_type> real() { return Span<value_type> (realParts); }
 
     /** Returns a mutable view of the imaginary parts. */
-    constexpr auto imag() { return Span<std::remove_pointer_t<decltype (imagParts.data())>> (imagParts); }
+    constexpr Span<value_type> imag() { return Span<value_type> (imagParts); }
 
     /** Returns the complex value at index i. */
     constexpr complex_type operator[] (size_t i) const { return { realParts[i], imagParts[i] }; }
-
-    /** Sets the complex value at index i. */
-    constexpr void set (size_t i, complex_type value)
-    {
-        realParts[i] = value.real();
-        imagParts[i] = value.imag();
-    }
 
     /** Sets the real and imaginary part at index i. */
     constexpr void set (size_t i, value_type realValue, value_type imagValue)
@@ -186,15 +244,18 @@ public:
         imagParts[i] = imagValue;
     }
 
+    /** Sets the complex value at index i. */
+    constexpr void set (size_t i, complex_type value) { set (i, value.real(), value.imag()); }
+
     //==============================================================================
     // Size and content manipulation
     //==============================================================================
 
     /** Returns the number of complex values. */
-    constexpr size_t size() const { return realParts.size(); }
+    constexpr size_t size() const { return real().size(); }
 
     /** Returns true if the container holds no values. */
-    constexpr bool empty() const { return realParts.size() == 0; }
+    constexpr bool empty() const { return real().size() == 0; }
 
     /** Resizes both parts. Only available for resizable containers, e.g. a Vector. New elements are zero. */
     constexpr void resize (size_t newSize)
@@ -207,31 +268,17 @@ public:
     /** Sets all elements to the given complex value. */
     constexpr void fill (complex_type value)
     {
-        std::fill (realParts.begin(), realParts.end(), value.real());
-        std::fill (imagParts.begin(), imagParts.end(), value.imag());
+        real().fill (value.real());
+        imag().fill (value.imag());
     }
 
     /** Sets all elements to zero. */
     constexpr void clear() { fill (complex_type (0, 0)); }
 
-    /** Deinterleaves std::complex values into this container. The sizes must match. */
-    template <has::sizeAndDataWithElementType<const complex_type> Interleaved>
-    constexpr void assignInterleaved (const Interleaved& interleaved)
-    {
-        VCTR_ASSERT (size() == interleaved.size());
+    //==============================================================================
+    // Math operators.
+    //==============================================================================
 
-        const auto* src = interleaved.data();
-
-        for (size_t i = 0; i < size(); ++i)
-        {
-            realParts[i] = src[i].real();
-            imagParts[i] = src[i].imag();
-        }
-    }
-
-    ////==============================================================================
-    //// Math operators.
-    ////==============================================================================
     /** Multiplies this by a vector or expression in place. */
     template <is::anyVctrOrExpression V>
     constexpr void operator*= (const V& v)
@@ -286,6 +333,10 @@ private:
     ContainerType realParts;
     ContainerType imagParts;
 };
+
+/** Deduces the real storage type from an interleaved complex container. */
+template <class Interleaved>
+SplitComplexBase (const Interleaved&) -> SplitComplexBase<typename detail::SplitComplexContainerType<Interleaved>::Type>;
 
 //==============================================================================
 /** An owning split complex container. */
