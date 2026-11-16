@@ -582,6 +582,12 @@ private:
 template <class Interleaved>
 SplitComplexBase (const Interleaved&) -> SplitComplexBase<typename detail::SplitComplexContainerType<Interleaved>::Type>;
 
+/** Deduces a SplitComplexVector when constructing from a split-complex expression, like a Vector constructed from an
+    expression.
+ */
+template <is::expression RealExpression, is::expression ImagExpression>
+SplitComplexBase (SplitComplexExpression<RealExpression, ImagExpression>&&) -> SplitComplexBase<Vector<typename RealExpression::value_type>>;
+
 //==============================================================================
 /** An owning split complex container. */
 template <is::realFloatNumber T>

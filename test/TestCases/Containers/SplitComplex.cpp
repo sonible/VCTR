@@ -70,20 +70,55 @@ auto interleaved (const vctr::SplitComplexBase<ContainerType>& splitComplex)
     using Complex = typename vctr::SplitComplexBase<ContainerType>::complex_type;
     return vctr::Vector<Complex> (splitComplex.size(), [&] (size_t i) { return splitComplex[i]; });
 }
+
+/** Checks that the real and imaginary parts of a split complex container approximately match the expected
+    interleaved values.
+
+    Used where the expected values are computed by a reference implementation that takes more than two sources, which
+    EqualsTransformedBy doesn't support.
+ */
+template <class ContainerType, class Complex>
+void requireApproxEqual (const vctr::SplitComplexBase<ContainerType>& actual, const vctr::Vector<Complex>& expected)
+{
+    using T = typename Complex::value_type;
+
+    const vctr::SplitComplexVector<T> expectedSplit (expected);
+    const vctr::Vector<T> expectedReal (expectedSplit.real());
+    const vctr::Vector<T> expectedImag (expectedSplit.imag());
+
+    REQUIRE (actual.size() == expected.size());
+    REQUIRE_THAT (actual.real(), vctr::Equals (expectedReal).withEpsilon (vctr::detail::defaultEpsilon<T>).withMargin (margin<T>));
+    REQUIRE_THAT (actual.imag(), vctr::Equals (expectedImag).withEpsilon (vctr::detail::defaultEpsilon<T>).withMargin (margin<T>));
+}
+
+/** Computes the expected values of an expression chain by applying fn to the interleaved sources element-wise. */
+template <class Complex, class Fn>
+vctr::Vector<Complex> expectedChainResult (const vctr::Vector<Complex>& a,
+                                           const vctr::Vector<Complex>& b,
+                                           const vctr::Vector<Complex>& c,
+                                           const vctr::Vector<Complex>& d,
+                                           Fn&& fn)
+{
+    return vctr::Vector<Complex> (a.size(), [&] (size_t i) { return fn (a[i], b[i], c[i], d[i]); });
+}
 } // namespace
 
 /** Defines a few things needed in nearly every split complex test case:
 
     - Complex: The std::complex type matching the TestType
-    - srcA, srcB: Two Vectors sized testVectorSize with random, nonzero interleaved complex values
-    - splitA, splitB: Two SplitComplexVectors holding the same values as srcA and srcB
+    - srcA, srcB, srcC, srcD: Four Vectors sized testVectorSize with random, nonzero interleaved complex values
+    - splitA, splitB, splitC, splitD: Four SplitComplexVectors holding the same values as srcA to srcD
  */
 #define VCTR_SPLIT_COMPLEX_TEST_DEFINES(testVectorSize)                                                        \
     using Complex = std::complex<TestType>;                                                                    \
     [[maybe_unused]] const auto srcA = UnitTestValues<Complex>::template vector<testVectorSize, 0> (true);     \
     [[maybe_unused]] const auto srcB = UnitTestValues<Complex>::template vector<testVectorSize, 1> (true);     \
+    [[maybe_unused]] const auto srcC = UnitTestValues<Complex>::template vector<testVectorSize, 2> (true);     \
+    [[maybe_unused]] const auto srcD = UnitTestValues<Complex>::template vector<testVectorSize, 3> (true);     \
     [[maybe_unused]] const vctr::SplitComplexVector<TestType> splitA (srcA);                                   \
-    [[maybe_unused]] const vctr::SplitComplexVector<TestType> splitB (srcB);
+    [[maybe_unused]] const vctr::SplitComplexVector<TestType> splitB (srcB);                                   \
+    [[maybe_unused]] const vctr::SplitComplexVector<TestType> splitC (srcC);                                   \
+    [[maybe_unused]] const vctr::SplitComplexVector<TestType> splitD (srcD);
 
 //==============================================================================
 // Construction
@@ -512,4 +547,131 @@ TEMPLATE_TEST_CASE ("SplitComplex Compound Assignment Operators on Arrays and Sp
     static_assert (! requires (ConstSpan& s) { s /= Complex(); });
     static_assert (! requires (ConstSpan& s) { s += TestType(); });
     static_assert (! requires (ConstSpan& s) { s -= splitB; });
+}
+
+//==============================================================================
+// Expression chains
+//==============================================================================
+
+/*  These tests combine several split-complex expressions in a single line. The operands and destinations are a mix of
+    SplitComplexVector, SplitComplexArray, SplitComplexSpan and SplitComplexConstSpan, to make sure that expressions
+    built from different container types can be nested and assigned to any container type.
+ */
+TEMPLATE_TEST_CASE ("SplitComplex Expression Chains", "[VCTR][SplitComplex][Expressions]", float, double)
+{
+    VCTR_SPLIT_COMPLEX_TEST_DEFINES (17)
+
+    // The four operands, each one held by a different container type
+    const vctr::SplitComplexVector<TestType> a (srcA);
+    const vctr::SplitComplexArray<TestType, 17> b (srcB);
+    auto dData = splitD;
+    vctr::SplitComplexSpan<TestType> d (dData);
+    const vctr::SplitComplexConstSpan<TestType> c (splitC);
+
+    SECTION ("a + b * c - d into a SplitComplexVector")
+    {
+        vctr::SplitComplexVector<TestType> e (srcA.size());
+        e = a + b * c - d;
+        requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return a + b * c - d; }));
+    }
+
+    SECTION ("a + b * c - d into a SplitComplexArray")
+    {
+        vctr::SplitComplexArray<TestType, 17> e;
+        e = a + b * c - d;
+        requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return a + b * c - d; }));
+    }
+
+    SECTION ("a + b * c - d into a SplitComplexSpan")
+    {
+        vctr::SplitComplexVector<TestType> eData (srcA.size());
+        vctr::SplitComplexSpan<TestType> e (eData);
+        e = a + b * c - d;
+        requireApproxEqual (eData, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return a + b * c - d; }));
+    }
+
+    SECTION ("Constructing from a chain deduces a SplitComplexVector")
+    {
+        vctr::SplitComplexBase e = a + b * c - d;
+        static_assert (std::same_as<decltype (e), vctr::SplitComplexVector<TestType>>);
+        requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return a + b * c - d; }));
+
+        const vctr::SplitComplexArray<TestType, 17> eArray = d * c - b / a;
+        requireApproxEqual (eArray, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return d * c - b / a; }));
+    }
+
+    SECTION ("Permutations of operators and operand types")
+    {
+        vctr::SplitComplexVector<TestType> e (srcA.size());
+
+        // clang-format off
+        e = d - c * b + a;   requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return d - c * b + a; }));
+        e = a * b + c * d;   requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return a * b + c * d; }));
+        e = a * b * c * d;   requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return a * b * c * d; }));
+        e = (a + b) * (c - d); requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return (a + b) * (c - d); }));
+        e = (a - b) / (c + d); requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return (a - b) / (c + d); }));
+        e = a / b + c / d;   requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return a / b + c / d; }));
+        // clang-format on
+    }
+
+    SECTION ("Chains with scalars and free functions")
+    {
+        const auto realScalar = TestType (0.5);
+        const auto complexScalar = Complex (TestType (2), TestType (-1));
+
+        vctr::SplitComplexVector<TestType> e (srcA.size());
+
+        e = a * complexScalar + b * realScalar - c;
+        requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [&] (auto a, auto b, auto c, auto) { return a * complexScalar + b * realScalar - c; }));
+
+        e = (a + b) / complexScalar - d / realScalar;
+        requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [&] (auto a, auto b, auto, auto d) { return (a + b) / complexScalar - d / realScalar; }));
+
+        e = vctr::multiplyConjugate (a + b, c) - d;
+        requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return (a + b) * std::conj (c) - d; }));
+
+        e = vctr::splitComplexConjugate (a * b) + c;
+        requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto) { return std::conj (a * b) + c; }));
+
+        // Reducing a chain to a real valued vector
+        const vctr::Vector<TestType> magnitudes = vctr::magnitude (a * b - c);
+        const auto expected = expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto) { return a * b - c; });
+        const vctr::Vector<TestType> expectedMagnitudes (expected.size(), [&] (size_t i) { return std::abs (expected[i]); });
+        REQUIRE_THAT (magnitudes, vctr::Equals (expectedMagnitudes).withEpsilon (vctr::detail::defaultEpsilon<TestType>).withMargin (margin<TestType>));
+    }
+
+    SECTION ("Chains that read the destination")
+    {
+        auto e = a;
+        e = e * b + c * e - d;
+        requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return a * b + c * a - d; }));
+
+        // Through a span viewing the destination
+        d = d * a - b * d + c;
+        requireApproxEqual (dData, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return d * a - b * d + c; }));
+    }
+
+    SECTION ("Compound assignment with chains")
+    {
+        auto e = a;
+        e += b * c - d;
+        requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return a + (b * c - d); }));
+
+        auto f = a;
+        f *= (b + c) * d;
+        requireApproxEqual (f, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return a * ((b + c) * d); }));
+    }
+}
+
+TEMPLATE_TEST_CASE ("SplitComplex Expression Chains on larger containers", "[VCTR][SplitComplex][Expressions]", float, double)
+{
+    // An odd size larger than any SIMD register, so that both the SIMD loop and the scalar tail evaluate the chain
+    VCTR_SPLIT_COMPLEX_TEST_DEFINES (101)
+
+    vctr::SplitComplexVector<TestType> e (srcA.size());
+    e = splitA + splitB * splitC - splitD;
+    requireApproxEqual (e, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return a + b * c - d; }));
+
+    vctr::SplitComplexBase f = (splitA - splitB) / (splitC + splitD) * splitA;
+    requireApproxEqual (f, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return (a - b) / (c + d) * a; }));
 }
