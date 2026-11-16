@@ -22,25 +22,6 @@
 
 namespace vctr
 {
-namespace is
-{
-/** Evaluates to true if T derives from a specialization of SplitComplexBase. */
-template <class T>
-concept derivedFromSplitComplexBase = requires (T& d) { [] <class ContainerType> (const SplitComplexBase<ContainerType>&) {} (d); };
-
-/** Evaluates to true if T derives from a specialization of SplitComplexExpression. */
-template <class T>
-concept derivedFromSplitComplexExpression = requires (T& d) { [] <expression... Ts> (const SplitComplexExpression<Ts...>&) {} (d); };
-
-/** Evaluates to true if T is a split-complex container or split-complex expression. */
-template <class T>
-concept anySplitComplexVectorOrExpression = derivedFromSplitComplexBase<T> || derivedFromSplitComplexExpression<T>;
-
-// TODO: write concept to make sure that value type is the same!
-//template <class... Containers>
-//concept 
-} // namespace is
-
 /** Combines real and imaginary expressions into a split-complex expression.
 
     The two expressions must have the same size.
@@ -107,6 +88,48 @@ constexpr auto operator* (SrcType&& src, std::complex<typename std::remove_cvref
 {
     return makeSplitComplexExpression (src.real() * single.real() - src.imag() * single.imag(),
                                        src.real() * single.imag() + src.imag() * single.real());
+}
+
+/** Returns an expression that divides each value in a split-complex source by a real scalar.
+
+    @ingroup Expressions
+ */
+template <is::anySplitComplexVectorOrExpression SrcType>
+constexpr auto operator/ (SrcType&& src, typename std::remove_cvref_t<SrcType>::value_type single)
+{
+    return makeSplitComplexExpression (src.real() / single, src.imag() / single);
+}
+
+/** Returns an expression that divides each value in a split-complex source by a complex scalar.
+
+    The reciprocal of the scalar is computed once, so this is evaluated as a multiplication by a complex scalar.
+
+    @ingroup Expressions
+ */
+template <is::anySplitComplexVectorOrExpression SrcType>
+constexpr auto operator/ (SrcType&& src, std::complex<typename std::remove_cvref_t<SrcType>::value_type> single)
+{
+    return std::forward<SrcType> (src) * (std::conj (single) / std::norm (single));
+}
+
+/** Returns an expression that adds a complex scalar to each value in a split-complex source.
+
+    @ingroup Expressions
+ */
+template <is::anySplitComplexVectorOrExpression SrcType>
+constexpr auto operator+ (SrcType&& src, std::complex<typename std::remove_cvref_t<SrcType>::value_type> single)
+{
+    return makeSplitComplexExpression (src.real() + single.real(), src.imag() + single.imag());
+}
+
+/** Returns an expression that subtracts a complex scalar from each value in a split-complex source.
+
+    @ingroup Expressions
+ */
+template <is::anySplitComplexVectorOrExpression SrcType>
+constexpr auto operator- (SrcType&& src, std::complex<typename std::remove_cvref_t<SrcType>::value_type> single)
+{
+    return makeSplitComplexExpression (src.real() - single.real(), src.imag() - single.imag());
 }
 
 /** Returns an expression that divides split-complex source a by split-complex source b.

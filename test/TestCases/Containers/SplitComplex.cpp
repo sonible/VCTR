@@ -452,3 +452,64 @@ TEMPLATE_TEST_CASE ("SplitComplex In Place Math", "[VCTR][SplitComplex][Expressi
     xSpan = xSpan + x * splitB;
     REQUIRE_THAT (interleaved (x), vctr::EqualsTransformedBy<multiplyAccumulate> (srcA, srcB).withEpsilon().withMargin (margin<TestType>));
 }
+
+TEMPLATE_TEST_CASE ("SplitComplex Compound Assignment Operators", "[VCTR][SplitComplex][Expressions]", float, double)
+{
+    VCTR_SPLIT_COMPLEX_TEST_DEFINES (101)
+
+    const auto realScalar = TestType (-2.5);
+    const auto complexScalar = Complex (TestType (1.5), TestType (-2));
+
+    // Applies a compound assignment to a copy of splitA and checks the result
+    const auto requireCompoundResult = [&] (auto&& compoundAssign, auto matcher) {
+        auto x = splitA;
+        compoundAssign (x);
+        REQUIRE_THAT (interleaved (x), std::move (matcher).withEpsilon().withMargin (margin<TestType>));
+    };
+
+    // clang-format off
+    requireCompoundResult ([&] (auto& x) { x *= splitB; },        vctr::EqualsTransformedBy<multiplication> (srcA, srcB));
+    requireCompoundResult ([&] (auto& x) { x *= realScalar; },    vctr::EqualsTransformedBy<multiplication> (srcA, Complex (realScalar)));
+    requireCompoundResult ([&] (auto& x) { x *= complexScalar; }, vctr::EqualsTransformedBy<multiplication> (srcA, complexScalar));
+
+    requireCompoundResult ([&] (auto& x) { x /= splitB; },        vctr::EqualsTransformedBy<division>       (srcA, srcB));
+    requireCompoundResult ([&] (auto& x) { x /= realScalar; },    vctr::EqualsTransformedBy<division>       (srcA, Complex (realScalar)));
+    requireCompoundResult ([&] (auto& x) { x /= complexScalar; }, vctr::EqualsTransformedBy<division>       (srcA, complexScalar));
+
+    requireCompoundResult ([&] (auto& x) { x += splitB; },        vctr::EqualsTransformedBy<addition>       (srcA, srcB));
+    requireCompoundResult ([&] (auto& x) { x += realScalar; },    vctr::EqualsTransformedBy<addition>       (srcA, Complex (realScalar)));
+    requireCompoundResult ([&] (auto& x) { x += complexScalar; }, vctr::EqualsTransformedBy<addition>       (srcA, complexScalar));
+
+    requireCompoundResult ([&] (auto& x) { x -= splitB; },        vctr::EqualsTransformedBy<subtraction>    (srcA, srcB));
+    requireCompoundResult ([&] (auto& x) { x -= realScalar; },    vctr::EqualsTransformedBy<subtraction>    (srcA, Complex (realScalar)));
+    requireCompoundResult ([&] (auto& x) { x -= complexScalar; }, vctr::EqualsTransformedBy<subtraction>    (srcA, complexScalar));
+
+    // Expressions as operands, including expressions that read this container
+    requireCompoundResult ([&] (auto& x) { x += x * splitB; },    vctr::EqualsTransformedBy<multiplyAccumulate> (srcA, srcB));
+    requireCompoundResult ([&] (auto& x) { x -= x * splitB; },    vctr::EqualsTransformedBy<multiplySubtract>   (srcA, srcB));
+    requireCompoundResult ([&] (auto& x) { x *= x; },             vctr::EqualsTransformedBy<square>             (srcA));
+    // clang-format on
+}
+
+TEMPLATE_TEST_CASE ("SplitComplex Compound Assignment Operators on Arrays and Spans", "[VCTR][SplitComplex][Expressions]", float, double)
+{
+    VCTR_SPLIT_COMPLEX_TEST_DEFINES (17)
+
+    // Array destination, span operand
+    vctr::SplitComplexArray<TestType, 17> array (srcA);
+    array *= vctr::SplitComplexConstSpan<TestType> (splitB);
+    REQUIRE_THAT (interleaved (array), vctr::EqualsTransformedBy<multiplication> (srcA, srcB).withEpsilon().withMargin (margin<TestType>));
+
+    // Span destination writes to the viewed container
+    auto vector = splitA;
+    vctr::SplitComplexSpan<TestType> span (vector);
+    span += splitB;
+    REQUIRE_THAT (interleaved (vector), vctr::EqualsTransformedBy<addition> (srcA, srcB).withEpsilon());
+
+    // A const span can't be modified
+    using ConstSpan = vctr::SplitComplexConstSpan<TestType>;
+    static_assert (! requires (ConstSpan& s) { s *= splitB; });
+    static_assert (! requires (ConstSpan& s) { s /= Complex(); });
+    static_assert (! requires (ConstSpan& s) { s += TestType(); });
+    static_assert (! requires (ConstSpan& s) { s -= splitB; });
+}
