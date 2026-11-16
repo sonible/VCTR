@@ -26,31 +26,43 @@ namespace vctr
 {
 namespace detail
 {
+/** Maps a container type to the real valued container type a SplitComplexBase uses to store the real and imaginary
+    parts. Used by the SplitComplexBase deduction guide.
+
+    Containers holding std::complex values are mapped to the equivalent container holding the underlying real
+    type, all other types are passed through unchanged.
+ */
 template <class T>
 struct SplitComplexContainerType
 {
     using Type = T;
 };
 
+/** Maps Vector<std::complex<T>> to Vector<T>, keeping the allocator. */
 template <class T, template <class> class A>
 struct SplitComplexContainerType<Vector<std::complex<T>, A>>
 {
     using Type = Vector<T, A>;
 };
 
-// The storage extent of an Array depends on its element type, so it must not be taken over from the complex array
+/** Maps Array<std::complex<T>, e> to Array<T, e>.
+
+    The storage extent of an Array depends on its element type, so it must not be taken over from the complex array.
+ */
 template <class T, size_t e, size_t s>
 struct SplitComplexContainerType<Array<std::complex<T>, e, s>>
 {
     using Type = Array<T, e>;
 };
 
+/** Passes a VctrBase through unchanged. */
 template <class E, class S, size_t extent, class I>
 struct SplitComplexContainerType<VctrBase<E, S, extent, I>>
 {
     using Type = VctrBase<E, S, extent, I>;
 };
 
+/** Passes a Span through unchanged. */
 template <class T, size_t extent, class S>
 struct SplitComplexContainerType<Span<T, extent, S>>
 {
@@ -70,9 +82,13 @@ template <is::expression RealExpression, is::expression ImagExpression>
 requires (std::same_as<typename RealExpression::value_type, typename ImagExpression::value_type>)
 struct SplitComplexExpression
 {
+    /** The real valued type both component expressions produce. */
     using value_type = typename RealExpression::value_type;
 
+    /** The expression producing the real parts. */
     RealExpression realExpression;
+
+    /** The expression producing the imaginary parts. */
     ImagExpression imagExpression;
 
     /** Returns the expression producing the real parts. */
@@ -88,6 +104,7 @@ struct SplitComplexExpression
     constexpr const ImagExpression& imag() const { return imagExpression; }
 };
 
+// Forward declaration, needed by the concepts below which are in turn needed by the SplitComplexBase declaration.
 template <is::anyVctrWithRealFloatValueType ContainerType>
 class SplitComplexBase;
 
@@ -104,10 +121,6 @@ concept derivedFromSplitComplexExpression = requires (T& d) { [] <expression... 
 /** Evaluates to true if T is a split-complex container or split-complex expression. */
 template <class T>
 concept anySplitComplexVectorOrExpression = derivedFromSplitComplexBase<T> || derivedFromSplitComplexExpression<T>;
-
-// TODO: write concept to make sure that value type is the same!
-//template <class... Containers>
-//concept 
 } // namespace is
 
 /** A container for complex values that stores the real and imaginary parts in two separate, equally sized buffers
@@ -131,7 +144,10 @@ class SplitComplexBase
 {
 public:
     //==============================================================================
+    /** The real floating point type of the real and imaginary parts, e.g. float or double. */
     using value_type = std::remove_const_t<typename ContainerType::value_type>;
+
+    /** The std::complex type matching value_type, returned by the element access functions. */
     using complex_type = std::complex<value_type>;
 
     /** The element type of the underlying containers, which is const qualified for a SplitComplexConstSpan.
@@ -221,7 +237,11 @@ public:
     //==============================================================================
     // Declaring the copy assignment operators below suppresses the implicit copy and move constructors, so they are
     // explicitly defaulted here.
+
+    /** Copy constructor. Owning containers copy the data, views refer to the same data as the other view. */
     constexpr SplitComplexBase (const SplitComplexBase&) = default;
+
+    /** Move constructor. A SplitComplexVector takes over the buffers of the other container. */
     constexpr SplitComplexBase (SplitComplexBase&&) = default;
 
     /** Copy and move assignment of owning containers, e.g. a SplitComplexVector or SplitComplexArray. */
@@ -251,7 +271,6 @@ public:
         return *this = std::as_const (other);
     }
 
-
     /** Assigns the result of a split-complex expression to this container.
 
         The underlying containers may resize if their size differs from the expression size.
@@ -277,6 +296,7 @@ public:
         imagParts = other.imag();
     }
 
+    /** Deinterleaves a container of std::complex values of identical size into this container. */
     template <is::anyVctrWithComplexFloatValueType Interleaved>
     requires isMutable
     constexpr void operator= (const Interleaved& interleaved)
@@ -469,6 +489,7 @@ private:
         }
     }
 
+    /** The Neon version of assignSplitComplexExpression. Evaluates full Neon registers, then the remaining elements one at a time. */
     template <class RealExpression, class ImagExpression>
     void assignSplitComplexExpressionNeon (const RealExpression& re, const ImagExpression& im)
     requires Config::archARM
@@ -493,6 +514,9 @@ private:
         assignSplitComplexExpressionScalar (re, im, idx);
     }
 
+    /** The AVX version of assignSplitComplexExpression, compiled with FMA support. Evaluates full AVX registers, then the
+        remaining elements one at a time.
+     */
     template <class RealExpression, class ImagExpression>
     VCTR_TARGET ("fma")
     void assignSplitComplexExpressionFMA (const RealExpression& re, const ImagExpression& im)
@@ -518,6 +542,9 @@ private:
         assignSplitComplexExpressionScalar (re, im, idx);
     }
 
+    /** The SSE 4.1 version of assignSplitComplexExpression. Evaluates full SSE registers, then the remaining elements
+        one at a time.
+     */
     template <class RealExpression, class ImagExpression>
     VCTR_TARGET ("sse4.1")
     void assignSplitComplexExpressionSSE4_1 (const RealExpression& re, const ImagExpression& im)
@@ -544,7 +571,10 @@ private:
     }
 
     //==============================================================================
+    /** The container holding (or viewing) the real parts. */
     ContainerType realParts;
+
+    /** The container holding (or viewing) the imaginary parts. It always has the same size as realParts. */
     ContainerType imagParts;
 };
 
@@ -568,5 +598,4 @@ using SplitComplexSpan = SplitComplexBase<Span<T>>;
 /** A non-owning, read-only view to split complex data. */
 template <is::realFloatNumber T>
 using SplitComplexConstSpan = SplitComplexBase<Span<const T>>;
-
 } // namespace vctr
