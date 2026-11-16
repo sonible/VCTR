@@ -76,11 +76,39 @@ struct SplitComplexExpression
     ImagExpression imagExpression;
 
     /** Returns the expression producing the real parts. */
-    RealExpression& real() { return realExpression; }
+    constexpr RealExpression& real() { return realExpression; }
+
+    /** @copydoc real() */
+    constexpr const RealExpression& real() const { return realExpression; }
 
     /** Returns the expression producing the imaginary parts. */
-    ImagExpression& imag() { return imagExpression; }
+    constexpr ImagExpression& imag() { return imagExpression; }
+
+    /** @copydoc imag() */
+    constexpr const ImagExpression& imag() const { return imagExpression; }
 };
+
+template <is::anyVctrWithRealFloatValueType ContainerType>
+class SplitComplexBase;
+
+namespace is
+{
+/** Evaluates to true if T derives from a specialization of SplitComplexBase. */
+template <class T>
+concept derivedFromSplitComplexBase = requires (T& d) { [] <class ContainerType> (const SplitComplexBase<ContainerType>&) {} (d); };
+
+/** Evaluates to true if T derives from a specialization of SplitComplexExpression. */
+template <class T>
+concept derivedFromSplitComplexExpression = requires (T& d) { [] <expression... Ts> (const SplitComplexExpression<Ts...>&) {} (d); };
+
+/** Evaluates to true if T is a split-complex container or split-complex expression. */
+template <class T>
+concept anySplitComplexVectorOrExpression = derivedFromSplitComplexBase<T> || derivedFromSplitComplexExpression<T>;
+
+// TODO: write concept to make sure that value type is the same!
+//template <class... Containers>
+//concept 
+} // namespace is
 
 /** A container for complex values that stores the real and imaginary parts in two separate, equally sized buffers
     instead of interleaved like std::complex does.
@@ -334,56 +362,45 @@ public:
     //==============================================================================
     // Math operators.
     //==============================================================================
+    /** Multiplies this by a split-complex vector or expression in place. */
+    template <is::anySplitComplexVectorOrExpression V>
+    constexpr void operator*= (const V& v) requires isMutable;
 
-    /** Multiplies this by a vector or expression in place. */
-    //template <is::anyVctrOrExpression V>
-    //constexpr void operator*= (const V& v)
-    //{   
-    //    auto& self = *this;
-    //    self = self * v;
-    //}
+    /** Multiplies this by a real constant in place. */
+    constexpr void operator*= (value_type c) requires isMutable;
 
-    ///** Multiplies this by a constant in place. */
-    //constexpr void operator*= (value_type c);
+    /** Multiplies this by a complex constant in place. */
+    constexpr void operator*= (complex_type c) requires isMutable;
 
-    ///** Divides this by a vector or expression in place. */
-    //template <is::anyVctrOrExpression V>
-    //constexpr void operator/= (const V& v);
+    /** Divides this by a split-complex vector or expression in place. */
+    template <is::anySplitComplexVectorOrExpression V>
+    constexpr void operator/= (const V& v) requires isMutable;
 
-    ///** Divides this by a constant in place. */
-    //constexpr void operator/= (value_type c);
+    /** Divides this by a real constant in place. */
+    constexpr void operator/= (value_type c) requires isMutable;
 
-    ///** Adds a vector or expression to this in place.
+    /** Divides this by a complex constant in place. */
+    constexpr void operator/= (complex_type c) requires isMutable;
 
-    //    In the special case where a multiplication expression is assigned for which none of the operands
-    //    are expressions themselves, this will try to use accelerated multiply accumulate operations to
-    //    evaluate the expression.
+    /** Adds a split-complex vector or expression to this in place. */
+    template <is::anySplitComplexVectorOrExpression V>
+    constexpr void operator+= (const V& v) requires isMutable;
 
-    //    Example:
-    //    @code
-    //    vctr::Array<float, 10> a, b, c;
+    /** Adds a real constant to the real parts in place. */
+    constexpr void operator+= (value_type c) requires isMutable;
 
-    //    // This code tries to use an accelerated multiply accumulate operation as it can access the values of a and b right away
-    //    c += a * b;
-    //    c += a * 42.0f;
+    /** Adds a complex constant to this in place. */
+    constexpr void operator+= (complex_type c) requires isMutable;
 
-    //    // Cannot directly evaluate the accelerated operation as vctr::square (b) would have to be evaluated and stored to
-    //    // some temporary memory location first.
-    //    c += a * vctr::square (b);
-    //    @endcode
-    // */
-    //template <is::anyVctrOrExpression V>
-    //constexpr void operator+= (const V& v);
+    /** Subtracts a split-complex vector or expression from this in place. */
+    template <is::anySplitComplexVectorOrExpression V>
+    constexpr void operator-= (const V& v) requires isMutable;
 
-    ///** Adds a constant to this in place. */
-    //constexpr void operator+= (value_type c);
+    /** Subtracts a real constant from the real parts in place. */
+    constexpr void operator-= (value_type c) requires isMutable;
 
-    ///** Subtracts a vector or expression from this in place. */
-    //template <is::anyVctrOrExpression V>
-    //constexpr void operator-= (const V& v);
-
-    ///** Subtracts a constant from this in place. */
-    //constexpr void operator-= (value_type c);
+    /** Subtracts a complex constant from this in place. */
+    constexpr void operator-= (complex_type c) requires isMutable;
 
 private:
     //==============================================================================

@@ -226,3 +226,4 @@ VCTR_END_IGNORE_WARNING_MSVC
 // tpp files go here
 //==============================================================================
 #include "Containers/VctrBase.tpp"
+#include "Containers/SplitComplex.tpp"
