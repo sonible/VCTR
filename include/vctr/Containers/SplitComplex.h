@@ -38,10 +38,11 @@ struct SplitComplexContainerType<Vector<std::complex<T>, A>>
     using Type = Vector<T, A>;
 };
 
+// The storage extent of an Array depends on its element type, so it must not be taken over from the complex array
 template <class T, size_t e, size_t s>
 struct SplitComplexContainerType<Array<std::complex<T>, e, s>>
 {
-    using Type = Array<T, e, s>;
+    using Type = Array<T, e>;
 };
 
 template <class E, class S, size_t extent, class I>
@@ -190,6 +191,38 @@ public:
     //==============================================================================
     // Assignment
     //==============================================================================
+    // Declaring the copy assignment operators below suppresses the implicit copy and move constructors, so they are
+    // explicitly defaulted here.
+    constexpr SplitComplexBase (const SplitComplexBase&) = default;
+    constexpr SplitComplexBase (SplitComplexBase&&) = default;
+
+    /** Copy and move assignment of owning containers, e.g. a SplitComplexVector or SplitComplexArray. */
+    constexpr SplitComplexBase& operator= (const SplitComplexBase&) requires (! is::view<ContainerType>) = default;
+
+    /** @copydoc operator=(const SplitComplexBase&) */
+    constexpr SplitComplexBase& operator= (SplitComplexBase&&) requires (! is::view<ContainerType>) = default;
+
+    /** Copies the elements viewed by another span of the same type into the elements viewed by this span.
+
+        Like vctr::Span, a SplitComplexSpan never rebinds on assignment. This makes assigning a span of the same type
+        behave like assigning any other split complex container. Both spans need to have the same size.
+        A SplitComplexConstSpan can't be assigned to.
+     */
+    constexpr SplitComplexBase& operator= (const SplitComplexBase& other) requires is::view<ContainerType> && isMutable
+    {
+        VCTR_ASSERT (size() == other.size());
+
+        realParts = other.real();
+        imagParts = other.imag();
+        return *this;
+    }
+
+    /** @copydoc operator=(const SplitComplexBase&) */
+    constexpr SplitComplexBase& operator= (SplitComplexBase&& other) requires is::view<ContainerType> && isMutable
+    {
+        return *this = std::as_const (other);
+    }
+
 
     /** Assigns the result of a split-complex expression to this container.
 
@@ -202,17 +235,7 @@ public:
         if constexpr (vctr::has::resize<ContainerType>)
             resize (expressions.realExpression.size());
 
-        // The destination may also be one of the sources, e.g. x = x * y. Both component expressions typically read
-        // the real and the imaginary parts of the sources, so writing the real parts before the imaginary expression
-        // has been evaluated would corrupt its input. Therefore, the real parts are evaluated into a temporary buffer
-        // first and only copied over after the imaginary parts have been written.
-        // TODO: This allocates. Consider a preallocated or stack based buffer or block wise evaluation later.
-        const Vector<value_type> realResult (expressions.realExpression);
-
-        // Assigning through spans rather than directly to the members: Assigning these expressions directly to an
-        // Array member triggers an out of range assertion in VctrBase::operator[] (see the mulAdd test).
-        imag() = expressions.imagExpression;
-        real() = realResult;
+        assignSplitComplexExpression (expressions.realExpression, expressions.imagExpression);
     }
 
     /** Copies the elements of another SplitComplexBase of identical size. */
@@ -363,6 +386,147 @@ public:
     //constexpr void operator-= (value_type c);
 
 private:
+    //==============================================================================
+    /** Evaluates the real and the imaginary expression in a single pass and writes the results to realParts and imagParts.
+
+        The destination may also be one of the sources, e.g. x = x * y, and both component expressions usually read
+        the real and the imaginary parts of their sources. Evaluating the two expressions one after another would
+        therefore overwrite the real parts before the imaginary expression has read them. To avoid that without
+        allocating a temporary buffer, both expressions are evaluated for the same index (or the same SIMD block of
+        indices) before any of the two results are stored. This is safe as long as the expressions are element-wise,
+        which is true for all split-complex operations.
+
+        Like VctrBase::assignExpressionTemplate, this picks the best available SIMD instruction set at runtime and
+        handles the remaining elements that don't fill a full SIMD register in a scalar loop.
+     */
+    template <class RealExpression, class ImagExpression>
+    constexpr void assignSplitComplexExpression (const RealExpression& re, const ImagExpression& im)
+    {
+        VCTR_ASSERT (re.size() == size());
+        VCTR_ASSERT (im.size() == size());
+
+        if (! std::is_constant_evaluated())
+        {
+            if constexpr (has::getNeon<RealExpression> && has::getNeon<ImagExpression>)
+            {
+                assignSplitComplexExpressionNeon (re, im);
+                return;
+            }
+
+            if constexpr (has::getAVX<RealExpression> && has::getAVX<ImagExpression>)
+            {
+                if (Config::supportedCPUInstructionSets.fma)
+                {
+                    assignSplitComplexExpressionFMA (re, im);
+                    return;
+                }
+            }
+
+            if constexpr (has::getSSE<RealExpression> && has::getSSE<ImagExpression>)
+            {
+                if (Config::supportedCPUInstructionSets.sse4_1)
+                {
+                    assignSplitComplexExpressionSSE4_1 (re, im);
+                    return;
+                }
+            }
+        }
+
+        assignSplitComplexExpressionScalar (re, im, 0);
+    }
+
+    /** Evaluates the elements from startIdx to the end one at a time. Also used for the tail of the SIMD loops. */
+    template <class RealExpression, class ImagExpression>
+    constexpr void assignSplitComplexExpressionScalar (const RealExpression& re, const ImagExpression& im, size_t startIdx)
+    {
+        auto* r = realParts.data();
+        auto* i = imagParts.data();
+        const auto n = size();
+
+        for (auto idx = startIdx; idx < n; ++idx)
+        {
+            const value_type realValue = re[idx];
+            const value_type imagValue = im[idx];
+            r[idx] = realValue;
+            i[idx] = imagValue;
+        }
+    }
+
+    template <class RealExpression, class ImagExpression>
+    void assignSplitComplexExpressionNeon (const RealExpression& re, const ImagExpression& im)
+    requires Config::archARM
+    {
+        constexpr auto inc = NeonRegister<value_type>::numElements;
+        const auto nSIMD = detail::previousMultipleOf<inc> (size());
+
+        re.prepareNeonEvaluation();
+        im.prepareNeonEvaluation();
+        auto* r = realParts.data();
+        auto* i = imagParts.data();
+
+        size_t idx = 0;
+        for (; idx < nSIMD; idx += inc)
+        {
+            const auto realValues = re.getNeon (idx);
+            const auto imagValues = im.getNeon (idx);
+            realValues.store (r + idx);
+            imagValues.store (i + idx);
+        }
+
+        assignSplitComplexExpressionScalar (re, im, idx);
+    }
+
+    template <class RealExpression, class ImagExpression>
+    VCTR_TARGET ("fma")
+    void assignSplitComplexExpressionFMA (const RealExpression& re, const ImagExpression& im)
+    requires Config::archX64
+    {
+        constexpr auto inc = AVXRegister<value_type>::numElements;
+        const auto nSIMD = detail::previousMultipleOf<inc> (size());
+
+        re.prepareAVXEvaluation();
+        im.prepareAVXEvaluation();
+        auto* r = realParts.data();
+        auto* i = imagParts.data();
+
+        size_t idx = 0;
+        for (; idx < nSIMD; idx += inc)
+        {
+            const auto realValues = re.getAVX (idx);
+            const auto imagValues = im.getAVX (idx);
+            realValues.storeUnaligned (r + idx);
+            imagValues.storeUnaligned (i + idx);
+        }
+
+        assignSplitComplexExpressionScalar (re, im, idx);
+    }
+
+    template <class RealExpression, class ImagExpression>
+    VCTR_TARGET ("sse4.1")
+    void assignSplitComplexExpressionSSE4_1 (const RealExpression& re, const ImagExpression& im)
+    requires Config::archX64
+    {
+        constexpr auto inc = SSERegister<value_type>::numElements;
+        const auto nSIMD = detail::previousMultipleOf<inc> (size());
+
+        re.prepareSSEEvaluation();
+        im.prepareSSEEvaluation();
+        auto* r = realParts.data();
+        auto* i = imagParts.data();
+
+        size_t idx = 0;
+        for (; idx < nSIMD; idx += inc)
+        {
+            const auto realValues = re.getSSE (idx);
+            const auto imagValues = im.getSSE (idx);
+            realValues.storeUnaligned (r + idx);
+            imagValues.storeUnaligned (i + idx);
+        }
+
+        assignSplitComplexExpressionScalar (re, im, idx);
+    }
+
+    //==============================================================================
     ContainerType realParts;
     ContainerType imagParts;
 };
