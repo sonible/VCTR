@@ -224,21 +224,12 @@ public:
     /** Appends a Span, Array or Vector to this Array and returns the resulting Array. */
     template <is::anyVctrWithValueType<value_type> VctrToAppend>
     requires (extentOf<VctrToAppend> != std::dynamic_extent)
-    constexpr auto append (VctrToAppend&& vctrToAppend, bool moveValuesFromSrc = false) const
+    constexpr auto append (VctrToAppend&& vctrToAppend) const
     {
         Array<value_type, extent + extentOf<VctrToAppend>> appended;
 
-        std::copy (Vctr::begin(), Vctr::end(), appended.begin());
-
-        // If it is no view and no reference, the container passed in has no dependencies outside this scope,
-        // so we can safely move its elements in every case
-        if constexpr ((! is::view<VctrToAppend>) && (! std::is_reference_v<VctrToAppend>))
-            moveValuesFromSrc = true;
-
-        if (moveValuesFromSrc)
-            std::move (vctrToAppend.begin(), vctrToAppend.end(), appended.begin() + extent);
-        else
-            std::copy (vctrToAppend.begin(), vctrToAppend.end(), appended.begin() + extent);
+        appended.subSpan<0, extent>() = *this;
+        appended.subSpan<extent>() = std::forward<VctrToAppend> (vctrToAppend);
 
         return appended;
     }
