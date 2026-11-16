@@ -88,6 +88,18 @@ TEST_CASE ("append", "[VCTR][ArrayMemberFunctions]")
         REQUIRE_THAT (appended, vctr::Equals ({ "one", "two", "move 1", "move 2" }));
     }
 
+    SECTION ("Append by span")
+    {
+        vctr::Array a { 1.0f, 2.0f };
+        vctr::Array b { 5.0f, 6.0f };
+
+        vctr::Span s = b;
+        auto appended = a.append (s);
+
+        STATIC_REQUIRE (std::same_as<decltype (appended), vctr::Array<float, 4>>);
+        REQUIRE_THAT (appended, vctr::Equals ({ 1.0f, 2.0f, 5.0f, 6.0f }));
+    }
+
     SECTION ("constexpr append")
     {
         constexpr vctr::Array a { 1, 2 };
