@@ -59,7 +59,7 @@ public:
 
     bool operator!= (const std::complex<T>& other)
     {
-        return real != other.real() && imag != other.imag();
+        return ! (*this == other);
     }
 
     bool operator!= (T other)
