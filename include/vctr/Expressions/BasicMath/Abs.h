@@ -36,6 +36,7 @@ public:
     {
         auto value = src[i];
 
+#if VCTR_USE_GCEM
         if (std::is_constant_evaluated())
         {
             if constexpr (is::realNumber<ValueType<SrcType>>)
@@ -43,6 +44,7 @@ public:
             else
                 return gcem::sqrt (value.real() * value.real() + value.imag() * value.imag());
         }
+#endif
 
         return std::abs (value);
     }
