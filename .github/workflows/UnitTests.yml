@@ -89,8 +89,8 @@ jobs:
           #   ipp: ipp
           #   conan_profile: default
 
-          # macos-14 and upwards runners are ARM based, therefore no IPP needed here
-          - runner: macos-14
+          # macos-26 runners are ARM based, therefore no IPP needed here
+          - runner: macos-26
             cc: clang
             cxx: clang++
             ipp: no_ipp
