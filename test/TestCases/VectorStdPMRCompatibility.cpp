@@ -19,7 +19,11 @@
     version 3 along with VCTR.  If not, see <https://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#if __has_include (<memory_resource>)
+// According to https://developer.apple.com/xcode/cpp/ <memory_resource> requires macOS 14.0 and later, so
+// checking the availability of <memory_resource> is not enough to determine whether std::pmr is available at runtime.
+#if __has_include (<memory_resource>) \
+    && (! defined (__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__) \
+        || __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ >= 140000)
 
 #include <memory_resource>
 #include <string>
