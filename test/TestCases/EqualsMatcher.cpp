@@ -88,12 +88,10 @@ TEMPLATE_TEST_CASE ("vctr::Equals matches element-wise WithinAbs/WithinRel for f
         auto sizeMismatch = reference;
         sizeMismatch.push_back (T (0));
 
-        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({
-            { reference, true },
-            { withinMargin, true },
-            { outsideMargin, false },
-            { sizeMismatch, false }
-        }));
+        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({ { reference, true },
+                                                                                   { withinMargin, true },
+                                                                                   { outsideMargin, false },
+                                                                                   { sizeMismatch, false } }));
 
         const bool equalsResult = vctr::Equals (reference).withMargin (margin).match (candidate);
         const bool manualResult = allWithinAbs (candidate, reference, margin);
@@ -122,12 +120,10 @@ TEMPLATE_TEST_CASE ("vctr::Equals matches element-wise WithinAbs/WithinRel for f
         auto sizeMismatch = reference;
         sizeMismatch.push_back (T (0));
 
-        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({
-            { reference, true },
-            { withinEpsilon, true },
-            { outsideEpsilon, false },
-            { sizeMismatch, false }
-        }));
+        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({ { reference, true },
+                                                                                   { withinEpsilon, true },
+                                                                                   { outsideEpsilon, false },
+                                                                                   { sizeMismatch, false } }));
 
         const bool equalsResult = vctr::Equals (reference).withEpsilon (epsilon).match (candidate);
         const bool manualResult = allWithinRel (candidate, reference, epsilon);
@@ -160,11 +156,9 @@ TEMPLATE_TEST_CASE ("vctr::Equals matches element-wise WithinAbs/WithinRel for f
 
         SECTION ("WithinAbs")
         {
-            auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({
-                { singleRef, true },
-                { withinMargin, true },
-                { outsideMargin, false }
-            }));
+            auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({ { singleRef, true },
+                                                                                       { withinMargin, true },
+                                                                                       { outsideMargin, false } }));
 
             const bool equalsResult = vctr::Equals (singleRef).withMargin (margin).match (candidate);
             const bool manualResult = allWithinAbs (candidate, singleRef, margin);
@@ -176,11 +170,9 @@ TEMPLATE_TEST_CASE ("vctr::Equals matches element-wise WithinAbs/WithinRel for f
 
         SECTION ("WithinRel")
         {
-            auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({
-                { singleRef, true },
-                { withinEpsilon, true },
-                { outsideEpsilon, false }
-            }));
+            auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({ { singleRef, true },
+                                                                                       { withinEpsilon, true },
+                                                                                       { outsideEpsilon, false } }));
 
             const bool equalsResult = vctr::Equals (singleRef).withEpsilon (epsilon).match (candidate);
             const bool manualResult = allWithinRel (candidate, singleRef, epsilon);
@@ -199,8 +191,7 @@ TEMPLATE_TEST_CASE ("vctr::Equals matches element-wise WithinAbs/WithinRel for e
     // bool, int and unsigned int are not realFloatNumber, so vctr::Equals ignores margin/epsilon for them and
     // always requires exact equality. A margin/epsilon of 0 makes WithinAbs/WithinRel behave the same way,
     // so comparing against them here still verifies that vctr::Equals' behaviour lines up with the matchers.
-    const vctr::Vector<T> reference = [] () -> vctr::Vector<T>
-    {
+    const vctr::Vector<T> reference = []() -> vctr::Vector<T> {
         if constexpr (std::same_as<T, bool>)
             return { true, false, true, false, true };
         else
@@ -217,11 +208,9 @@ TEMPLATE_TEST_CASE ("vctr::Equals matches element-wise WithinAbs/WithinRel for e
     {
         constexpr auto margin = 0.0;
 
-        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({
-            { reference, true },
-            { differing, false },
-            { sizeMismatch, false }
-        }));
+        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({ { reference, true },
+                                                                                   { differing, false },
+                                                                                   { sizeMismatch, false } }));
 
         const bool equalsResult = vctr::Equals (reference).withMargin (margin).match (candidate);
         const bool manualResult = allWithinAbs (candidate, reference, margin);
@@ -235,11 +224,9 @@ TEMPLATE_TEST_CASE ("vctr::Equals matches element-wise WithinAbs/WithinRel for e
     {
         constexpr auto epsilon = 0.0;
 
-        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({
-            { reference, true },
-            { differing, false },
-            { sizeMismatch, false }
-        }));
+        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({ { reference, true },
+                                                                                   { differing, false },
+                                                                                   { sizeMismatch, false } }));
 
         const bool equalsResult = vctr::Equals (reference).withEpsilon (epsilon).match (candidate);
         const bool manualResult = allWithinRel (candidate, reference, epsilon);
@@ -256,10 +243,8 @@ TEMPLATE_TEST_CASE ("vctr::Equals matches element-wise WithinAbs/WithinRel for e
         auto singleDiffering = singleRef;
         singleDiffering[0] = singleDiffering[0] ? T (0) : T (1);
 
-        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({
-            { singleRef, true },
-            { singleDiffering, false }
-        }));
+        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({ { singleRef, true },
+                                                                                   { singleDiffering, false } }));
 
         const bool equalsAbsResult = vctr::Equals (singleRef).withMargin (0.0).match (candidate);
         const bool manualAbsResult = allWithinAbs (candidate, singleRef, 0.0);
@@ -303,12 +288,10 @@ TEMPLATE_TEST_CASE ("vctr::EqualsTransformedBy matches element-wise WithinAbs/Wi
         auto sizeMismatch = transformedReference;
         sizeMismatch.push_back (T (0));
 
-        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({
-            { transformedReference, true },
-            { withinMargin, true },
-            { outsideMargin, false },
-            { sizeMismatch, false }
-        }));
+        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({ { transformedReference, true },
+                                                                                   { withinMargin, true },
+                                                                                   { outsideMargin, false },
+                                                                                   { sizeMismatch, false } }));
 
         const bool equalsResult = vctr::EqualsTransformedBy<timesTwo<T>> (reference).withMargin (margin).match (candidate);
         const bool manualResult = allWithinAbs (candidate, transformedReference, margin);
@@ -337,12 +320,10 @@ TEMPLATE_TEST_CASE ("vctr::EqualsTransformedBy matches element-wise WithinAbs/Wi
         auto sizeMismatch = transformedReference;
         sizeMismatch.push_back (T (0));
 
-        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({
-            { transformedReference, true },
-            { withinEpsilon, true },
-            { outsideEpsilon, false },
-            { sizeMismatch, false }
-        }));
+        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({ { transformedReference, true },
+                                                                                   { withinEpsilon, true },
+                                                                                   { outsideEpsilon, false },
+                                                                                   { sizeMismatch, false } }));
 
         const bool equalsResult = vctr::EqualsTransformedBy<timesTwo<T>> (reference).withEpsilon (epsilon).match (candidate);
         const bool manualResult = allWithinRel (candidate, transformedReference, epsilon);
@@ -377,11 +358,9 @@ TEMPLATE_TEST_CASE ("vctr::EqualsTransformedBy matches element-wise WithinAbs/Wi
 
         SECTION ("WithinAbs")
         {
-            auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({
-                { singleTransformedRef, true },
-                { withinMargin, true },
-                { outsideMargin, false }
-            }));
+            auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({ { singleTransformedRef, true },
+                                                                                       { withinMargin, true },
+                                                                                       { outsideMargin, false } }));
 
             const bool equalsResult = vctr::EqualsTransformedBy<timesTwo<T>> (singleRef).withMargin (margin).match (candidate);
             const bool manualResult = allWithinAbs (candidate, singleTransformedRef, margin);
@@ -393,11 +372,9 @@ TEMPLATE_TEST_CASE ("vctr::EqualsTransformedBy matches element-wise WithinAbs/Wi
 
         SECTION ("WithinRel")
         {
-            auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({
-                { singleTransformedRef, true },
-                { withinEpsilon, true },
-                { outsideEpsilon, false }
-            }));
+            auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({ { singleTransformedRef, true },
+                                                                                       { withinEpsilon, true },
+                                                                                       { outsideEpsilon, false } }));
 
             const bool equalsResult = vctr::EqualsTransformedBy<timesTwo<T>> (singleRef).withEpsilon (epsilon).match (candidate);
             const bool manualResult = allWithinRel (candidate, singleTransformedRef, epsilon);
@@ -430,11 +407,9 @@ TEMPLATE_TEST_CASE ("vctr::EqualsTransformedBy matches element-wise WithinAbs/Wi
     {
         constexpr auto margin = 0.0;
 
-        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({
-            { transformedReference, true },
-            { differing, false },
-            { sizeMismatch, false }
-        }));
+        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({ { transformedReference, true },
+                                                                                   { differing, false },
+                                                                                   { sizeMismatch, false } }));
 
         const bool equalsResult = vctr::EqualsTransformedBy<timesTwo<T>> (reference).withMargin (margin).match (candidate);
         const bool manualResult = allWithinAbs (candidate, transformedReference, margin);
@@ -448,11 +423,9 @@ TEMPLATE_TEST_CASE ("vctr::EqualsTransformedBy matches element-wise WithinAbs/Wi
     {
         constexpr auto epsilon = 0.0;
 
-        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({
-            { transformedReference, true },
-            { differing, false },
-            { sizeMismatch, false }
-        }));
+        auto [candidate, expected] = GENERATE_REF (table<vctr::Vector<T>, bool> ({ { transformedReference, true },
+                                                                                   { differing, false },
+                                                                                   { sizeMismatch, false } }));
 
         const bool equalsResult = vctr::EqualsTransformedBy<timesTwo<T>> (reference).withEpsilon (epsilon).match (candidate);
         const bool manualResult = allWithinRel (candidate, transformedReference, epsilon);
@@ -462,4 +435,3 @@ TEMPLATE_TEST_CASE ("vctr::EqualsTransformedBy matches element-wise WithinAbs/Wi
         CHECK (equalsResult == manualResult);
     }
 }
-
