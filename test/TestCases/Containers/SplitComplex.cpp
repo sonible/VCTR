@@ -67,7 +67,7 @@ constexpr double margin = std::same_as<T, float> ? 1e-2 : 1e-10;
 template <class ContainerType>
 auto interleaved (const vctr::SplitComplexBase<ContainerType>& splitComplex)
 {
-    using Complex = typename vctr::SplitComplexBase<ContainerType>::complex_type;
+    using Complex = typename vctr::SplitComplexBase<ContainerType>::ComplexType;
     return vctr::Vector<Complex> (splitComplex.size(), [&] (size_t i) { return splitComplex[i]; });
 }
 
@@ -219,13 +219,17 @@ TEMPLATE_TEST_CASE ("SplitComplex Conversion between container types", "[VCTR][S
     const SplitComplexArray arrayFromVector (vectorFromArray);
     REQUIRE_THAT (interleaved (arrayFromVector), vctr::Equals (srcA));
 
+    // Views returned by const owning containers are read-only, views of a const span are not (just like vctr::Span)
+    static_assert (std::same_as<typename decltype (std::as_const (array).real())::element_type, const TestType>);
+    static_assert (std::same_as<typename decltype (std::declval<const vctr::SplitComplexSpan<TestType>&>().real())::element_type, TestType>);
+
     // Spans refer to the data
     vctr::SplitComplexSpan<TestType> span (array);
     REQUIRE (span.size() == array.size());
     REQUIRE (span.real().data() == array.real().data());
     REQUIRE (span.imag().data() == array.imag().data());
 
-    const vctr::SplitComplexConstSpan<TestType> constSpan (arrayFromVector);
+    const vctr::SplitComplexSpan<const TestType> constSpan (arrayFromVector);
     REQUIRE (constSpan.real().data() == arrayFromVector.real().data());
     REQUIRE (constSpan.imag().data() == arrayFromVector.imag().data());
 
@@ -276,16 +280,17 @@ TEMPLATE_TEST_CASE ("SplitComplexSpan", "[VCTR][SplitComplex][Span]", float, dou
     REQUIRE (otherTargetSpan.real().data() == otherTarget.real().data());
 }
 
-TEMPLATE_TEST_CASE ("SplitComplexConstSpan", "[VCTR][SplitComplex][Span]", float, double)
+TEMPLATE_TEST_CASE ("SplitComplexSpan with const value type", "[VCTR][SplitComplex][Span]", float, double)
 {
     VCTR_SPLIT_COMPLEX_TEST_DEFINES (17)
 
-    using ConstSpan = vctr::SplitComplexConstSpan<TestType>;
+    using ConstSpan = vctr::SplitComplexSpan<const TestType>;
 
-    // A const span is read only, even if the span itself is not const
+    // A span of const values is read only, even if the span itself is not const
     static_assert (! ConstSpan::isMutable);
     static_assert (std::same_as<typename ConstSpan::element_type, const TestType>);
-    static_assert (std::same_as<decltype (std::declval<ConstSpan&>().real()), vctr::Span<const TestType>>);
+    static_assert (std::same_as<typename decltype (std::declval<ConstSpan&>().real())::element_type, const TestType>);
+    static_assert (std::same_as<typename decltype (std::declval<ConstSpan&>().imag())::element_type, const TestType>);
     static_assert (! requires (ConstSpan& s) { s.set (size_t (0), Complex()); });
     static_assert (! requires (ConstSpan& s) { s.fill (Complex()); });
     static_assert (! requires (ConstSpan& s) { s = splitB; });
@@ -299,6 +304,32 @@ TEMPLATE_TEST_CASE ("SplitComplexConstSpan", "[VCTR][SplitComplex][Span]", float
     REQUIRE (fromMutable.real().data() == vector.real().data());
     REQUIRE (fromConst.imag().data() == splitA.imag().data());
     REQUIRE_THAT (interleaved (fromConst), vctr::Equals (srcA));
+}
+
+TEMPLATE_TEST_CASE ("SplitComplex with const container type", "[VCTR][SplitComplex]", float, double)
+{
+    VCTR_SPLIT_COMPLEX_TEST_DEFINES (17)
+
+    using ConstVectorType = vctr::SplitComplexBase<const vctr::Vector<TestType>>;
+    using ConstSpanType = vctr::SplitComplexBase<const vctr::Span<TestType>>;
+
+    // The const qualifier of the container type is ignored, only a const value type makes the elements read-only
+    static_assert (std::same_as<typename ConstVectorType::ContainerType, vctr::Vector<TestType>>);
+    static_assert (std::same_as<typename ConstSpanType::ContainerType, vctr::Span<TestType>>);
+    static_assert (ConstVectorType::isMutable);
+    static_assert (ConstSpanType::isMutable);
+
+    ConstVectorType vector (splitA);
+    REQUIRE_THAT (interleaved (vector), vctr::Equals (srcA));
+
+    vector = splitB;
+    REQUIRE_THAT (interleaved (vector), vctr::Equals (srcB));
+
+    ConstSpanType span (vector);
+    REQUIRE (span.real().data() == vector.real().data());
+
+    span *= splitA;
+    REQUIRE_THAT (interleaved (vector), vctr::EqualsTransformedBy<multiplication> (srcB, srcA).withEpsilon().withMargin (margin<TestType>));
 }
 
 //==============================================================================
@@ -324,8 +355,9 @@ TEMPLATE_TEST_CASE ("SplitComplex Member Functions", "[VCTR][SplitComplex][Membe
     REQUIRE_THAT (v.real(), vctr::AllElementsEqualTo (TestType (7)));
     REQUIRE_THAT (v.imag(), vctr::AllElementsEqualTo (TestType (-7)));
 
-    // clear
-    v.clear();
+    // fill with zero keeps the size
+    v.fill ({});
+    REQUIRE (v.size() == 3);
     REQUIRE_THAT (v.real(), vctr::AllElementsEqualTo (TestType (0)));
     REQUIRE_THAT (v.imag(), vctr::AllElementsEqualTo (TestType (0)));
 
@@ -337,6 +369,18 @@ TEMPLATE_TEST_CASE ("SplitComplex Member Functions", "[VCTR][SplitComplex][Membe
 
     v.resize (0);
     REQUIRE (v.empty());
+
+    // clear removes all elements, like std::vector::clear
+    v.resize (4);
+    v.clear();
+    REQUIRE (v.empty());
+    REQUIRE (v.real().empty());
+    REQUIRE (v.imag().empty());
+
+    // resize and clear are only available for a SplitComplexVector
+    static_assert (! requires (vctr::SplitComplexArray<TestType, 3>& a) { a.clear(); });
+    static_assert (! requires (vctr::SplitComplexSpan<TestType>& s) { s.clear(); });
+    static_assert (! requires (vctr::SplitComplexSpan<TestType>& s) { s.resize (size_t (3)); });
 }
 
 TEMPLATE_TEST_CASE ("SplitComplex Assignment", "[VCTR][SplitComplex][Assignment]", float, double)
@@ -437,7 +481,7 @@ TEMPLATE_TEST_CASE ("SplitComplex Math with mixed container types", "[VCTR][Spli
     VCTR_SPLIT_COMPLEX_TEST_DEFINES (17)
 
     const vctr::SplitComplexArray<TestType, 17> arrayA (srcA);
-    const vctr::SplitComplexConstSpan<TestType> spanB (splitB);
+    const vctr::SplitComplexSpan<const TestType> spanB (splitB);
 
     // Array and const span operands, vector destination
     const vctr::SplitComplexVector<TestType> product = arrayA * spanB;
@@ -446,7 +490,7 @@ TEMPLATE_TEST_CASE ("SplitComplex Math with mixed container types", "[VCTR][Spli
     // Const span operands, span destination
     vctr::SplitComplexVector<TestType> target (srcA.size());
     vctr::SplitComplexSpan<TestType> targetSpan (target);
-    targetSpan = vctr::SplitComplexConstSpan<TestType> (splitA) * spanB;
+    targetSpan = vctr::SplitComplexSpan<const TestType> (splitA) * spanB;
     REQUIRE_THAT (interleaved (target), vctr::EqualsTransformedBy<multiplication> (srcA, srcB).withEpsilon().withMargin (margin<TestType>));
 
     // Vector operands, array destination
@@ -532,7 +576,7 @@ TEMPLATE_TEST_CASE ("SplitComplex Compound Assignment Operators on Arrays and Sp
 
     // Array destination, span operand
     vctr::SplitComplexArray<TestType, 17> array (srcA);
-    array *= vctr::SplitComplexConstSpan<TestType> (splitB);
+    array *= vctr::SplitComplexSpan<const TestType> (splitB);
     REQUIRE_THAT (interleaved (array), vctr::EqualsTransformedBy<multiplication> (srcA, srcB).withEpsilon().withMargin (margin<TestType>));
 
     // Span destination writes to the viewed container
@@ -542,7 +586,7 @@ TEMPLATE_TEST_CASE ("SplitComplex Compound Assignment Operators on Arrays and Sp
     REQUIRE_THAT (interleaved (vector), vctr::EqualsTransformedBy<addition> (srcA, srcB).withEpsilon());
 
     // A const span can't be modified
-    using ConstSpan = vctr::SplitComplexConstSpan<TestType>;
+    using ConstSpan = vctr::SplitComplexSpan<const TestType>;
     static_assert (! requires (ConstSpan& s) { s *= splitB; });
     static_assert (! requires (ConstSpan& s) { s /= Complex(); });
     static_assert (! requires (ConstSpan& s) { s += TestType(); });
@@ -554,7 +598,7 @@ TEMPLATE_TEST_CASE ("SplitComplex Compound Assignment Operators on Arrays and Sp
 //==============================================================================
 
 /*  These tests combine several split-complex expressions in a single line. The operands and destinations are a mix of
-    SplitComplexVector, SplitComplexArray, SplitComplexSpan and SplitComplexConstSpan, to make sure that expressions
+    SplitComplexVector, SplitComplexArray, SplitComplexSpan and SplitComplexSpan<const T>, to make sure that expressions
     built from different container types can be nested and assigned to any container type.
  */
 TEMPLATE_TEST_CASE ("SplitComplex Expression Chains", "[VCTR][SplitComplex][Expressions]", float, double)
@@ -566,7 +610,7 @@ TEMPLATE_TEST_CASE ("SplitComplex Expression Chains", "[VCTR][SplitComplex][Expr
     const vctr::SplitComplexArray<TestType, 17> b (srcB);
     auto dData = splitD;
     vctr::SplitComplexSpan<TestType> d (dData);
-    const vctr::SplitComplexConstSpan<TestType> c (splitC);
+    const vctr::SplitComplexSpan<const TestType> c (splitC);
 
     SECTION ("a + b * c - d into a SplitComplexVector")
     {
