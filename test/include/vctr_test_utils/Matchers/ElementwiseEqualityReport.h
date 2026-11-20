@@ -104,17 +104,13 @@ struct ElementwiseEqualityReport
                     if (meanRealAbsErrorAllElements.has_value() && meanImagAbsErrorAllElements.has_value())
                     {
                         s << "\n  Real component:"
-                          << "\n    Minimum absolute error of all mismatches: " << *minRealAbsError
-                          << "\n    Maximum absolute error of all mismatches: " << *maxRealAbsError
-                          << "\n    Minimum relative error of all mismatches: " << *minRealRelError
-                          << "\n    Maximum relative error of all mismatches: " << *maxRealRelError
-                          << "\n    Mean absolute error of all elements:      " << *meanRealAbsErrorAllElements
+                          << "\n    Minimum absolute (relative) error of all mismatches: " << *minRealAbsError << " (" << *minRealRelError << ")"
+                          << "\n    Maximum absolute (relative) error of all mismatches: " << *maxRealAbsError << " (" << *maxRealRelError << ")"
+                          << "\n    Mean absolute error of all elements:                 " << *meanRealAbsErrorAllElements
                           << "\n  Imaginary component:"
-                          << "\n    Minimum absolute error of all mismatches: " << *minImagAbsError
-                          << "\n    Maximum absolute error of all mismatches: " << *maxImagAbsError
-                          << "\n    Minimum relative error of all mismatches: " << *minImagRelError
-                          << "\n    Maximum relative error of all mismatches: " << *maxImagRelError
-                          << "\n    Mean absolute error of all elements:      " << *meanImagAbsErrorAllElements;
+                          << "\n    Minimum absolute (relative) error of all mismatches: " << *minImagAbsError << " (" << *minImagRelError << ")"
+                          << "\n    Maximum absolute (relative) error of all mismatches: " << *maxImagAbsError << " (" << *maxImagRelError << ")"
+                          << "\n    Mean absolute error of all elements:                 " << *meanImagAbsErrorAllElements;
                     }
                 }
                 else
@@ -126,11 +122,9 @@ struct ElementwiseEqualityReport
 
                     if (meanAbsErrorAllElements.has_value())
                     {
-                        s << "\n  Minimum absolute error of all mismatches: " << *minAbsError
-                          << "\n  Maximum absolute error of all mismatches: " << *maxAbsError
-                          << "\n  Minimum relative error of all mismatches: " << *minRelError
-                          << "\n  Maximum relative error of all mismatches: " << *maxRelError
-                          << "\n  Mean absolute error of all elements:      " << *meanAbsErrorAllElements;
+                        s << "\n  Minimum absolute (relative) error of all mismatches: " << *minAbsError << " (" << *minRelError << ")"
+                          << "\n  Maximum absolute (relative) error of all mismatches: " << *maxAbsError << " (" << *maxRelError << ")"
+                          << "\n  Mean absolute error of all elements:                 " << *meanAbsErrorAllElements;
                     }
                 }
 
@@ -152,21 +146,21 @@ struct ElementwiseEqualityReport
                             s << "\n    Real:"
                               << "\n      " << std::left << std::setw (labelWidth) << "actual" << " = " << mismatch.actualReal
                               << "\n      " << std::setw (labelWidth) << "expected" << " = " << mismatch.expectedReal
-                              << "\n      " << std::setw (labelWidth) << "absolute error" << " = " << std::abs (mismatch.actualReal - mismatch.expectedReal)
-                              << "\n      " << std::setw (labelWidth) << "relative error" << " = " << relativeError (mismatch.actualReal, mismatch.expectedReal)
+                              << "\n      " << std::setw (labelWidth) << "abs (rel) error" << " = " << std::abs (mismatch.actualReal - mismatch.expectedReal)
+                              << " (" << relativeError (mismatch.actualReal, mismatch.expectedReal) << ")"
                               << "\n    Imaginary:"
                               << "\n      " << std::setw (labelWidth) << "actual" << " = " << mismatch.actualImag
                               << "\n      " << std::setw (labelWidth) << "expected" << " = " << mismatch.expectedImag
-                              << "\n      " << std::setw (labelWidth) << "absolute error" << " = " << std::abs (mismatch.actualImag - mismatch.expectedImag)
-                              << "\n      " << std::setw (labelWidth) << "relative error" << " = " << relativeError (mismatch.actualImag, mismatch.expectedImag)
+                              << "\n      " << std::setw (labelWidth) << "abs (rel) error" << " = " << std::abs (mismatch.actualImag - mismatch.expectedImag)
+                              << " (" << relativeError (mismatch.actualImag, mismatch.expectedImag) << ")"
                               << std::right;
                         }
                         else
                         {
                             s << "\n    " << std::left << std::setw (labelWidth) << "actual" << " = " << mismatch.actualReal
                               << "\n    " << std::setw (labelWidth) << "expected" << " = " << mismatch.expectedReal
-                              << "\n    " << std::setw (labelWidth) << "absolute error" << " = " << std::abs (mismatch.actualReal - mismatch.expectedReal)
-                              << "\n    " << std::setw (labelWidth) << "relative error" << " = " << relativeError (mismatch.actualReal, mismatch.expectedReal)
+                              << "\n    " << std::setw (labelWidth) << "abs (rel) error" << " = " << std::abs (mismatch.actualReal - mismatch.expectedReal)
+                              << " (" << relativeError (mismatch.actualReal, mismatch.expectedReal) << ")"
                               << std::right;
                         }
                     }
