@@ -217,6 +217,8 @@ VCTR_END_IGNORE_WARNING_MSVC
 #include "Expressions/DSP/Decibels.h"
 
 #include "Generators/Linspace.h"
+#include "Containers/SplitComplex.h"
+#include "Containers/SplitComplexMath.h"
 
 #include "Miscellaneous/StdOstreamOperator.h"
 
