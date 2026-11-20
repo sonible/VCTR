@@ -115,7 +115,8 @@ bool computeElementwiseEqualityReport (ElementwiseEqualityReport& details, size_
     const size_t numToCompare = std::min (actualSize, referenceSize);
 
     using ActualValueType = std::decay_t<decltype (getActual (size_t {}))>;
-    using ExpectedValueType = std::decay_t<decltype (getActual (size_t {}))>;
+    using ExpectedValueType = std::decay_t<decltype (getExpected (size_t {}))>;
+
     constexpr auto isNotBool = ! std::same_as<std::remove_cvref_t<ActualValueType>, bool> && ! std::same_as<std::remove_cvref_t<ExpectedValueType>, bool>;
     constexpr auto hasNumericErrorIncludingBool = is::number<ActualValueType> && is::number<ExpectedValueType>; // is::number doesn't exclude bool
     constexpr auto hasNumericErrorExcludingBool = isNotBool && is::number<ActualValueType> && is::number<ExpectedValueType>;
