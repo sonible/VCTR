@@ -142,8 +142,11 @@ jobs:
         run: choco install ninja -y && pip3 install conan
         if: runner.os == 'Windows'
 
+      # Clang 20 is rejected by the VS 18 14.52 STL; 14.51 remains compatible.
       - name: (Windows) Configure dev environment variables
         uses: ilammy/msvc-dev-cmd@v1
+        with:
+          toolset: "14.51"
         if: runner.os == 'Windows'
 
       # Conan's auto-detection guesses the Visual Studio installation wrong on the runner images, so
