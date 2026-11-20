@@ -28,6 +28,21 @@
 #pragma warning(disable : 4146)
 #endif
 
+namespace test::divide
+{
+template <vctr::is::complexFloatNumber T>
+static constexpr auto getEpsilon()
+{
+    return 1e-4; // larger tolerance because of larger rounding errors (e.g., because components are affected by cancellation)
+}
+
+template <class T>
+static constexpr auto getEpsilon()
+requires (! vctr::is::complexFloatNumber<T>)
+{
+    return std::numeric_limits<T>::epsilon() * 100.0;
+}
+
 TEMPLATE_PRODUCT_TEST_CASE ("Division", "[VCTR][Expressions][divide]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )
 {
     VCTR_TEST_DEFINES_NO_ZEROS (10)
@@ -41,9 +56,9 @@ TEMPLATE_PRODUCT_TEST_CASE ("Division", "[VCTR][Expressions][divide]", (Platform
     const vctr::Vector vecDividedByConstant = filter << (srcA / c);
     const vctr::Vector vecDividedByVec      = filter << (srcA / srcB);
 
-    REQUIRE_THAT (constantDividedByVec, vctr::EqualsTransformedBy<division> (c, srcA).withEpsilon());
-    REQUIRE_THAT (vecDividedByConstant, vctr::EqualsTransformedBy<division> (srcA, c).withEpsilon());
-    REQUIRE_THAT (vecDividedByVec,      vctr::EqualsTransformedBy<division> (srcA, srcB).withEpsilon());
+    REQUIRE_THAT (constantDividedByVec, vctr::EqualsTransformedBy<division> (c, srcA).withEpsilon(getEpsilon<ElementType>()));
+    REQUIRE_THAT (vecDividedByConstant, vctr::EqualsTransformedBy<division> (srcA, c).withEpsilon(getEpsilon<ElementType>()));
+    REQUIRE_THAT (vecDividedByVec,      vctr::EqualsTransformedBy<division> (srcA, srcB).withEpsilon(getEpsilon<ElementType>()));
     // clang-format on
 }
 
@@ -61,6 +76,7 @@ TEMPLATE_PRODUCT_TEST_CASE ("Divide in place", "[VCTR][divide]", (PlatformVector
     quotient1 /= srcB;
     quotient2 /= c;
 
-    REQUIRE_THAT (quotient1, vctr::EqualsTransformedBy<division> (srcA, srcB).withEpsilon());
-    REQUIRE_THAT (quotient2, vctr::EqualsTransformedBy<division> (srcA, c).withEpsilon());
+    REQUIRE_THAT (quotient1, vctr::EqualsTransformedBy<division> (srcA, srcB).withEpsilon (getEpsilon<ElementType>()));
+    REQUIRE_THAT (quotient2, vctr::EqualsTransformedBy<division> (srcA, c).withEpsilon (getEpsilon<ElementType>()));
 }
+} // namespace test::divide
