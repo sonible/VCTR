@@ -221,6 +221,19 @@ public:
         Vctr::assignExpressionTemplate (expression);
     }
 
+    /** Appends a Span, Array or Vector to this Array and returns the resulting Array. */
+    template <is::anyVctrWithValueType<value_type> VctrToAppend>
+    requires (extentOf<VctrToAppend> != std::dynamic_extent)
+    constexpr auto append (VctrToAppend&& vctrToAppend) const
+    {
+        Array<value_type, extent + extentOf<VctrToAppend>> appended;
+
+        appended.subSpan<0, extent>() = *this;
+        appended.subSpan<extent>() = std::forward<VctrToAppend> (vctrToAppend);
+
+        return appended;
+    }
+
 private:
     //==============================================================================
     template <is::suitableInitializerFunction Fn, size_t... i>
