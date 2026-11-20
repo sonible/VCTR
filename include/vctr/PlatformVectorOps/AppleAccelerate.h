@@ -257,6 +257,12 @@ public:
         vDSP_zvmags (&s, 2, dst, 1, len);
     }
 
+    static void realImagToComplex (const float* real, const float* imag, std::complex<float>* dst, size_t len)
+    {
+        const DSPSplitComplex s { const_cast<float*> (real), const_cast<float*> (imag) };
+        vDSP_ztoc (&s, 1, reinterpret_cast<DSPComplex*> (dst), 2, len);
+    }
+
     //==============================================================================
     // BLAS functions
     //==============================================================================
@@ -354,6 +360,12 @@ public:
     {
         auto s = sp (src);
         vDSP_zvmagsD (&s, 2, dst, 1, len);
+    }
+
+    static void realImagToComplex (const double* real, const double* imag, std::complex<double>* dst, size_t len)
+    {
+        const DSPDoubleSplitComplex s { const_cast<double*> (real), const_cast<double*> (imag) };
+        vDSP_ztocD (&s, 1, reinterpret_cast<DSPDoubleComplex*> (dst), 2, len);
     }
 
     //==============================================================================
