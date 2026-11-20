@@ -2,6 +2,7 @@
 {# detected by the CI workflow can be picked up instead of hardcoding them here.          #}
 {% set vs_version = os.getenv("VS_VERSION", "17") %}
 {% set msvc_version = os.getenv("VS_MSVC_VERSION", "193") %}
+{% set msvc_update = os.getenv("VS_MSVC_UPDATE") %}
 
 [settings]
 os=Windows
@@ -16,4 +17,7 @@ compiler.runtime_type=Release
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja
 tools.microsoft.msbuild:vs_version={{ vs_version }}
+{% if msvc_update %}
+tools.microsoft:msvc_update={{ msvc_update }}
+{% endif %}
 

@@ -28,10 +28,12 @@ with the runner image, they are Jinja templates that read the values detected by
 | `VS_VERSION`         | Visual Studio major version (`tools.microsoft.msbuild:vs_version`) | `18`  |
 | `VS_RUNTIME_VERSION` | MSVC toolset, used as `compiler.runtime_version` for clang | `v145`  |
 | `VS_MSVC_VERSION`    | Conan `compiler.version` for `compiler=msvc`             | `195`   |
+| `VS_MSVC_UPDATE`     | MSVC toolset update (`tools.microsoft:msvc_update`)      | `1`     |
 | `CLANG_VERSION`      | Conan `compiler.version` for `compiler=clang`            | `20`    |
 
-Each variable has a sane fallback, so the profiles can also be used locally without those variables
-being set.
+The workflow sets `VS_MSVC_UPDATE` to match its 14.51 toolset pin, so Conan's own vcvars activation
+does not select a newer 14.5x toolset. When unset, Conan chooses the update; the other variables have
+fallbacks, so the profiles can also be used locally without those variables being set.
 
 ## Available profiles
 
