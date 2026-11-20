@@ -76,3 +76,22 @@ TEMPLATE_PRODUCT_TEST_CASE ("RealToComplex", "[VCTR][Expressions][Complex][realT
     REQUIRE (vctr::Vector (vctr::imag << cplx).allElementsEqual (ElementType (0)));
     REQUIRE (vctr::Vector (vctr::imag << cplxU).allElementsEqual (ElementType (0)));
 }
+
+TEMPLATE_PRODUCT_TEST_CASE ("RealImagToComplex", "[VCTR][Expressions][Complex][realImagToComplex]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double) )
+{
+    VCTR_TEST_DEFINES (10)
+
+    const vctr::Span imagUnaligned = srcC.template subSpan<1>();
+
+    const vctr::Vector cplx = filter << vctr::realImagToComplex (srcA, srcB);
+    const vctr::Vector cplxU = filter << vctr::realImagToComplex (srcUnaligned, imagUnaligned);
+
+    static_assert (vctr::is::complexFloatNumber<typename decltype (cplx)::value_type>);
+    static_assert (vctr::is::complexFloatNumber<typename decltype (cplxU)::value_type>);
+
+    REQUIRE_THAT (srcA, vctr::EqualsTransformedBy<getRealPart> (cplx));
+    REQUIRE_THAT (srcB, vctr::EqualsTransformedBy<getImagPart> (cplx));
+
+    REQUIRE_THAT (srcUnaligned, vctr::EqualsTransformedBy<getRealPart> (cplxU));
+    REQUIRE_THAT (imagUnaligned, vctr::EqualsTransformedBy<getImagPart> (cplxU));
+}

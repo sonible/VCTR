@@ -191,6 +191,7 @@ VCTR_END_IGNORE_WARNING_MSVC
 #include "Expressions/Complex/Imag.h"
 #include "Expressions/Complex/PowerSpectrum.h"
 #include "Expressions/Complex/Real.h"
+#include "Expressions/Complex/RealImagToComplex.h"
 #include "Expressions/Complex/RealToComplex.h"
 
 #include "Expressions/Exp/Exp.h"
