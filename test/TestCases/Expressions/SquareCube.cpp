@@ -61,7 +61,9 @@ TEMPLATE_PRODUCT_TEST_CASE ("Square", "[VCTR][Expressions][square]", (PlatformVe
 
     const vctr::Vector s = filter << vctr::square << srcA;
 
-    REQUIRE_THAT (s, vctr::EqualsTransformedBy<square> (srcA));
+    // Platform vector libraries like IPP may compute complex squares with a rounding that slightly differs from the
+    // std::complex reference implementation.
+    REQUIRE_THAT (s, vctr::EqualsTransformedBy<square> (srcA).withEpsilon());
 }
 
 TEMPLATE_PRODUCT_TEST_CASE ("Cube", "[VCTR][Expressions][cube]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (float, double, int32_t, uint32_t, int64_t, uint64_t, std::complex<float>, std::complex<double>) )

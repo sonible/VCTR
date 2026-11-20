@@ -54,20 +54,6 @@ struct SplitComplexContainerType<Array<std::complex<T>, e, s>>
 {
     using Type = Array<T, e>;
 };
-
-/** Passes a VctrBase through unchanged. */
-template <class E, class S, size_t extent, class I>
-struct SplitComplexContainerType<VctrBase<E, S, extent, I>>
-{
-    using Type = VctrBase<E, S, extent, I>;
-};
-
-/** Passes a Span through unchanged. */
-template <class T, size_t extent, class S>
-struct SplitComplexContainerType<Span<T, extent, S>>
-{
-    using Type = Span<T, extent, S>;
-};
 } // namespace detail
 
 
@@ -105,7 +91,7 @@ struct SplitComplexExpression
 };
 
 // Forward declaration, needed by the concepts below which are in turn needed by the SplitComplexBase declaration.
-template <is::anyVctrWithRealFloatValueType ContainerType>
+template <is::anyVctrWithRealFloatValueType ContainerTypeParam>
 class SplitComplexBase;
 
 namespace is
@@ -130,33 +116,39 @@ concept anySplitComplexVectorOrExpression = derivedFromSplitComplexBase<T> || de
     elements, which is ideal for SIMD vectorisation. The math operations are available as allocation free free
     functions, see SplitComplexMath.h.
 
-    The ContainerType decides about ownership and size: Use SplitComplexVector for an owning, resizable container,
-    SplitComplexArray for an owning container with a compile time size and SplitComplexSpan (or SplitComplexConstSpan)
-    for a non-owning view.
+    The ContainerTypeParam decides about ownership and size: Use SplitComplexVector for an owning, resizable container,
+    SplitComplexArray for an owning container with a compile time size and SplitComplexSpan for a non-owning view.
+    Use SplitComplexSpan<const T> for a read-only view.
 
-    @tparam ContainerType   Any VCTR container holding a real floating point value_type, e.g. Vector<float>,
-                            Array<float, n> or Span<float>.
+    @tparam ContainerTypeParam   Any VCTR container holding a real floating point value_type, e.g. Vector<float>,
+                                 Array<float, n> or Span<float>. A const qualifier on the container type is ignored, use a
+                                 const value type to make the elements read-only.
 
     @ingroup Core
  */
-template <is::anyVctrWithRealFloatValueType ContainerType>
+template <is::anyVctrWithRealFloatValueType ContainerTypeParam>
 class SplitComplexBase
 {
 public:
     //==============================================================================
+    /** The type of the containers storing the real and imaginary parts. This is ContainerTypeParam without a const
+        qualifier, so the members stay assignable and movable even if a const container type is passed.
+     */
+    using ContainerType = std::remove_const_t<ContainerTypeParam>;
+
     /** The real floating point type of the real and imaginary parts, e.g. float or double. */
     using value_type = std::remove_const_t<typename ContainerType::value_type>;
 
     /** The std::complex type matching value_type, returned by the element access functions. */
-    using complex_type = std::complex<value_type>;
+    using ComplexType = std::complex<value_type>;
 
-    /** The element type of the underlying containers, which is const qualified for a SplitComplexConstSpan.
+    /** The element type of the underlying containers, which is const qualified for a SplitComplexSpan<const T>.
 
         Note that ContainerType::value_type can't be used for this, as VctrBase strips the const qualifier from it.
      */
     using element_type = std::remove_reference_t<decltype (*std::declval<ContainerType&>().data())>;
 
-    /** True if the elements can be modified through this container, false for a SplitComplexConstSpan. */
+    /** True if the elements can be modified through this container, false for a SplitComplexSpan<const T>. */
     static constexpr bool isMutable = ! std::is_const_v<element_type>;
 
     //==============================================================================
@@ -170,9 +162,9 @@ public:
      */
     constexpr SplitComplexBase() requires std::default_initializable<ContainerType> = default;
 
-    /** Creates a SplitComplexBase with the given size and all values initialised to zero. Only available for resizable containers. */
+    /** Creates a SplitComplexBase with the given size and all values initialised to zero. Only available for a SplitComplexVector. */
     explicit SplitComplexBase (size_t size)
-    requires vctr::has::resize<ContainerType>
+    requires is::vctrVector<ContainerType>
         : realParts (size, value_type (0)),
           imagParts (size, value_type (0))
     { }
@@ -194,7 +186,7 @@ public:
         or a SplitComplexVector holding a copy of a SplitComplexSpan.
      */
     template <class Other>
-    requires (! std::same_as<Other, ContainerType>) && std::constructible_from<ContainerType, Span<value_type>>
+    requires (! std::same_as<Other, ContainerTypeParam>) && std::constructible_from<ContainerType, Span<value_type>>
     constexpr SplitComplexBase (SplitComplexBase<Other>& other)
         : realParts (other.real()),
           imagParts (other.imag())
@@ -202,7 +194,7 @@ public:
 
     /** @copydoc SplitComplexBase(SplitComplexBase<Other>&) */
     template <class Other>
-    requires (! std::same_as<Other, ContainerType>) && std::constructible_from<ContainerType, Span<const value_type>>
+    requires (! std::same_as<Other, ContainerTypeParam>) && std::constructible_from<ContainerType, Span<const value_type>>
     constexpr SplitComplexBase (const SplitComplexBase<Other>& other)
         : realParts (other.real()),
           imagParts (other.imag())
@@ -216,7 +208,7 @@ public:
     template <is::anyVctrWithComplexFloatValueType Interleaved>
     SplitComplexBase (const Interleaved& interleaved)
     {
-        if constexpr (vctr::has::resize<ContainerType>)
+        if constexpr (is::vctrVector<ContainerType>)
             resize (interleaved.size());
 
         *this = interleaved;
@@ -245,18 +237,21 @@ public:
     constexpr SplitComplexBase (SplitComplexBase&&) = default;
 
     /** Copy and move assignment of owning containers, e.g. a SplitComplexVector or SplitComplexArray. */
-    constexpr SplitComplexBase& operator= (const SplitComplexBase&) requires (! is::view<ContainerType>) = default;
+    constexpr SplitComplexBase& operator= (const SplitComplexBase&)
+    requires (! is::view<ContainerType>) = default;
 
     /** @copydoc operator=(const SplitComplexBase&) */
-    constexpr SplitComplexBase& operator= (SplitComplexBase&&) requires (! is::view<ContainerType>) = default;
+    constexpr SplitComplexBase& operator= (SplitComplexBase&&)
+    requires (! is::view<ContainerType>) = default;
 
     /** Copies the elements viewed by another span of the same type into the elements viewed by this span.
 
         Like vctr::Span, a SplitComplexSpan never rebinds on assignment. This makes assigning a span of the same type
         behave like assigning any other split complex container. Both spans need to have the same size.
-        A SplitComplexConstSpan can't be assigned to.
+        A read-only SplitComplexSpan<const T> can't be assigned to.
      */
-    constexpr SplitComplexBase& operator= (const SplitComplexBase& other) requires is::view<ContainerType> && isMutable
+    constexpr SplitComplexBase& operator= (const SplitComplexBase& other)
+    requires is::view<ContainerType> && isMutable
     {
         VCTR_ASSERT (size() == other.size());
 
@@ -266,7 +261,8 @@ public:
     }
 
     /** @copydoc operator=(const SplitComplexBase&) */
-    constexpr SplitComplexBase& operator= (SplitComplexBase&& other) requires is::view<ContainerType> && isMutable
+    constexpr SplitComplexBase& operator= (SplitComplexBase&& other)
+    requires is::view<ContainerType> && isMutable
     {
         return *this = std::as_const (other);
     }
@@ -279,7 +275,7 @@ public:
     requires isMutable
     constexpr void operator= (const SplitComplexExpression<RealExpression, ImagExpression>& expressions)
     {
-        if constexpr (vctr::has::resize<ContainerType>)
+        if constexpr (is::vctrVector<ContainerType>)
             resize (expressions.realExpression.size());
 
         assignSplitComplexExpression (expressions.realExpression, expressions.imagExpression);
@@ -304,8 +300,9 @@ public:
         VCTR_ASSERT (size() == interleaved.size());
 
         const auto* src = interleaved.data();
+        const auto n = size();
 
-        for (size_t i = 0; i < size(); ++i)
+        for (size_t i = 0; i < n; ++i)
         {
             realParts[i] = src[i].real();
             imagParts[i] = src[i].imag();
@@ -316,20 +313,24 @@ public:
     // Element access
     //==============================================================================
 
-    /** Returns a read-only view of the real parts. */
-    constexpr Span<const value_type> real() const { return Span<const value_type> (realParts); }
+    /** Returns a view of the real parts.
 
-    /** Returns a read-only view of the imaginary parts. */
-    constexpr Span<const value_type> imag() const { return Span<const value_type> (imagParts); }
+        The constness of the elements is deduced from the underlying container: It is read-only for a const owning
+        container or a SplitComplexSpan<const T>. Like vctr::Span, a const SplitComplexSpan<T> still returns a mutable view.
+     */
+    constexpr auto real() const { return Span (realParts); }
 
-    /** Returns a view of the real parts. It is mutable unless this is a SplitComplexConstSpan. */
-    constexpr Span<element_type> real() { return Span<element_type> (realParts); }
+    /** Returns a view of the imaginary parts. See real() const for the constness of the returned view. */
+    constexpr auto imag() const { return Span (imagParts); }
 
-    /** Returns a view of the imaginary parts. It is mutable unless this is a SplitComplexConstSpan. */
-    constexpr Span<element_type> imag() { return Span<element_type> (imagParts); }
+    /** Returns a view of the real parts. It is mutable unless this is a SplitComplexSpan<const T>. */
+    constexpr auto real() { return Span (realParts); }
+
+    /** Returns a view of the imaginary parts. It is mutable unless this is a SplitComplexSpan<const T>. */
+    constexpr auto imag() { return Span (imagParts); }
 
     /** Returns the complex value at index i. */
-    constexpr complex_type operator[] (size_t i) const { return { realParts[i], imagParts[i] }; }
+    constexpr ComplexType operator[] (size_t i) const { return { realParts[i], imagParts[i] }; }
 
     /** Sets the real and imaginary part at index i. */
     constexpr void set (size_t i, value_type realValue, value_type imagValue)
@@ -340,7 +341,7 @@ public:
     }
 
     /** Sets the complex value at index i. */
-    constexpr void set (size_t i, complex_type value)
+    constexpr void set (size_t i, ComplexType value)
     requires isMutable
     {
         set (i, value.real(), value.imag());
@@ -351,76 +352,144 @@ public:
     //==============================================================================
 
     /** Returns the number of complex values. */
-    constexpr size_t size() const { return real().size(); }
+    constexpr size_t size() const { return realParts.size(); }
 
     /** Returns true if the container holds no values. */
-    constexpr bool empty() const { return real().size() == 0; }
+    constexpr bool empty() const { return realParts.empty(); }
 
-    /** Resizes both parts. Only available for resizable containers, e.g. a Vector. New elements are zero. */
+    /** Resizes both parts. Only available for a SplitComplexVector. New elements are zero. */
     constexpr void resize (size_t newSize)
-    requires vctr::has::resize<ContainerType>
+    requires is::vctrVector<ContainerType>
     {
         realParts.resize (newSize);
         imagParts.resize (newSize);
     }
 
     /** Sets all elements to the given complex value. */
-    constexpr void fill (complex_type value)
+    constexpr void fill (ComplexType value)
     requires isMutable
     {
         realParts.fill (value.real());
         imagParts.fill (value.imag());
     }
 
-    /** Sets all elements to zero. */
+    /** Removes all elements, like std::vector::clear. Only available for a SplitComplexVector.
+
+        To set all elements to zero while keeping the size, use fill ({}).
+     */
     constexpr void clear()
-    requires isMutable
+    requires is::vctrVector<ContainerType>
     {
-        fill (complex_type (0, 0));
+        realParts.clear();
+        imagParts.clear();
     }
 
     //==============================================================================
     // Math operators.
     //==============================================================================
+    // The compound assignment operators build the split-complex expressions defined in SplitComplexMath.h and
+    // assign them to this container. The assignment evaluates the real and the imaginary parts in a single pass,
+    // so it is safe that this container is also a source of the expression.
+
     /** Multiplies this by a split-complex vector or expression in place. */
     template <is::anySplitComplexVectorOrExpression V>
-    constexpr void operator*= (const V& v) requires isMutable;
+    constexpr void operator*= (const V& v)
+    requires isMutable
+    {
+        const auto& self = *this;
+        *this = self * v;
+    }
 
     /** Multiplies this by a real constant in place. */
-    constexpr void operator*= (value_type c) requires isMutable;
+    constexpr void operator*= (value_type c)
+    requires isMutable
+    {
+        const auto& self = *this;
+        *this = self * c;
+    }
 
     /** Multiplies this by a complex constant in place. */
-    constexpr void operator*= (complex_type c) requires isMutable;
+    constexpr void operator*= (ComplexType c)
+    requires isMutable
+    {
+        const auto& self = *this;
+        *this = self * c;
+    }
 
     /** Divides this by a split-complex vector or expression in place. */
     template <is::anySplitComplexVectorOrExpression V>
-    constexpr void operator/= (const V& v) requires isMutable;
+    constexpr void operator/= (const V& v)
+    requires isMutable
+    {
+        const auto& self = *this;
+        *this = self / v;
+    }
 
     /** Divides this by a real constant in place. */
-    constexpr void operator/= (value_type c) requires isMutable;
+    constexpr void operator/= (value_type c)
+    requires isMutable
+    {
+        const auto& self = *this;
+        *this = self / c;
+    }
 
     /** Divides this by a complex constant in place. */
-    constexpr void operator/= (complex_type c) requires isMutable;
+    constexpr void operator/= (ComplexType c)
+    requires isMutable
+    {
+        const auto& self = *this;
+        *this = self / c;
+    }
 
     /** Adds a split-complex vector or expression to this in place. */
     template <is::anySplitComplexVectorOrExpression V>
-    constexpr void operator+= (const V& v) requires isMutable;
+    constexpr void operator+= (const V& v)
+    requires isMutable
+    {
+        const auto& self = *this;
+        *this = self + v;
+    }
 
     /** Adds a real constant to the real parts in place. */
-    constexpr void operator+= (value_type c) requires isMutable;
+    constexpr void operator+= (value_type c)
+    requires isMutable
+    {
+        const auto& self = *this;
+        *this = self + ComplexType (c);
+    }
 
     /** Adds a complex constant to this in place. */
-    constexpr void operator+= (complex_type c) requires isMutable;
+    constexpr void operator+= (ComplexType c)
+    requires isMutable
+    {
+        const auto& self = *this;
+        *this = self + c;
+    }
 
     /** Subtracts a split-complex vector or expression from this in place. */
     template <is::anySplitComplexVectorOrExpression V>
-    constexpr void operator-= (const V& v) requires isMutable;
+    constexpr void operator-= (const V& v)
+    requires isMutable
+    {
+        const auto& self = *this;
+        *this = self - v;
+    }
 
     /** Subtracts a real constant from the real parts in place. */
-    constexpr void operator-= (value_type c) requires isMutable;
+    constexpr void operator-= (value_type c)
+    requires isMutable
+    {
+        const auto& self = *this;
+        *this = self - ComplexType (c);
+    }
 
     /** Subtracts a complex constant from this in place. */
-    constexpr void operator-= (complex_type c) requires isMutable;
+    constexpr void operator-= (ComplexType c)
+    requires isMutable
+    {
+        const auto& self = *this;
+        *this = self - c;
+    }
 
 private:
     //==============================================================================
@@ -600,8 +669,4 @@ using SplitComplexArray = SplitComplexBase<Array<T, size>>;
 /** A non-owning, mutable view to split complex data. */
 template <is::realFloatNumber T>
 using SplitComplexSpan = SplitComplexBase<Span<T>>;
-
-/** A non-owning, read-only view to split complex data. */
-template <is::realFloatNumber T>
-using SplitComplexConstSpan = SplitComplexBase<Span<const T>>;
 } // namespace vctr
