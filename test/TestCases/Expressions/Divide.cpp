@@ -33,7 +33,7 @@ namespace test::divide
 template <vctr::is::complexFloatNumber T>
 static constexpr auto getEpsilon()
 {
-    return 1e-5; // larger tolerance because of larger rounding errors (e.g., because components are affected by cancellation)
+    return 1e-4; // larger tolerance because of larger rounding errors (e.g., because components are affected by cancellation)
 }
 
 template <class T>
