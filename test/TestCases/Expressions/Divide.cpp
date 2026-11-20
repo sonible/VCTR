@@ -30,10 +30,10 @@
 
 namespace test::divide
 {
-template <vctr::is::complexFloatNumber>
+template <vctr::is::complexFloatNumber T>
 static constexpr auto getEpsilon()
 {
-    return 1e-7f;
+    return std::numeric_limits<vctr::RealType<T>>::epsilon() * 200.0;
 }
 
 template <class T>
