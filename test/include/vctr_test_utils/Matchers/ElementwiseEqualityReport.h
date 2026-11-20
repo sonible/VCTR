@@ -32,6 +32,17 @@ struct ElementwiseEqualityReport
 {
     static constexpr auto maxNumErrorValuesToReport = 5; ///< Maximum number of mismatching values to report in the description.
 
+    static double relativeError (double actual, double expected)
+    {
+        const auto absoluteError = std::abs (actual - expected);
+        const auto scale = std::max (std::abs (actual), std::abs (expected));
+
+        if (scale == 0.0)
+            return absoluteError == 0.0 ? 0.0 : std::numeric_limits<double>::infinity();
+
+        return absoluteError / scale;
+    }
+
     struct Mismatch
     {
         size_t index;
@@ -50,12 +61,18 @@ struct ElementwiseEqualityReport
     std::optional<double> minAbsError = std::nullopt;
     std::optional<double> maxAbsError = std::nullopt;
     std::optional<double> meanAbsErrorAllElements = std::nullopt;
+    std::optional<double> minRelError = std::nullopt;
+    std::optional<double> maxRelError = std::nullopt;
     std::optional<double> minRealAbsError = std::nullopt;
     std::optional<double> maxRealAbsError = std::nullopt;
     std::optional<double> meanRealAbsErrorAllElements = std::nullopt;
+    std::optional<double> minRealRelError = std::nullopt;
+    std::optional<double> maxRealRelError = std::nullopt;
     std::optional<double> minImagAbsError = std::nullopt;
     std::optional<double> maxImagAbsError = std::nullopt;
     std::optional<double> meanImagAbsErrorAllElements = std::nullopt;
+    std::optional<double> minImagRelError = std::nullopt;
+    std::optional<double> maxImagRelError = std::nullopt;
 
     /** Stores the first up to maxNumErrorValuesToReport mismatching values for reporting. */
     Vector<Mismatch> collectedMismatches;
@@ -77,18 +94,26 @@ struct ElementwiseEqualityReport
                 {
                     VCTR_ASSERT (minRealAbsError.has_value() == meanRealAbsErrorAllElements.has_value());
                     VCTR_ASSERT (maxRealAbsError.has_value() == meanRealAbsErrorAllElements.has_value());
+                    VCTR_ASSERT (minRealRelError.has_value() == meanRealAbsErrorAllElements.has_value());
+                    VCTR_ASSERT (maxRealRelError.has_value() == meanRealAbsErrorAllElements.has_value());
                     VCTR_ASSERT (minImagAbsError.has_value() == meanImagAbsErrorAllElements.has_value());
                     VCTR_ASSERT (maxImagAbsError.has_value() == meanImagAbsErrorAllElements.has_value());
+                    VCTR_ASSERT (minImagRelError.has_value() == meanImagAbsErrorAllElements.has_value());
+                    VCTR_ASSERT (maxImagRelError.has_value() == meanImagAbsErrorAllElements.has_value());
 
                     if (meanRealAbsErrorAllElements.has_value() && meanImagAbsErrorAllElements.has_value())
                     {
                         s << "\n  Real component:"
                           << "\n    Minimum absolute error of all mismatches: " << *minRealAbsError
                           << "\n    Maximum absolute error of all mismatches: " << *maxRealAbsError
+                          << "\n    Minimum relative error of all mismatches: " << *minRealRelError
+                          << "\n    Maximum relative error of all mismatches: " << *maxRealRelError
                           << "\n    Mean absolute error of all elements:      " << *meanRealAbsErrorAllElements
                           << "\n  Imaginary component:"
                           << "\n    Minimum absolute error of all mismatches: " << *minImagAbsError
                           << "\n    Maximum absolute error of all mismatches: " << *maxImagAbsError
+                          << "\n    Minimum relative error of all mismatches: " << *minImagRelError
+                          << "\n    Maximum relative error of all mismatches: " << *maxImagRelError
                           << "\n    Mean absolute error of all elements:      " << *meanImagAbsErrorAllElements;
                     }
                 }
@@ -96,11 +121,15 @@ struct ElementwiseEqualityReport
                 {
                     VCTR_ASSERT (minAbsError.has_value() == meanAbsErrorAllElements.has_value());
                     VCTR_ASSERT (maxAbsError.has_value() == meanAbsErrorAllElements.has_value());
+                    VCTR_ASSERT (minRelError.has_value() == meanAbsErrorAllElements.has_value());
+                    VCTR_ASSERT (maxRelError.has_value() == meanAbsErrorAllElements.has_value());
 
                     if (meanAbsErrorAllElements.has_value())
                     {
                         s << "\n  Minimum absolute error of all mismatches: " << *minAbsError
                           << "\n  Maximum absolute error of all mismatches: " << *maxAbsError
+                          << "\n  Minimum relative error of all mismatches: " << *minRelError
+                          << "\n  Maximum relative error of all mismatches: " << *maxRelError
                           << "\n  Mean absolute error of all elements:      " << *meanAbsErrorAllElements;
                     }
                 }
@@ -114,21 +143,31 @@ struct ElementwiseEqualityReport
 
                     for (const auto& mismatch : collectedMismatches)
                     {
-                        s << "\n  At index " << mismatch.index;
+                        constexpr auto labelWidth = 16;
+
+                        s << "\n  At index " << mismatch.index << ":";
 
                         if (mismatch.isComplex)
                         {
-                            s << ": real: actual = " << mismatch.actualReal
-                              << ", expected = " << mismatch.expectedReal
-                              << ", error = " << std::abs (mismatch.actualReal - mismatch.expectedReal)
-                              << "; imaginary: actual = " << mismatch.actualImag
-                              << ", expected = " << mismatch.expectedImag
-                              << ", error = " << std::abs (mismatch.actualImag - mismatch.expectedImag);
+                            s << "\n    Real:"
+                              << "\n      " << std::left << std::setw (labelWidth) << "actual" << " = " << mismatch.actualReal
+                              << "\n      " << std::setw (labelWidth) << "expected" << " = " << mismatch.expectedReal
+                              << "\n      " << std::setw (labelWidth) << "absolute error" << " = " << std::abs (mismatch.actualReal - mismatch.expectedReal)
+                              << "\n      " << std::setw (labelWidth) << "relative error" << " = " << relativeError (mismatch.actualReal, mismatch.expectedReal)
+                              << "\n    Imaginary:"
+                              << "\n      " << std::setw (labelWidth) << "actual" << " = " << mismatch.actualImag
+                              << "\n      " << std::setw (labelWidth) << "expected" << " = " << mismatch.expectedImag
+                              << "\n      " << std::setw (labelWidth) << "absolute error" << " = " << std::abs (mismatch.actualImag - mismatch.expectedImag)
+                              << "\n      " << std::setw (labelWidth) << "relative error" << " = " << relativeError (mismatch.actualImag, mismatch.expectedImag)
+                              << std::right;
                         }
                         else
                         {
-                            s << ": actual = " << mismatch.actualReal
-                              << ", expected = " << mismatch.expectedReal;
+                            s << "\n    " << std::left << std::setw (labelWidth) << "actual" << " = " << mismatch.actualReal
+                              << "\n    " << std::setw (labelWidth) << "expected" << " = " << mismatch.expectedReal
+                              << "\n    " << std::setw (labelWidth) << "absolute error" << " = " << std::abs (mismatch.actualReal - mismatch.expectedReal)
+                              << "\n    " << std::setw (labelWidth) << "relative error" << " = " << relativeError (mismatch.actualReal, mismatch.expectedReal)
+                              << std::right;
                         }
                     }
 
@@ -190,10 +229,16 @@ bool computeElementwiseEqualityReport (ElementwiseEqualityReport& details, size_
 
     auto minAbsError = std::numeric_limits<double>::max();
     auto maxAbsError = 0.0;
+    auto minRelError = std::numeric_limits<double>::max();
+    auto maxRelError = 0.0;
     auto minRealAbsError = std::numeric_limits<double>::max();
     auto maxRealAbsError = 0.0;
+    auto minRealRelError = std::numeric_limits<double>::max();
+    auto maxRealRelError = 0.0;
     auto minImagAbsError = std::numeric_limits<double>::max();
     auto maxImagAbsError = 0.0;
+    auto minImagRelError = std::numeric_limits<double>::max();
+    auto maxImagRelError = 0.0;
 
     for (size_t i = 0; i < numToCompare; ++i)
     {
@@ -241,13 +286,19 @@ bool computeElementwiseEqualityReport (ElementwiseEqualityReport& details, size_
             {
                 minRealAbsError = std::min (minRealAbsError, realAbsError);
                 maxRealAbsError = std::max (maxRealAbsError, realAbsError);
+                minRealRelError = std::min (minRealRelError, ElementwiseEqualityReport::relativeError (actual.real(), reference.real()));
+                maxRealRelError = std::max (maxRealRelError, ElementwiseEqualityReport::relativeError (actual.real(), reference.real()));
                 minImagAbsError = std::min (minImagAbsError, imagAbsError);
                 maxImagAbsError = std::max (maxImagAbsError, imagAbsError);
+                minImagRelError = std::min (minImagRelError, ElementwiseEqualityReport::relativeError (actual.imag(), reference.imag()));
+                maxImagRelError = std::max (maxImagRelError, ElementwiseEqualityReport::relativeError (actual.imag(), reference.imag()));
             }
             else
             {
                 minAbsError = std::min (minAbsError, absError);
                 maxAbsError = std::max (maxAbsError, absError);
+                minRelError = std::min (minRelError, ElementwiseEqualityReport::relativeError (actual, reference));
+                maxRelError = std::max (maxRelError, ElementwiseEqualityReport::relativeError (actual, reference));
             }
 
             if (details.collectedMismatches.size() < ElementwiseEqualityReport::maxNumErrorValuesToReport)
@@ -273,8 +324,12 @@ bool computeElementwiseEqualityReport (ElementwiseEqualityReport& details, size_
         {
             details.minRealAbsError = minRealAbsError;
             details.maxRealAbsError = maxRealAbsError;
+            details.minRealRelError = minRealRelError;
+            details.maxRealRelError = maxRealRelError;
             details.minImagAbsError = minImagAbsError;
             details.maxImagAbsError = maxImagAbsError;
+            details.minImagRelError = minImagRelError;
+            details.maxImagRelError = maxImagRelError;
 
             if (numToCompare > 0 && details.hasErrorStats)
             {
@@ -286,6 +341,8 @@ bool computeElementwiseEqualityReport (ElementwiseEqualityReport& details, size_
         {
             details.minAbsError = minAbsError;
             details.maxAbsError = maxAbsError;
+            details.minRelError = minRelError;
+            details.maxRelError = maxRelError;
 
             if (numToCompare > 0 && details.hasErrorStats)
                 details.meanAbsErrorAllElements = sumAbsErrorAllElements / double (numToCompare);
