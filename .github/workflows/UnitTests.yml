@@ -142,6 +142,34 @@ jobs:
         run: choco install ninja -y && pip3 install conan
         if: runner.os == 'Windows'
 
+      - name: (Windows) Install MSVC 14.51
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $installerDir = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer"
+          $vsPath = & "$installerDir\vswhere.exe" -products '*' -latest -prerelease -property installationPath
+          if (-not $vsPath) { throw "Visual Studio installation not found" }
+
+          $toolsDir = Join-Path $vsPath 'VC\Tools\MSVC'
+          $compiler = 'bin\Hostx64\x64\cl.exe'
+          $installed = Get-ChildItem $toolsDir -Directory -Filter '14.51.*' -ErrorAction SilentlyContinue |
+            Where-Object { Test-Path (Join-Path $_.FullName $compiler) }
+
+          if (-not $installed) {
+            $process = Start-Process -FilePath "$installerDir\setup.exe" -Wait -PassThru -ArgumentList @(
+              'modify', '--installPath', "`"$vsPath`"",
+              '--add', 'Microsoft.VisualStudio.Component.VC.14.51.x86.x64',
+              '--quiet', '--norestart'
+            )
+            if ($process.ExitCode -ne 0) {
+              throw "Visual Studio installer failed or requires a restart: $($process.ExitCode)"
+            }
+            $installed = Get-ChildItem $toolsDir -Directory -Filter '14.51.*' -ErrorAction SilentlyContinue |
+              Where-Object { Test-Path (Join-Path $_.FullName $compiler) }
+            if (-not $installed) { throw "MSVC 14.51 compiler not found after installation" }
+          }
+          $installed | ForEach-Object { Write-Host "Found MSVC $($_.Name)" }
+
       # Clang 20 is rejected by the VS 18 14.52 STL; 14.51 remains compatible.
       - name: (Windows) Configure dev environment variables
         uses: ilammy/msvc-dev-cmd@v1
