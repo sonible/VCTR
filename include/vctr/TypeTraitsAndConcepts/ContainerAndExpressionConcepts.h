@@ -46,6 +46,12 @@ template <class E, class S, size_t e, class I>
 struct AnyVctr<VctrBase<E, S, e, I>> : std::true_type {};
 
 template <class T>
+struct IsVector : std::false_type {};
+
+template <class T, template <class> class A>
+struct IsVector<Vector<T, A>> : std::true_type {};
+
+template <class T>
 struct IsSpan : std::false_type {};
 
 template <class T, size_t n, class S>
@@ -279,6 +285,10 @@ concept stdSpan = detail::IsStdSpan<T>::value;
 /** Constrains a type to be a view rather than an owning container. True for vctr::Span and std::span */
 template <class T>
 concept view = detail::IsSpan<T>::value || detail::IsStdSpan<T>::value;
+
+/** Constrains a type to be any instance of vctr::Vector (not std::vector). */
+template <class T>
+concept vctrVector = detail::IsVector<T>::value;
 
 //==============================================================================
 /** Constrains a type to be an expression template that defines evalNextVectorOpInExpressionChain for DstType. */
