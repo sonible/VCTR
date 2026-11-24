@@ -691,7 +691,8 @@ template&lt;is::constant DecibelConstant&gt; </div>
 </div><div class="memdoc">
 
 <p>Computes e (Euler's number, 2.7182818...) raised to the source vector elements power. </p>
-
+<p>Works for real and complex source values. Integer source values are transformed into float values. For a complex source value src = a + ib, the result is: </p><pre class="fragment">exp (src) = exp (a) * (cos (b) + i * sin (b))
+</pre> 
 </div>
 </div>
 <a id="ga07452e4928d888bdcadf45a6e6ea5473" name="ga07452e4928d888bdcadf45a6e6ea5473"></a>
