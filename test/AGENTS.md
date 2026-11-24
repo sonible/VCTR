@@ -27,6 +27,10 @@ TEMPLATE_PRODUCT_TEST_CASE ("MyOp", "[VCTR][Expressions][myOp]", (PlatformVector
 - Prefer `vctr::EqualsMappedBy (fn, srcs...)` (any callable, n sources) over the older `EqualsTransformedBy<fn>`;
   other matchers: `vctr::Equals`, `vctr::AllElementsEqualTo` (all in `include/vctr_test_utils/Matchers/`).
 - Test vec-vec, vec-scalar, scalar-vec and constant variants in separate `SECTION`s (see `Expressions/Pow.cpp`).
+- Test results, not implementation details. Don't assert in tests which evaluation path an expression takes, e.g. no
+  `static_assert (vctr::has::evalNextVectorOpInExpressionChain<...>)` or `if constexpr (vctr::Config::platformApple)`
+  blocks. The `filter` selects the path and the mutation check below proves it is covered. If you find that a path
+  can't be reached, fix the implementation and mention it when reporting instead of encoding it in the test.
 
 ## Mutation check
 
