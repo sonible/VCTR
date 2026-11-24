@@ -3172,6 +3172,47 @@ template&lt;is::anyVctrOrExpression Src&gt; </div>
 
 </div>
 </div>
+<a id="gab30ac4ae0e824c09df5f9a9ac5d0cb8b" name="gab30ac4ae0e824c09df5f9a9ac5d0cb8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab30ac4ae0e824c09df5f9a9ac5d0cb8b">&#9670;&#160;</a></span>realImagToComplex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anyVctrOrExpression RealType, is::anyVctrOrExpression ImagType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::realImagToComplex </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacevctr.html#abbf99aea4bbfba08d526a19614f28516">RealType</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>real</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ImagType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>imag</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Combines a sequence of real parts and a sequence of imaginary parts into a sequence of complex numbers. </p>
+<p>When both sources are containers, Apple Accelerate (vDSP_ztoc) resp. Intel IPP (ippsRealToCplx) is used. </p>
+
+</div>
+</div>
 <a id="gabb50d401dbd423eb0b950b7c98389172" name="gabb50d401dbd423eb0b950b7c98389172"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gabb50d401dbd423eb0b950b7c98389172">&#9670;&#160;</a></span>splitComplexConjugate()</h2>
 

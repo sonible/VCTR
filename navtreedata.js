@@ -128,6 +128,7 @@ var NAVTREE =
     [ "pow", "group__Expressions.html#ga3b49d9d6f6070cc6a9af10c8c167cc35", null ],
     [ "pow", "group__Expressions.html#ga9bee671c8b09c5aa9d952e8529e47e8b", null ],
     [ "pow", "group__Expressions.html#gacd4fec61c0c7d256340f9483a17d13eb", null ],
+    [ "realImagToComplex", "group__Expressions.html#gab30ac4ae0e824c09df5f9a9ac5d0cb8b", null ],
     [ "scalarCompare", "namespacevctr.html#a8966294740ae409c8e6ffcb15c1aba1a", null ],
     [ "simdAlignedSpanStorageInfo", "namespacevctr.html#abb0c57eb1dc57e153788f2a8631ed6a6", null ],
     [ "sizeToInt", "namespacevctr.html#aecbd148207a93e819482375969ad3db9", null ],
@@ -248,7 +249,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classvctr_1_1OwnedVector.html#aebfff322866872974a2d7249720e5ae0",
-"conceptvctr_1_1is_1_1anyVctrWithComplexFloatValueType.html"
+"conceptvctr_1_1is_1_1anyVctrOrExpression.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

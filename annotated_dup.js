@@ -64,6 +64,7 @@ var annotated_dup =
         [ "PowVectors", "classvctr_1_1expressions_1_1PowVectors.html", null ],
         [ "Product", "classvctr_1_1expressions_1_1Product.html", null ],
         [ "Real", "classvctr_1_1expressions_1_1Real.html", null ],
+        [ "RealImagToComplex", "classvctr_1_1expressions_1_1RealImagToComplex.html", null ],
         [ "RealToComplex", "classvctr_1_1expressions_1_1RealToComplex.html", null ],
         [ "RootMeanSquare", "classvctr_1_1expressions_1_1RootMeanSquare.html", null ],
         [ "SignedSqrt", "classvctr_1_1expressions_1_1SignedSqrt.html", null ],
