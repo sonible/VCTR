@@ -174,6 +174,7 @@ public:
     static void angle         (const std::complex<float>* src,                                  float* dst,               int len) { assertIppNoErr (ippsPhase_32fc (fc (src), dst, len)); }
     static void powerSpectrum (const std::complex<float>* src,                                  float* dst,               int len) { assertIppNoErr (ippsPowerSpectr_32fc (fc (src), dst, len)); }
     static void conj          (const std::complex<float>* src,                                  std::complex<float>* dst, int len) { assertIppNoErr (ippsConj_32fc (fc (src), fc (dst), len)); }
+    static void exp           (const std::complex<float>* src,                                  std::complex<float>* dst, int len) { assertIppNoErr (ippsExp_32fc_A24 (fc (src), fc (dst), len)); }
     static void pow           (const std::complex<float>* base, const std::complex<float>* exp, std::complex<float>* dst, int len) { assertIppNoErr (ippsPow_32fc_A24 (fc (base), fc (exp), fc (dst), len)); }
     static void pow           (const std::complex<float>* base, std::complex<float> exp,        std::complex<float>* dst, int len) { assertIppNoErr (ippsPowx_32fc_A24 (fc (base), fc (exp), fc (dst), len)); }
     static void sqrt          (const std::complex<float>* src,                                  std::complex<float>* dst, int len) { assertIppNoErr (ippsSqrt_32fc (fc (src), fc (dst), len)); }
@@ -222,6 +223,7 @@ public:
     static void angle         (const std::complex<double>* src,                                   double* dst,               int len) { assertIppNoErr (ippsPhase_64fc (fc (src), dst, len)); }
     static void powerSpectrum (const std::complex<double>* src,                                   double* dst,               int len) { assertIppNoErr (ippsPowerSpectr_64fc (fc (src), dst, len)); }
     static void conj          (const std::complex<double>* src,                                   std::complex<double>* dst, int len) { assertIppNoErr (ippsConj_64fc (fc (src), fc (dst), len)); }
+    static void exp           (const std::complex<double>* src,                                   std::complex<double>* dst, int len) { assertIppNoErr (ippsExp_64fc_A53 (fc (src), fc (dst), len)); }
     static void pow           (const std::complex<double>* base, const std::complex<double>* exp, std::complex<double>* dst, int len) { assertIppNoErr (ippsPow_64fc_A53 (fc (base), fc (exp), fc (dst), len)); }
     static void pow           (const std::complex<double>* base, std::complex<double> exp,        std::complex<double>* dst, int len) { assertIppNoErr (ippsPowx_64fc_A53 (fc (base), fc (exp), fc (dst), len)); }
     static void sqrt          (const std::complex<double>* src,                                   std::complex<double>* dst, int len) { assertIppNoErr (ippsSqrt_64fc (fc (src), fc (dst), len)); }
