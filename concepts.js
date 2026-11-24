@@ -72,6 +72,7 @@ var concepts =
         [ "suitableForAccelerateComplexFloatVectorOp", "conceptvctr_1_1is_1_1suitableForAccelerateComplexFloatVectorOp.html", null ],
         [ "suitableForAccelerateRealOrComplexFloatVectorOp", "conceptvctr_1_1is_1_1suitableForAccelerateRealOrComplexFloatVectorOp.html", null ],
         [ "suitableForAccelerateComplexToRealFloatVectorOp", "conceptvctr_1_1is_1_1suitableForAccelerateComplexToRealFloatVectorOp.html", null ],
+        [ "suitableForAccelerateRealToComplexFloatVectorOp", "conceptvctr_1_1is_1_1suitableForAccelerateRealToComplexFloatVectorOp.html", null ],
         [ "suitableForAccelerateRealIntToFloatVectorOp", "conceptvctr_1_1is_1_1suitableForAccelerateRealIntToFloatVectorOp.html", null ],
         [ "suitableForAccelerateRealFloatVectorReductionOp", "conceptvctr_1_1is_1_1suitableForAccelerateRealFloatVectorReductionOp.html", null ],
         [ "suitableForIppRealFloatVectorOp", "conceptvctr_1_1is_1_1suitableForIppRealFloatVectorOp.html", null ],

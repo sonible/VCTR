@@ -3174,7 +3174,7 @@ template&lt;is::anyVctrOrExpression Src&gt; </div>
 </div>
 </div>
 <a id="gab30ac4ae0e824c09df5f9a9ac5d0cb8b" name="gab30ac4ae0e824c09df5f9a9ac5d0cb8b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab30ac4ae0e824c09df5f9a9ac5d0cb8b">&#9670;&#160;</a></span>realImagToComplex()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#gab30ac4ae0e824c09df5f9a9ac5d0cb8b">&#9670;&#160;</a></span>realImagToComplex() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3210,7 +3210,44 @@ template&lt;is::anyVctrOrExpression RealType, is::anyVctrOrExpression ImagType&g
 </div><div class="memdoc">
 
 <p>Combines a sequence of real parts and a sequence of imaginary parts into a sequence of complex numbers. </p>
-<p>When both sources are containers, Apple Accelerate (vDSP_ztoc) resp. Intel IPP (ippsRealToCplx) is used. </p>
+<p>When both sources are containers, Apple Accelerate (vDSP_ztoc) resp. Intel IPP (ippsRealToCplx) is used.</p>
+<p>To convert a split-complex container or expression (see <a class="el" href="classvctr_1_1SplitComplexBase.html" title="A container for complex values that stores the real and imaginary parts in two separate,...">SplitComplexBase</a>) into interleaved values, use the realImagToComplex (SrcType&amp;&amp;) overload. To go the other way, construct or assign a split-complex container from the interleaved container. </p>
+
+</div>
+</div>
+<a id="ga72bc177ce449e47d56cdd067aa6887ad" name="ga72bc177ce449e47d56cdd067aa6887ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga72bc177ce449e47d56cdd067aa6887ad">&#9670;&#160;</a></span>realImagToComplex() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::realImagToComplex </td>
+          <td>(</td>
+          <td class="paramtype">SrcType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>src</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that converts a split-complex source into interleaved std::complex values. </p>
+<p>This is the counterpart of constructing a split-complex container from an interleaved container. Assigning a split-complex expression evaluates it directly into the interleaved destination, without a split-complex intermediate buffer, e.g.</p>
+<div class="fragment"><div class="line"><a class="code hl_class" href="classvctr_1_1Vector.html">vctr::Vector&lt;std::complex&lt;float&gt;</a>&gt; <a class="code hl_variable" href="group__Expressions.html#gadf6fcf508e6ecb24be32e479ae6660a7">product</a> = <a class="code hl_function" href="group__Expressions.html#ga72bc177ce449e47d56cdd067aa6887ad">vctr::realImagToComplex</a> (a * b);</div>
+<div class="ttc" id="aclassvctr_1_1Vector_html"><div class="ttname"><a href="classvctr_1_1Vector.html">vctr::Vector</a></div><div class="ttdoc">The heap-allocated container type.</div><div class="ttdef"><b>Definition:</b> Vector.h:99</div></div>
+<div class="ttc" id="agroup__Expressions_html_ga72bc177ce449e47d56cdd067aa6887ad"><div class="ttname"><a href="group__Expressions.html#ga72bc177ce449e47d56cdd067aa6887ad">vctr::realImagToComplex</a></div><div class="ttdeci">constexpr auto realImagToComplex(SrcType &amp;&amp;src)</div><div class="ttdoc">Returns an expression that converts a split-complex source into interleaved std::complex values.</div><div class="ttdef"><b>Definition:</b> SplitComplexMath.h:206</div></div>
+<div class="ttc" id="agroup__Expressions_html_gadf6fcf508e6ecb24be32e479ae6660a7"><div class="ttname"><a href="group__Expressions.html#gadf6fcf508e6ecb24be32e479ae6660a7">vctr::product</a></div><div class="ttdeci">constexpr ExpressionChainBuilder&lt; expressions::Product &gt; product</div><div class="ttdoc">Computes the product of the source values.</div><div class="ttdef"><b>Definition:</b> Product.h:102</div></div>
+</div><!-- fragment --><p>If the source is a split-complex container, its real and imaginary parts are passed on to realImagToComplex (RealType&amp;&amp;, ImagType&amp;&amp;) as spans, so Apple Accelerate or Intel IPP is used if available. </p>
 
 </div>
 </div>

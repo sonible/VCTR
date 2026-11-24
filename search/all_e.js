@@ -5,7 +5,7 @@ var searchData=
   ['real_2',['real',['../group__Expressions.html#gae4fc0dae0a600f82c768b555dcf6ea69',1,'vctr::real()'],['../classvctr_1_1SplitComplexBase.html#a3d8ff161fe3b30656ae62f64f7ccc8b6',1,'vctr::SplitComplexBase::real()'],['../classvctr_1_1SplitComplexBase.html#a6f3d89bd075a7892f5cc0287d6d12a83',1,'vctr::SplitComplexBase::real() const'],['../structvctr_1_1SplitComplexExpression.html#ae200d584112bfc42e856026006a72908',1,'vctr::SplitComplexExpression::real() const'],['../structvctr_1_1SplitComplexExpression.html#a92baf128c330bfb4a45bfbd54ceda5d1',1,'vctr::SplitComplexExpression::real()']]],
   ['real_3',['Real',['../classvctr_1_1expressions_1_1Real.html',1,'vctr::expressions']]],
   ['realexpression_4',['realExpression',['../structvctr_1_1SplitComplexExpression.html#a8ee9b544770f31a0df94d44132894805',1,'vctr::SplitComplexExpression']]],
-  ['realimagtocomplex_5',['realImagToComplex',['../group__Expressions.html#gab30ac4ae0e824c09df5f9a9ac5d0cb8b',1,'vctr']]],
+  ['realimagtocomplex_5',['realImagToComplex',['../group__Expressions.html#gab30ac4ae0e824c09df5f9a9ac5d0cb8b',1,'vctr::realImagToComplex(RealType &amp;&amp;real, ImagType &amp;&amp;imag)'],['../group__Expressions.html#ga72bc177ce449e47d56cdd067aa6887ad',1,'vctr::realImagToComplex(SrcType &amp;&amp;src)']]],
   ['realimagtocomplex_6',['RealImagToComplex',['../classvctr_1_1expressions_1_1RealImagToComplex.html',1,'vctr::expressions']]],
   ['realtocomplex_7',['realToComplex',['../group__Expressions.html#gab6416b37ceb85eeb4b9f8bbe6c059e02',1,'vctr']]],
   ['realtocomplex_8',['RealToComplex',['../classvctr_1_1expressions_1_1RealToComplex.html',1,'vctr::expressions']]],
