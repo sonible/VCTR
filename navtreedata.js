@@ -25,28 +25,28 @@
 var NAVTREE =
 [
   [ "VCTR", "index.html", [
-    [ "What it is all about?", "index.html#autotoc_md11", [
-      [ "Containers and views", "index.html#autotoc_md12", null ],
-      [ "(Math) Expressions", "index.html#autotoc_md13", null ],
-      [ "Member functions", "index.html#autotoc_md14", null ],
-      [ "Passing VCTR types as function arguments", "index.html#autotoc_md15", null ]
+    [ "What it is all about?", "index.html#autotoc_md22", [
+      [ "Containers and views", "index.html#autotoc_md23", null ],
+      [ "(Math) Expressions", "index.html#autotoc_md24", null ],
+      [ "Member functions", "index.html#autotoc_md25", null ],
+      [ "Passing VCTR types as function arguments", "index.html#autotoc_md26", null ]
     ] ],
-    [ "Integrating VCTR into your project", "index.html#autotoc_md16", [
-      [ "Integration into CMake based projects", "index.html#autotoc_md17", null ],
-      [ "Dependencies and Requirements", "index.html#autotoc_md18", [
-        [ "Apple Accelerate", "index.html#autotoc_md19", null ],
-        [ "Intel IPP", "index.html#autotoc_md20", null ],
-        [ "GCE-Math", "index.html#autotoc_md21", null ]
+    [ "Integrating VCTR into your project", "index.html#autotoc_md27", [
+      [ "Integration into CMake based projects", "index.html#autotoc_md28", null ],
+      [ "Dependencies and Requirements", "index.html#autotoc_md29", [
+        [ "Apple Accelerate", "index.html#autotoc_md30", null ],
+        [ "Intel IPP", "index.html#autotoc_md31", null ],
+        [ "GCE-Math", "index.html#autotoc_md32", null ]
       ] ],
-      [ "Manual Setup", "index.html#autotoc_md22", null ]
+      [ "Manual Setup", "index.html#autotoc_md33", null ]
     ] ],
-    [ "Building unit tests and demo project", "index.html#autotoc_md23", null ],
-    [ "Contributing", "index.html#autotoc_md24", [
-      [ "Project structure", "index.html#autotoc_md25", null ],
-      [ "Naming conventions", "index.html#autotoc_md26", null ],
-      [ "extent", "index.html#autotoc_md27", null ]
+    [ "Building unit tests and demo project", "index.html#autotoc_md34", null ],
+    [ "Contributing", "index.html#autotoc_md35", [
+      [ "Project structure", "index.html#autotoc_md36", null ],
+      [ "Naming conventions", "index.html#autotoc_md37", null ],
+      [ "extent", "index.html#autotoc_md38", null ]
     ] ],
-    [ "License information", "index.html#autotoc_md28", null ],
+    [ "License information", "index.html#autotoc_md39", null ],
     [ "Core Types", "group__Core.html", null ],
     [ "Vector Expressions", "group__Expressions.html", null ],
     [ "audioBufferChannelAsSpan", "namespacevctr_1_1juce__helpers.html#ab8c17b88cbbe69c92e848c0ea483e960", null ],
@@ -164,6 +164,7 @@ var NAVTREE =
     [ "powConstantExponent", "group__Expressions.html#gadc712a3c1ecf10913b0b0be0d2e4f905", null ],
     [ "powConstantExponentRef", "group__Expressions.html#gae1547451911fafc76caf7cbcdab5fed4", null ],
     [ "powerSpectrum", "group__Expressions.html#gaf5ec582bc24648aa5087f73f8eaeb651", null ],
+    [ "product", "group__Expressions.html#gadf6fcf508e6ecb24be32e479ae6660a7", null ],
     [ "real", "group__Expressions.html#gae4fc0dae0a600f82c768b555dcf6ea69", null ],
     [ "realToComplex", "group__Expressions.html#gab6416b37ceb85eeb4b9f8bbe6c059e02", null ],
     [ "rms", "group__Expressions.html#ga461b990c1ec58299e9e7bb7ae367fd13", null ],
@@ -194,16 +195,31 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Concepts", "concepts.html", "concepts" ],
+    [ "VCTR", "md_AGENTS.html", [
+      [ "Build & test", "md_AGENTS.html#autotoc_md1", [
+        [ "Verify script (preferred for agents)", "md_AGENTS.html#autotoc_md2", null ]
+      ] ],
+      [ "Layout", "md_AGENTS.html#autotoc_md3", null ],
+      [ "Conventions", "md_AGENTS.html#autotoc_md4", null ],
+      [ "Testing", "md_AGENTS.html#autotoc_md5", null ]
+    ] ],
+    [ "CLAUDE", "md_CLAUDE.html", null ],
+    [ "Writing expression templates", "md_include_vctr_Expressions_AGENTS.html", [
+      [ "Skeleton (unary)", "md_include_vctr_Expressions_AGENTS.html#autotoc_md7", null ],
+      [ "Rules that cause most compile errors", "md_include_vctr_Expressions_AGENTS.html#autotoc_md8", null ],
+      [ "Accelerated paths (all optional, <tt>operator[]</tt> is the always-available fallback)", "md_include_vctr_Expressions_AGENTS.html#autotoc_md9", null ],
+      [ "Variants", "md_include_vctr_Expressions_AGENTS.html#autotoc_md10", null ]
+    ] ],
     [ "How Expression templates work", "md_include_vctr_Expressions_Readme.html", [
-      [ "Creating an <tt>ExpressionChainBuilder</tt> instance", "md_include_vctr_Expressions_Readme.html#autotoc_md1", null ],
-      [ "Binary expressions", "md_include_vctr_Expressions_Readme.html#autotoc_md2", null ],
-      [ "Using alternative approaches to evaluate the expression", "md_include_vctr_Expressions_Readme.html#autotoc_md3", null ],
-      [ "Platform Specific Vector Operations", "md_include_vctr_Expressions_Readme.html#autotoc_md4", null ],
-      [ "Reduction expressions", "md_include_vctr_Expressions_Readme.html#autotoc_md5", null ]
+      [ "Creating an <tt>ExpressionChainBuilder</tt> instance", "md_include_vctr_Expressions_Readme.html#autotoc_md12", null ],
+      [ "Binary expressions", "md_include_vctr_Expressions_Readme.html#autotoc_md13", null ],
+      [ "Using alternative approaches to evaluate the expression", "md_include_vctr_Expressions_Readme.html#autotoc_md14", null ],
+      [ "Platform Specific Vector Operations", "md_include_vctr_Expressions_Readme.html#autotoc_md15", null ],
+      [ "Reduction expressions", "md_include_vctr_Expressions_Readme.html#autotoc_md16", null ]
     ] ],
     [ "platform_vec_ops", "md_include_vctr_PlatformVectorOps_Readme.html", [
-      [ "Using them in expressions", "md_include_vctr_PlatformVectorOps_Readme.html#autotoc_md7", null ],
-      [ "Safe int casting", "md_include_vctr_PlatformVectorOps_Readme.html#autotoc_md8", null ]
+      [ "Using them in expressions", "md_include_vctr_PlatformVectorOps_Readme.html#autotoc_md18", null ],
+      [ "Safe int casting", "md_include_vctr_PlatformVectorOps_Readme.html#autotoc_md19", null ]
     ] ],
     [ "vctr_utils", "md_include_vctr_utils_Readme.html", null ]
   ] ]
@@ -213,7 +229,7 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classvctr_1_1OwnedVector.html#aebfff322866872974a2d7249720e5ae0",
-"conceptvctr_1_1is_1_1comparableBy.html"
+"conceptvctr_1_1is_1_1binaryCaseDistinctionConfig.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

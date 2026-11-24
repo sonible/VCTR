@@ -95,13 +95,13 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_Readme"></a> A powerful C++ 20 wrapper around your favorite standard library containers. This library is currently under active development, expect a 95% stable API in the current state.</p>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md22"></a>
 What it is all about?</h1>
 <p>VCTR is a library that makes working with vectors of any kind extremely expressive and easy while creating extremely well optimized code at the same time. We at sonible build real-time audio processing applications where we care a lot about code that is guaranteed to be heap allocation free, so a major part of the functionality was designed with that goal in mind. In order to be compatible to existing code that uses containers from the C++ standard library, we try to wrap classes from the standard library wherever possible. The VCTR project has two main building blocks:</p>
-<h2><a class="anchor" id="autotoc_md12"></a>
+<h2><a class="anchor" id="autotoc_md23"></a>
 Containers and views</h2>
 <p>VCTR has two container class templates: <code><a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">vctr::Vector</a></code>, a <code>std::vector</code> backed resizable heap allocated container and <code><a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">vctr::Array</a></code>, a <code>std::array</code> backed fixed size stack container. Besides that, it also has a class template that can act as a view to externally owned data which is <code><a class="el" href="classvctr_1_1Span.html" title="The view type.">vctr::Span</a></code>, a <code>std::span</code> backed class which however derives from the same base class as <code><a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">vctr::Vector</a></code> and <code><a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">vctr::Array</a></code>. That common base class makes it easy to work on both, data contained in VCTR containers and data from external non-VCTR APIs.</p>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 (Math) Expressions</h2>
 <p>Most of the time when working with vectors, we want to call a certain function on all elements of a vector, perform element wise computations to combine the values of multiple source vectors, reduce the content of a vector or often a combination from all of these tasks. Expressions aim to offer a straightforward syntax for chained modifications on vectors while avoiding the creation of intermediate temporary vectors at all cost.</p>
 <p>Let's look at a first example: </p><div class="fragment"><div class="line"> {c++}</div>
@@ -133,7 +133,7 @@ Containers and views</h2>
 <div class="line">const vctr::Vector strings = vctr::transformedBy ([] (auto n) { return std::to_string (n); }) &lt;&lt; numbers;</div>
 </div><!-- fragment --><p><code>strings</code> will now be a <code><a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">vctr::Vector</a>&lt;std::string&gt;</code>containing string representations of all elements from <code>numbers</code>.</p>
 <p>For an overview of all available expressions, there is an <a href="https://sonible.github.io/VCTR/group__Expressions.html">Expressions section in the documentation</a>.</p>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md25"></a>
 Member functions</h2>
 <p>Besides the expressions, VCTR also offers quite a few member functions on the container and view classes. First of all, every member function from the wrapped standard library classes is forwarded. We decided to stick to the standards library <code>snake_case</code> style for them, although the VCTR project uses <code>camelCase</code> for member functions everywhere else. This makes it easy to identify such forwarded member functions of <code>std::vector</code>, <code>std::array</code> and <code>std::span</code>. On top of that, VCTR adds a lot of convenient functions that make tasks like finding and rearranging elements, accessing sub-spans of a vector and in case of <code><a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">vctr::Vector</a></code> adding and removing elements: </p><div class="fragment"><div class="line"> {c++}</div>
 <div class="line">vctr::Vector numbers { 1, 2, 3, 4, 5, 6, 7, 8 };</div>
@@ -156,7 +156,7 @@ Member functions</h2>
 <div class="line">// A compact alternative to a classic for loop, numbers becomes [ 1, 0, 0, 1, 0, 0 ]</div>
 <div class="line">numbers.forEach ([] (auto&amp; n) -&gt; void { n %= 2; });</div>
 </div><!-- fragment --><p>For an overview of all available member functions, have a look at the <a href="https://sonible.github.io/VCTR/group__Core.html">Core Types section in the documentation</a>.</p>
-<h2><a class="anchor" id="autotoc_md15"></a>
+<h2><a class="anchor" id="autotoc_md26"></a>
 Passing VCTR types as function arguments</h2>
 <p>If you want to write functions that take VCTR types as arguments, you have multiple options. If you care about maximum performance, it's recommended to write a function template and pass it as concept constrained template: </p><div class="fragment"><div class="line"> {c++}</div>
 <div class="line">template &lt;vctr::is::anyVctr T&gt;</div>
@@ -190,12 +190,12 @@ Passing VCTR types as function arguments</h2>
 <div class="line">void readAndWrite (const vctr::Span&lt;const float&gt;&amp; src, const vctr::Span&lt;float&gt;&amp; dst);</div>
 </div><!-- fragment --><p><code><a class="el" href="classvctr_1_1Span.html" title="The view type.">vctr::Span</a></code> has implicit constructors that will make a wide range of arguments silently convert to these types, which makes the above approach suitable for cases where non-vctr source and destination containers are involved.</p>
 <p>Last but not least, there might be cases where the exact container type is known. In that case, it's of course also a solid approach to just pass the exact types by reference.</p>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md27"></a>
 Integrating VCTR into your project</h1>
 <p>VCTR is a CMake based header-only C++ 20 library. The recommended way to use it is to add it as a git submodule in your project:</p>
 <div class="fragment"><div class="line"># in project root</div>
 <div class="line">git submodule add git@github.com:sonible/VCTR.git third_party/vctr</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md17"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md28"></a>
 Integration into CMake based projects</h2>
 <p>If your project uses CMake, you can simply add it to your CMake project using the <code>add_subdirectory</code> command and link against the <code>sonible::vctr</code> target:</p>
 <div class="fragment"><div class="line"># CMakeLists.txt</div>
@@ -233,7 +233,7 @@ Integration into CMake based projects</h2>
 <div class="line">}</div>
 </div><!-- fragment --><p>You should be ready to use VCTR now!</p>
 <p>In most cases you simply want to <code>#include &lt;<a class="el" href="vctr_8h_source.html">vctr/vctr.h</a>&gt;</code>. If you only want to access the forward declarations of the public types you can <code>#include &lt;<a class="el" href="vctr__forward__declarations_8h_source.html">vctr/vctr_forward_declarations.h</a>&gt;</code> as a lightweight alternative.</p>
-<h2><a class="anchor" id="autotoc_md18"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 Dependencies and Requirements</h2>
 <p>VCTR is using cutting-edge C++ library features and needs a recent compiler to work properly. It is currently tested with the following compilers:</p><ul>
 <li>Clang 15+</li>
@@ -242,10 +242,10 @@ Dependencies and Requirements</h2>
 <li>XCode 14+</li>
 </ul>
 <p>In order to achieve high performance, VCTR uses two platform specific vector operation libraries, these are:</p>
-<h3><a class="anchor" id="autotoc_md19"></a>
+<h3><a class="anchor" id="autotoc_md30"></a>
 Apple Accelerate</h3>
 <p>On Apple systems the <a href="https://developer.apple.com/documentation/accelerate">Accelerate</a> framework is a required dependency. If you are using VCTR using CMake, the framework will be linked and used automatically; no configuration is necessary.</p>
-<h3><a class="anchor" id="autotoc_md20"></a>
+<h3><a class="anchor" id="autotoc_md31"></a>
 Intel IPP</h3>
 <p><a href="https://www.intel.com/content/www/us/en/developer/tools/oneapi/ipp.html">Intel IPP</a> is an optional dependency that is available on Intel (x64) systems. All VCTR features will work without it, but you might see an increase in performance.</p>
 <p>To install IPP, please follow the instructions on the intel website or install it using python: <code>pip3 install ipp-static</code>.</p>
@@ -257,12 +257,12 @@ Intel IPP</h3>
 <div class="line"># or in case of non-standard IPP install location</div>
 <div class="line">cmake . -B build -D VCTR_AUTOLINK_IPP=1 -D VCTR_IPP_ROOT=/path/to/ipp</div>
 </div><!-- fragment --><p>There might be cases where you want to integrate VCTR into a project that already links against IPP itself. In that case you have to do nothing special. VCTR will try to use IPP as soon as it can resolve the <code>ipp.h</code> header. In case you want to disable usage of IPP even if the headers are available, define the <code>VCTR_USE_IPP</code> preprocessor flag to <code>0</code>.</p>
-<h3><a class="anchor" id="autotoc_md21"></a>
+<h3><a class="anchor" id="autotoc_md32"></a>
 GCE-Math</h3>
 <p>GCE-Math (Generalized Constant Expression Math) is a templated C++ library enabling compile-time computation of mathematical functions. The header only <a href="https://github.com/kthohr/gcem">gcem library</a> is an optional dependency that allows us to use a lof of VCTRs math functions as <code>constexpr</code> to perform computations in compile time evaluated contexts.</p>
 <p>VCTR will try to use GCE-Math as soon as it can resolve the <code>gcem.hpp</code> header. The easiest way to achieve that is to integrate GCE-Math via CMake and link against the <code>gcem</code> CMake target. In case you want to disable usage of GCE-Math even if the headers are available, define the <code>VCTR_USE_GCEM</code> preprocessor flag to <code>0</code>.</p>
 <p>Note that the minimum required version of GCE-Math is 1.16.0.</p>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md33"></a>
 Manual Setup</h2>
 <p>The documentation up until this point assumes that VCTR is used in a CMake-based project. If you however use a different setup, you can follow the steps below to use this library:</p>
 <ul>
@@ -278,7 +278,7 @@ Manual Setup</h2>
 <p>In case you want to enable GCE-Math:</p><ul>
 <li>Add an installation of GCE-Math 1.16.0 or higher to your header search path</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="autotoc_md34"></a>
 Building unit tests and demo project</h1>
 <p>It is also possible to access a demo project that showcases some of VCTR's features. To build the demo project, export the project using the <code>-D VCTR_BUILD_DEMO=1</code> CMake option after cloning:</p>
 <div class="fragment"><div class="line"># in VCTR project root</div>
@@ -318,10 +318,10 @@ Building unit tests and demo project</h1>
 <div class="line"># run tests</div>
 <div class="line">./build/test/vctr_test</div>
 </div><!-- fragment --><p>In case you want to integrate the VCTR unit test cases into your own catch2 based unit tests, you can define <code>VCTR_EXPOSE_UNIT_TEST_CASES_TARGET</code> to 1 and link against the <code>sonible::vctr_test_targets</code> target which contains all test cases but not the test main.</p>
-<h1><a class="anchor" id="autotoc_md24"></a>
+<h1><a class="anchor" id="autotoc_md35"></a>
 Contributing</h1>
 <p>The project is currently under development. Contributions to the project are highly appreciated, just have a look at the issue section to find open issues. We'll add a contribution guideline to this repository soon.</p>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md36"></a>
 Project structure</h2>
 <p>(This section is still under development, more infos will follow)</p>
 <ul>
@@ -329,14 +329,14 @@ Project structure</h2>
 <li>Headers included via <code>#include &lt;vctr_utils/...&gt;</code> supply additional utility functions that are not strictly relevant to the core functionality of the VCTR project. They are used in the test, benchmark, and demo projects and might have additional third party dependencies.</li>
 <li>Headers included via <code>#include &lt;vctr_test_utils/...&gt;</code> supply additional utility functions that are useful especially for Catch2-based tests. They depend on having Catch2 greater version 3.0.0 available. If you are writing Catch2 based unit tests, you might be especially interested in the matchers that can be accessed via <code>#include &lt;vctr_test_utils/vctr_catch_matchers.h&gt;</code>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md37"></a>
 Naming conventions</h2>
 <p>(This section is still under development, more infos will follow)</p>
 <p>This section explains some commonly used names and concepts that are used throughout the project.</p>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md38"></a>
 extent</h2>
 <p>The extent definition is basically taken from <code>std::span</code>. In all situations where the size of a container, a view, or an expression is known at compile time, the extent will equal the size. In cases where the size is only known at runtime, the extent will equal <code>std::dynamic_extent</code> which in turn is defined to <code>std::numeric_limits&lt;size_t&gt;::max()</code> on all platforms we know. A <code>Span</code> might have both, a dynamic and a non-dynamic extent. A <code>Vector</code> will always have a dynamic extent. An <code>Array</code> will always have a non-dynamic extent. Expressions will inherit the extent of their source(s).</p>
-<h1><a class="anchor" id="autotoc_md28"></a>
+<h1><a class="anchor" id="autotoc_md39"></a>
 License information</h1>
 <p>VCTR is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 3 (LGPLv3) only, as published by the Free Software Foundation.</p>
 <p>This basically implies, in legally non-binding terms:</p>

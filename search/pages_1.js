@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['platform_5fvec_5fops_0',['platform_vec_ops',['../md_include_vctr_PlatformVectorOps_Readme.html',1,'']]]
+  ['how_20expression_20templates_20work_0',['How Expression templates work',['../md_include_vctr_Expressions_Readme.html',1,'']]]
 ];

@@ -115,7 +115,7 @@ var searchData=
   ['unsignedintnumber_112',['unsignedIntNumber',['../conceptvctr_1_1is_1_1unsignedIntNumber.html',1,'vctr::is']]],
   ['value_113',['Value',['../structvctr_1_1DisabledConstant_1_1Value.html',1,'vctr::DisabledConstant']]],
   ['valuetype_114',['ValueType',['../namespacevctr.html#a83a43fd917a646b18b60be7e88becc33',1,'vctr']]],
-  ['vctr_115',['VCTR',['../index.html',1,'']]],
+  ['vctr_115',['VCTR',['../index.html',1,'(Global Namespace)'],['../md_AGENTS.html',1,'(Global Namespace)']]],
   ['vctr_116',['vctr',['../namespacevctr.html',1,'']]],
   ['vctr_5futils_117',['vctr_utils',['../md_include_vctr_utils_Readme.html',1,'']]],
   ['vctrbase_118',['VctrBase',['../classvctr_1_1VctrBase.html',1,'vctr']]],

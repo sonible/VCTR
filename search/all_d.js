@@ -15,5 +15,7 @@ var searchData=
   ['powsinglebase_12',['PowSingleBase',['../classvctr_1_1expressions_1_1PowSingleBase.html',1,'vctr::expressions']]],
   ['powsingleexponent_13',['PowSingleExponent',['../classvctr_1_1expressions_1_1PowSingleExponent.html',1,'vctr::expressions']]],
   ['powvectors_14',['PowVectors',['../classvctr_1_1expressions_1_1PowVectors.html',1,'vctr::expressions']]],
-  ['push_5fback_15',['push_back',['../classvctr_1_1Vector.html#aabb17ac821b61441fa7fe5627a020abd',1,'vctr::Vector::push_back(ElementType &amp;&amp;newElement)'],['../classvctr_1_1Vector.html#ac934d9b8ecf1bf26c9b56c27227bcd67',1,'vctr::Vector::push_back(const ElementType &amp;newElement)']]]
+  ['product_15',['product',['../group__Expressions.html#gadf6fcf508e6ecb24be32e479ae6660a7',1,'vctr']]],
+  ['product_16',['Product',['../classvctr_1_1expressions_1_1Product.html',1,'vctr::expressions']]],
+  ['push_5fback_17',['push_back',['../classvctr_1_1Vector.html#aabb17ac821b61441fa7fe5627a020abd',1,'vctr::Vector::push_back(ElementType &amp;&amp;newElement)'],['../classvctr_1_1Vector.html#ac934d9b8ecf1bf26c9b56c27227bcd67',1,'vctr::Vector::push_back(const ElementType &amp;newElement)']]]
 ];

@@ -154,7 +154,7 @@ $(document).ready(function(){initNavTree('md_include_vctr_Expressions_Readme.htm
 <div class="line">    }</div>
 <div class="line">};</div>
 </div><!-- fragment --><p>This should be the basic starting point for every expression template.</p>
-<h1><a class="anchor" id="autotoc_md1"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 Creating an &lt;tt&gt;ExpressionChainBuilder&lt;/tt&gt; instance</h1>
 <p>In order to use the <code>operator&lt;&lt;</code> chaining syntax, a unary expression has to be wrapped into an <code>ExpressionChainBuilder</code> instance. An expression chain builder holds all information about how to build a chain of expressions without actually building one right away. It supplies overloads for <code>operator&lt;&lt;</code> that return different objects, based on what they are called on.</p><ul>
 <li>If the argument passed to it is another expression chain builder, it returns a new expression chain builder instance which now represents the chain of both expressions</li>
@@ -200,7 +200,7 @@ Creating an &lt;tt&gt;ExpressionChainBuilder&lt;/tt&gt; instance</h1>
 <div class="line">constexpr vctr::Array in { 1.1, 2.2, 3.3 };</div>
 <div class="line">constexpr vctr::Array out = vctr::addConstantRef&lt;myVal&gt; &lt;&lt; in;</div>
 <div class="line">// out would be [ 43.2, 44.3, 45.4 ]</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md2"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md13"></a>
 Binary expressions</h1>
 <p>The types of expressions described above are unary expressions, this means that they transform a single source vector or expression. Operations like e.g. additions and multiplications need multiple operands. They should take two source types as template argument and two constructor arguments accordingly. The <code>VCTR_COMMON_BINARY_VEC_VEC_EXPRESSION_MEMBERS</code> and <code>VCTR_COMMON_BINARY_SINGLE_VEC_EXPRESSION_MEMBERS</code> macros should be chosen to generate the boilerplate code in this case. Those expressions are exposed via free functions or operator overloads. This is how e.g. the vector addition implementation looks like:</p>
 <div class="fragment"><div class="line"> {C++}</div>
@@ -215,7 +215,7 @@ Binary expressions</h1>
 <div class="line">    return AddVectors&lt;extent, SrcAType, SrcBType&gt; (std::forward&lt;SrcAType&gt; (a), std::forward&lt;SrcBType&gt; (b));</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>Note that we have to take care that sizes match when combining multiple sources through an expression. This can be done by the <code>assertCommonSize</code> helper function, which performs a compile-time check in case both expressions have a runtime defined extent or a run-time check in case one of them or both have a dynamic extent.</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md14"></a>
 Using alternative approaches to evaluate the expression</h1>
 <p>Besides the per-element evaluation through <code>operator[]</code>, the expression can implement various other ways to evaluate the expression:</p>
 <ul>
@@ -315,7 +315,7 @@ private:
 Note: Don't forget the default initialization braces for your &lt;tt&gt;SIMDRegisterUnion&lt;/tt&gt; member(s), otherwise the expression 
 class won't work in a constexpr context.
 
-@section autotoc_md4 Platform Specific Vector Operations
+@section autotoc_md15 Platform Specific Vector Operations
 
 In many cases, highly optimized vector operation libraries like Intel IPP or Apple Accelerate outperform our
 handwritten SIMD code. We can also use them to execute our expressions. To do so, we need to implement 
@@ -376,7 +376,7 @@ As evaluating a binary expression with two expressions as sources can never work
 &lt;tt&gt;evalNextVectorOpInExpressionChain&lt;/tt&gt; implementation strategy as it would need an intermediate buffer that we want to
 avoid at all costs, binary expressions should always be constrained by the &lt;tt&gt;is::suitableForBinaryEvalVectorOp&lt;/tt&gt; concept.
 
-@section autotoc_md5 Reduction expressions
+@section autotoc_md16 Reduction expressions
 
 While the expressions discussed above are used to transform a source vector into a destination vector, reduction
 expressions reduce a source vector into a single reduction result value. Examples are e.g. a vector sum or finding

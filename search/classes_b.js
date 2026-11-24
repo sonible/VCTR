@@ -6,5 +6,6 @@ var searchData=
   ['powerspectrum_3',['PowerSpectrum',['../classvctr_1_1expressions_1_1PowerSpectrum.html',1,'vctr::expressions']]],
   ['powsinglebase_4',['PowSingleBase',['../classvctr_1_1expressions_1_1PowSingleBase.html',1,'vctr::expressions']]],
   ['powsingleexponent_5',['PowSingleExponent',['../classvctr_1_1expressions_1_1PowSingleExponent.html',1,'vctr::expressions']]],
-  ['powvectors_6',['PowVectors',['../classvctr_1_1expressions_1_1PowVectors.html',1,'vctr::expressions']]]
+  ['powvectors_6',['PowVectors',['../classvctr_1_1expressions_1_1PowVectors.html',1,'vctr::expressions']]],
+  ['product_7',['Product',['../classvctr_1_1expressions_1_1Product.html',1,'vctr::expressions']]]
 ];

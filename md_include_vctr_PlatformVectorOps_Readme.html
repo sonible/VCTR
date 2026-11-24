@@ -132,7 +132,7 @@ $(document).ready(function(){initNavTree('md_include_vctr_PlatformVectorOps_Read
 <div class="line">//... some further specializations for other types</div>
 <div class="line">#endif</div>
 </div><!-- fragment --><p>We see, that the template specialization acts as a very thin wrapper around the functions which are available by the framework. E.g. functions from vForce take signed <code>int</code> length arguments while functions taken from vDSP take <code>size_t</code> length arguments, so we forward them accordingly. vDSP offers functions for adding, multiplying and dividing a vector to/by a scalar but non for subtracting a subtracting a scalar from a vector. Therefore, we only have a single <code>sub</code> overload but multiple ones for the other three operations. Still we apply a few common adoptions, e.g. the stride values for vDSP functions are always hard coded to 1, and the pointer to the size argument required by vForce is converted to a by-value argument in the wrapper.</p>
-<h1><a class="anchor" id="autotoc_md7"></a>
+<h1><a class="anchor" id="autotoc_md18"></a>
 Using them in expressions</h1>
 <p>Before continuing here, you should have understood the general ideas of how to write Expression templates. The relevant documentation is found <a class="el" href="md_include_vctr_Expressions_Readme.html">here</a>.</p>
 <p>As described above, we have to take care that the platform specific operations are only invoked in case they are supported on the platform we are building for. Let's have a look at how the <code>Abs</code> expression uses the Accelerate abs operation:</p>
@@ -165,7 +165,7 @@ Using them in expressions</h1>
 <div class="line">    Expression::IPP::mul (factor, dst, s);</div>
 <div class="line">    return dst;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md19"></a>
 Safe int casting</h1>
 <p><code><a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">vctr::Vector</a></code> uses <code>size_t</code> types for sizes, which is the de-facto standard library standard. Some platform specific implementations however use <code>int</code> as the size types. In nearly every case, the range of a 32 bit integer should be all you need. Still, we are able to generate vectors of sizes that exceed the range of an <code>int</code>. To catch such rare edge cases, use the <code>sizeToInt</code> function rather than a direct cast. It will warn the user via assertion in case the cast will likely produce a dangerous truncation. </p>
 </div></div><!-- contents -->

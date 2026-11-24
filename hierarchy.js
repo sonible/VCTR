@@ -70,6 +70,7 @@ var hierarchy =
         [ "vctr::expressions::PowSingleExponent< extent, SrcType >", "classvctr_1_1expressions_1_1PowSingleExponent.html", null ],
         [ "vctr::expressions::PowVectors< extent, SrcAType, SrcBType >", "classvctr_1_1expressions_1_1PowVectors.html", null ],
         [ "vctr::expressions::PowerSpectrum< extent, SrcType >", "classvctr_1_1expressions_1_1PowerSpectrum.html", null ],
+        [ "vctr::expressions::Product< extent, SrcType >", "classvctr_1_1expressions_1_1Product.html", null ],
         [ "vctr::expressions::Real< extent, SrcType >", "classvctr_1_1expressions_1_1Real.html", null ],
         [ "vctr::expressions::RealToComplex< extent, SrcType >", "classvctr_1_1expressions_1_1RealToComplex.html", null ],
         [ "vctr::expressions::RootMeanSquare< extent, SrcType >", "classvctr_1_1expressions_1_1RootMeanSquare.html", null ],
