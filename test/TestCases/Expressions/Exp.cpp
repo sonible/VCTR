@@ -45,3 +45,54 @@ TEMPLATE_PRODUCT_TEST_CASE ("Exp", "[VCTR][Expressions][exp]", (PlatformVectorOp
     REQUIRE_THAT (expU, vctr::EqualsTransformedBy<div10exp> (srcUnaligned).withEpsilon (0.00005));
     // clang-format on
 }
+
+TEMPLATE_PRODUCT_TEST_CASE ("Exp complex", "[VCTR][Expressions][exp]", (PlatformVectorOps, VCTR_NATIVE_SIMD), (std::complex<float>, std::complex<double>))
+{
+    // Real parts in [-10, 10] keep e^real in a range where a relative epsilon is meaningful for float
+    VCTR_TEST_DEFINES_IN_RANGE (-10, 10, 10)
+
+    using RealType = vctr::RealType<ElementType>;
+
+    // Compares real and imaginary parts separately, so that an error in only one of them is detected
+    const auto requireEqualsStdExp = [] (const auto& result, const auto& src, double epsilon) {
+        REQUIRE (result.size() == src.size());
+
+        const vctr::Vector<RealType> realParts = vctr::real << result;
+        const vctr::Vector<RealType> imagParts = vctr::imag << result;
+
+        for (size_t i = 0; i < src.size(); ++i)
+        {
+            const auto expected = std::exp (ElementType (src[i]));
+
+            INFO ("i = " << i << ", src = " << src[i] << ", result = " << result[i] << ", expected = " << expected);
+            REQUIRE (realParts[i] == Catch::Approx (expected.real()).epsilon (epsilon).margin (epsilon));
+            REQUIRE (imagParts[i] == Catch::Approx (expected.imag()).epsilon (epsilon).margin (epsilon));
+        }
+    };
+
+    SECTION ("Runtime evaluation")
+    {
+        const vctr::Vector exp = filter << vctr::exp << srcA;
+        const vctr::Vector expU = filter << vctr::exp << srcUnaligned;
+
+        static_assert (std::same_as<typename decltype (exp)::value_type, ElementType>);
+
+        requireEqualsStdExp (exp, srcA, 0.00005);
+        requireEqualsStdExp (expU, srcUnaligned, 0.00005);
+    }
+
+    SECTION ("Chained with other expressions")
+    {
+        const vctr::Vector exp = filter << vctr::exp << srcC * ElementType (0.5);
+        const vctr::Vector<ElementType> halfSrcC = srcC * ElementType (0.5);
+
+        requireEqualsStdExp (exp, halfSrcC, 0.00005);
+    }
+
+    SECTION ("Compile time evaluation")
+    {
+        static constexpr vctr::Array expConstexpr = filter << vctr::exp << srcA;
+
+        requireEqualsStdExp (expConstexpr, srcA, 0.0001);
+    }
+}

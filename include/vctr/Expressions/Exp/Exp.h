@@ -24,7 +24,7 @@ namespace vctr::expressions
 {
 
 template <size_t extent, class SrcType>
-requires is::realNumber<ValueType<SrcType>>
+requires is::realNumber<ValueType<SrcType>> || is::complexFloatNumber<ValueType<SrcType>>
 class Exp : ExpressionTemplateBase
 {
     using SrcValueType = ValueType<SrcType>;
@@ -38,7 +38,20 @@ public:
     {
 #if VCTR_USE_GCEM
         if (std::is_constant_evaluated())
-            return value_type (gcem::exp (src[i]));
+        {
+            if constexpr (is::complexFloatNumber<value_type>)
+            {
+                // gcem has no complex support, so we use e^(a + ib) = e^a * (cos (b) + i sin (b))
+                const auto z = src[i];
+                const auto magnitude = gcem::exp (z.real());
+
+                return value_type (magnitude * gcem::cos (z.imag()), magnitude * gcem::sin (z.imag()));
+            }
+            else
+            {
+                return value_type (gcem::exp (src[i]));
+            }
+        }
 #endif
 
         return value_type (std::exp (src[i]));
@@ -98,6 +111,11 @@ namespace vctr
 {
 
 /** Computes e (Euler's number, 2.7182818...) raised to the source vector elements power.
+
+    Works for real and complex source values. Integer source values are transformed into float values. For a complex
+    source value src = a + ib, the result is:
+
+        exp (src) = exp (a) * (cos (b) + i * sin (b))
 
     @ingroup Expressions
  */
