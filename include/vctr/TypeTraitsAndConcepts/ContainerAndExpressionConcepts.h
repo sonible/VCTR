@@ -320,6 +320,10 @@ concept suitableForAccelerateRealOrComplexFloatVectorOp = detail::isPreferredVec
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForAccelerateComplexToRealFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && anyVctr<Src> && complexFloatNumber<typename std::remove_cvref_t<Src>::value_type> && realFloatNumber<DstType>;
 
+/** A combined concept to check if Apple Accelerate is a suitable option for a floating point vector operation that transforms a real vector into a complex one. */
+template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
+concept suitableForAccelerateRealToComplexFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && anyVctr<Src> && realFloatNumber<typename std::remove_cvref_t<Src>::value_type> && complexFloatNumber<DstType>;
+
 /** A combined concept to check if Apple Accelerate is a suitable option for a vector operation that transforms an integer vector into a floating point one. */
 template <class Src, class DstType, detail::PlatformVectorOpPreference pref = detail::preferIfIppAndAccelerateAreAvailable>
 concept suitableForAccelerateRealIntToFloatVectorOp = detail::isPreferredVectorOp<pref> && Config::platformApple && has::evalNextVectorOpInExpressionChain<Src, typename std::remove_cvref_t<Src>::value_type> && realFloatNumber<DstType> && intNumber<typename std::remove_cvref_t<Src>::value_type>;

@@ -38,10 +38,11 @@ namespace vctr::expressions
       }
 
       VCTR_FORCEDINLINE const value_type* evalNextVectorOpInExpressionChain (value_type* dst) const
-      requires is::suitableForAccelerateComplexFloatVectorOp<SrcType, value_type>
+      requires is::suitableForAccelerateRealToComplexFloatVectorOp<SrcType, value_type>
       {
+          // Expression::Accelerate refers to the real source type, copyRealToComplex lives in the complex one.
           std::fill (dst, dst + size(), value_type (0));
-          Expression::Accelerate::copyRealToComplex (src.data(), dst, sizeToInt (size()));
+          platform_vec_ops::AppleAccelerate<value_type>::copyRealToComplex (src.data(), dst, sizeToInt (size()));
           return dst;
       }
   };
