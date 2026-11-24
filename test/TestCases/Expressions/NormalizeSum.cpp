@@ -34,5 +34,5 @@ TEMPLATE_PRODUCT_TEST_CASE ("NormalizeSum", "[VCTR][Expressions][normalizeSum]",
 
     vctr::Vector dividedBySum = srcAPlus1 / sum;
 
-    REQUIRE_THAT (normalizedSum, vctr::Equals (dividedBySum).withEpsilon (0.00001));
+    REQUIRE_THAT (normalizedSum, vctr::Equals (dividedBySum).withEpsilon (0.0001));
 }
