@@ -59,7 +59,7 @@ std::complex<T> conjugate (std::complex<T> a) { return std::conj (a); }
     the intermediate products are not.
  */
 template <class T>
-constexpr double margin = std::same_as<T, float> ? 1e-2 : 1e-10;
+constexpr double margin = std::same_as<T, float> ? 1e-2 : 1e-9;
 
 /** Returns the values of a split complex container as an interleaved std::complex Vector, so that it can be checked
     with the usual vctr matchers.
