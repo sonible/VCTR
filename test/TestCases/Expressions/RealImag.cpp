@@ -94,4 +94,20 @@ TEMPLATE_PRODUCT_TEST_CASE ("RealImagToComplex", "[VCTR][Expressions][Complex][r
 
     REQUIRE_THAT (srcUnaligned, vctr::EqualsTransformedBy<getRealPart> (cplxU));
     REQUIRE_THAT (imagUnaligned, vctr::EqualsTransformedBy<getImagPart> (cplxU));
+
+    // Array destination
+    const vctr::Array cplxA = filter << vctr::realImagToComplex (srcA, srcB);
+
+    REQUIRE_THAT (srcA, vctr::EqualsTransformedBy<getRealPart> (cplxA));
+    REQUIRE_THAT (srcB, vctr::EqualsTransformedBy<getImagPart> (cplxA));
+
+    [[maybe_unused]] static constexpr vctr::Array cplxConstexpr = filter << vctr::realImagToComplex (srcA, srcB);
+
+    // Expression sources can't be passed to the platform vector op, so they take the element-wise path
+    const vctr::Vector realE (srcA + srcC);
+    const vctr::Vector imagE (vctr::abs << srcB);
+    const vctr::Vector cplxE = filter << vctr::realImagToComplex (srcA + srcC, vctr::abs << srcB);
+
+    REQUIRE_THAT (realE, vctr::EqualsTransformedBy<getRealPart> (cplxE));
+    REQUIRE_THAT (imagE, vctr::EqualsTransformedBy<getImagPart> (cplxE));
 }

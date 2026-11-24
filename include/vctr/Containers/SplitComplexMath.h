@@ -186,4 +186,30 @@ constexpr auto magnitude (SrcType&& src)
 {
     return sqrt << magnitudeSquared (src);
 }
+
+/** Returns an expression that converts a split-complex source into interleaved std::complex values.
+
+    This is the counterpart of constructing a split-complex container from an interleaved container. Assigning a
+    split-complex expression evaluates it directly into the interleaved destination, without a split-complex
+    intermediate buffer, e.g.
+
+    @code
+    vctr::Vector<std::complex<float>> product = vctr::realImagToComplex (a * b);
+    @endcode
+
+    If the source is a split-complex container, its real and imaginary parts are passed on to
+    realImagToComplex (RealType&&, ImagType&&) as spans, so Apple Accelerate or Intel IPP is used if available.
+
+    @ingroup Expressions
+ */
+template <is::anySplitComplexVectorOrExpression SrcType>
+constexpr auto realImagToComplex (SrcType&& src)
+{
+    // An rvalue split-complex expression hands over its component expressions, so that the returned expression doesn't
+    // refer to the temporary.
+    if constexpr (is::derivedFromSplitComplexExpression<SrcType>)
+        return realImagToComplex (std::forward<SrcType> (src).realExpression, std::forward<SrcType> (src).imagExpression);
+    else
+        return realImagToComplex (src.real(), src.imag());
+}
 } // namespace vctr

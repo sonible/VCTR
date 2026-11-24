@@ -64,6 +64,10 @@ namespace vctr
 
     When both sources are containers, Apple Accelerate (vDSP_ztoc) resp. Intel IPP (ippsRealToCplx) is used.
 
+    To convert a split-complex container or expression (see SplitComplexBase) into interleaved values, use the
+    realImagToComplex (SrcType&&) overload. To go the other way, construct or assign a split-complex container from
+    the interleaved container.
+
     @ingroup Expressions
 */
 template <is::anyVctrOrExpression RealType, is::anyVctrOrExpression ImagType>

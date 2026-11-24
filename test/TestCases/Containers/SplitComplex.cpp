@@ -719,3 +719,32 @@ TEMPLATE_TEST_CASE ("SplitComplex Expression Chains on larger containers", "[VCT
     vctr::SplitComplexBase f = (splitA - splitB) / (splitC + splitD) * splitA;
     requireApproxEqual (f, expectedChainResult (srcA, srcB, srcC, srcD, [] (auto a, auto b, auto c, auto d) { return (a - b) / (c + d) * a; }));
 }
+
+TEMPLATE_TEST_CASE ("SplitComplex conversion to interleaved values", "[VCTR][SplitComplex][realImagToComplex]", float, double)
+{
+    // An odd size larger than any SIMD register, so that both the SIMD loop and the scalar tail are used
+    VCTR_SPLIT_COMPLEX_TEST_DEFINES (101)
+
+    // Containers convert back to exactly the values they were created from
+    const vctr::Vector<Complex> fromVector = vctr::realImagToComplex (splitA);
+    REQUIRE_THAT (fromVector, vctr::Equals (srcA));
+
+    const vctr::SplitComplexArray<TestType, 101> array (srcB);
+    const vctr::Vector<Complex> fromArray = vctr::realImagToComplex (array);
+    REQUIRE_THAT (fromArray, vctr::Equals (srcB));
+
+    const vctr::Array<Complex, 101> toArray = vctr::realImagToComplex (array);
+    REQUIRE_THAT (toArray, vctr::Equals (srcB));
+
+    const vctr::SplitComplexSpan<const TestType> span (splitC);
+    const vctr::Vector<Complex> fromSpan = vctr::realImagToComplex (span);
+    REQUIRE_THAT (fromSpan, vctr::Equals (srcC));
+
+    // A temporary expression is evaluated straight into the interleaved destination
+    const vctr::Vector<Complex> product = vctr::realImagToComplex (splitA * splitB);
+    REQUIRE_THAT (product, vctr::EqualsTransformedBy<multiplication> (srcA, srcB).withEpsilon().withMargin (margin<TestType>));
+
+    const auto sumExpression = splitA + splitB;
+    const vctr::Vector<Complex> sum = vctr::realImagToComplex (sumExpression);
+    REQUIRE_THAT (sum, vctr::EqualsTransformedBy<addition> (srcA, srcB).withEpsilon().withMargin (margin<TestType>));
+}

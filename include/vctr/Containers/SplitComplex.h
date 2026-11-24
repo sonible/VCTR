@@ -120,6 +120,10 @@ concept anySplitComplexVectorOrExpression = derivedFromSplitComplexBase<T> || de
     SplitComplexArray for an owning container with a compile time size and SplitComplexSpan for a non-owning view.
     Use SplitComplexSpan<const T> for a read-only view.
 
+    Interleaved std::complex containers convert to split-complex containers through the constructor and assignment
+    operator. To convert a split-complex container or expression back into interleaved values, use
+    vctr::realImagToComplex.
+
     @tparam ContainerTypeParam   Any VCTR container holding a real floating point value_type, e.g. Vector<float>,
                                  Array<float, n> or Span<float>. A const qualifier on the container type is ignored, use a
                                  const value type to make the elements read-only.
