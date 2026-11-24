@@ -45,6 +45,9 @@ var concepts =
         [ "getEndWithValueType", "conceptvctr_1_1has_1_1getEndWithValueType.html", null ]
       ] ],
       [ "is", null, [
+        [ "derivedFromSplitComplexBase", "conceptvctr_1_1is_1_1derivedFromSplitComplexBase.html", null ],
+        [ "derivedFromSplitComplexExpression", "conceptvctr_1_1is_1_1derivedFromSplitComplexExpression.html", null ],
+        [ "anySplitComplexVectorOrExpression", "conceptvctr_1_1is_1_1anySplitComplexVectorOrExpression.html", null ],
         [ "binaryCaseDistinctionConfig", "conceptvctr_1_1is_1_1binaryCaseDistinctionConfig.html", null ],
         [ "reductionExpressionChainBuilderForSource", "conceptvctr_1_1is_1_1reductionExpressionChainBuilderForSource.html", null ],
         [ "comparableByWith", "conceptvctr_1_1is_1_1comparableByWith.html", null ],
@@ -52,6 +55,8 @@ var concepts =
         [ "constexprStorageInfo", "conceptvctr_1_1is_1_1constexprStorageInfo.html", null ],
         [ "anyVctr", "conceptvctr_1_1is_1_1anyVctr.html", null ],
         [ "anyVctrWithValueType", "conceptvctr_1_1is_1_1anyVctrWithValueType.html", null ],
+        [ "anyVctrWithRealFloatValueType", "conceptvctr_1_1is_1_1anyVctrWithRealFloatValueType.html", null ],
+        [ "anyVctrWithComplexFloatValueType", "conceptvctr_1_1is_1_1anyVctrWithComplexFloatValueType.html", null ],
         [ "expression", "conceptvctr_1_1is_1_1expression.html", null ],
         [ "expressionWithValueType", "conceptvctr_1_1is_1_1expressionWithValueType.html", null ],
         [ "expressionChainBuilder", "conceptvctr_1_1is_1_1expressionChainBuilder.html", null ],
@@ -59,6 +64,7 @@ var concepts =
         [ "stdArray", "conceptvctr_1_1is_1_1stdArray.html", null ],
         [ "stdSpan", "conceptvctr_1_1is_1_1stdSpan.html", null ],
         [ "view", "conceptvctr_1_1is_1_1view.html", null ],
+        [ "vctrVector", "conceptvctr_1_1is_1_1vctrVector.html", null ],
         [ "expressionWithEvalVectorOp", "conceptvctr_1_1is_1_1expressionWithEvalVectorOp.html", null ],
         [ "suitableForAccelerateSSEOp", "conceptvctr_1_1is_1_1suitableForAccelerateSSEOp.html", null ],
         [ "suitableForAccelerateNeonOp", "conceptvctr_1_1is_1_1suitableForAccelerateNeonOp.html", null ],

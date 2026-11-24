@@ -119,6 +119,8 @@ var annotated_dup =
       [ "ScalarCompareOp< CompareOp::lessOrEqual >", "structvctr_1_1ScalarCompareOp_3_01CompareOp_1_1lessOrEqual_01_4.html", null ],
       [ "ScalarCompareOp< CompareOp::notEqual >", "structvctr_1_1ScalarCompareOp_3_01CompareOp_1_1notEqual_01_4.html", null ],
       [ "Span", "classvctr_1_1Span.html", "classvctr_1_1Span" ],
+      [ "SplitComplexBase", "classvctr_1_1SplitComplexBase.html", "classvctr_1_1SplitComplexBase" ],
+      [ "SplitComplexExpression", "structvctr_1_1SplitComplexExpression.html", "structvctr_1_1SplitComplexExpression" ],
       [ "SSERegister", "structvctr_1_1SSERegister.html", null ],
       [ "StaticStorageInfo", "structvctr_1_1StaticStorageInfo.html", null ],
       [ "StorageInfo", "structvctr_1_1StorageInfo.html", null ],

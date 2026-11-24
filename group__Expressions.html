@@ -1893,6 +1893,107 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="ga17950fdb3b69637674e809405e51a577" name="ga17950fdb3b69637674e809405e51a577"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga17950fdb3b69637674e809405e51a577">&#9670;&#160;</a></span>magnitude()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::magnitude </td>
+          <td>(</td>
+          <td class="paramtype">SrcType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>src</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression containing the magnitude of each value in a split-complex source. </p>
+
+</div>
+</div>
+<a id="ga7479851d8257cec58931f82ba5b5a8bc" name="ga7479851d8257cec58931f82ba5b5a8bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7479851d8257cec58931f82ba5b5a8bc">&#9670;&#160;</a></span>magnitudeSquared()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::magnitudeSquared </td>
+          <td>(</td>
+          <td class="paramtype">SrcType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>src</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression containing the squared magnitude of each value in a split-complex source. </p>
+
+</div>
+</div>
+<a id="ga16adfe0109034e0b0661024e9380fa54" name="ga16adfe0109034e0b0661024e9380fa54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga16adfe0109034e0b0661024e9380fa54">&#9670;&#160;</a></span>makeSplitComplexExpression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::expression RealExpression, is::expression ImagExpression&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::makeSplitComplexExpression </td>
+          <td>(</td>
+          <td class="paramtype">RealExpression &amp;&amp;&#160;</td>
+          <td class="paramname"><em>realExpression</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ImagExpression &amp;&amp;&#160;</td>
+          <td class="paramname"><em>imagExpression</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Combines real and imaginary expressions into a split-complex expression. </p>
+<p>The two expressions must have the same size. </p>
+
+</div>
+</div>
 <a id="gacaebe8e635121b4a8a143abb74bf9fc1" name="gacaebe8e635121b4a8a143abb74bf9fc1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gacaebe8e635121b4a8a143abb74bf9fc1">&#9670;&#160;</a></span>map() <span class="overload">[1/2]</span></h2>
 
@@ -2131,6 +2232,46 @@ requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &am
 
 </div>
 </div>
+<a id="gab96e93f9900b3c6aca515ec0ee85743e" name="gab96e93f9900b3c6aca515ec0ee85743e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab96e93f9900b3c6aca515ec0ee85743e">&#9670;&#160;</a></span>multiplyConjugate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anySplitComplexVectorOrExpression SrcAType, is::anySplitComplexVectorOrExpression SrcBType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::multiplyConjugate </td>
+          <td>(</td>
+          <td class="paramtype">SrcAType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>srcA</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SrcBType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>srcB</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that multiplies split-complex source a by the complex conjugate of source b. </p>
+
+</div>
+</div>
 <a id="ga8af8d6a5ae5a924f83ddea9f4e9815f2" name="ga8af8d6a5ae5a924f83ddea9f4e9815f2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga8af8d6a5ae5a924f83ddea9f4e9815f2">&#9670;&#160;</a></span>multiplySubtract()</h2>
 
@@ -2180,7 +2321,7 @@ requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &am
 </div>
 </div>
 <a id="ga381264b52d81641d1e0e7fba44b95b33" name="ga381264b52d81641d1e0e7fba44b95b33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga381264b52d81641d1e0e7fba44b95b33">&#9670;&#160;</a></span>operator*() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga381264b52d81641d1e0e7fba44b95b33">&#9670;&#160;</a></span>operator*() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2220,14 +2361,13 @@ requires is::anyVctrOrExpression&lt;Src&gt;</div>
 
 </div>
 </div>
-<a id="gace45c99e6906fb1273db0cfb3ec4fd01" name="gace45c99e6906fb1273db0cfb3ec4fd01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gace45c99e6906fb1273db0cfb3ec4fd01">&#9670;&#160;</a></span>operator*() <span class="overload">[2/3]</span></h2>
+<a id="ga5ff710970dc79c4110152dac9393c323" name="ga5ff710970dc79c4110152dac9393c323"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5ff710970dc79c4110152dac9393c323">&#9670;&#160;</a></span>operator*() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class SrcAType , class SrcBType &gt; <br />
-requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt;)</div>
+template&lt;is::anySplitComplexVectorOrExpression SrcAType, is::anySplitComplexVectorOrExpression SrcBType&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -2236,13 +2376,13 @@ requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &am
           <td class="memname">constexpr auto vctr::operator* </td>
           <td>(</td>
           <td class="paramtype">SrcAType &amp;&amp;&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
+          <td class="paramname"><em>srcA</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">SrcBType &amp;&amp;&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
+          <td class="paramname"><em>srcB</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -2257,12 +2397,92 @@ requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &am
 </table>
 </div><div class="memdoc">
 
-<p>Returns an expression that multiplies vector or expression a with vector or expression b. </p>
+<p>Returns an expression that multiplies split-complex vector or expression a with split-complex vector or expression b. </p>
+
+</div>
+</div>
+<a id="ga4abcd2eb8bd1465f6ccd7f164e4177d3" name="ga4abcd2eb8bd1465f6ccd7f164e4177d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4abcd2eb8bd1465f6ccd7f164e4177d3">&#9670;&#160;</a></span>operator*() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::operator* </td>
+          <td>(</td>
+          <td class="paramtype">SrcType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::complex&lt; typename std::remove_cvref_t&lt; SrcType &gt;::value_type &gt;&#160;</td>
+          <td class="paramname"><em>single</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that multiplies each value in a split-complex source by a complex scalar. </p>
+
+</div>
+</div>
+<a id="gae0ff12ebc5a4ce94ff58e5f3d1a8deb0" name="gae0ff12ebc5a4ce94ff58e5f3d1a8deb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae0ff12ebc5a4ce94ff58e5f3d1a8deb0">&#9670;&#160;</a></span>operator*() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::operator* </td>
+          <td>(</td>
+          <td class="paramtype">SrcType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">typename std::remove_cvref_t&lt; SrcType &gt;::value_type&#160;</td>
+          <td class="paramname"><em>single</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that multiplies each value in a split-complex source by a real scalar. </p>
 
 </div>
 </div>
 <a id="ga5c66069ba0f2ac2876104893c73a4521" name="ga5c66069ba0f2ac2876104893c73a4521"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5c66069ba0f2ac2876104893c73a4521">&#9670;&#160;</a></span>operator*() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5c66069ba0f2ac2876104893c73a4521">&#9670;&#160;</a></span>operator*() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2303,7 +2523,7 @@ requires is::anyVctrOrExpression&lt;Src&gt;</div>
 </div>
 </div>
 <a id="gad0aa5a68cba8ed5ab033240d238b6002" name="gad0aa5a68cba8ed5ab033240d238b6002"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad0aa5a68cba8ed5ab033240d238b6002">&#9670;&#160;</a></span>operator+() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#gad0aa5a68cba8ed5ab033240d238b6002">&#9670;&#160;</a></span>operator+() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2342,13 +2562,13 @@ template&lt;is::anyVctrOrExpression Src&gt; </div>
 
 </div>
 </div>
-<a id="ga36f93431c14c872955baaaf0d2052381" name="ga36f93431c14c872955baaaf0d2052381"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga36f93431c14c872955baaaf0d2052381">&#9670;&#160;</a></span>operator+() <span class="overload">[2/3]</span></h2>
+<a id="gafcfb3fddd4dc3cea6549b7be8f8171f5" name="gafcfb3fddd4dc3cea6549b7be8f8171f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafcfb3fddd4dc3cea6549b7be8f8171f5">&#9670;&#160;</a></span>operator+() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;is::anyVctrOrExpression SrcAType, is::anyVctrOrExpression SrcBType&gt; </div>
+template&lt;is::anySplitComplexVectorOrExpression SrcAType, is::anySplitComplexVectorOrExpression SrcBType&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -2357,13 +2577,13 @@ template&lt;is::anyVctrOrExpression SrcAType, is::anyVctrOrExpression SrcBType&g
           <td class="memname">constexpr auto vctr::operator+ </td>
           <td>(</td>
           <td class="paramtype">SrcAType &amp;&amp;&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
+          <td class="paramname"><em>srcA</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">SrcBType &amp;&amp;&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
+          <td class="paramname"><em>srcB</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -2378,12 +2598,53 @@ template&lt;is::anyVctrOrExpression SrcAType, is::anyVctrOrExpression SrcBType&g
 </table>
 </div><div class="memdoc">
 
+<p>Returns an expression that adds two split-complex vector or expression sources. </p>
 <p>Returns an expression that adds two vector or expression sources. </p>
 
 </div>
 </div>
+<a id="ga318687f32a61038beab1e57d2805e158" name="ga318687f32a61038beab1e57d2805e158"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga318687f32a61038beab1e57d2805e158">&#9670;&#160;</a></span>operator+() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::operator+ </td>
+          <td>(</td>
+          <td class="paramtype">SrcType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::complex&lt; typename std::remove_cvref_t&lt; SrcType &gt;::value_type &gt;&#160;</td>
+          <td class="paramname"><em>single</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that adds a complex scalar to each value in a split-complex source. </p>
+
+</div>
+</div>
 <a id="ga24470bf226cfd8eccac84baacc1988be" name="ga24470bf226cfd8eccac84baacc1988be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga24470bf226cfd8eccac84baacc1988be">&#9670;&#160;</a></span>operator+() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga24470bf226cfd8eccac84baacc1988be">&#9670;&#160;</a></span>operator+() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2423,7 +2684,7 @@ template&lt;is::anyVctrOrExpression Src&gt; </div>
 </div>
 </div>
 <a id="ga396d48225010859e9c01a718afd0f922" name="ga396d48225010859e9c01a718afd0f922"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga396d48225010859e9c01a718afd0f922">&#9670;&#160;</a></span>operator-() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga396d48225010859e9c01a718afd0f922">&#9670;&#160;</a></span>operator-() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2463,14 +2724,13 @@ requires is::anyVctrOrExpression&lt;Src&gt;</div>
 
 </div>
 </div>
-<a id="ga9174be97e2f8cdaa08c40b5b5f24628b" name="ga9174be97e2f8cdaa08c40b5b5f24628b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9174be97e2f8cdaa08c40b5b5f24628b">&#9670;&#160;</a></span>operator-() <span class="overload">[2/3]</span></h2>
+<a id="gac38f4875b200e5be611c5ff1bcf8f2b9" name="gac38f4875b200e5be611c5ff1bcf8f2b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac38f4875b200e5be611c5ff1bcf8f2b9">&#9670;&#160;</a></span>operator-() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class SrcAType , class SrcBType &gt; <br />
-requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt;)</div>
+template&lt;is::anySplitComplexVectorOrExpression SrcAType, is::anySplitComplexVectorOrExpression SrcBType&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -2479,13 +2739,13 @@ requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &am
           <td class="memname">constexpr auto vctr::operator- </td>
           <td>(</td>
           <td class="paramtype">SrcAType &amp;&amp;&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
+          <td class="paramname"><em>srcA</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">SrcBType &amp;&amp;&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
+          <td class="paramname"><em>srcB</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -2500,12 +2760,52 @@ requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &am
 </table>
 </div><div class="memdoc">
 
-<p>Returns an expression that subtracts vector or expression b from vector or expression a. </p>
+<p>Returns an expression that subtracts split-complex vector or expression b from split-complex vector or expression a. </p>
+
+</div>
+</div>
+<a id="gabb7a621c179e5208fb5d993bfc75c554" name="gabb7a621c179e5208fb5d993bfc75c554"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabb7a621c179e5208fb5d993bfc75c554">&#9670;&#160;</a></span>operator-() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::operator- </td>
+          <td>(</td>
+          <td class="paramtype">SrcType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::complex&lt; typename std::remove_cvref_t&lt; SrcType &gt;::value_type &gt;&#160;</td>
+          <td class="paramname"><em>single</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that subtracts a complex scalar from each value in a split-complex source. </p>
 
 </div>
 </div>
 <a id="gaeaa9cb36a35a3e2be8103e71e6642153" name="gaeaa9cb36a35a3e2be8103e71e6642153"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaeaa9cb36a35a3e2be8103e71e6642153">&#9670;&#160;</a></span>operator-() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#gaeaa9cb36a35a3e2be8103e71e6642153">&#9670;&#160;</a></span>operator-() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2546,7 +2846,7 @@ requires is::anyVctrOrExpression&lt;Src&gt;</div>
 </div>
 </div>
 <a id="ga7ca2de641883cfdd1d28b122424864eb" name="ga7ca2de641883cfdd1d28b122424864eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7ca2de641883cfdd1d28b122424864eb">&#9670;&#160;</a></span>operator/() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7ca2de641883cfdd1d28b122424864eb">&#9670;&#160;</a></span>operator/() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2586,14 +2886,13 @@ requires is::anyVctrOrExpression&lt;Src&gt;</div>
 
 </div>
 </div>
-<a id="ga7fa04c18dbf489b3dfccc7d15ea11c2e" name="ga7fa04c18dbf489b3dfccc7d15ea11c2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7fa04c18dbf489b3dfccc7d15ea11c2e">&#9670;&#160;</a></span>operator/() <span class="overload">[2/3]</span></h2>
+<a id="ga37e175da64217c44e718fbd4a28993a1" name="ga37e175da64217c44e718fbd4a28993a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga37e175da64217c44e718fbd4a28993a1">&#9670;&#160;</a></span>operator/() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class SrcAType , class SrcBType &gt; <br />
-requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt;)</div>
+template&lt;is::anySplitComplexVectorOrExpression SrcAType, is::anySplitComplexVectorOrExpression SrcBType&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -2602,13 +2901,13 @@ requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &am
           <td class="memname">constexpr auto vctr::operator/ </td>
           <td>(</td>
           <td class="paramtype">SrcAType &amp;&amp;&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
+          <td class="paramname"><em>srcA</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">SrcBType &amp;&amp;&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
+          <td class="paramname"><em>srcB</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -2623,12 +2922,93 @@ requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &am
 </table>
 </div><div class="memdoc">
 
-<p>Returns an expression that divides vector or expression a by vector or expression b. </p>
+<p>Returns an expression that divides split-complex source a by split-complex source b. </p>
+
+</div>
+</div>
+<a id="gac73ce60a599e53eecbc966f7a2ca1adf" name="gac73ce60a599e53eecbc966f7a2ca1adf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac73ce60a599e53eecbc966f7a2ca1adf">&#9670;&#160;</a></span>operator/() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::operator/ </td>
+          <td>(</td>
+          <td class="paramtype">SrcType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::complex&lt; typename std::remove_cvref_t&lt; SrcType &gt;::value_type &gt;&#160;</td>
+          <td class="paramname"><em>single</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that divides each value in a split-complex source by a complex scalar. </p>
+<p>The reciprocal of the scalar is computed once, so this is evaluated as a multiplication by a complex scalar. </p>
+
+</div>
+</div>
+<a id="gaa0b0adffbfd5125b5d34459c0fea4e74" name="gaa0b0adffbfd5125b5d34459c0fea4e74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa0b0adffbfd5125b5d34459c0fea4e74">&#9670;&#160;</a></span>operator/() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::operator/ </td>
+          <td>(</td>
+          <td class="paramtype">SrcType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">typename std::remove_cvref_t&lt; SrcType &gt;::value_type&#160;</td>
+          <td class="paramname"><em>single</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that divides each value in a split-complex source by a real scalar. </p>
 
 </div>
 </div>
 <a id="ga33e144c46ba685bf55b8b06fc85e912a" name="ga33e144c46ba685bf55b8b06fc85e912a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga33e144c46ba685bf55b8b06fc85e912a">&#9670;&#160;</a></span>operator/() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga33e144c46ba685bf55b8b06fc85e912a">&#9670;&#160;</a></span>operator/() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2792,6 +3172,36 @@ template&lt;is::anyVctrOrExpression Src&gt; </div>
 
 </div>
 </div>
+<a id="gabb50d401dbd423eb0b950b7c98389172" name="gabb50d401dbd423eb0b950b7c98389172"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabb50d401dbd423eb0b950b7c98389172">&#9670;&#160;</a></span>splitComplexConjugate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::splitComplexConjugate </td>
+          <td>(</td>
+          <td class="paramtype">SrcType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>src</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression containing the complex conjugate of each value in a split-complex source. </p>
+
+</div>
+</div>
 <a id="gaea7f8d380f1eadb6615c56b8246544d9" name="gaea7f8d380f1eadb6615c56b8246544d9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaea7f8d380f1eadb6615c56b8246544d9">&#9670;&#160;</a></span>transformedBy()</h2>
 
@@ -2827,6 +3237,9 @@ template&lt;class Fn &gt; </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1SplitComplexExpression.html">vctr::SplitComplexExpression&lt; RealExpression, ImagExpression &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An expression combining separate real and imaginary component expressions.  <a href="structvctr_1_1SplitComplexExpression.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1dBFS.html">vctr::dBFS</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decibel constant dbFS to be passed to dbToMag or magToDb.  <a href="structvctr_1_1dBFS.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>

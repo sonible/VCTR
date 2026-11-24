@@ -203,6 +203,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1Span.html">Span</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The view type.  <a href="classvctr_1_1Span.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1SplitComplexBase.html">SplitComplexBase</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A container for complex values that stores the real and imaginary parts in two separate, equally sized buffers instead of interleaved like std::complex does.  <a href="classvctr_1_1SplitComplexBase.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1SplitComplexExpression.html">SplitComplexExpression</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An expression combining separate real and imaginary component expressions.  <a href="structvctr_1_1SplitComplexExpression.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1SSERegister.html">SSERegister</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvctr_1_1StaticStorageInfo.html">StaticStorageInfo</a></td></tr>
@@ -235,6 +241,18 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ad74ae35c2844e5e4e79889b55a82f21f"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#ad74ae35c2844e5e4e79889b55a82f21f">SpanStorageInfo</a> = <a class="el" href="structvctr_1_1StaticStorageInfo.html">StaticStorageInfo</a>&lt; isDataSIMDAligned, isStorageSIMDExtended, alignof(std::span&lt; ElementType &gt;)&gt;</td></tr>
 <tr class="memdesc:ad74ae35c2844e5e4e79889b55a82f21f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="structvctr_1_1StaticStorageInfo.html" title="A storage info type especially used to pass compile time constant traits when viewing externally owne...">StaticStorageInfo</a> type alias suitable for <a class="el" href="classvctr_1_1Span.html" title="The view type.">vctr::Span</a>.  <br /></td></tr>
 <tr class="separator:ad74ae35c2844e5e4e79889b55a82f21f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea3c4a9433e1e3caaa92c6478aafdead"><td class="memTemplParams" colspan="2">template&lt;is::realFloatNumber T&gt; </td></tr>
+<tr class="memitem:aea3c4a9433e1e3caaa92c6478aafdead"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#aea3c4a9433e1e3caaa92c6478aafdead">SplitComplexVector</a> = <a class="el" href="classvctr_1_1SplitComplexBase.html">SplitComplexBase</a>&lt; <a class="el" href="classvctr_1_1Vector.html">Vector</a>&lt; T &gt; &gt;</td></tr>
+<tr class="memdesc:aea3c4a9433e1e3caaa92c6478aafdead"><td class="mdescLeft">&#160;</td><td class="mdescRight">An owning split complex container.  <br /></td></tr>
+<tr class="separator:aea3c4a9433e1e3caaa92c6478aafdead"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbcfadc6e1ea6b7bf54192cfc4cf239a"><td class="memTemplParams" colspan="2">template&lt;is::realFloatNumber T, size_t size&gt; </td></tr>
+<tr class="memitem:acbcfadc6e1ea6b7bf54192cfc4cf239a"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#acbcfadc6e1ea6b7bf54192cfc4cf239a">SplitComplexArray</a> = <a class="el" href="classvctr_1_1SplitComplexBase.html">SplitComplexBase</a>&lt; <a class="el" href="classvctr_1_1Array.html">Array</a>&lt; T, size &gt; &gt;</td></tr>
+<tr class="memdesc:acbcfadc6e1ea6b7bf54192cfc4cf239a"><td class="mdescLeft">&#160;</td><td class="mdescRight">An owning split complex container with a compile time size.  <br /></td></tr>
+<tr class="separator:acbcfadc6e1ea6b7bf54192cfc4cf239a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0caa6ea384129b18f3f7bdd30823168"><td class="memTemplParams" colspan="2">template&lt;is::realFloatNumber T&gt; </td></tr>
+<tr class="memitem:ac0caa6ea384129b18f3f7bdd30823168"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#ac0caa6ea384129b18f3f7bdd30823168">SplitComplexSpan</a> = <a class="el" href="classvctr_1_1SplitComplexBase.html">SplitComplexBase</a>&lt; <a class="el" href="classvctr_1_1Span.html">Span</a>&lt; T &gt; &gt;</td></tr>
+<tr class="memdesc:ac0caa6ea384129b18f3f7bdd30823168"><td class="mdescLeft">&#160;</td><td class="mdescRight">A non-owning, mutable view to split complex data.  <br /></td></tr>
+<tr class="separator:ac0caa6ea384129b18f3f7bdd30823168"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40c9f56937ddfca3c1b85f5f52627deb"><td class="memTemplParams" colspan="2">template&lt;template&lt; size_t, class... &gt; class ExpressionType, class... AdditionalCompileTimeParameters&gt; </td></tr>
 <tr class="memitem:a40c9f56937ddfca3c1b85f5f52627deb"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a40c9f56937ddfca3c1b85f5f52627deb">ExpressionChainBuilder</a> = <a class="el" href="structvctr_1_1ExpressionChainBuilderWithRuntimeArgs.html">ExpressionChainBuilderWithRuntimeArgs</a>&lt; ExpressionType, detail::RuntimeArgChain&lt; std::tuple&lt;&gt; &gt;, AdditionalCompileTimeParameters... &gt;</td></tr>
 <tr class="memdesc:a40c9f56937ddfca3c1b85f5f52627deb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenient typedef to create a simple expression chain builder instance for an expression template.  <br /></td></tr>
@@ -326,6 +344,74 @@ requires (extent != std::dynamic_extent)</td></tr>
 <tr class="memitem:a946767da5d097bc029825bba6c2a2595"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a946767da5d097bc029825bba6c2a2595">makeSimdAlignedSpan</a> (ElementType *data)</td></tr>
 <tr class="memdesc:a946767da5d097bc029825bba6c2a2595"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a span with static extent pointing to a memory location that is expected to be SIMD aligned.  <br /></td></tr>
 <tr class="separator:a946767da5d097bc029825bba6c2a2595"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad96e9e7c773b05cfbd6d5a0acbdc4d52"><td class="memTemplParams" colspan="2">template&lt;class Interleaved &gt; </td></tr>
+<tr class="memitem:ad96e9e7c773b05cfbd6d5a0acbdc4d52"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#ad96e9e7c773b05cfbd6d5a0acbdc4d52">SplitComplexBase</a> (const Interleaved &amp;) -&gt; <a class="el" href="classvctr_1_1SplitComplexBase.html">SplitComplexBase</a>&lt; typename detail::SplitComplexContainerType&lt; Interleaved &gt;::Type &gt;</td></tr>
+<tr class="memdesc:ad96e9e7c773b05cfbd6d5a0acbdc4d52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deduces the real storage type from an interleaved complex container.  <br /></td></tr>
+<tr class="separator:ad96e9e7c773b05cfbd6d5a0acbdc4d52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b5c34d3de80a5076f4d01bcef4d3a0b"><td class="memTemplParams" colspan="2">template&lt;is::expression RealExpression, is::expression ImagExpression&gt; </td></tr>
+<tr class="memitem:a2b5c34d3de80a5076f4d01bcef4d3a0b"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#a2b5c34d3de80a5076f4d01bcef4d3a0b">SplitComplexBase</a> (<a class="el" href="structvctr_1_1SplitComplexExpression.html">SplitComplexExpression</a>&lt; RealExpression, ImagExpression &gt; &amp;&amp;) -&gt; <a class="el" href="classvctr_1_1SplitComplexBase.html">SplitComplexBase</a>&lt; <a class="el" href="classvctr_1_1Vector.html">Vector</a>&lt; typename RealExpression::value_type &gt; &gt;</td></tr>
+<tr class="memdesc:a2b5c34d3de80a5076f4d01bcef4d3a0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deduces a SplitComplexVector when constructing from a split-complex expression, like a <a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">Vector</a> constructed from an expression.  <br /></td></tr>
+<tr class="separator:a2b5c34d3de80a5076f4d01bcef4d3a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga16adfe0109034e0b0661024e9380fa54"><td class="memTemplParams" colspan="2">template&lt;is::expression RealExpression, is::expression ImagExpression&gt; </td></tr>
+<tr class="memitem:ga16adfe0109034e0b0661024e9380fa54"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga16adfe0109034e0b0661024e9380fa54">makeSplitComplexExpression</a> (RealExpression &amp;&amp;realExpression, ImagExpression &amp;&amp;imagExpression)</td></tr>
+<tr class="memdesc:ga16adfe0109034e0b0661024e9380fa54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combines real and imaginary expressions into a split-complex expression.  <br /></td></tr>
+<tr class="separator:ga16adfe0109034e0b0661024e9380fa54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafcfb3fddd4dc3cea6549b7be8f8171f5"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcAType, is::anySplitComplexVectorOrExpression SrcBType&gt; </td></tr>
+<tr class="memitem:gafcfb3fddd4dc3cea6549b7be8f8171f5"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#gafcfb3fddd4dc3cea6549b7be8f8171f5">operator+</a> (SrcAType &amp;&amp;srcA, SrcBType &amp;&amp;srcB)</td></tr>
+<tr class="memdesc:gafcfb3fddd4dc3cea6549b7be8f8171f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that adds two split-complex vector or expression sources.  <br /></td></tr>
+<tr class="separator:gafcfb3fddd4dc3cea6549b7be8f8171f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac38f4875b200e5be611c5ff1bcf8f2b9"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcAType, is::anySplitComplexVectorOrExpression SrcBType&gt; </td></tr>
+<tr class="memitem:gac38f4875b200e5be611c5ff1bcf8f2b9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#gac38f4875b200e5be611c5ff1bcf8f2b9">operator-</a> (SrcAType &amp;&amp;srcA, SrcBType &amp;&amp;srcB)</td></tr>
+<tr class="memdesc:gac38f4875b200e5be611c5ff1bcf8f2b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that subtracts split-complex vector or expression b from split-complex vector or expression a.  <br /></td></tr>
+<tr class="separator:gac38f4875b200e5be611c5ff1bcf8f2b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5ff710970dc79c4110152dac9393c323"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcAType, is::anySplitComplexVectorOrExpression SrcBType&gt; </td></tr>
+<tr class="memitem:ga5ff710970dc79c4110152dac9393c323"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga5ff710970dc79c4110152dac9393c323">operator*</a> (SrcAType &amp;&amp;srcA, SrcBType &amp;&amp;srcB)</td></tr>
+<tr class="memdesc:ga5ff710970dc79c4110152dac9393c323"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that multiplies split-complex vector or expression a with split-complex vector or expression b.  <br /></td></tr>
+<tr class="separator:ga5ff710970dc79c4110152dac9393c323"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae0ff12ebc5a4ce94ff58e5f3d1a8deb0"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </td></tr>
+<tr class="memitem:gae0ff12ebc5a4ce94ff58e5f3d1a8deb0"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#gae0ff12ebc5a4ce94ff58e5f3d1a8deb0">operator*</a> (SrcType &amp;&amp;src, typename std::remove_cvref_t&lt; SrcType &gt;::value_type single)</td></tr>
+<tr class="memdesc:gae0ff12ebc5a4ce94ff58e5f3d1a8deb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that multiplies each value in a split-complex source by a real scalar.  <br /></td></tr>
+<tr class="separator:gae0ff12ebc5a4ce94ff58e5f3d1a8deb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4abcd2eb8bd1465f6ccd7f164e4177d3"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </td></tr>
+<tr class="memitem:ga4abcd2eb8bd1465f6ccd7f164e4177d3"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga4abcd2eb8bd1465f6ccd7f164e4177d3">operator*</a> (SrcType &amp;&amp;src, std::complex&lt; typename std::remove_cvref_t&lt; SrcType &gt;::value_type &gt; single)</td></tr>
+<tr class="memdesc:ga4abcd2eb8bd1465f6ccd7f164e4177d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that multiplies each value in a split-complex source by a complex scalar.  <br /></td></tr>
+<tr class="separator:ga4abcd2eb8bd1465f6ccd7f164e4177d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa0b0adffbfd5125b5d34459c0fea4e74"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </td></tr>
+<tr class="memitem:gaa0b0adffbfd5125b5d34459c0fea4e74"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#gaa0b0adffbfd5125b5d34459c0fea4e74">operator/</a> (SrcType &amp;&amp;src, typename std::remove_cvref_t&lt; SrcType &gt;::value_type single)</td></tr>
+<tr class="memdesc:gaa0b0adffbfd5125b5d34459c0fea4e74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that divides each value in a split-complex source by a real scalar.  <br /></td></tr>
+<tr class="separator:gaa0b0adffbfd5125b5d34459c0fea4e74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac73ce60a599e53eecbc966f7a2ca1adf"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </td></tr>
+<tr class="memitem:gac73ce60a599e53eecbc966f7a2ca1adf"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#gac73ce60a599e53eecbc966f7a2ca1adf">operator/</a> (SrcType &amp;&amp;src, std::complex&lt; typename std::remove_cvref_t&lt; SrcType &gt;::value_type &gt; single)</td></tr>
+<tr class="memdesc:gac73ce60a599e53eecbc966f7a2ca1adf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that divides each value in a split-complex source by a complex scalar.  <br /></td></tr>
+<tr class="separator:gac73ce60a599e53eecbc966f7a2ca1adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga318687f32a61038beab1e57d2805e158"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </td></tr>
+<tr class="memitem:ga318687f32a61038beab1e57d2805e158"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga318687f32a61038beab1e57d2805e158">operator+</a> (SrcType &amp;&amp;src, std::complex&lt; typename std::remove_cvref_t&lt; SrcType &gt;::value_type &gt; single)</td></tr>
+<tr class="memdesc:ga318687f32a61038beab1e57d2805e158"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that adds a complex scalar to each value in a split-complex source.  <br /></td></tr>
+<tr class="separator:ga318687f32a61038beab1e57d2805e158"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabb7a621c179e5208fb5d993bfc75c554"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </td></tr>
+<tr class="memitem:gabb7a621c179e5208fb5d993bfc75c554"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#gabb7a621c179e5208fb5d993bfc75c554">operator-</a> (SrcType &amp;&amp;src, std::complex&lt; typename std::remove_cvref_t&lt; SrcType &gt;::value_type &gt; single)</td></tr>
+<tr class="memdesc:gabb7a621c179e5208fb5d993bfc75c554"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that subtracts a complex scalar from each value in a split-complex source.  <br /></td></tr>
+<tr class="separator:gabb7a621c179e5208fb5d993bfc75c554"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga37e175da64217c44e718fbd4a28993a1"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcAType, is::anySplitComplexVectorOrExpression SrcBType&gt; </td></tr>
+<tr class="memitem:ga37e175da64217c44e718fbd4a28993a1"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga37e175da64217c44e718fbd4a28993a1">operator/</a> (SrcAType &amp;&amp;srcA, SrcBType &amp;&amp;srcB)</td></tr>
+<tr class="memdesc:ga37e175da64217c44e718fbd4a28993a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that divides split-complex source a by split-complex source b.  <br /></td></tr>
+<tr class="separator:ga37e175da64217c44e718fbd4a28993a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab96e93f9900b3c6aca515ec0ee85743e"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcAType, is::anySplitComplexVectorOrExpression SrcBType&gt; </td></tr>
+<tr class="memitem:gab96e93f9900b3c6aca515ec0ee85743e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#gab96e93f9900b3c6aca515ec0ee85743e">multiplyConjugate</a> (SrcAType &amp;&amp;srcA, SrcBType &amp;&amp;srcB)</td></tr>
+<tr class="memdesc:gab96e93f9900b3c6aca515ec0ee85743e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that multiplies split-complex source a by the complex conjugate of source b.  <br /></td></tr>
+<tr class="separator:gab96e93f9900b3c6aca515ec0ee85743e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabb50d401dbd423eb0b950b7c98389172"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </td></tr>
+<tr class="memitem:gabb50d401dbd423eb0b950b7c98389172"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#gabb50d401dbd423eb0b950b7c98389172">splitComplexConjugate</a> (SrcType &amp;&amp;src)</td></tr>
+<tr class="memdesc:gabb50d401dbd423eb0b950b7c98389172"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression containing the complex conjugate of each value in a split-complex source.  <br /></td></tr>
+<tr class="separator:gabb50d401dbd423eb0b950b7c98389172"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7479851d8257cec58931f82ba5b5a8bc"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </td></tr>
+<tr class="memitem:ga7479851d8257cec58931f82ba5b5a8bc"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga7479851d8257cec58931f82ba5b5a8bc">magnitudeSquared</a> (SrcType &amp;&amp;src)</td></tr>
+<tr class="memdesc:ga7479851d8257cec58931f82ba5b5a8bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression containing the squared magnitude of each value in a split-complex source.  <br /></td></tr>
+<tr class="separator:ga7479851d8257cec58931f82ba5b5a8bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga17950fdb3b69637674e809405e51a577"><td class="memTemplParams" colspan="2">template&lt;is::anySplitComplexVectorOrExpression SrcType&gt; </td></tr>
+<tr class="memitem:ga17950fdb3b69637674e809405e51a577"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga17950fdb3b69637674e809405e51a577">magnitude</a> (SrcType &amp;&amp;src)</td></tr>
+<tr class="memdesc:ga17950fdb3b69637674e809405e51a577"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression containing the magnitude of each value in a split-complex source.  <br /></td></tr>
+<tr class="separator:ga17950fdb3b69637674e809405e51a577"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af90149542071c83fddeb04c75e9cfd3a"><td class="memTemplParams" colspan="2">template&lt;is::anyVctr Lhs, is::anyVctr Rhs&gt; <br />
 requires std::same_as&lt;<a class="el" href="namespacevctr.html#a83a43fd917a646b18b60be7e88becc33">ValueType</a>&lt;Lhs&gt;, <a class="el" href="namespacevctr.html#a83a43fd917a646b18b60be7e88becc33">ValueType</a>&lt;Rhs&gt;&gt;</td></tr>
 <tr class="memitem:af90149542071c83fddeb04c75e9cfd3a"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#af90149542071c83fddeb04c75e9cfd3a">operator==</a> (const Lhs &amp;lhs, const Rhs &amp;rhs)</td></tr>
@@ -352,10 +438,6 @@ template&lt;is::uniquePtr FirstArg, is::uniquePtr... Args&gt; <br />
 requires (are::same&lt;FirstArg, Args...&gt;)</td></tr>
 <tr class="memitem:ab1aae899c0ed0aae68ad1562bb1a9adb"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>OwnedVector</b> (FirstArg &amp;&amp;, Args &amp;&amp;...) -&gt; <a class="el" href="classvctr_1_1OwnedVector.html">OwnedVector</a>&lt; typename FirstArg::element_type &gt;</td></tr>
 <tr class="separator:ab1aae899c0ed0aae68ad1562bb1a9adb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga36f93431c14c872955baaaf0d2052381"><td class="memTemplParams" colspan="2">template&lt;is::anyVctrOrExpression SrcAType, is::anyVctrOrExpression SrcBType&gt; </td></tr>
-<tr class="memitem:ga36f93431c14c872955baaaf0d2052381"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga36f93431c14c872955baaaf0d2052381">operator+</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b)</td></tr>
-<tr class="memdesc:ga36f93431c14c872955baaaf0d2052381"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that adds two vector or expression sources.  <br /></td></tr>
-<tr class="separator:ga36f93431c14c872955baaaf0d2052381"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga24470bf226cfd8eccac84baacc1988be"><td class="memTemplParams" colspan="2">template&lt;is::anyVctrOrExpression Src&gt; </td></tr>
 <tr class="memitem:ga24470bf226cfd8eccac84baacc1988be"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga24470bf226cfd8eccac84baacc1988be">operator+</a> (typename std::remove_cvref_t&lt; Src &gt;::value_type single, Src &amp;&amp;vec)</td></tr>
 <tr class="memdesc:ga24470bf226cfd8eccac84baacc1988be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that adds a single value to a vector or expression source.  <br /></td></tr>
@@ -380,11 +462,11 @@ requires (are::same&lt;FirstArg, Args...&gt;)</td></tr>
 <tr class="memitem:gaaf1a3c4c35795a26299da79e77fc9ea7"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#gaaf1a3c4c35795a26299da79e77fc9ea7">clamp</a> (const <a class="el" href="classvctr_1_1Range.html">Range</a> &amp;range)</td></tr>
 <tr class="memdesc:gaaf1a3c4c35795a26299da79e77fc9ea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensures that the elements are within the range.  <br /></td></tr>
 <tr class="separator:gaaf1a3c4c35795a26299da79e77fc9ea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7fa04c18dbf489b3dfccc7d15ea11c2e"><td class="memTemplParams" colspan="2">template&lt;class SrcAType , class SrcBType &gt; <br />
+<tr class="memitem:ga37e175da64217c44e718fbd4a28993a1"><td class="memTemplParams" colspan="2">template&lt;class SrcAType , class SrcBType &gt; <br />
 requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt;)</td></tr>
-<tr class="memitem:ga7fa04c18dbf489b3dfccc7d15ea11c2e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga7fa04c18dbf489b3dfccc7d15ea11c2e">operator/</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b)</td></tr>
-<tr class="memdesc:ga7fa04c18dbf489b3dfccc7d15ea11c2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that divides vector or expression a by vector or expression b.  <br /></td></tr>
-<tr class="separator:ga7fa04c18dbf489b3dfccc7d15ea11c2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga37e175da64217c44e718fbd4a28993a1"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#ga37e175da64217c44e718fbd4a28993a1">operator/</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b)</td></tr>
+<tr class="memdesc:ga37e175da64217c44e718fbd4a28993a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that divides vector or expression a by vector or expression b.  <br /></td></tr>
+<tr class="separator:ga37e175da64217c44e718fbd4a28993a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga33e144c46ba685bf55b8b06fc85e912a"><td class="memTemplParams" colspan="2">template&lt;class Src &gt; <br />
 requires is::anyVctrOrExpression&lt;Src&gt;</td></tr>
 <tr class="memitem:ga33e144c46ba685bf55b8b06fc85e912a"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga33e144c46ba685bf55b8b06fc85e912a">operator/</a> (typename std::remove_cvref_t&lt; Src &gt;::value_type single, Src &amp;&amp;vec)</td></tr>
@@ -403,11 +485,11 @@ requires is::anyVctrOrExpression&lt;Src&gt;</td></tr>
 <tr class="memitem:aad93616497d6c986dcf11047902e6497"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#aad93616497d6c986dcf11047902e6497">elementwiseMin</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b)</td></tr>
 <tr class="memdesc:aad93616497d6c986dcf11047902e6497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the element-wise minimum of two sources.  <br /></td></tr>
 <tr class="separator:aad93616497d6c986dcf11047902e6497"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gace45c99e6906fb1273db0cfb3ec4fd01"><td class="memTemplParams" colspan="2">template&lt;class SrcAType , class SrcBType &gt; <br />
+<tr class="memitem:ga5ff710970dc79c4110152dac9393c323"><td class="memTemplParams" colspan="2">template&lt;class SrcAType , class SrcBType &gt; <br />
 requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt;)</td></tr>
-<tr class="memitem:gace45c99e6906fb1273db0cfb3ec4fd01"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#gace45c99e6906fb1273db0cfb3ec4fd01">operator*</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b)</td></tr>
-<tr class="memdesc:gace45c99e6906fb1273db0cfb3ec4fd01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that multiplies vector or expression a with vector or expression b.  <br /></td></tr>
-<tr class="separator:gace45c99e6906fb1273db0cfb3ec4fd01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5ff710970dc79c4110152dac9393c323"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#ga5ff710970dc79c4110152dac9393c323">operator*</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b)</td></tr>
+<tr class="memdesc:ga5ff710970dc79c4110152dac9393c323"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that multiplies vector or expression a with vector or expression b.  <br /></td></tr>
+<tr class="separator:ga5ff710970dc79c4110152dac9393c323"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5c66069ba0f2ac2876104893c73a4521"><td class="memTemplParams" colspan="2">template&lt;class Src &gt; <br />
 requires is::anyVctrOrExpression&lt;Src&gt;</td></tr>
 <tr class="memitem:ga5c66069ba0f2ac2876104893c73a4521"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga5c66069ba0f2ac2876104893c73a4521">operator*</a> (typename std::remove_cvref_t&lt; Src &gt;::value_type single, Src &amp;&amp;vec)</td></tr>
@@ -428,11 +510,11 @@ requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &am
 <tr class="memitem:ga8af8d6a5ae5a924f83ddea9f4e9815f2"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga8af8d6a5ae5a924f83ddea9f4e9815f2">multiplySubtract</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b, SrcCType &amp;&amp;c)</td></tr>
 <tr class="memdesc:ga8af8d6a5ae5a924f83ddea9f4e9815f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the multiply-subtract operation c - (a * b).  <br /></td></tr>
 <tr class="separator:ga8af8d6a5ae5a924f83ddea9f4e9815f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9174be97e2f8cdaa08c40b5b5f24628b"><td class="memTemplParams" colspan="2">template&lt;class SrcAType , class SrcBType &gt; <br />
+<tr class="memitem:gac38f4875b200e5be611c5ff1bcf8f2b9"><td class="memTemplParams" colspan="2">template&lt;class SrcAType , class SrcBType &gt; <br />
 requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt;)</td></tr>
-<tr class="memitem:ga9174be97e2f8cdaa08c40b5b5f24628b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#ga9174be97e2f8cdaa08c40b5b5f24628b">operator-</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b)</td></tr>
-<tr class="memdesc:ga9174be97e2f8cdaa08c40b5b5f24628b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that subtracts vector or expression b from vector or expression a.  <br /></td></tr>
-<tr class="separator:ga9174be97e2f8cdaa08c40b5b5f24628b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac38f4875b200e5be611c5ff1bcf8f2b9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacevctr.html#gac38f4875b200e5be611c5ff1bcf8f2b9">operator-</a> (SrcAType &amp;&amp;a, SrcBType &amp;&amp;b)</td></tr>
+<tr class="memdesc:gac38f4875b200e5be611c5ff1bcf8f2b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an expression that subtracts vector or expression b from vector or expression a.  <br /></td></tr>
+<tr class="separator:gac38f4875b200e5be611c5ff1bcf8f2b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaeaa9cb36a35a3e2be8103e71e6642153"><td class="memTemplParams" colspan="2">template&lt;class Src &gt; <br />
 requires is::anyVctrOrExpression&lt;Src&gt;</td></tr>
 <tr class="memitem:gaeaa9cb36a35a3e2be8103e71e6642153"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__Expressions.html#gaeaa9cb36a35a3e2be8103e71e6642153">operator-</a> (typename std::remove_cvref_t&lt; Src &gt;::value_type single, Src &amp;&amp;vec)</td></tr>
@@ -962,6 +1044,60 @@ template&lt;class ElementType , bool isDataSIMDAligned, bool isStorageSIMDExtend
 </div><!-- fragment --> 
 </div>
 </div>
+<a id="acbcfadc6e1ea6b7bf54192cfc4cf239a" name="acbcfadc6e1ea6b7bf54192cfc4cf239a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbcfadc6e1ea6b7bf54192cfc4cf239a">&#9670;&#160;</a></span>SplitComplexArray</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::realFloatNumber T, size_t size&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacevctr.html#acbcfadc6e1ea6b7bf54192cfc4cf239a">vctr::SplitComplexArray</a> = typedef <a class="el" href="classvctr_1_1SplitComplexBase.html">SplitComplexBase</a>&lt;<a class="el" href="classvctr_1_1Array.html">Array</a>&lt;T, size&gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>An owning split complex container with a compile time size. </p>
+
+</div>
+</div>
+<a id="ac0caa6ea384129b18f3f7bdd30823168" name="ac0caa6ea384129b18f3f7bdd30823168"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0caa6ea384129b18f3f7bdd30823168">&#9670;&#160;</a></span>SplitComplexSpan</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::realFloatNumber T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacevctr.html#ac0caa6ea384129b18f3f7bdd30823168">vctr::SplitComplexSpan</a> = typedef <a class="el" href="classvctr_1_1SplitComplexBase.html">SplitComplexBase</a>&lt;<a class="el" href="classvctr_1_1Span.html">Span</a>&lt;T&gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A non-owning, mutable view to split complex data. </p>
+
+</div>
+</div>
+<a id="aea3c4a9433e1e3caaa92c6478aafdead" name="aea3c4a9433e1e3caaa92c6478aafdead"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea3c4a9433e1e3caaa92c6478aafdead">&#9670;&#160;</a></span>SplitComplexVector</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::realFloatNumber T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacevctr.html#aea3c4a9433e1e3caaa92c6478aafdead">vctr::SplitComplexVector</a> = typedef <a class="el" href="classvctr_1_1SplitComplexBase.html">SplitComplexBase</a>&lt;<a class="el" href="classvctr_1_1Vector.html">Vector</a>&lt;T&gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>An owning split complex container. </p>
+
+</div>
+</div>
 <a id="a222cc9e4338c24b2f0751c132503ce3a" name="a222cc9e4338c24b2f0751c132503ce3a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a222cc9e4338c24b2f0751c132503ce3a">&#9670;&#160;</a></span>StorageInfoType</h2>
 
@@ -1415,6 +1551,129 @@ requires (sizeof... (RuntimeArgs) &gt; 0)</div>
 
 </div>
 </div>
+<a id="ga5ff710970dc79c4110152dac9393c323" name="ga5ff710970dc79c4110152dac9393c323"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5ff710970dc79c4110152dac9393c323">&#9670;&#160;</a></span>operator*()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class SrcAType , class SrcBType &gt; <br />
+requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt;)</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::operator* </td>
+          <td>(</td>
+          <td class="paramtype">SrcAType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SrcBType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that multiplies vector or expression a with vector or expression b. </p>
+
+</div>
+</div>
+<a id="gac38f4875b200e5be611c5ff1bcf8f2b9" name="gac38f4875b200e5be611c5ff1bcf8f2b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac38f4875b200e5be611c5ff1bcf8f2b9">&#9670;&#160;</a></span>operator-()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class SrcAType , class SrcBType &gt; <br />
+requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt;)</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::operator- </td>
+          <td>(</td>
+          <td class="paramtype">SrcAType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SrcBType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that subtracts vector or expression b from vector or expression a. </p>
+
+</div>
+</div>
+<a id="ga37e175da64217c44e718fbd4a28993a1" name="ga37e175da64217c44e718fbd4a28993a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga37e175da64217c44e718fbd4a28993a1">&#9670;&#160;</a></span>operator/()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class SrcAType , class SrcBType &gt; <br />
+requires (is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcAType&gt;&gt; &amp;&amp; is::anyVctrOrExpression&lt;std::remove_cvref_t&lt;SrcBType&gt;&gt;)</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto vctr::operator/ </td>
+          <td>(</td>
+          <td class="paramtype">SrcAType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SrcBType &amp;&amp;&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an expression that divides vector or expression a by vector or expression b. </p>
+
+</div>
+</div>
 <a id="af90149542071c83fddeb04c75e9cfd3a" name="af90149542071c83fddeb04c75e9cfd3a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af90149542071c83fddeb04c75e9cfd3a">&#9670;&#160;</a></span>operator==()</h2>
 
@@ -1545,6 +1804,50 @@ template&lt;class ElementType &gt; </div>
 
 <p>Casts the size_t argument to an int. </p>
 <p>In a debug build, this checks for potential overflow issues </p>
+
+</div>
+</div>
+<a id="ad96e9e7c773b05cfbd6d5a0acbdc4d52" name="ad96e9e7c773b05cfbd6d5a0acbdc4d52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad96e9e7c773b05cfbd6d5a0acbdc4d52">&#9670;&#160;</a></span>SplitComplexBase() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Interleaved &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classvctr_1_1SplitComplexBase.html">vctr::SplitComplexBase</a> </td>
+          <td>(</td>
+          <td class="paramtype">const Interleaved &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> -&gt;  <a class="el" href="classvctr_1_1SplitComplexBase.html">SplitComplexBase</a>&lt; typename detail::SplitComplexContainerType&lt; Interleaved &gt;::Type &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deduces the real storage type from an interleaved complex container. </p>
+
+</div>
+</div>
+<a id="a2b5c34d3de80a5076f4d01bcef4d3a0b" name="a2b5c34d3de80a5076f4d01bcef4d3a0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b5c34d3de80a5076f4d01bcef4d3a0b">&#9670;&#160;</a></span>SplitComplexBase() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;is::expression RealExpression, is::expression ImagExpression&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classvctr_1_1SplitComplexBase.html">vctr::SplitComplexBase</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structvctr_1_1SplitComplexExpression.html">SplitComplexExpression</a>&lt; RealExpression, ImagExpression &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> -&gt;  <a class="el" href="classvctr_1_1SplitComplexBase.html">SplitComplexBase</a>&lt; <a class="el" href="classvctr_1_1Vector.html">Vector</a>&lt; typename RealExpression::value_type &gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deduces a SplitComplexVector when constructing from a split-complex expression, like a <a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">Vector</a> constructed from an expression. </p>
 
 </div>
 </div>

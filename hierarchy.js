@@ -135,6 +135,8 @@ var hierarchy =
     [ "vctr::ScalarCompareOp< CompareOp::lessOrEqual >", "structvctr_1_1ScalarCompareOp_3_01CompareOp_1_1lessOrEqual_01_4.html", null ],
     [ "vctr::ScalarCompareOp< CompareOp::notEqual >", "structvctr_1_1ScalarCompareOp_3_01CompareOp_1_1notEqual_01_4.html", null ],
     [ "vctr::ExpressionTemplateBase::SIMDRegisterUnion< ExpressionTypes >", "unionvctr_1_1ExpressionTemplateBase_1_1SIMDRegisterUnion.html", null ],
+    [ "vctr::SplitComplexBase< ContainerTypeParam >", "classvctr_1_1SplitComplexBase.html", null ],
+    [ "vctr::SplitComplexExpression< RealExpression, ImagExpression >", "structvctr_1_1SplitComplexExpression.html", null ],
     [ "vctr::SSERegister< T >", "structvctr_1_1SSERegister.html", null ],
     [ "vctr::SSERegister< typename CommonSrcElement::Type >", "structvctr_1_1SSERegister.html", null ],
     [ "vctr::StaticStorageInfo< isDataSIMDAligned, isStorageSIMDExtended, customMemberAlignment >", "structvctr_1_1StaticStorageInfo.html", null ],

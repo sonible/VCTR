@@ -5,7 +5,7 @@ var searchData=
   ['clamp_2',['clamp',['../group__Expressions.html#gadb6fc764c304eda32439875e7b50d485',1,'vctr::clamp(T lowerBound, T upperBound)'],['../group__Expressions.html#gaaf1a3c4c35795a26299da79e77fc9ea7',1,'vctr::clamp(const Range &amp;range)']]],
   ['clamphigh_3',['clampHigh',['../group__Expressions.html#gaa42cf0dd0e425bad94a420c9ac6805c7',1,'vctr']]],
   ['clamplow_4',['clampLow',['../group__Expressions.html#ga69329f63042f587f726465da4ef612d8',1,'vctr']]],
-  ['clear_5',['clear',['../classvctr_1_1Vector.html#ae86b97eadfbd8d9001b242badb20dbbd',1,'vctr::Vector']]],
+  ['clear_5',['clear',['../classvctr_1_1SplitComplexBase.html#a67af2fd4484d7d36795d6669e5f30fd1',1,'vctr::SplitComplexBase::clear()'],['../classvctr_1_1Vector.html#ae86b97eadfbd8d9001b242badb20dbbd',1,'vctr::Vector::clear()']]],
   ['contains_6',['contains',['../classvctr_1_1VctrBase.html#aeca7364ca53cdea690f09329ccb89c36',1,'vctr::VctrBase::contains(const T &amp;value) const'],['../classvctr_1_1VctrBase.html#a08ae8625a2045e850b0a0162c1c7f3c3',1,'vctr::VctrBase::contains(It it) const']]],
   ['copyfrom_7',['copyFrom',['../classvctr_1_1VctrBase.html#a6a8d59c063990c037ff50a7a9e6b3749',1,'vctr::VctrBase']]],
   ['count_8',['count',['../classvctr_1_1VctrBase.html#a03a8ac49770a19c6d3bef9a59ffacbdd',1,'vctr::VctrBase']]],
