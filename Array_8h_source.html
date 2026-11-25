@@ -263,68 +263,80 @@ $(document).ready(function(){initNavTree('Array_8h_source.html',''); initResizab
 <div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        Vctr::assignExpressionTemplate (expression);</div>
 <div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    }</div>
 <div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="keyword">template</span> &lt;<a class="code hl_concept" href="conceptvctr_1_1is_1_1suitableInitializerFunction.html">is::suitableInitializerFunction</a> Fn, <span class="keywordtype">size_t</span>... i&gt;</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keyword">constexpr</span> <a class="code hl_class" href="classvctr_1_1Array.html">Array</a> (Fn&amp;&amp; initializerFunction, std::index_sequence&lt;i...&gt;) : Vctr (StdArrayType { initializerFunction (i)... }) {}</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>};</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> OwnedElementType, <span class="keywordtype">size_t</span> extent&gt;</div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno"><a class="line" href="classvctr_1_1OwnedArray.html">  232</a></span><span class="keyword">class </span><a class="code hl_class" href="classvctr_1_1OwnedArray.html">OwnedArray</a> : <span class="keyword">public</span> <a class="code hl_class" href="classvctr_1_1Array.html">Array</a>&lt;std::unique_ptr&lt;OwnedElementType&gt;, extent&gt;</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>{</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="keyword">using </span><a class="code hl_class" href="classvctr_1_1Array.html">ArrayType</a> = <a class="code hl_class" href="classvctr_1_1Array.html">Array&lt;std::unique_ptr&lt;OwnedElementType&gt;</a>, extent&gt;;</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    <span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    <a class="code hl_class" href="classvctr_1_1OwnedArray.html">OwnedArray</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="keyword">template</span> &lt;is::anyVctrWithValueType&lt;value_type&gt; VctrToAppend&gt;</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="keyword">requires</span> (extentOf&lt;VctrToAppend&gt; != std::dynamic_extent)</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno"><a class="line" href="classvctr_1_1Array.html#afa93348e0a74becdf8bbd9e99be8fbb9">  232</a></span>    <span class="keyword">constexpr</span> <span class="keyword">auto</span> append (VctrToAppend&amp;&amp; vctrToAppend) <span class="keyword">const</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    {</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        <a class="code hl_class" href="classvctr_1_1Array.html">Array&lt;value_type, extent + extentOf&lt;VctrToAppend&gt;</a>&gt; appended;</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        appended.template subSpan&lt;0, extent&gt;() = *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        appended.template subSpan&lt;extent&gt;() = std::forward&lt;VctrToAppend&gt; (vctrToAppend);</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        <span class="keywordflow">return</span> appended;</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    }</div>
 <div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    <span class="keyword">template</span> &lt;<a class="code hl_concept" href="conceptvctr_1_1is_1_1pointer.html">is::pointer</a>... Pointer&gt;</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno"><a class="line" href="classvctr_1_1OwnedArray.html#afb3e2d9b0ae6b3f59a86a5137417d828">  244</a></span>    <a class="code hl_function" href="classvctr_1_1OwnedArray.html#afb3e2d9b0ae6b3f59a86a5137417d828">OwnedArray</a> (Pointer... elementsToOwn) : <a class="code hl_class" href="classvctr_1_1OwnedArray.html">OwnedArray</a> (std::unique_ptr&lt;OwnedElementType&gt; (elementsToOwn)...) {}</div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="keyword">template</span> &lt;<a class="code hl_concept" href="conceptvctr_1_1is_1_1noPointer.html">is::noPointer</a>... Args&gt;</div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno"><a class="line" href="classvctr_1_1OwnedArray.html#a9ddf6e62388410c1e939a1d39be9c104">  248</a></span>    <a class="code hl_function" href="classvctr_1_1OwnedArray.html#a9ddf6e62388410c1e939a1d39be9c104">OwnedArray</a> (Args&amp;&amp;... args) : <a class="code hl_class" href="classvctr_1_1Array.html">ArrayType</a> (std::<a class="code hl_variable" href="group__Expressions.html#ga18ed29b212185631744d2f14c949b2d9">forward</a>&lt;Args&gt; (args)...) {}</div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>};</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span><span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span><span class="comment">// Deduction guides</span></div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span><span class="comment">//==============================================================================</span></div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> OtherElementType, <span class="keywordtype">size_t</span> otherSize&gt;</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>Array (std::array&lt;OtherElementType, otherSize&gt;&amp;&amp;) -&gt; Array&lt;OtherElementType, otherSize, otherSize&gt;;</div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> First, is::suitableInitializerForElementType&lt;std::remove_cvref_t&lt;First&gt;&gt;... Other&gt;</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>Array (First&amp;&amp;, Other&amp;&amp;...) -&gt; Array&lt;std::remove_cvref_t&lt;First&gt;, <span class="keyword">sizeof</span>...(Other) + 1&gt;;</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span> </div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span><span class="keyword">namespace </span>detail</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>{</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <span class="keyword">template</span> &lt;<a class="code hl_concept" href="conceptvctr_1_1is_1_1suitableInitializerFunction.html">is::suitableInitializerFunction</a> Fn, <span class="keywordtype">size_t</span>... i&gt;</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    <span class="keyword">constexpr</span> <a class="code hl_class" href="classvctr_1_1Array.html">Array</a> (Fn&amp;&amp; initializerFunction, std::index_sequence&lt;i...&gt;) : Vctr (StdArrayType { initializerFunction (i)... }) {}</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>};</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span> </div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> OwnedElementType, <span class="keywordtype">size_t</span> extent&gt;</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno"><a class="line" href="classvctr_1_1OwnedArray.html">  250</a></span><span class="keyword">class </span><a class="code hl_class" href="classvctr_1_1OwnedArray.html">OwnedArray</a> : <span class="keyword">public</span> <a class="code hl_class" href="classvctr_1_1Array.html">Array</a>&lt;std::unique_ptr&lt;OwnedElementType&gt;, extent&gt;</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>{</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    <span class="keyword">using </span><a class="code hl_class" href="classvctr_1_1Array.html">ArrayType</a> = <a class="code hl_class" href="classvctr_1_1Array.html">Array&lt;std::unique_ptr&lt;OwnedElementType&gt;</a>, extent&gt;;</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span> </div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>    <span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    <a class="code hl_class" href="classvctr_1_1OwnedArray.html">OwnedArray</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    <span class="keyword">template</span> &lt;<a class="code hl_concept" href="conceptvctr_1_1is_1_1pointer.html">is::pointer</a>... Pointer&gt;</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno"><a class="line" href="classvctr_1_1OwnedArray.html#afb3e2d9b0ae6b3f59a86a5137417d828">  262</a></span>    <a class="code hl_function" href="classvctr_1_1OwnedArray.html#afb3e2d9b0ae6b3f59a86a5137417d828">OwnedArray</a> (Pointer... elementsToOwn) : <a class="code hl_class" href="classvctr_1_1OwnedArray.html">OwnedArray</a> (std::unique_ptr&lt;OwnedElementType&gt; (elementsToOwn)...) {}</div>
 <div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span> </div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span><span class="comment">// Clang failed to respect constrained single template types in deduction guides for some reasons.</span></div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span><span class="comment">// Using this as workaround for the single argument deduction guide below</span></div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span><span class="keyword">struct </span>SingleArgDeductionHelper</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>{</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    <span class="keyword">using </span>Type = std::remove_cvref_t&lt;T&gt;;</div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">size_t</span> extent = 1;</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>};</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    <span class="keyword">template</span> &lt;<a class="code hl_concept" href="conceptvctr_1_1is_1_1noPointer.html">is::noPointer</a>... Args&gt;</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno"><a class="line" href="classvctr_1_1OwnedArray.html#a9ddf6e62388410c1e939a1d39be9c104">  266</a></span>    <a class="code hl_function" href="classvctr_1_1OwnedArray.html#a9ddf6e62388410c1e939a1d39be9c104">OwnedArray</a> (Args&amp;&amp;... args) : <a class="code hl_class" href="classvctr_1_1Array.html">ArrayType</a> (std::<a class="code hl_variable" href="group__Expressions.html#ga18ed29b212185631744d2f14c949b2d9">forward</a>&lt;Args&gt; (args)...) {}</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>};</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span><span class="comment">//==============================================================================</span></div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span><span class="comment">// Deduction guides</span></div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span><span class="comment">//==============================================================================</span></div>
 <div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span><span class="keyword">template</span> &lt;has::size T&gt;</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span><span class="keyword">struct </span>SingleArgDeductionHelper&lt;T&gt;</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>{</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    <span class="keyword">using </span>Type = <a class="code hl_typedef" href="namespacevctr.html#a83a43fd917a646b18b60be7e88becc33">vctr::ValueType&lt;T&gt;</a>;</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">size_t</span> extent = extentOf&lt;T&gt;;</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>};</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>} <span class="comment">// namespace detail</span></div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> OtherElementType, <span class="keywordtype">size_t</span> otherSize&gt;</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>Array (std::array&lt;OtherElementType, otherSize&gt;&amp;&amp;) -&gt; Array&lt;OtherElementType, otherSize, otherSize&gt;;</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span> </div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> First, is::suitableInitializerForElementType&lt;std::remove_cvref_t&lt;First&gt;&gt;... Other&gt;</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>Array (First&amp;&amp;, Other&amp;&amp;...) -&gt; Array&lt;std::remove_cvref_t&lt;First&gt;, <span class="keyword">sizeof</span>...(Other) + 1&gt;;</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span><span class="keyword">namespace </span>detail</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>{</div>
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> SingleArg&gt;</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>Array (SingleArg&amp;&amp;) -&gt; Array&lt;typename detail::SingleArgDeductionHelper&lt;SingleArg&gt;::Type, detail::SingleArgDeductionHelper&lt;SingleArg&gt;::extent&gt;;</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span> </div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> Po<span class="keywordtype">int</span>er, std::same_as&lt;Po<span class="keywordtype">int</span>er&gt;... Po<span class="keywordtype">int</span>ers&gt;</div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>OwnedArray (Pointer*, Pointers*...) -&gt; OwnedArray&lt;Pointer, <span class="keyword">sizeof</span>...(Pointers) + 1&gt;;</div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span> </div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>} <span class="comment">// namespace vctr</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span><span class="comment">// Clang failed to respect constrained single template types in deduction guides for some reasons.</span></div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span><span class="comment">// Using this as workaround for the single argument deduction guide below</span></div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span><span class="keyword">struct </span>SingleArgDeductionHelper</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>{</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    <span class="keyword">using </span>Type = std::remove_cvref_t&lt;T&gt;;</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">size_t</span> extent = 1;</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>};</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span> </div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span><span class="keyword">template</span> &lt;has::size T&gt;</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span><span class="keyword">struct </span>SingleArgDeductionHelper&lt;T&gt;</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>{</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    <span class="keyword">using </span>Type = <a class="code hl_typedef" href="namespacevctr.html#a83a43fd917a646b18b60be7e88becc33">vctr::ValueType&lt;T&gt;</a>;</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">size_t</span> extent = extentOf&lt;T&gt;;</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>};</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>} <span class="comment">// namespace detail</span></div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span> </div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> SingleArg&gt;</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>Array (SingleArg&amp;&amp;) -&gt; Array&lt;typename detail::SingleArgDeductionHelper&lt;SingleArg&gt;::Type, detail::SingleArgDeductionHelper&lt;SingleArg&gt;::extent&gt;;</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span> </div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> Po<span class="keywordtype">int</span>er, std::same_as&lt;Po<span class="keywordtype">int</span>er&gt;... Po<span class="keywordtype">int</span>ers&gt;</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>OwnedArray (Pointer*, Pointers*...) -&gt; OwnedArray&lt;Pointer, <span class="keyword">sizeof</span>...(Pointers) + 1&gt;;</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span> </div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>} <span class="comment">// namespace vctr</span></div>
 <div class="ttc" id="aclassvctr_1_1Array_html"><div class="ttname"><a href="classvctr_1_1Array.html">vctr::Array</a></div><div class="ttdoc">The stack-based container type.</div><div class="ttdef"><b>Definition:</b> Array.h:53</div></div>
 <div class="ttc" id="aclassvctr_1_1Array_html_a00c3591456164d1c5519782158d5c410"><div class="ttname"><a href="classvctr_1_1Array.html#a00c3591456164d1c5519782158d5c410">vctr::Array::Array</a></div><div class="ttdeci">constexpr Array(ElementType initialValue)</div><div class="ttdoc">Creates an Array with all elements initialised to initialValue.</div><div class="ttdef"><b>Definition:</b> Array.h:85</div></div>
 <div class="ttc" id="aclassvctr_1_1Array_html_a12663c821da364018f0601094452e7ab"><div class="ttname"><a href="classvctr_1_1Array.html#a12663c821da364018f0601094452e7ab">vctr::Array::Array</a></div><div class="ttdeci">constexpr Array(std::array&lt; OtherElementType, otherSize &gt; &amp;&amp;other)</div><div class="ttdoc">Creates an Array by moving a std::array into it.</div><div class="ttdef"><b>Definition:</b> Array.h:105</div></div>
@@ -336,9 +348,9 @@ $(document).ready(function(){initNavTree('Array_8h_source.html',''); initResizab
 <div class="ttc" id="aclassvctr_1_1Array_html_a88ddfa6f9624ca651326577d098b56b6"><div class="ttname"><a href="classvctr_1_1Array.html#a88ddfa6f9624ca651326577d098b56b6">vctr::Array::Array</a></div><div class="ttdeci">constexpr Array()</div><div class="ttdoc">Creates an uninitialised Array.</div><div class="ttdef"><b>Definition:</b> Array.h:72</div></div>
 <div class="ttc" id="aclassvctr_1_1Array_html_aeea1bd962c51bd20de9777f75d3d0ab6"><div class="ttname"><a href="classvctr_1_1Array.html#aeea1bd962c51bd20de9777f75d3d0ab6">vctr::Array::Array</a></div><div class="ttdeci">constexpr Array(const ElementType *data, size_t size)</div><div class="ttdoc">Copies size elements from the memory location pointed to by data.</div><div class="ttdef"><b>Definition:</b> Array.h:142</div></div>
 <div class="ttc" id="aclassvctr_1_1Array_html_afcb666532509923815c06a593a2ba7b9"><div class="ttname"><a href="classvctr_1_1Array.html#afcb666532509923815c06a593a2ba7b9">vctr::Array::Array</a></div><div class="ttdeci">constexpr Array(const OtherContainer &amp;other)</div><div class="ttdoc">This constructor will create an Array instance of the same size as OtherContainer and will copy its v...</div><div class="ttdef"><b>Definition:</b> Array.h:139</div></div>
-<div class="ttc" id="aclassvctr_1_1OwnedArray_html"><div class="ttname"><a href="classvctr_1_1OwnedArray.html">vctr::OwnedArray</a></div><div class="ttdoc">A handy shortcut for Array&lt;std::unique_ptr&lt;OwnedElementType&gt;, n&gt;.</div><div class="ttdef"><b>Definition:</b> Array.h:233</div></div>
-<div class="ttc" id="aclassvctr_1_1OwnedArray_html_a9ddf6e62388410c1e939a1d39be9c104"><div class="ttname"><a href="classvctr_1_1OwnedArray.html#a9ddf6e62388410c1e939a1d39be9c104">vctr::OwnedArray::OwnedArray</a></div><div class="ttdeci">OwnedArray(Args &amp;&amp;... args)</div><div class="ttdoc">Forwards every other constructor call to the base class constructor.</div><div class="ttdef"><b>Definition:</b> Array.h:248</div></div>
-<div class="ttc" id="aclassvctr_1_1OwnedArray_html_afb3e2d9b0ae6b3f59a86a5137417d828"><div class="ttname"><a href="classvctr_1_1OwnedArray.html#afb3e2d9b0ae6b3f59a86a5137417d828">vctr::OwnedArray::OwnedArray</a></div><div class="ttdeci">OwnedArray(Pointer... elementsToOwn)</div><div class="ttdoc">Creates an OwnedArray from a list of raw pointers that will be owned by the Array.</div><div class="ttdef"><b>Definition:</b> Array.h:244</div></div>
+<div class="ttc" id="aclassvctr_1_1OwnedArray_html"><div class="ttname"><a href="classvctr_1_1OwnedArray.html">vctr::OwnedArray</a></div><div class="ttdoc">A handy shortcut for Array&lt;std::unique_ptr&lt;OwnedElementType&gt;, n&gt;.</div><div class="ttdef"><b>Definition:</b> Array.h:251</div></div>
+<div class="ttc" id="aclassvctr_1_1OwnedArray_html_a9ddf6e62388410c1e939a1d39be9c104"><div class="ttname"><a href="classvctr_1_1OwnedArray.html#a9ddf6e62388410c1e939a1d39be9c104">vctr::OwnedArray::OwnedArray</a></div><div class="ttdeci">OwnedArray(Args &amp;&amp;... args)</div><div class="ttdoc">Forwards every other constructor call to the base class constructor.</div><div class="ttdef"><b>Definition:</b> Array.h:266</div></div>
+<div class="ttc" id="aclassvctr_1_1OwnedArray_html_afb3e2d9b0ae6b3f59a86a5137417d828"><div class="ttname"><a href="classvctr_1_1OwnedArray.html#afb3e2d9b0ae6b3f59a86a5137417d828">vctr::OwnedArray::OwnedArray</a></div><div class="ttdeci">OwnedArray(Pointer... elementsToOwn)</div><div class="ttdoc">Creates an OwnedArray from a list of raw pointers that will be owned by the Array.</div><div class="ttdef"><b>Definition:</b> Array.h:262</div></div>
 <div class="ttc" id="aclassvctr_1_1VctrBase_html"><div class="ttname"><a href="classvctr_1_1VctrBase.html">vctr::VctrBase</a></div><div class="ttdoc">The base class to all one dimensional containers and views in the VCTR project.</div><div class="ttdef"><b>Definition:</b> VctrBase.h:38</div></div>
 <div class="ttc" id="aconceptvctr_1_1is_1_1noPointer_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1noPointer.html">vctr::is::noPointer</a></div><div class="ttdoc">Constrains a type to be no pointer of a reference to a pointer.</div><div class="ttdef"><b>Definition:</b> GenericConcepts.h:90</div></div>
 <div class="ttc" id="aconceptvctr_1_1is_1_1pointer_html"><div class="ttname"><a href="conceptvctr_1_1is_1_1pointer.html">vctr::is::pointer</a></div><div class="ttdoc">Constrains a type to be a pointer or a reference to a pointer.</div><div class="ttdef"><b>Definition:</b> GenericConcepts.h:86</div></div>

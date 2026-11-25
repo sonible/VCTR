@@ -131,6 +131,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9ddf6e62388410c1e939a1d39be9c104"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1OwnedArray.html#a9ddf6e62388410c1e939a1d39be9c104">OwnedArray</a> (Args &amp;&amp;... args)</td></tr>
 <tr class="memdesc:a9ddf6e62388410c1e939a1d39be9c104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forwards every other constructor call to the base class constructor.  <br /></td></tr>
 <tr class="separator:a9ddf6e62388410c1e939a1d39be9c104"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa93348e0a74becdf8bbd9e99be8fbb9"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1Array.html#afa93348e0a74becdf8bbd9e99be8fbb9">append</a> (VctrToAppend &amp;&amp;vctrToAppend) const</td></tr>
+<tr class="memdesc:afa93348e0a74becdf8bbd9e99be8fbb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a new <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> that holds the elements of this <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> followed by the elements of vctrToAppend.  <br /></td></tr>
+<tr class="separator:afa93348e0a74becdf8bbd9e99be8fbb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ec564aacdb2c8a90604e4fa142404ed"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#a0ec564aacdb2c8a90604e4fa142404ed">size</a> () const noexcept</td></tr>
 <tr class="memdesc:a0ec564aacdb2c8a90604e4fa142404ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of elements.  <br /></td></tr>
 <tr class="separator:a0ec564aacdb2c8a90604e4fa142404ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -805,6 +808,35 @@ template&lt;class ElementType , class StorageType , size_t extent, class <a clas
 </div><div class="memdoc">
 
 <p>Returns true if any real or imaginary part of an element is NaN. </p>
+
+</div>
+</div>
+<a id="afa93348e0a74becdf8bbd9e99be8fbb9" name="afa93348e0a74becdf8bbd9e99be8fbb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa93348e0a74becdf8bbd9e99be8fbb9">&#9670;&#160;</a></span>append()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto <a class="el" href="classvctr_1_1Array.html">vctr::Array</a>&lt; std::unique_ptr&lt; OwnedElementType &gt; , extent, detail::StorageExtent&lt;std::unique_ptr&lt; OwnedElementType &gt; , extent&gt;::extent  &gt;::append </td>
+          <td>(</td>
+          <td class="paramtype">VctrToAppend &amp;&amp;&#160;</td>
+          <td class="paramname"><em>vctrToAppend</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a new <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> that holds the elements of this <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> followed by the elements of vctrToAppend. </p>
+<p>Only works for a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> or <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> with the same value_type as this <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> and a compile-time extent, since the size of the returned <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> has to be known at compile time. A <a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">Vector</a> or a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> with std::dynamic_extent can't be appended. If vctrToAppend is an rvalue, its elements are moved, otherwise they are copied. </p>
 
 </div>
 </div>

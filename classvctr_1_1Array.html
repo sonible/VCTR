@@ -177,6 +177,11 @@ requires (std::same_as&lt;value_type, <a class="el" href="namespacevctr.html#a83
 <tr class="memitem:a23a6c644fc5e650be8f608aee7ffbaaf"><td class="memTemplItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1Array.html#a23a6c644fc5e650be8f608aee7ffbaaf">operator=</a> (const E &amp;expression)</td></tr>
 <tr class="memdesc:a23a6c644fc5e650be8f608aee7ffbaaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns the result of an expression to this vector.  <br /></td></tr>
 <tr class="separator:a23a6c644fc5e650be8f608aee7ffbaaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa93348e0a74becdf8bbd9e99be8fbb9"><td class="memTemplParams" colspan="2">template&lt;is::anyVctrWithValueType&lt; value_type &gt; VctrToAppend&gt; <br />
+requires (<a class="el" href="namespacevctr.html#a0e2879d4e781cb85ff0ae8cf4f1deefd">extentOf</a>&lt;VctrToAppend&gt; != std::dynamic_extent)</td></tr>
+<tr class="memitem:afa93348e0a74becdf8bbd9e99be8fbb9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classvctr_1_1Array.html#afa93348e0a74becdf8bbd9e99be8fbb9">append</a> (VctrToAppend &amp;&amp;vctrToAppend) const</td></tr>
+<tr class="memdesc:afa93348e0a74becdf8bbd9e99be8fbb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a new <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> that holds the elements of this <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> followed by the elements of vctrToAppend.  <br /></td></tr>
+<tr class="separator:afa93348e0a74becdf8bbd9e99be8fbb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ec564aacdb2c8a90604e4fa142404ed"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvctr_1_1VctrBase.html#a0ec564aacdb2c8a90604e4fa142404ed">size</a> () const noexcept</td></tr>
 <tr class="memdesc:a0ec564aacdb2c8a90604e4fa142404ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of elements.  <br /></td></tr>
 <tr class="separator:a0ec564aacdb2c8a90604e4fa142404ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1175,6 +1180,40 @@ template&lt;class ElementType , class StorageType , size_t extent, class <a clas
 </div><div class="memdoc">
 
 <p>Returns true if any real or imaginary part of an element is NaN. </p>
+
+</div>
+</div>
+<a id="afa93348e0a74becdf8bbd9e99be8fbb9" name="afa93348e0a74becdf8bbd9e99be8fbb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa93348e0a74becdf8bbd9e99be8fbb9">&#9670;&#160;</a></span>append()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ElementType , size_t extent, size_t storageExtent = detail::StorageExtent&lt;ElementType, extent&gt;::extent&gt; </div>
+<div class="memtemplate">
+template&lt;is::anyVctrWithValueType&lt; value_type &gt; VctrToAppend&gt; <br />
+requires (<a class="el" href="namespacevctr.html#a0e2879d4e781cb85ff0ae8cf4f1deefd">extentOf</a>&lt;VctrToAppend&gt; != std::dynamic_extent)</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto <a class="el" href="classvctr_1_1Array.html">vctr::Array</a>&lt; ElementType, extent, storageExtent &gt;::append </td>
+          <td>(</td>
+          <td class="paramtype">VctrToAppend &amp;&amp;&#160;</td>
+          <td class="paramname"><em>vctrToAppend</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a new <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> that holds the elements of this <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> followed by the elements of vctrToAppend. </p>
+<p>Only works for a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> or <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> with the same value_type as this <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> and a compile-time extent, since the size of the returned <a class="el" href="classvctr_1_1Array.html" title="The stack-based container type.">Array</a> has to be known at compile time. A <a class="el" href="classvctr_1_1Vector.html" title="The heap-allocated container type.">Vector</a> or a <a class="el" href="classvctr_1_1Span.html" title="The view type.">Span</a> with std::dynamic_extent can't be appended. If vctrToAppend is an rvalue, its elements are moved, otherwise they are copied. </p>
 
 </div>
 </div>

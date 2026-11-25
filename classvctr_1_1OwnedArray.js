@@ -10,6 +10,7 @@ var classvctr_1_1OwnedArray =
     [ "any", "classvctr_1_1OwnedArray.html#ad9e58cc0b4db47384b4bb9a6b6799ab2", null ],
     [ "anyElementIsNaN", "classvctr_1_1OwnedArray.html#a78509572a38d4dc5ae95c7efaae0ec9d", null ],
     [ "anyElementIsNaN", "classvctr_1_1OwnedArray.html#a25b77066a3a1e469d00c316af2d94322", null ],
+    [ "append", "classvctr_1_1OwnedArray.html#afa93348e0a74becdf8bbd9e99be8fbb9", null ],
     [ "assign", "classvctr_1_1OwnedArray.html#a4eed8c702aa74cf5e9fbab436b8a6f20", null ],
     [ "at", "classvctr_1_1OwnedArray.html#ac9b345685b9741d1b59ffaaf3bfca3a6", null ],
     [ "at", "classvctr_1_1OwnedArray.html#a8f3c7eabe11604976881266c3f222fb6", null ],
