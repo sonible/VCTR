@@ -339,6 +339,18 @@ cmake --build build/ --target vctr_test
 ./build/test/vctr_test
 ```
 
+Most test data is random, but it is generated at compile time, so Catch2's `--rng-seed` has no effect on it. Instead,
+a new seed is chosen each time CMake configures the project, and `vctr_test` prints it at startup. To reproduce the test
+data of a previous run, configure with that seed:
+
+```bash
+cmake . -B build -D VCTR_TEST_RANDOM_SEED=<printed seed>
+```
+
+Set `VCTR_TEST_RANDOM_SEED` back to an empty string to get a new seed on every configure run again. Outside the test
+build, the seed of `vctr::random` (see `include/vctr_utils/compile_time_random_array.h`) can be fixed by defining
+`VCTR_RANDOM_SEED`.
+
 In case you want to integrate the VCTR unit test cases into your own catch2 based unit tests, you can define 
 `VCTR_EXPOSE_UNIT_TEST_CASES_TARGET` to 1 and link against the `sonible::vctr_test_targets` target which contains all 
 test cases but not the test main.

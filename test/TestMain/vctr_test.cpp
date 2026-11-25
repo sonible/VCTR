@@ -21,8 +21,16 @@
 */
 
 #include <catch2/catch_session.hpp>
+#include <vctr_utils/compile_time_random_array.h>
+#include <iostream>
 
 int main (int argc, char** argv)
 {
+    // The random test data is generated at compile time, so Catch's --rng-seed has no effect on it. Print the seed
+    // so a failing run can be reproduced by building with that seed. Printed to stderr to not break reporters
+    // writing machine-readable output to stdout.
+    std::cerr << "VCTR compile time random seed: " << vctr::random::getSeed()
+              << " (reproduce by configuring with -D VCTR_TEST_RANDOM_SEED=" << vctr::random::getSeed() << ")\n";
+
     return Catch::Session().run (argc, argv);
 }

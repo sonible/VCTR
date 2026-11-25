@@ -47,6 +47,10 @@ __pragma(warning(pop))
         constexpr auto sigma = 1.0f;
         constexpr std::array<float, 100> normalRandomData = vctr::random::makeArrayWithNormalDistribution<float, 100> (mean, sigma, seed);
     @endcode
+
+    The overloads without an explicit seed use vctr::random::getSeed(). By default, it is derived from the time the
+    current translation unit is compiled, so it differs between builds and between translation units. Define
+    VCTR_RANDOM_SEED to a positive integer to override it, e.g. to reproduce the random values of a previous build.
 */
 
 namespace vctr::random::detail
@@ -148,24 +152,39 @@ consteval auto makeArrayWithNormalDistribution (T mean, T sigma, uint32_t seed)
 namespace vctr::random
 {
 
+/** Returns the seed used by the random array functions that don't take an explicit seed.
+
+    This is VCTR_RANDOM_SEED if it is defined, otherwise the time the current translation unit is compiled at
+    (see detail::getSeedFromCurrentTime). Print it to be able to reproduce random values later by defining
+    VCTR_RANDOM_SEED to the printed value.
+*/
+consteval uint32_t getSeed()
+{
+#ifdef VCTR_RANDOM_SEED
+    return static_cast<uint32_t> (VCTR_RANDOM_SEED);
+#else
+    return detail::getSeedFromCurrentTime();
+#endif
+}
+
 /** Returns an std::array<T, size>, with uniformly distributed random values in between [min, max].
-    As a seed for the random number generator the current time when compiling will be used + an optional
-    offset value. Alternate the offset in case you want to generate multiple different compile time arrays,
-    as multiple calls to this function in the same TU will always return the same array.
+    As a seed for the random number generator getSeed() + an optional offset value will be used. Alternate the
+    offset in case you want to generate multiple different compile time arrays, as multiple calls to this function
+    in the same TU will always return the same array.
 */
 template <size_t size, typename T>
 consteval auto makeArrayWithUniformDistribution (T min, T max, uint32_t seedOffset = 0)
 {
-    return detail::makeArrayWithUniformDistribution<size, T> (min, max, detail::getSeedFromCurrentTime() + seedOffset);
+    return detail::makeArrayWithUniformDistribution<size, T> (min, max, getSeed() + seedOffset);
 }
 
 /** Returns an std::array<T, size>, filled with normally distributed random values with the provided mean and sigma.
-    As a seed for the random number generator the current time when compiling will be used.
+    As a seed for the random number generator getSeed() will be used.
 */
 template <size_t size, std::floating_point T>
 consteval auto makeArrayWithNormalDistribution (T mean, T sigma)
 {
-    return detail::makeArrayWithNormalDistribution<size, T> (mean, sigma, detail::getSeedFromCurrentTime());
+    return detail::makeArrayWithNormalDistribution<size, T> (mean, sigma, getSeed());
 }
 
 } // namespace vctr::random

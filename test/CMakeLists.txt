@@ -61,7 +61,28 @@ target_sources (vctr_test_cases INTERFACE
         TestCases/Expressions/Trigonometric.cpp
         TestCases/Expressions/FastExp.cpp
 
-        TestCases/Generators/Linspace.cpp)
+        TestCases/Generators/Linspace.cpp
+
+        TestCases/Utils/CompileTimeRandomArray.cpp)
+
+# The random test data is generated at compile time. Without VCTR_RANDOM_SEED, every translation unit would derive its
+# own seed from the time it is compiled at, so a single seed could not be printed and reused. Therefore, one seed is
+# chosen per configure run and shared by all test cases. vctr_test prints it at startup, pass it back via
+# -D VCTR_TEST_RANDOM_SEED=<seed> to reproduce the test data of that build.
+set (VCTR_TEST_RANDOM_SEED "" CACHE STRING "Seed for the compile time random test data. Empty: new seed each configure run")
+
+if (VCTR_TEST_RANDOM_SEED STREQUAL "")
+    string (TIMESTAMP VCTR_TEST_EFFECTIVE_RANDOM_SEED "%s" UTC)
+else()
+    if (NOT VCTR_TEST_RANDOM_SEED MATCHES "^[1-9][0-9]*$" OR VCTR_TEST_RANDOM_SEED GREATER 4294967295)
+        message (FATAL_ERROR "VCTR_TEST_RANDOM_SEED must be a positive 32 bit integer, got '${VCTR_TEST_RANDOM_SEED}'")
+    endif()
+
+    set (VCTR_TEST_EFFECTIVE_RANDOM_SEED ${VCTR_TEST_RANDOM_SEED})
+endif()
+
+message (STATUS "VCTR: Random seed for the unit test data: ${VCTR_TEST_EFFECTIVE_RANDOM_SEED}")
+target_compile_definitions (vctr_test_cases INTERFACE VCTR_RANDOM_SEED=${VCTR_TEST_EFFECTIVE_RANDOM_SEED}u)
 
 if (VCTR_BUILD_TEST)
     add_subdirectory (TestMain)

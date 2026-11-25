@@ -22,6 +22,9 @@ TEMPLATE_PRODUCT_TEST_CASE ("MyOp", "[VCTR][Expressions][myOp]", (PlatformVector
 
 - The first type list selects the evaluation strategy via `filter` (`DontUseAcceleration`, `PlatformVectorOps`,
   `VCTR_NATIVE_SIMD`, `VCTR_ALL_EVALUATION_STRATEGIES`). Always prepend `filter <<` so every path is exercised.
+- `srcA`…`srcD` are random but generated at compile time from one seed per CMake configure run, printed by
+  `vctr_test` at startup. Catch2's `--rng-seed` doesn't affect them; reproduce a failure by configuring with
+  `-D VCTR_TEST_RANDOM_SEED=<seed>` (e.g. `CMAKE_ARGS="-D VCTR_TEST_RANDOM_SEED=<seed>" scripts/verify.sh -s all`).
 - Pick value ranges with `VCTR_TEST_DEFINES_IN_RANGE (start, end, size)`, `..._NO_ZEROS`, `..._WITH_TRAILING_ZERO`
   (see `include/vctr_test_utils/vctr_test_common.h`).
 - Prefer `vctr::EqualsMappedBy (fn, srcs...)` (any callable, n sources) over the older `EqualsTransformedBy<fn>`;
