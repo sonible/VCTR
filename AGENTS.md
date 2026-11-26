@@ -66,6 +66,9 @@ scripts/verify.sh -b build-release -t 80   # other build dir, 80 tail lines on f
 - Prefer `constexpr`; operations must be usable in compile-time contexts where possible (gcem for math when
   `std::is_constant_evaluated()`).
 - `extent` = compile-time size or `std::dynamic_extent` (same meaning as in `std::span`).
+- Branches that only hold a plan, report or other not-yet-started work (e.g. a markdown file describing what to
+  implement) are named `todo/<topic>`, e.g. `todo/expression-evaluation-paths`. Implementation work starts from
+  `develop` on its own branch, not on the `todo/` branch.
 
 ## Testing
 
