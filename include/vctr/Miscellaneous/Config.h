@@ -145,7 +145,13 @@
 #define VCTR_ALIGNED_ARRAY 1
 #endif
 
-#if VCTR_WINDOWS
+#if VCTR_MSVC
+#define VCTR_TARGET(arch)
+#else
+#define VCTR_TARGET(arch) __attribute__ ((target (arch)))
+#endif
+
+#if VCTR_WINDOWS && VCTR_X64
 // This is needed for the CPU instruction set check found below
 #include <intrin.h>
 #endif
@@ -168,7 +174,57 @@ struct CPUInstructionSets
     uint16_t neon : 1;
 };
 
-#if VCTR_WINDOWS
+namespace detail
+{
+/** Returns true if the OS saves and restores the AVX register state on context switches.
+
+    @param osxsave Bit 27 of ECX returned by CPUID leaf 1, set if the OS enabled XSAVE (and therefore xgetbv).
+    @param xcr0    The value of the XCR0 register as returned by xgetbv (0). Ignored if osxsave is false.
+
+    AVX is only safe to use if both the SSE (bit 1) and AVX (bit 2) state bits are set in XCR0. They are cleared if the
+    OS disabled AVX, e.g. on Windows via bcdedit /set xsavedisable 1.
+ */
+constexpr bool osSupportsAVXState (bool osxsave, uint64_t xcr0)
+{
+    constexpr uint64_t sseAndAVXStateMask = 0x6;
+
+    return osxsave && (xcr0 & sseAndAVXStateMask) == sseAndAVXStateMask;
+}
+
+/** Returns true if the OS saves and restores the AVX-512 register state on context switches.
+
+    @param osxsave Bit 27 of ECX returned by CPUID leaf 1, set if the OS enabled XSAVE (and therefore xgetbv).
+    @param xcr0    The value of the XCR0 register as returned by xgetbv (0). Ignored if osxsave is false.
+
+    On top of the AVX state required by osSupportsAVXState, AVX-512 needs the opmask (bit 5), upper ZMM0-15 (bit 6) and
+    ZMM16-31 (bit 7) state bits to be set in XCR0.
+ */
+constexpr bool osSupportsAVX512State (bool osxsave, uint64_t xcr0)
+{
+    constexpr uint64_t avx512StateMask = 0xe0;
+
+    return osSupportsAVXState (osxsave, xcr0) && (xcr0 & avx512StateMask) == avx512StateMask;
+}
+
+constexpr CPUInstructionSets makeSupportedX64InstructionSets (bool sse4_1,
+                                                              bool avx,
+                                                              bool avx2,
+                                                              bool fma,
+                                                              bool osSupportsAVX)
+{
+    const bool supportedAVX = avx && osSupportsAVX;
+
+    return {
+        .sse4_1 = sse4_1,
+        .avx = supportedAVX,
+        .avx2 = avx2 && supportedAVX,
+        .fma = fma && supportedAVX,
+        .neon = false
+    };
+}
+} // namespace detail
+
+#if VCTR_WINDOWS && VCTR_X64
 namespace detail
 {
 /** Implementation inspired by https://learn.microsoft.com/en-us/cpp/intrinsics/cpuid-cpuidex?redirectedfrom=MSDN&view=msvc-170 */
@@ -198,6 +254,9 @@ private:
             {
                 f_1_ECX_ = data[1][2];
                 f_1_EDX_ = data[1][3];
+
+                if (f_1_ECX_[27])
+                    xcr0_ = []() VCTR_TARGET ("xsave") -> uint64_t { return _xgetbv (0); }();
             }
 
             // load bitset with flags for function 0x00000007
@@ -232,17 +291,20 @@ private:
         std::bitset<32> f_7_ECX_;
         std::bitset<32> f_81_ECX_;
         std::bitset<32> f_81_EDX_;
+        uint64_t xcr0_ = 0;
     };
 
     inline static const CPUFeatureFinder cpuFeatures;
 
 public:
-    static bool hasFMA() { return cpuFeatures.f_1_ECX_[12]; }
+    static bool hasOSAVXSupport() { return osSupportsAVXState (cpuFeatures.f_1_ECX_[27], cpuFeatures.xcr0_); }
+    static bool hasOSAVX512Support() { return osSupportsAVX512State (cpuFeatures.f_1_ECX_[27], cpuFeatures.xcr0_); }
     static bool hasSSE41() { return cpuFeatures.f_1_ECX_[19]; }
     static bool hasSSE42() { return cpuFeatures.f_1_ECX_[20]; }
     static bool hasAVX() { return cpuFeatures.f_1_ECX_[28]; }
     static bool hasAVX2() { return cpuFeatures.f_7_EBX_[5]; }
-    static bool hasAVX512F() { return cpuFeatures.f_7_EBX_[16]; }
+    static bool hasFMA() { return cpuFeatures.f_1_ECX_[12]; }
+    static bool hasAVX512F() { return hasAVX() && hasOSAVX512Support() && cpuFeatures.f_7_EBX_[16]; }
 
 private:
 };
@@ -250,13 +312,11 @@ private:
 
 inline CPUInstructionSets getSupportedCPUInstructionSets()
 {
-    return {
-        .sse4_1 = detail::X64InstructionSets::hasSSE41(),
-        .avx = detail::X64InstructionSets::hasAVX(),
-        .avx2 = detail::X64InstructionSets::hasAVX2(),
-        .fma = detail::X64InstructionSets::hasFMA(),
-        .neon = false
-    };
+    return detail::makeSupportedX64InstructionSets (detail::X64InstructionSets::hasSSE41(),
+                                                    detail::X64InstructionSets::hasAVX(),
+                                                    detail::X64InstructionSets::hasAVX2(),
+                                                    detail::X64InstructionSets::hasFMA(),
+                                                    detail::X64InstructionSets::hasOSAVXSupport());
 }
 
 #elif VCTR_ARM
@@ -278,13 +338,14 @@ inline CPUInstructionSets getSupportedCPUInstructionSets()
 {
     __builtin_cpu_init();
 
-    return {
-        .sse4_1 = bool (__builtin_cpu_supports ("sse4.1")),
-        .avx = bool (__builtin_cpu_supports ("avx")),
-        .avx2 = bool (__builtin_cpu_supports ("avx2")),
-        .fma = bool (__builtin_cpu_supports ("fma")),
-        .neon = false
-    };
+    // GCC and Clang already include OS support in __builtin_cpu_supports.
+    const bool avx = __builtin_cpu_supports ("avx");
+
+    return detail::makeSupportedX64InstructionSets (__builtin_cpu_supports ("sse4.1"),
+                                                    avx,
+                                                    __builtin_cpu_supports ("avx2"),
+                                                    __builtin_cpu_supports ("fma"),
+                                                    avx);
 }
 
 #endif
