@@ -22,12 +22,6 @@
 
 #define VCTR_TO_STRING(s) #s
 
-#if VCTR_MSVC
-#define VCTR_TARGET(arch)
-#else
-#define VCTR_TARGET(arch) __attribute__ ((target (arch)))
-#endif
-
 // VCTR_FORCEDINLINE enforces full inlining in release builds. In debug builds we want to preserve the possibility
 // to debug, so it does not affect inlining there
 #if VCTR_DEBUG
